@@ -1,0 +1,36 @@
+.button {
+  position: fixed;
+  bottom: clamp(1rem, 4vw, 2rem);
+  right: clamp(1rem, 4vw, 2rem);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--bg-surface);
+  color: var(--neon-secondary);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
+  transition: var(--transition-theme);
+  cursor: pointer;
+  animation: fadeIn 0.2s ease;
+}
+
+.button:hover {
+  border-color: var(--neon-secondary);
+  box-shadow: 0 0 12px var(--glow-secondary);
+  transform: translateY(-2px);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

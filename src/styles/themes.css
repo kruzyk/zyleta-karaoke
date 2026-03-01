@@ -1,0 +1,87 @@
+/* ============================================
+   Żyleta Karaoke — Neon Theme System
+   ============================================ */
+
+:root {
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --transition-theme: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+}
+
+/* ---- Dark Theme (Default) ---- */
+:root,
+:root[data-theme='dark'] {
+  --bg-primary: #0a0a0f;
+  --bg-surface: #12121a;
+  --bg-surface-hover: #1a1a28;
+  --bg-header: rgba(18, 18, 26, 0.85);
+
+  --neon-primary: #ff00ff;
+  --neon-secondary: #00ffff;
+  --neon-tertiary: #b700ff;
+  --neon-highlight: #ffff00;
+
+  --glow-primary: rgba(255, 0, 255, 0.5);
+  --glow-secondary: rgba(0, 255, 255, 0.5);
+  --glow-tertiary: rgba(183, 0, 255, 0.4);
+  --glow-highlight: rgba(255, 255, 0, 0.4);
+
+  --text-primary: #f0f0f5;
+  --text-secondary: #8888aa;
+  --text-muted: #555566;
+
+  --border-color: #2a2a3a;
+  --border-glow: rgba(0, 255, 255, 0.2);
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --shadow-neon: 0 0 20px var(--glow-primary), 0 0 40px var(--glow-primary);
+}
+
+/* ---- Light Theme ---- */
+:root[data-theme='light'] {
+  --bg-primary: #f5f0ff;
+  --bg-surface: #ffffff;
+  --bg-surface-hover: #f0ebfa;
+  --bg-header: rgba(255, 255, 255, 0.85);
+
+  --neon-primary: #cc00cc;
+  --neon-secondary: #0099aa;
+  --neon-tertiary: #8800cc;
+  --neon-highlight: #ff8800;
+
+  --glow-primary: rgba(204, 0, 204, 0.3);
+  --glow-secondary: rgba(0, 153, 170, 0.3);
+  --glow-tertiary: rgba(136, 0, 204, 0.25);
+  --glow-highlight: rgba(255, 136, 0, 0.3);
+
+  --text-primary: #1a1a2e;
+  --text-secondary: #555577;
+  --text-muted: #888899;
+
+  --border-color: #ddd5ee;
+  --border-glow: rgba(0, 153, 170, 0.15);
+
+  --shadow-sm: 0 2px 8px rgba(100, 80, 140, 0.1);
+  --shadow-md: 0 4px 16px rgba(100, 80, 140, 0.15);
+  --shadow-neon: 0 0 15px var(--glow-primary), 0 0 30px var(--glow-primary);
+}
+
+/* ---- Reduced motion & mobile perf ---- */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (max-width: 480px) {
+  :root,
+  :root[data-theme='dark'],
+  :root[data-theme='light'] {
+    --shadow-neon: 0 0 10px var(--glow-primary);
+  }
+}

@@ -1,0 +1,37 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--bg-header);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-color);
+  transition: var(--transition-theme);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: clamp(0.5rem, 3vw, 1rem) clamp(0.75rem, 4vw, 1.5rem);
+}
+
+.logoLink {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.logo {
+  height: clamp(36px, 10vw, 56px);
+  width: auto;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.25rem, 2vw, 0.75rem);
+}

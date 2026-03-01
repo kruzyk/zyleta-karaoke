@@ -1,0 +1,24 @@
+{
+  "header": {
+    "title": "Żyleta Karaoke",
+    "switchLanguage": "Switch language",
+    "toggleTheme": "Toggle theme"
+  },
+  "search": {
+    "placeholder": "Search by artist or title...",
+    "clear": "Clear search",
+    "resultsCount": "{{count}} songs found",
+    "resultsCountAll": "{{count}} songs"
+  },
+  "songList": {
+    "noResults": "No songs found. Try a different search.",
+    "loading": "Loading songs...",
+    "sortByArtist": "Artist",
+    "sortByTitle": "Title",
+    "sortLabel": "Sort by"
+  },
+  "footer": {
+    "copyright": "© {{year}} Żyleta Karaoke. All rights reserved.",
+    "followUs": "Follow us"
+  }
+}

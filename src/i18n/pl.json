@@ -1,0 +1,24 @@
+{
+  "header": {
+    "title": "Żyleta Karaoke",
+    "switchLanguage": "Zmień język",
+    "toggleTheme": "Zmień motyw"
+  },
+  "search": {
+    "placeholder": "Szukaj po wykonawcy lub tytule...",
+    "clear": "Wyczyść wyszukiwanie",
+    "resultsCount": "Znaleziono {{count}} piosenek",
+    "resultsCountAll": "{{count}} piosenek"
+  },
+  "songList": {
+    "noResults": "Nie znaleziono piosenek. Spróbuj innego wyszukiwania.",
+    "loading": "Ładowanie piosenek...",
+    "sortByArtist": "Wykonawca",
+    "sortByTitle": "Tytuł",
+    "sortLabel": "Sortuj wg"
+  },
+  "footer": {
+    "copyright": "© {{year}} Żyleta Karaoke. Wszelkie prawa zastrzeżone.",
+    "followUs": "Obserwuj nas"
+  }
+}

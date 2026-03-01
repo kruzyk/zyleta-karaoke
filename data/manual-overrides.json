@@ -1,0 +1,7 @@
+{
+  "_README": "Add manual corrections here. Key = song ID, value = corrected artist/title. These take precedence over auto-detection.",
+  "_example-song-id": {
+    "artist": "Correct Artist Name",
+    "title": "Correct Song Title"
+  }
+}
