@@ -1,12 +1,12 @@
 const config = {
   siteName: 'Żyleta Karaoke',
-  siteUrl: 'https://username.github.io/zyletakaraoke', // Update with your GitHub Pages URL
+  siteUrl: 'https://kruzyk.github.io/zyleta-karaoke', // Update with your GitHub Pages URL
   defaultLanguage: 'en' as const,
   defaultTheme: 'dark' as const,
 
   social: {
-    facebook: '', // e.g., 'https://facebook.com/zyletakaraoke'
-    instagram: '', // e.g., 'https://instagram.com/zyletakaraoke'
+    facebook: 'https://www.facebook.com/MaryJaneRazorKaraoke', // e.g., 'https://facebook.com/zyletakaraoke'
+    instagram: 'https://www.instagram.com/zyleta.karaoke', // e.g., 'https://instagram.com/zyletakaraoke'
   },
 
   seo: {
