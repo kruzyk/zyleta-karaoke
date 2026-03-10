@@ -29,13 +29,14 @@ const OUTPUT_PATH = path.join(ROOT, 'src', 'data', 'songs.json');
 interface RawFileEntry {
   filename: string;
   relativePath: string;
+  sourceFolder?: string;
   extension: string;
   sizeBytes: number;
 }
 
 interface RawFileList {
   scannedAt: string;
-  folderPath: string;
+  folderPaths: string[];
   totalFiles: number;
   files: RawFileEntry[];
 }
@@ -54,7 +55,8 @@ async function main() {
     console.error(`   Make sure data/raw-filelist.json exists.`);
     process.exit(1);
   }
-  console.log(`   Found ${raw.totalFiles} files (scanned at ${raw.scannedAt})`);
+  console.log(`   Found ${raw.totalFiles} files from ${raw.folderPaths.length} folder(s) (scanned at ${raw.scannedAt})`);
+  raw.folderPaths.forEach((f) => console.log(`     - ${f}`));
 
   // 2. Parse filenames
   console.log('\n2. Parsing filenames...');

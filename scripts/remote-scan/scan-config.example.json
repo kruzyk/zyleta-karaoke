@@ -1,5 +1,9 @@
 {
-  "folderPath": "D:\\Karaoke\\Songs",
+  "folderPaths": [
+    "D:\\Karaoke\\Piosenki",
+    "E:\\Muzyka\\Karaoke",
+    "C:\\Users\\Jacek\\Music\\Karaoke"
+  ],
   "githubRepo": "kruzyk/zyleta-karaoke",
   "githubToken": "github_pat_XXX",
   "fileExtensions": [".mp3", ".kfn", ".wav", ".mid", ".kar", ".mp4", ".avi", ".mkv", ".cdg", ".wmv"]

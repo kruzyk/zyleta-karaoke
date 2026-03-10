@@ -41,7 +41,9 @@ powershell -ExecutionPolicy Bypass -File "%~dp0scan-and-upload.ps1"
 
 if %ERRORLEVEL% neq 0 (
     echo.
-    echo  Aktualizacja nie powiodla sie. Sprawdz komunikaty powyzej.
+    echo  Aktualizacja nie powiodla sie.
+    echo  Szczegoly bledu znajdziesz w pliku: scan-log.txt
+    echo  (w tym samym folderze co ten skrypt)
 ) else (
     echo.
     echo  Gotowe!
