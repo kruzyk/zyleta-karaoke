@@ -1,6 +1,6 @@
 import { useState, useMemo, useCallback } from 'react';
 import type { Song, MainFilter, DecadeFilter, FilterState } from '@/types/song';
-import config from '@/config';
+import type { FeatureFlags } from '@/hooks/useFeatureFlags';
 
 const DECADE_RANGES: Record<DecadeFilter, [number, number]> = {
   '60s': [1960, 1969],
@@ -19,9 +19,9 @@ function filterByMain(songs: Song[], main: MainFilter): Song[] {
     case 'all':
       return songs;
     case 'polish':
-      return songs.filter((s) => s.isPolish === true);
+      return songs.filter((s) => s.country === 'PL');
     case 'international':
-      return songs.filter((s) => s.isPolish === false);
+      return songs.filter((s) => s.country != null && s.country !== 'PL');
     case 'decades':
       // "Decades" main chip shows all songs (decade sub-chip narrows further)
       return songs;
@@ -41,7 +41,7 @@ function filterByCountry(songs: Song[], countryCode: string): Song[] {
 
 /** Extract unique country codes from international songs, sorted by frequency (descending) */
 function getAvailableCountries(songs: Song[]): string[] {
-  const intlSongs = songs.filter((s) => s.isPolish === false && s.country);
+  const intlSongs = songs.filter((s) => s.country != null && s.country !== 'PL');
   const countMap = new Map<string, number>();
   for (const s of intlSongs) {
     countMap.set(s.country!, (countMap.get(s.country!) || 0) + 1);
@@ -67,7 +67,7 @@ function getAvailableDecades(songs: Song[]): DecadeFilter[] {
   return ALL_DECADES.filter((d) => present.has(d));
 }
 
-export function useFilter(allSongs: Song[]) {
+export function useFilter(allSongs: Song[], featureFlags: FeatureFlags) {
   const [filter, setFilter] = useState<FilterState>({
     main: 'all',
     decade: null,
@@ -81,17 +81,17 @@ export function useFilter(allSongs: Song[]) {
     let result = filterByMain(allSongs, filter.main);
 
     // Apply decade sub-filter
-    if (filter.main === 'decades' && filter.decade && config.features.decades) {
+    if (filter.main === 'decades' && filter.decade && featureFlags.decades) {
       result = filterByDecade(result, filter.decade);
     }
 
     // Apply country sub-filter
-    if (filter.main === 'international' && filter.country && config.features.international) {
+    if (filter.main === 'international' && filter.country && featureFlags.international) {
       result = filterByCountry(result, filter.country);
     }
 
     return result;
-  }, [allSongs, filter]);
+  }, [allSongs, filter, featureFlags.decades, featureFlags.international]);
 
   const setMainFilter = useCallback((main: MainFilter) => {
     setFilter({ main, decade: null, country: null });

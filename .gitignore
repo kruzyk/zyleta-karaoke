@@ -3,8 +3,21 @@ dist/
 build/
 *.log
 .DS_Store
+Thumbs.db
 .env
 .env.local
 .env.*.local
 scripts/cache.json
 *.tsbuildinfo
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Test coverage
+coverage/
+
+# npm
+.npm

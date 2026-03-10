@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://username.github.io/zyletakaraoke/sitemap.xml
+Sitemap: https://kruzyk.github.io/zyleta-karaoke/sitemap.xml

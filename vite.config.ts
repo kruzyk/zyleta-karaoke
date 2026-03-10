@@ -23,6 +23,7 @@ export default defineConfig({
           search: ['fuse.js'],
           virtual: ['@tanstack/react-virtual'],
           i18n: ['i18next', 'react-i18next'],
+          configcat: ['configcat-js'],
         },
       },
     },

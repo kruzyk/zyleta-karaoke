@@ -6,13 +6,15 @@ import { Footer } from '@/components/Footer/Footer';
 import { BackToTop } from '@/components/common/BackToTop';
 import { useTheme } from '@/hooks/useTheme';
 import { useSongs } from '@/hooks/useSongs';
+import { useFeatureFlags } from '@/hooks/useFeatureFlags';
 import { useFilter } from '@/hooks/useFilter';
 import { useSearch } from '@/hooks/useSearch';
 import styles from './App.module.css';
 
 export default function App() {
   const { theme, toggleTheme } = useTheme();
-  const { songs, isLoading, totalCount, sortField, setSortField } = useSongs();
+  const { songs, isLoading, sortField, setSortField } = useSongs();
+  const featureFlags = useFeatureFlags();
 
   // Filter chips narrow down songs first, then search operates within filtered set
   const {
@@ -23,7 +25,7 @@ export default function App() {
     setMainFilter,
     setDecadeFilter,
     setCountryFilter,
-  } = useFilter(songs);
+  } = useFilter(songs, featureFlags);
 
   const search = useSearch(filteredSongs);
 
@@ -49,6 +51,7 @@ export default function App() {
             activeCountry={filter.country}
             availableCountries={availableCountries}
             availableDecades={availableDecades}
+            featureFlags={featureFlags}
             onMainChange={setMainFilter}
             onDecadeChange={setDecadeFilter}
             onCountryChange={setCountryFilter}

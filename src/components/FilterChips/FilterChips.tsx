@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import type { MainFilter, DecadeFilter } from '@/types/song';
+import type { FeatureFlags } from '@/hooks/useFeatureFlags';
 import { countryCodeToFlag, getCountryName } from '@/utils/country-flags';
-import config from '@/config';
 import styles from './FilterChips.module.css';
 
 interface FilterChipsProps {
@@ -10,6 +10,7 @@ interface FilterChipsProps {
   activeCountry: string | null;
   availableCountries: string[];
   availableDecades: DecadeFilter[];
+  featureFlags: FeatureFlags;
   onMainChange: (main: MainFilter) => void;
   onDecadeChange: (decade: DecadeFilter | null) => void;
   onCountryChange: (country: string | null) => void;
@@ -23,6 +24,7 @@ export function FilterChips({
   activeCountry,
   availableCountries,
   availableDecades,
+  featureFlags,
   onMainChange,
   onDecadeChange,
   onCountryChange,
@@ -31,20 +33,20 @@ export function FilterChips({
   const lang = i18n.language;
 
   // Build main chips list — "decades" only shows if feature flag enabled
-  const mainChips: MainFilter[] = config.features.decades
+  const mainChips: MainFilter[] = featureFlags.decades
     ? [...MAIN_FILTERS, 'decades']
     : MAIN_FILTERS;
 
   // Show country sub-chips when "international" is active AND feature flag is on
   const showCountrySubChips =
     activeMain === 'international' &&
-    config.features.international &&
+    featureFlags.international &&
     availableCountries.length > 0;
 
   // Show decade sub-chips when "decades" is active AND feature flag is on
   const showDecadeSubChips =
     activeMain === 'decades' &&
-    config.features.decades &&
+    featureFlags.decades &&
     availableDecades.length > 0;
 
   return (

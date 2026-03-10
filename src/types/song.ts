@@ -7,8 +7,7 @@ export interface Song {
   year?: number;
   album?: string;
   language?: string;
-  country?: string;   // ISO 3166-1 alpha-2 (e.g. 'PL', 'US', 'GB')
-  isPolish?: boolean;  // true = Polish artist (regardless of song language)
+  country?: string;   // ISO 3166-1 alpha-2 (e.g. 'PL', 'US', 'GB') — Polish artists have 'PL'
 }
 
 export interface SongListState {
