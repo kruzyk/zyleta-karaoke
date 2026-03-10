@@ -29,7 +29,7 @@ function wordPrefixMatch(text: string, prefix: string): boolean {
   const p = normalize(prefix);
 
   // Split on word boundaries: spaces, hyphens, slashes, dots, parens, apostrophes
-  const words = normalized.split(/[\s\-\/\.\(\)'"]+/);
+  const words = normalized.split(/[\s/.()'"-]+/);
   return words.some((word) => word.startsWith(p));
 }
 
