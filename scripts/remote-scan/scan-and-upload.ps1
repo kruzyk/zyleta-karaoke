@@ -1,5 +1,5 @@
 # ============================================
-# ŻYLETA KARAOKE — Scan & Upload Song List
+# ZYLETA KARAOKE - Scan & Upload Song List
 # ============================================
 # This script:
 # 1. Reads config from scan-config.json (same folder as this script)
@@ -106,11 +106,11 @@ if (-not $extensions -or $extensions.Count -eq 0) {
 $validFolders = @()
 foreach ($fp in $folderPaths) {
     if ([string]::IsNullOrWhiteSpace($fp)) {
-        Write-Log "Pusta sciezka w folderPaths — pomijam" "WARN"
+        Write-Log "Pusta sciezka w folderPaths -pomijam" "WARN"
         continue
     }
     if (-not (Test-Path $fp)) {
-        Write-Log "Folder '$fp' nie istnieje — pomijam" "WARN"
+        Write-Log "Folder '$fp' nie istnieje -pomijam" "WARN"
         continue
     }
     $validFolders += $fp
@@ -219,7 +219,7 @@ try {
     Write-Log "Istniejacy plik SHA: $existingSha"
 } catch {
     $statusCode = $_.Exception.Response.StatusCode.value__
-    Write-Log "Plik nie istnieje na GitHub (status: $statusCode) — zostanie utworzony"
+    Write-Log "Plik nie istnieje na GitHub (status: $statusCode) -zostanie utworzony"
 }
 
 # --- Upload to GitHub ---
