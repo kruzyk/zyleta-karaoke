@@ -71,7 +71,7 @@ export function useFeatureFlags(): FeatureFlags {
           });
 
           const [decadesVal, internationalVal] = await Promise.all([
-            client.getValueAsync('decades', config.features.decades),
+            client.getValueAsync('decadesFilter', config.features.decades),
             client.getValueAsync('international', config.features.international),
           ]);
 
