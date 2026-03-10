@@ -162,7 +162,7 @@ foreach ($folder in $validFolders) {
     if ($folderFileCount -eq 0) {
         $existingExts = $allFiles | Group-Object { $_.Extension.ToLower() } | Sort-Object Count -Descending | Select-Object -First 5
         foreach ($ext in $existingExts) {
-            Write-Log "    Znalezione rozszerzenie: $($ext.Name) ($($ext.Count) plikow)"
+            Write-Log "    Znalezione rozszerzenie: $($ext.Name) - $($ext.Count) plikow"
         }
     }
 }
@@ -226,7 +226,7 @@ try {
 Write-Log "Wysylam liste plikow do GitHub..." "STEP"
 
 $body = @{
-    message = "chore: update raw file list ($fileCount files)"
+    message = "chore: update raw file list [$fileCount files]"
     content = $base64Content
     branch  = "master"
 }
