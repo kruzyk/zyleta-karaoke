@@ -1,1 +1,572 @@
-[]
+[
+  {
+    "id": "10cc-dreadlock-holiday",
+    "artist": "10cc",
+    "title": "Dreadlock Holiday"
+  },
+  {
+    "id": "10cc-im-not-in-love",
+    "artist": "10cc",
+    "title": "Im Not in Love"
+  },
+  {
+    "id": "10cc-rubber-bullets",
+    "artist": "10cc",
+    "title": "Rubber Bullets"
+  },
+  {
+    "id": "2-pac-dear-mama",
+    "artist": "2 Pac",
+    "title": "Dear Mama"
+  },
+  {
+    "id": "2-plus-1-chodz-pomaluj-moj-swiat",
+    "artist": "2 plus 1",
+    "title": "Chodź, pomaluj mój świat"
+  },
+  {
+    "id": "2-plus-1-winda-do-nieba",
+    "artist": "2 plus 1",
+    "title": "Windą do nieba"
+  },
+  {
+    "id": "2-unlimited-no-limit",
+    "artist": "2 Unlimited",
+    "title": "No Limit"
+  },
+  {
+    "id": "2-1-isc-w-strone-s-onca",
+    "artist": "2+1",
+    "title": "Iść w stronę słońca"
+  },
+  {
+    "id": "2-1-na-luzie",
+    "artist": "2+1",
+    "title": "Na luzie"
+  },
+  {
+    "id": "21st-century-girls-21st-century-girls",
+    "artist": "21st Century Girls",
+    "title": "21st Century Girls"
+  },
+  {
+    "id": "2pac-california-love",
+    "artist": "2Pac",
+    "title": "California Love"
+  },
+  {
+    "id": "3-doors-down-away-from-the-sun",
+    "artist": "3 Doors Down",
+    "title": "Away From the Sun"
+  },
+  {
+    "id": "3-doors-down-be-like-that",
+    "artist": "3 Doors Down",
+    "title": "Be Like That"
+  },
+  {
+    "id": "3-doors-down-behind-those-eyes",
+    "artist": "3 Doors Down",
+    "title": "Behind Those Eyes"
+  },
+  {
+    "id": "3-doors-down-duck-and-run",
+    "artist": "3 Doors Down",
+    "title": "Duck and Run"
+  },
+  {
+    "id": "3-doors-down-here-without-you",
+    "artist": "3 Doors Down",
+    "title": "Here Without You"
+  },
+  {
+    "id": "3-doors-down-kryptonite",
+    "artist": "3 Doors Down",
+    "title": "Kryptonite"
+  },
+  {
+    "id": "3-doors-down-let-me-go",
+    "artist": "3 Doors Down",
+    "title": "Let Me Go"
+  },
+  {
+    "id": "3-doors-down-loser",
+    "artist": "3 Doors Down",
+    "title": "Loser"
+  },
+  {
+    "id": "3-doors-down-the-road-i-m-on",
+    "artist": "3 Doors Down",
+    "title": "The Road I’m On"
+  },
+  {
+    "id": "3-doors-down-when-i-m-gone",
+    "artist": "3 Doors Down",
+    "title": "When I'm Gone"
+  },
+  {
+    "id": "30-second-to-mars-the-kill",
+    "artist": "30 Second To Mars",
+    "title": "The kill"
+  },
+  {
+    "id": "35l-take-it-easy",
+    "artist": "35L",
+    "title": "Take It Easy"
+  },
+  {
+    "id": "4-ever-to-nastepna-laska",
+    "artist": "4 ever",
+    "title": "To następna laska"
+  },
+  {
+    "id": "4-non-blondes-what-s-up",
+    "artist": "4 Non Blondes",
+    "title": "What’s Up?"
+  },
+  {
+    "id": "4-the-cause-stand-by-me",
+    "artist": "4 the Cause",
+    "title": "Stand by Me"
+  },
+  {
+    "id": "5-seconds-of-summer-good-girls",
+    "artist": "5 Seconds of Summer",
+    "title": "Good Girls"
+  },
+  {
+    "id": "5-seconds-of-summer-youngblood",
+    "artist": "5 Seconds of Summer",
+    "title": "Youngblood"
+  },
+  {
+    "id": "5-stairsteps-o-o-h-child",
+    "artist": "5 Stairsteps",
+    "title": "O-O-H Child"
+  },
+  {
+    "id": "50-cent-21-questions",
+    "artist": "50 Cent",
+    "title": "21 Questions"
+  },
+  {
+    "id": "50-cent-candy-shop",
+    "artist": "50 Cent",
+    "title": "Candy Shop"
+  },
+  {
+    "id": "50-cent-disco-inferno",
+    "artist": "50 Cent",
+    "title": "Disco Inferno"
+  },
+  {
+    "id": "50-cent-in-da-club",
+    "artist": "50 Cent",
+    "title": "In da Club"
+  },
+  {
+    "id": "50-cent-the-game-how-we-do",
+    "artist": "50 Cent & The Game",
+    "title": "How We Do"
+  },
+  {
+    "id": "52-debiec-to-my-polacy",
+    "artist": "52 Dębiec",
+    "title": "To my Polacy"
+  },
+  {
+    "id": "a-fine-frenzy-almost-lover",
+    "artist": "A Fine Frenzy",
+    "title": "Almost Lover"
+  },
+  {
+    "id": "a-great-big-world-say-something",
+    "artist": "A Great Big World",
+    "title": "Say Something"
+  },
+  {
+    "id": "a-perfect-circle-hollow",
+    "artist": "A Perfect Circle",
+    "title": "Hollow"
+  },
+  {
+    "id": "a-perfect-circle-weak-and-powerless",
+    "artist": "A Perfect Circle",
+    "title": "Weak and Powerless"
+  },
+  {
+    "id": "aaliyah-more-than-a-woman",
+    "artist": "Aaliyah",
+    "title": "More Than a Woman"
+  },
+  {
+    "id": "aaliyah-try-again",
+    "artist": "Aaliyah",
+    "title": "Try Again"
+  },
+  {
+    "id": "abba-chiquitita",
+    "artist": "ABBA",
+    "title": "Chiquitita"
+  },
+  {
+    "id": "abba-dancing-queen",
+    "artist": "ABBA",
+    "title": "Dancing Queen"
+  },
+  {
+    "id": "abba-fernando",
+    "artist": "ABBA",
+    "title": "Fernando"
+  },
+  {
+    "id": "abba-gimme-gimme-gimme",
+    "artist": "ABBA",
+    "title": "Gimme Gimme Gimme"
+  },
+  {
+    "id": "abba-happy-new-year",
+    "artist": "ABBA",
+    "title": "Happy New Year"
+  },
+  {
+    "id": "abba-hasta-manana",
+    "artist": "ABBA",
+    "title": "Hasta Mañana"
+  },
+  {
+    "id": "abba-honey-honey",
+    "artist": "ABBA",
+    "title": "Honey, Honey"
+  },
+  {
+    "id": "abba-i-do-i-do-i-do-i-do-i-do",
+    "artist": "ABBA",
+    "title": "I Do, I Do, I Do, I Do, I Do"
+  },
+  {
+    "id": "abba-i-have-a-dream",
+    "artist": "ABBA",
+    "title": "I Have a Dream"
+  },
+  {
+    "id": "abba-knowing-me-knowing-you",
+    "artist": "ABBA",
+    "title": "Knowing Me, Knowing You"
+  },
+  {
+    "id": "abba-lay-all-your-love-on-me",
+    "artist": "ABBA",
+    "title": "Lay All Your Love on Me"
+  },
+  {
+    "id": "abba-mamma-mia",
+    "artist": "ABBA",
+    "title": "Mamma Mia"
+  },
+  {
+    "id": "abba-money-money-money",
+    "artist": "ABBA",
+    "title": "Money Money Money"
+  },
+  {
+    "id": "abba-one-of-us",
+    "artist": "ABBA",
+    "title": "One of Us"
+  },
+  {
+    "id": "abba-sos",
+    "artist": "ABBA",
+    "title": "SOS"
+  },
+  {
+    "id": "abba-super-trouper",
+    "artist": "ABBA",
+    "title": "Super Trouper"
+  },
+  {
+    "id": "abba-take-a-chance-on-me",
+    "artist": "ABBA",
+    "title": "Take a Chance on Me"
+  },
+  {
+    "id": "abba-thank-you-for-the-music",
+    "artist": "ABBA",
+    "title": "Thank You for the Music"
+  },
+  {
+    "id": "abba-the-winner-takes-it-all",
+    "artist": "ABBA",
+    "title": "The Winner Takes It All"
+  },
+  {
+    "id": "abba-voulez-vous",
+    "artist": "ABBA",
+    "title": "Voulez‐Vous"
+  },
+  {
+    "id": "abba-waterloo",
+    "artist": "ABBA",
+    "title": "Waterloo"
+  },
+  {
+    "id": "abc-look-of-love",
+    "artist": "ABC",
+    "title": "Look of Love"
+  },
+  {
+    "id": "abradab-miasto-jest-nasze",
+    "artist": "Abradab",
+    "title": "Miasto jest nasze"
+  },
+  {
+    "id": "abradab-rapowe-ziarno-2-szyderap",
+    "artist": "Abradab",
+    "title": "Rapowe ziarno 2 (szyderap)"
+  },
+  {
+    "id": "acapulco-czy-ty-wiesz",
+    "artist": "Acapulco",
+    "title": "Czy Ty wiesz"
+  },
+  {
+    "id": "acdc-back-in-black",
+    "artist": "ACDC",
+    "title": "Back in black"
+  },
+  {
+    "id": "acdc-big-gun",
+    "artist": "ACDC",
+    "title": "Big Gun"
+  },
+  {
+    "id": "acdc-girls-got-rhythm",
+    "artist": "ACDC",
+    "title": "Girls Got Rhythm"
+  },
+  {
+    "id": "acdc-hard-as-a-rock",
+    "artist": "ACDC",
+    "title": "Hard As A Rock"
+  },
+  {
+    "id": "acdc-high-voltage",
+    "artist": "ACDC",
+    "title": "High Voltage"
+  },
+  {
+    "id": "acdc-play-ball",
+    "artist": "ACDC",
+    "title": "Play Ball"
+  },
+  {
+    "id": "acdc-t-n-t",
+    "artist": "ACDC",
+    "title": "T.N.T."
+  },
+  {
+    "id": "acdc-the-jack",
+    "artist": "ACDC",
+    "title": "The Jack"
+  },
+  {
+    "id": "acdc-thunderstruck",
+    "artist": "ACDC",
+    "title": "Thunderstruck"
+  },
+  {
+    "id": "acdc-whole-lotta-rosie",
+    "artist": "ACDC",
+    "title": "Whole lotta rosie"
+  },
+  {
+    "id": "acdc-you-shook-me-all-night-long",
+    "artist": "ACDC",
+    "title": "You shook me all night long"
+  },
+  {
+    "id": "ace-of-base-all-that-she-wants",
+    "artist": "Ace of Base",
+    "title": "All That She Wants"
+  },
+  {
+    "id": "ace-of-base-always-have-always-will",
+    "artist": "Ace of Base",
+    "title": "Always Have, Always Will"
+  },
+  {
+    "id": "ace-of-base-beautiful-life",
+    "artist": "Ace of Base",
+    "title": "Beautiful Life"
+  },
+  {
+    "id": "ace-of-base-cruel-summer",
+    "artist": "Ace of Base",
+    "title": "Cruel Summer"
+  },
+  {
+    "id": "ace-of-base-dont-turn-around",
+    "artist": "Ace of Base",
+    "title": "Dont turn around"
+  },
+  {
+    "id": "ace-of-base-life-is-a-flower",
+    "artist": "Ace of Base",
+    "title": "Life Is a Flower"
+  },
+  {
+    "id": "ace-of-base-the-sign",
+    "artist": "Ace of Base",
+    "title": "The Sign"
+  },
+  {
+    "id": "acid-drinkers-love-shack",
+    "artist": "Acid Drinkers",
+    "title": "Love Shack"
+  },
+  {
+    "id": "ada-krawczyk-weselny-klimat",
+    "artist": "Ada Krawczyk",
+    "title": "Weselny klimat"
+  },
+  {
+    "id": "adam-bol",
+    "artist": "Adam",
+    "title": "Ból"
+  },
+  {
+    "id": "adam-band-teraz-jest-wojna",
+    "artist": "Adam Band",
+    "title": "Teraz jest wojna"
+  },
+  {
+    "id": "adam-chrola-samba-magdalena",
+    "artist": "Adam Chrola",
+    "title": "Samba Magdalena"
+  },
+  {
+    "id": "adam-lambert-for-your-entertainment",
+    "artist": "Adam Lambert",
+    "title": "For Your Entertainment"
+  },
+  {
+    "id": "adam-lambert-ghost-town",
+    "artist": "Adam Lambert",
+    "title": "Ghost Town"
+  },
+  {
+    "id": "adam-lambert-whataya-want-from-me",
+    "artist": "Adam Lambert",
+    "title": "Whataya Want From Me"
+  },
+  {
+    "id": "adam-lambert-lady-gaga-fever",
+    "artist": "Adam Lambert & Lady GaGa",
+    "title": "Fever"
+  },
+  {
+    "id": "adam-lambert-laleh-welcome-to-the-show",
+    "artist": "Adam Lambert & Laleh",
+    "title": "Welcome To The Show"
+  },
+  {
+    "id": "adele-chasing-pavements",
+    "artist": "Adele",
+    "title": "Chasing Pavements"
+  },
+  {
+    "id": "adele-don-t-you-remember",
+    "artist": "Adele",
+    "title": "Don’t You Remember"
+  },
+  {
+    "id": "adele-hello",
+    "artist": "Adele",
+    "title": "Hello"
+  },
+  {
+    "id": "adele-hometown-glory",
+    "artist": "Adele",
+    "title": "Hometown Glory"
+  },
+  {
+    "id": "adele-i-can-t-make-you-love-me",
+    "artist": "Adele",
+    "title": "I Can’t Make You Love Me"
+  },
+  {
+    "id": "adele-love-song",
+    "artist": "Adele",
+    "title": "Love Song"
+  },
+  {
+    "id": "adele-make-you-feel-my-love",
+    "artist": "Adele",
+    "title": "Make You Feel My Love"
+  },
+  {
+    "id": "adele-million-years-ago",
+    "artist": "Adele",
+    "title": "Million Years Ago"
+  },
+  {
+    "id": "adele-one-and-only",
+    "artist": "Adele",
+    "title": "One and Only"
+  },
+  {
+    "id": "adele-promise-this",
+    "artist": "Adele",
+    "title": "Promise This"
+  },
+  {
+    "id": "adele-rolling-in-the-deep",
+    "artist": "Adele",
+    "title": "Rolling in the Deep"
+  },
+  {
+    "id": "adele-rumour-has-it",
+    "artist": "Adele",
+    "title": "Rumour Has It"
+  },
+  {
+    "id": "adele-set-fire-to-the-rain",
+    "artist": "Adele",
+    "title": "Set Fire to the Rain"
+  },
+  {
+    "id": "adele-skyfall",
+    "artist": "Adele",
+    "title": "Skyfall"
+  },
+  {
+    "id": "aerosmith-crazy",
+    "artist": "Aerosmith",
+    "title": "Crazy"
+  },
+  {
+    "id": "joviator-highway-to-hell",
+    "artist": "Joviator",
+    "title": "Highway to Hell"
+  },
+  {
+    "id": "the-2-live-crew-we-want-some-pussy",
+    "artist": "The 2 Live Crew",
+    "title": "We Want Some Pussy"
+  },
+  {
+    "id": "thirty-seconds-to-mars-closer-to-the-edge",
+    "artist": "Thirty Seconds to Mars",
+    "title": "Closer to the Edge"
+  },
+  {
+    "id": "thirty-seconds-to-mars-kings-and-queens",
+    "artist": "Thirty Seconds to Mars",
+    "title": "Kings and Queens"
+  },
+  {
+    "id": "thirty-seconds-to-mars-was-it-a-dream",
+    "artist": "Thirty Seconds to Mars",
+    "title": "Was It a Dream?"
+  }
+]
