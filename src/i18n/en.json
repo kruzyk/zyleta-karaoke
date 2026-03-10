@@ -17,6 +17,27 @@
     "sortByTitle": "Title",
     "sortLabel": "Sort by"
   },
+  "filter": {
+    "ariaLabel": "Filter songs",
+    "mainLabel": "Categories",
+    "countryLabel": "Filter by country",
+    "decadeLabel": "Filter by decade",
+    "main": {
+      "all": "All",
+      "international": "International",
+      "polish": "Polish",
+      "decades": "Decades"
+    },
+    "decade": {
+      "60s": "60s",
+      "70s": "70s",
+      "80s": "80s",
+      "90s": "90s",
+      "00s": "00s",
+      "10s": "10s",
+      "20s": "20s"
+    }
+  },
   "footer": {
     "copyright": "© {{year}} Żyleta Karaoke. All rights reserved.",
     "followUs": "Follow us"

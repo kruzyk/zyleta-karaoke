@@ -17,6 +17,27 @@
     "sortByTitle": "Tytuł",
     "sortLabel": "Sortuj wg"
   },
+  "filter": {
+    "ariaLabel": "Filtruj piosenki",
+    "mainLabel": "Kategorie",
+    "countryLabel": "Filtruj wg kraju",
+    "decadeLabel": "Filtruj wg dekady",
+    "main": {
+      "all": "Wszystkie",
+      "international": "Zagraniczne",
+      "polish": "Polskie",
+      "decades": "Dekady"
+    },
+    "decade": {
+      "60s": "60s",
+      "70s": "70s",
+      "80s": "80s",
+      "90s": "90s",
+      "00s": "00s",
+      "10s": "10s",
+      "20s": "20s"
+    }
+  },
   "footer": {
     "copyright": "© {{year}} Żyleta Karaoke. Wszelkie prawa zastrzeżone.",
     "followUs": "Obserwuj nas"

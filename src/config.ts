@@ -23,6 +23,12 @@ const config = {
     fuzzyThreshold: 0.35,
     minCharacters: 1,
   },
+
+  // Feature flags — toggle via GitHub UI (edit this file → commit → auto-deploy)
+  features: {
+    decades: true, // Show "Dekady" chip + decade sub-chips (60s–20s)
+    international: true, // Show country flag sub-chips under "Zagraniczne" chip
+  },
 } as const;
 
 export default config;
