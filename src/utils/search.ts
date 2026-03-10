@@ -1,4 +1,4 @@
-import Fuse from 'fuse.js';
+import Fuse, { type IFuseOptions } from 'fuse.js';
 import type { Song } from '@/types/song';
 
 /**
@@ -47,7 +47,7 @@ function wordPrefixSearch(songs: Song[], query: string): Song[] {
  * Fallback search: Fuse.js fuzzy matching for typo tolerance.
  * Only used when word-prefix search returns no results.
  */
-const fuseOptions: Fuse.IFuseOptions<Song> = {
+const fuseOptions: IFuseOptions<Song> = {
   keys: [
     { name: 'artist', weight: 0.6 },
     { name: 'title', weight: 0.4 },
