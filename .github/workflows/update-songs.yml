@@ -1,0 +1,142 @@
+name: Process Song List
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'data/raw-filelist.json'
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: 'update-songs'
+  cancel-in-progress: true
+
+jobs:
+  process:
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.changes.outputs.changed }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for safe rollback
+
+      - name: Validate raw file list
+        run: |
+          FILE="data/raw-filelist.json"
+          if [ ! -f "$FILE" ]; then
+            echo "::error::raw-filelist.json not found"
+            exit 1
+          fi
+
+          # Check it's valid JSON with a files array
+          FILE_COUNT=$(node -e "const d=JSON.parse(require('fs').readFileSync('$FILE','utf8')); console.log(d.files?.length ?? 0)")
+
+          if [ "$FILE_COUNT" -lt 10 ]; then
+            echo "::error::Suspiciously small file list ($FILE_COUNT files). Minimum 10 required. Aborting to prevent accidental wipe."
+            exit 1
+          fi
+
+          echo "✅ Validated: $FILE_COUNT files in raw list"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Backup current songs.json
+        run: |
+          if [ -f src/data/songs.json ]; then
+            cp src/data/songs.json src/data/songs.backup.json
+            SONG_COUNT=$(node -e "console.log(JSON.parse(require('fs').readFileSync('src/data/songs.json','utf8')).length)")
+            echo "📦 Backed up songs.json ($SONG_COUNT songs)"
+          fi
+
+      - name: Process raw file list into songs.json
+        run: npx tsx scripts/process-filelist.ts
+        env:
+          MUSICBRAINZ_ENABLED: 'true'
+
+      - name: Safety check — prevent catastrophic song loss
+        run: |
+          if [ ! -f src/data/songs.json ]; then
+            echo "::error::songs.json was not generated!"
+            exit 1
+          fi
+
+          NEW_COUNT=$(node -e "console.log(JSON.parse(require('fs').readFileSync('src/data/songs.json','utf8')).length)")
+
+          if [ -f src/data/songs.backup.json ]; then
+            OLD_COUNT=$(node -e "console.log(JSON.parse(require('fs').readFileSync('src/data/songs.backup.json','utf8')).length)")
+
+            if [ "$OLD_COUNT" -gt 50 ] && [ "$NEW_COUNT" -lt $((OLD_COUNT / 2)) ]; then
+              echo "::error::New list ($NEW_COUNT songs) is less than half of previous ($OLD_COUNT songs). Aborting to prevent data loss."
+              exit 1
+            fi
+          fi
+
+          echo "✅ Safety check passed: $NEW_COUNT songs"
+
+      - name: Check for changes
+        id: changes
+        run: |
+          # Remove backup before checking diff
+          rm -f src/data/songs.backup.json
+          if git diff --quiet src/data/songs.json 2>/dev/null; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit updated songs.json
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add src/data/songs.json
+          git commit -m "chore: auto-update songs.json from raw file list"
+          git push
+
+  deploy:
+    needs: process
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: master
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+        env:
+          VITE_CONFIGCAT_SDK_KEY: ${{ secrets.CONFIGCAT_SDK_KEY }}
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
