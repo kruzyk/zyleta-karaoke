@@ -8,6 +8,7 @@ Thumbs.db
 .env.local
 .env.*.local
 scripts/cache.json
+scripts/artist-cache.json
 scripts/remote-scan/scan-config.json
 scripts/remote-scan/scan-log.txt
 *.tsbuildinfo
