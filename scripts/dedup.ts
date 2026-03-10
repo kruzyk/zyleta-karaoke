@@ -1,14 +1,11 @@
 import fs from 'node:fs/promises';
-
-interface Song {
-  id: string;
-  artist: string;
-  title: string;
-}
+import type { Song } from './musicbrainz.js';
 
 interface ManualOverride {
   artist?: string;
   title?: string;
+  country?: string;
+  year?: number;
 }
 
 export function deduplicateSongs(songs: Song[]): Song[] {
@@ -50,6 +47,8 @@ export function applyManualOverrides(
         ...song,
         artist: override.artist ?? song.artist,
         title: override.title ?? song.title,
+        ...(override.country !== undefined ? { country: override.country } : {}),
+        ...(override.year !== undefined ? { year: override.year } : {}),
       };
     }
     return song;

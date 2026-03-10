@@ -16,7 +16,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseFilenames } from './filename-parser.js';
-import { resolveSongs } from './musicbrainz.js';
+import { resolveSongs, type Song } from './musicbrainz.js';
 import { deduplicateSongs, loadOverrides, applyManualOverrides } from './dedup.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -74,7 +74,7 @@ async function main() {
 
   // 3. Resolve via MusicBrainz (if enabled)
   const useMusicBrainz = process.env.MUSICBRAINZ_ENABLED === 'true';
-  let songs;
+  let songs: Song[];
 
   if (useMusicBrainz) {
     console.log('\n3. Resolving via MusicBrainz API...');
