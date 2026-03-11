@@ -4,7 +4,7 @@
     "artist": "10cc",
     "title": "Dreadlock Holiday",
     "country": "GB",
-    "year": 1986
+    "year": 1993
   },
   {
     "id": "10cc-im-not-in-love",
@@ -79,7 +79,7 @@
     "artist": "3 Doors Down",
     "title": "Be Like That",
     "country": "US",
-    "year": 2012
+    "year": 2001
   },
   {
     "id": "3-doors-down-behind-those-eyes",
@@ -93,7 +93,7 @@
     "artist": "3 Doors Down",
     "title": "Duck and Run",
     "country": "US",
-    "year": 2008
+    "year": 2001
   },
   {
     "id": "3-doors-down-here-without-you",
@@ -107,35 +107,35 @@
     "artist": "3 Doors Down",
     "title": "Kryptonite",
     "country": "US",
-    "year": 2007
+    "year": 2000
   },
   {
     "id": "3-doors-down-let-me-go",
     "artist": "3 Doors Down",
     "title": "Let Me Go",
     "country": "US",
-    "year": 2019
+    "year": 2004
   },
   {
     "id": "3-doors-down-loser",
     "artist": "3 Doors Down",
     "title": "Loser",
     "country": "US",
-    "year": 2000
+    "year": 1997
   },
   {
     "id": "3-doors-down-the-road-i-m-on",
     "artist": "3 Doors Down",
-    "title": "The Road I'm On",
+    "title": "The Road I’m On",
     "country": "US",
-    "year": 2003
+    "year": 2005
   },
   {
     "id": "3-doors-down-when-i-m-gone",
     "artist": "3 Doors Down",
     "title": "When I'm Gone",
     "country": "US",
-    "year": 2007
+    "year": 2008
   },
   {
     "id": "30-second-to-mars-the-kill",
@@ -155,16 +155,16 @@
   {
     "id": "4-non-blondes-what-s-up",
     "artist": "4 Non Blondes",
-    "title": "What's Up",
+    "title": "What’s Up?",
     "country": "US",
-    "year": 1993
+    "year": 2016
   },
   {
     "id": "4-the-cause-stand-by-me",
     "artist": "4 the Cause",
     "title": "Stand by Me",
     "country": "US",
-    "year": 1999
+    "year": 2001
   },
   {
     "id": "5-seconds-of-summer-good-girls",
@@ -197,7 +197,7 @@
     "artist": "50 Cent",
     "title": "Candy Shop",
     "country": "US",
-    "year": 2011
+    "year": 2007
   },
   {
     "id": "50-cent-disco-inferno",
@@ -210,7 +210,8 @@
     "id": "50-cent-in-da-club",
     "artist": "50 Cent",
     "title": "In da Club",
-    "country": "US"
+    "country": "US",
+    "year": 2006
   },
   {
     "id": "50-cent-the-game-how-we-do",
@@ -234,7 +235,7 @@
     "artist": "A Great Big World",
     "title": "Say Something",
     "country": "US",
-    "year": 2013
+    "year": 2020
   },
   {
     "id": "a-perfect-circle-hollow",
@@ -253,8 +254,7 @@
     "id": "aaliyah-more-than-a-woman",
     "artist": "Aaliyah",
     "title": "More Than a Woman",
-    "country": "US",
-    "year": 2002
+    "country": "US"
   },
   {
     "id": "aaliyah-try-again",
@@ -268,7 +268,7 @@
     "artist": "ABBA",
     "title": "Chiquitita",
     "country": "SE",
-    "year": 2007
+    "year": 1994
   },
   {
     "id": "abba-dancing-queen",
@@ -281,36 +281,34 @@
     "id": "abba-fernando",
     "artist": "ABBA",
     "title": "Fernando",
-    "country": "SE",
-    "year": 1982
+    "country": "SE"
   },
   {
     "id": "abba-gimme-gimme-gimme",
     "artist": "ABBA",
-    "title": "Gimme Gimme Gimme",
+    "title": "Gimme, Gimme, Gimme",
     "country": "SE",
-    "year": 1988
+    "year": 2008
   },
   {
     "id": "abba-happy-new-year",
     "artist": "ABBA",
     "title": "Happy New Year",
-    "country": "SE",
-    "year": 1980
+    "country": "SE"
   },
   {
     "id": "abba-hasta-manana",
     "artist": "ABBA",
-    "title": "Hasta mañana",
+    "title": "Hasta Manana",
     "country": "SE",
-    "year": 1976
+    "year": 2000
   },
   {
     "id": "abba-honey-honey",
     "artist": "ABBA",
     "title": "Honey, Honey",
     "country": "SE",
-    "year": 1994
+    "year": 2005
   },
   {
     "id": "abba-i-do-i-do-i-do-i-do-i-do",
@@ -324,96 +322,96 @@
     "artist": "ABBA",
     "title": "I Have a Dream",
     "country": "SE",
-    "year": 1979
+    "year": 2014
   },
   {
     "id": "abba-knowing-me-knowing-you",
     "artist": "ABBA",
     "title": "Knowing Me, Knowing You",
     "country": "SE",
-    "year": 1994
+    "year": 1989
   },
   {
     "id": "abba-lay-all-your-love-on-me",
     "artist": "ABBA",
     "title": "Lay All Your Love on Me",
     "country": "SE",
-    "year": 2003
+    "year": 1980
   },
   {
     "id": "abba-mamma-mia",
     "artist": "ABBA",
     "title": "Mamma Mia",
-    "country": "SE",
-    "year": 2019
+    "country": "SE"
   },
   {
     "id": "abba-money-money-money",
     "artist": "ABBA",
     "title": "Money, Money, Money",
     "country": "SE",
-    "year": 2014
+    "year": 2002
   },
   {
     "id": "abba-one-of-us",
     "artist": "ABBA",
     "title": "One of Us",
     "country": "SE",
-    "year": 2002
+    "year": 1994
   },
   {
-    "id": "abba-sos",
+    "id": "abba-s-o-s",
     "artist": "ABBA",
-    "title": "SOS",
+    "title": "S.O.S.",
     "country": "SE",
-    "year": 2014
+    "year": 2004
   },
   {
     "id": "abba-super-trouper",
     "artist": "ABBA",
     "title": "Super Trouper",
-    "country": "SE"
+    "country": "SE",
+    "year": 2005
   },
   {
     "id": "abba-take-a-chance-on-me",
     "artist": "ABBA",
     "title": "Take a Chance on Me",
     "country": "SE",
-    "year": 2012
+    "year": 2004
   },
   {
     "id": "abba-thank-you-for-the-music",
     "artist": "ABBA",
     "title": "Thank You for the Music",
     "country": "SE",
-    "year": 1977
+    "year": 1983
   },
   {
     "id": "abba-the-winner-takes-it-all",
     "artist": "ABBA",
     "title": "The Winner Takes It All",
     "country": "SE",
-    "year": 1992
+    "year": 2010
   },
   {
     "id": "abba-voulez-vous",
     "artist": "ABBA",
-    "title": "Voulez-Vous",
-    "country": "SE",
-    "year": 1988
+    "title": "Voulez‐vous",
+    "country": "SE"
   },
   {
     "id": "abba-waterloo",
     "artist": "ABBA",
     "title": "Waterloo",
-    "country": "SE"
+    "country": "SE",
+    "year": 2008
   },
   {
     "id": "abc-look-of-love",
     "artist": "ABC",
     "title": "Look of Love",
     "country": "GB",
-    "year": 1987
+    "year": 2004
   },
   {
     "id": "abradab-miasto-jest-nasze",
@@ -424,8 +422,8 @@
   {
     "id": "abradab-rapowe-ziarno-2-szyderap",
     "artist": "Abradab",
-    "title": "Rapowe ziarno 2 (Szyderap)",
-    "year": 2004
+    "title": "Rapowe ziarno 2 (szyderap)",
+    "year": 2010
   },
   {
     "id": "acapulco-czy-ty-wiesz",
@@ -492,28 +490,27 @@
     "artist": "Ace of Base",
     "title": "All That She Wants",
     "country": "SE",
-    "year": 1993
+    "year": 2008
   },
   {
     "id": "ace-of-base-always-have-always-will",
     "artist": "Ace of Base",
     "title": "Always Have, Always Will",
     "country": "SE",
-    "year": 1999
+    "year": 2008
   },
   {
     "id": "ace-of-base-beautiful-life",
     "artist": "Ace of Base",
     "title": "Beautiful Life",
     "country": "SE",
-    "year": 1996
+    "year": 2008
   },
   {
     "id": "ace-of-base-cruel-summer",
     "artist": "Ace of Base",
     "title": "Cruel Summer",
-    "country": "SE",
-    "year": 1998
+    "country": "SE"
   },
   {
     "id": "ace-of-base-dont-turn-around",
@@ -524,14 +521,15 @@
     "id": "ace-of-base-life-is-a-flower",
     "artist": "Ace of Base",
     "title": "Life Is a Flower",
-    "country": "SE"
+    "country": "SE",
+    "year": 2008
   },
   {
     "id": "ace-of-base-the-sign",
     "artist": "Ace of Base",
     "title": "The Sign",
     "country": "SE",
-    "year": 1996
+    "year": 1993
   },
   {
     "id": "acid-drinkers-love-shack",
@@ -572,14 +570,14 @@
     "artist": "Adam Lambert",
     "title": "Ghost Town",
     "country": "US",
-    "year": 2015
+    "year": 2021
   },
   {
     "id": "adam-lambert-whataya-want-from-me",
     "artist": "Adam Lambert",
     "title": "Whataya Want From Me",
     "country": "US",
-    "year": 2011
+    "year": 2010
   },
   {
     "id": "adam-lambert-lady-gaga-fever",
@@ -596,7 +594,7 @@
     "artist": "Adele",
     "title": "Chasing Pavements",
     "country": "GB",
-    "year": 2011
+    "year": 2009
   },
   {
     "id": "adele-don-t-you-remember",
@@ -609,14 +607,14 @@
     "id": "adele-hello",
     "artist": "Adele",
     "title": "Hello",
-    "country": "GB"
+    "country": "GB",
+    "year": 2016
   },
   {
     "id": "adele-hometown-glory",
     "artist": "Adele",
     "title": "Hometown Glory",
-    "country": "GB",
-    "year": 2007
+    "country": "GB"
   },
   {
     "id": "adele-i-can-t-make-you-love-me",
@@ -637,7 +635,7 @@
     "artist": "Adele",
     "title": "Make You Feel My Love",
     "country": "GB",
-    "year": 2008
+    "year": 2016
   },
   {
     "id": "adele-million-years-ago",
@@ -663,7 +661,7 @@
     "artist": "Adele",
     "title": "Rolling in the Deep",
     "country": "GB",
-    "year": 2023
+    "year": 2011
   },
   {
     "id": "adele-rumour-has-it",
@@ -683,8 +681,7 @@
     "id": "adele-skyfall",
     "artist": "Adele",
     "title": "Skyfall",
-    "country": "GB",
-    "year": 2012
+    "country": "GB"
   },
   {
     "id": "aerosmith-crazy",
