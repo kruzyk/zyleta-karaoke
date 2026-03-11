@@ -3,9 +3,13 @@
  *
  * This script is run by GitHub Actions when data/raw-filelist.json is updated.
  *
+ * Usage:
+ *   npx tsx scripts/process-filelist.ts           # Normal (uses cache)
+ *   npx tsx scripts/process-filelist.ts --force    # Force re-fetch all from MusicBrainz
+ *
  * Pipeline:
  *   1. Read data/raw-filelist.json (uploaded by scan-and-upload.ps1)
- *   2. Parse filenames → artist/title
+ *   2. Parse filenames -> artist/title
  *   3. (Optional) Resolve via MusicBrainz API
  *   4. Apply manual overrides
  *   5. Deduplicate
@@ -42,7 +46,13 @@ interface RawFileList {
 }
 
 async function main() {
-  console.log('🎤 Żyleta Karaoke — Processing song list\n');
+  const forceRefresh = process.argv.includes('--force');
+
+  console.log('🎤 Zyleta Karaoke - Processing song list');
+  if (forceRefresh) {
+    console.log('   *** FORCE REFRESH MODE - cache will be ignored ***');
+  }
+  console.log('');
 
   // 1. Read raw file list
   console.log('1. Reading raw file list...');
@@ -50,9 +60,9 @@ async function main() {
   try {
     const data = await fs.readFile(RAW_FILELIST_PATH, 'utf-8');
     raw = JSON.parse(data);
-  } catch (error) {
-    console.error(`   ❌ Could not read ${RAW_FILELIST_PATH}`);
-    console.error(`   Make sure data/raw-filelist.json exists.`);
+  } catch {
+    console.error(`   Could not read ${RAW_FILELIST_PATH}`);
+    console.error('   Make sure data/raw-filelist.json exists.');
     process.exit(1);
   }
   console.log(`   Found ${raw.totalFiles} files from ${raw.folderPaths.length} folder(s) (scanned at ${raw.scannedAt})`);
@@ -67,7 +77,7 @@ async function main() {
   console.log(`   Parsed: ${withArtist.length} with artist, ${noArtist.length} without`);
 
   if (noArtist.length > 0) {
-    console.log('   ⚠ Files without detected artist (check naming convention):');
+    console.log('   Files without detected artist (check naming convention):');
     noArtist.slice(0, 10).forEach((p) => console.log(`     - ${p.filename}`));
     if (noArtist.length > 10) console.log(`     ... and ${noArtist.length - 10} more`);
   }
@@ -78,7 +88,7 @@ async function main() {
 
   if (useMusicBrainz) {
     console.log('\n3. Resolving via MusicBrainz API...');
-    songs = await resolveSongs(parsed);
+    songs = await resolveSongs(parsed, { forceRefresh });
   } else {
     console.log('\n3. Skipping MusicBrainz (MUSICBRAINZ_ENABLED not set)');
     songs = parsed.map((p) => ({
@@ -100,15 +110,15 @@ async function main() {
   const beforeDedup = songs.length;
   songs = deduplicateSongs(songs);
   const removed = beforeDedup - songs.length;
-  console.log(`   ${beforeDedup} → ${songs.length} songs (${removed} duplicates removed)`);
+  console.log(`   ${beforeDedup} -> ${songs.length} songs (${removed} duplicates removed)`);
 
   // 6. Write songs.json
   console.log('\n6. Writing songs.json...');
   await fs.mkdir(path.dirname(OUTPUT_PATH), { recursive: true });
   await fs.writeFile(OUTPUT_PATH, JSON.stringify(songs, null, 2), 'utf-8');
-  console.log(`   ✅ Written ${songs.length} songs to ${OUTPUT_PATH}`);
+  console.log(`   Written ${songs.length} songs to ${OUTPUT_PATH}`);
 
-  console.log('\n🎵 Done!\n');
+  console.log('\nDone!\n');
 }
 
 function generateId(artist: string, title: string): string {
@@ -121,6 +131,6 @@ function generateId(artist: string, title: string): string {
 }
 
 main().catch((error) => {
-  console.error('❌ Fatal error:', error);
+  console.error('Fatal error:', error);
   process.exit(1);
 });

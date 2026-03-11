@@ -5,6 +5,16 @@ on:
     branches: [master]
     paths:
       - 'data/raw-filelist.json'
+  workflow_dispatch:
+    inputs:
+      force_refresh:
+        description: 'Force re-fetch all songs from MusicBrainz (ignore cache)'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
 
 permissions:
   contents: write
@@ -18,13 +28,14 @@ concurrency:
 jobs:
   process:
     runs-on: ubuntu-latest
+    timeout-minutes: 240
     outputs:
       changed: ${{ steps.changes.outputs.changed }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Full history for safe rollback
+          fetch-depth: 0
 
       - name: Validate raw file list
         run: |
@@ -34,15 +45,14 @@ jobs:
             exit 1
           fi
 
-          # Check it's valid JSON with a files array
           FILE_COUNT=$(node -e "const d=JSON.parse(require('fs').readFileSync('$FILE','utf8')); console.log(d.files?.length ?? 0)")
 
           if [ "$FILE_COUNT" -lt 10 ]; then
-            echo "::error::Suspiciously small file list ($FILE_COUNT files). Minimum 10 required. Aborting to prevent accidental wipe."
+            echo "::error::Suspiciously small file list ($FILE_COUNT files). Minimum 10 required."
             exit 1
           fi
 
-          echo "✅ Validated: $FILE_COUNT files in raw list"
+          echo "Validated: $FILE_COUNT files in raw list"
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -53,20 +63,36 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Restore MusicBrainz cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            scripts/cache.json
+            scripts/artist-cache.json
+          key: musicbrainz-cache-${{ hashFiles('data/raw-filelist.json') }}
+          restore-keys: |
+            musicbrainz-cache-
+
       - name: Backup current songs.json
         run: |
           if [ -f src/data/songs.json ]; then
             cp src/data/songs.json src/data/songs.backup.json
             SONG_COUNT=$(node -e "console.log(JSON.parse(require('fs').readFileSync('src/data/songs.json','utf8')).length)")
-            echo "📦 Backed up songs.json ($SONG_COUNT songs)"
+            echo "Backed up songs.json ($SONG_COUNT songs)"
           fi
 
       - name: Process raw file list into songs.json
-        run: npx tsx scripts/process-filelist.ts
+        run: |
+          FORCE_FLAG=""
+          if [ "${{ inputs.force_refresh }}" = "true" ]; then
+            FORCE_FLAG="--force"
+            echo "Running with --force (cache ignored)"
+          fi
+          npx tsx scripts/process-filelist.ts $FORCE_FLAG
         env:
           MUSICBRAINZ_ENABLED: 'true'
 
-      - name: Safety check — prevent catastrophic song loss
+      - name: Safety check - prevent catastrophic song loss
         run: |
           if [ ! -f src/data/songs.json ]; then
             echo "::error::songs.json was not generated!"
@@ -79,17 +105,16 @@ jobs:
             OLD_COUNT=$(node -e "console.log(JSON.parse(require('fs').readFileSync('src/data/songs.backup.json','utf8')).length)")
 
             if [ "$OLD_COUNT" -gt 50 ] && [ "$NEW_COUNT" -lt $((OLD_COUNT / 2)) ]; then
-              echo "::error::New list ($NEW_COUNT songs) is less than half of previous ($OLD_COUNT songs). Aborting to prevent data loss."
+              echo "::error::New list ($NEW_COUNT songs) is less than half of previous ($OLD_COUNT songs). Aborting."
               exit 1
             fi
           fi
 
-          echo "✅ Safety check passed: $NEW_COUNT songs"
+          echo "Safety check passed: $NEW_COUNT songs"
 
       - name: Check for changes
         id: changes
         run: |
-          # Remove backup before checking diff
           rm -f src/data/songs.backup.json
           if git diff --quiet src/data/songs.json 2>/dev/null; then
             echo "changed=false" >> $GITHUB_OUTPUT

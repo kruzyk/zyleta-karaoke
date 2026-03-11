@@ -125,8 +125,12 @@ if ($validFolders.Count -eq 0) {
 Write-Log "Poprawnych folderow: $($validFolders.Count) z $($folderPaths.Count)" "STEP"
 
 # --- Scan all folders ---
-$files = @()
+# Use List<object> instead of @() += for O(1) append (critical for 9000+ files)
+$files = [System.Collections.Generic.List[object]]::new()
 $totalAllFiles = 0
+# Build a HashSet for fast extension lookup
+$extSet = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::OrdinalIgnoreCase)
+foreach ($e in $extensions) { $extSet.Add($e) | Out-Null }
 
 foreach ($folder in $validFolders) {
     $folderName = Split-Path -Leaf $folder
@@ -144,15 +148,15 @@ foreach ($folder in $validFolders) {
     $folderFileCount = 0
     $folderRoot = $folder.TrimEnd('\', '/')
     foreach ($f in $allFiles) {
-        if ($extensions -contains $f.Extension.ToLower()) {
+        if ($extSet.Contains($f.Extension)) {
             $relativePath = $f.FullName.Substring($folderRoot.Length).TrimStart('\', '/')
-            $files += @{
+            $files.Add(@{
                 filename     = $f.Name
                 relativePath = $relativePath
                 sourceFolder = $folderName
                 extension    = $f.Extension.ToLower()
                 sizeBytes    = $f.Length
-            }
+            })
             $folderFileCount++
         }
     }
@@ -185,15 +189,23 @@ Write-Log "Buduje JSON payload..." "STEP"
 try {
     $payload = @{
         scannedAt    = (Get-Date -Format "o")
-        folderPaths  = $validFolders
+        folderPaths  = [array]$validFolders
         totalFiles   = $fileCount
-        files        = $files
+        files        = [array]$files
     } | ConvertTo-Json -Depth 4 -Compress
 
     $payloadBytes = [System.Text.Encoding]::UTF8.GetBytes($payload)
-    $base64Content = [Convert]::ToBase64String($payloadBytes)
+    $payloadSizeMB = [math]::Round($payloadBytes.Length / 1MB, 2)
+    Write-Log "Payload JSON: $payloadSizeMB MB"
 
-    Write-Log "Payload JSON: $($payloadBytes.Length) bajtow, base64: $($base64Content.Length) znakow"
+    if ($payloadSizeMB -gt 80) {
+        Write-Log "Payload za duzy dla GitHub API (limit ~100MB). Za duzo plikow!" "ERROR"
+        exit 1
+    }
+
+    $base64Content = [Convert]::ToBase64String($payloadBytes)
+    $base64SizeMB = [math]::Round($base64Content.Length / 1MB, 2)
+    Write-Log "Base64: $base64SizeMB MB"
 } catch {
     Write-Log "Blad tworzenia JSON payload: $($_.Exception.Message)" "ERROR"
     Write-Log "Stack trace: $($_.ScriptStackTrace)" "ERROR"
