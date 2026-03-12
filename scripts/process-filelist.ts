@@ -112,13 +112,65 @@ async function main() {
   const removed = beforeDedup - songs.length;
   console.log(`   ${beforeDedup} -> ${songs.length} songs (${removed} duplicates removed)`);
 
-  // 6. Write songs.json
-  console.log('\n6. Writing songs.json...');
+  // 6. Data quality report
+  console.log('\n6. Data quality report...');
+  const qualityReport = validateSongs(songs);
+  if (qualityReport.length > 0) {
+    for (const line of qualityReport) {
+      console.log(`   ${line}`);
+    }
+  } else {
+    console.log('   All checks passed!');
+  }
+
+  // 7. Write songs.json
+  console.log('\n7. Writing songs.json...');
   await fs.mkdir(path.dirname(OUTPUT_PATH), { recursive: true });
   await fs.writeFile(OUTPUT_PATH, JSON.stringify(songs, null, 2), 'utf-8');
   console.log(`   Written ${songs.length} songs to ${OUTPUT_PATH}`);
 
   console.log('\nDone!\n');
+}
+
+function validateSongs(songs: Song[]): string[] {
+  const report: string[] = [];
+
+  // Check for empty artists
+  const noArtist = songs.filter((s) => !s.artist);
+  if (noArtist.length > 0) {
+    report.push(`WARNING: ${noArtist.length} songs have no artist:`);
+    noArtist.slice(0, 10).forEach((s) => report.push(`  - "${s.title}"`));
+    if (noArtist.length > 10) report.push(`  ... and ${noArtist.length - 10} more`);
+  }
+
+  // Check for duplicate artist names (case/punctuation variants)
+  const artistVariants = new Map<string, Set<string>>();
+  for (const s of songs) {
+    if (!s.artist) continue;
+    const normalized = s.artist.toLowerCase().normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]/g, '');
+    if (!artistVariants.has(normalized)) artistVariants.set(normalized, new Set());
+    artistVariants.get(normalized)!.add(s.artist);
+  }
+  const inconsistent = Array.from(artistVariants.entries())
+    .filter(([, variants]) => variants.size > 1);
+  if (inconsistent.length > 0) {
+    report.push(`WARNING: ${inconsistent.length} artists have inconsistent naming:`);
+    inconsistent.slice(0, 15).forEach(([, variants]) => {
+      report.push(`  - ${Array.from(variants).map((v) => `"${v}"`).join(' vs ')}`);
+    });
+    if (inconsistent.length > 15) report.push(`  ... and ${inconsistent.length - 15} more`);
+  }
+
+  // Metadata coverage
+  const noCountry = songs.filter((s) => !s.country).length;
+  const noYear = songs.filter((s) => !s.year).length;
+  const countryPct = Math.round(((songs.length - noCountry) / songs.length) * 100);
+  const yearPct = Math.round(((songs.length - noYear) / songs.length) * 100);
+  report.push(`Metadata coverage: country ${countryPct}%, year ${yearPct}%`);
+  report.push(`Total: ${songs.length} songs`);
+
+  return report;
 }
 
 function generateId(artist: string, title: string): string {

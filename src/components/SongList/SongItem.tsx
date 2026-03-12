@@ -8,8 +8,12 @@ interface SongItemProps {
 export function SongItem({ song }: SongItemProps) {
   return (
     <div className={styles.item} role="listitem">
-      <span className={styles.artist}>{song.artist}</span>
-      <span className={styles.separator}> — </span>
+      {song.artist ? (
+        <>
+          <span className={styles.artist}>{song.artist}</span>
+          <span className={styles.separator}> — </span>
+        </>
+      ) : null}
       <span className={styles.title}>{song.title}</span>
     </div>
   );
