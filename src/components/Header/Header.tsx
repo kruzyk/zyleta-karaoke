@@ -16,7 +16,7 @@ export function Header({ theme, onToggleTheme }: HeaderProps) {
   return (
     <header className={styles.header}>
       <div className={styles.inner}>
-        <a href="/" className={styles.logoLink} aria-label={t('header.title')}>
+        <a href={import.meta.env.BASE_URL} className={styles.logoLink} aria-label={t('header.title')}>
           <img src={LogoSvg} alt={t('header.title')} className={styles.logo} />
         </a>
 
