@@ -189,25 +189,34 @@ function generateId(artist: string, title: string): string {
 }
 
 function extractYear(recording: MBRecording): number | undefined {
+  // Collect ALL candidate years, then pick the earliest one.
+  // MusicBrainz returns multiple releases (originals, compilations, remasters)
+  // and they are NOT sorted chronologically — so we must find the minimum.
+  const candidates: number[] = [];
+
+  // 1. recording.first-release-date — best single source (earliest known release of this recording)
   const recDate = recording['first-release-date'];
   if (recDate) {
     const y = parseInt(recDate.substring(0, 4), 10);
-    if (!isNaN(y) && y > 1900) return y;
+    if (!isNaN(y) && y > 1900) candidates.push(y);
   }
+
+  // 2. Scan all releases for their release-group.first-release-date and release.date
   if (recording.releases) {
     for (const rel of recording.releases) {
       const rgDate = rel['release-group']?.['first-release-date'];
       if (rgDate) {
         const y = parseInt(rgDate.substring(0, 4), 10);
-        if (!isNaN(y) && y > 1900) return y;
+        if (!isNaN(y) && y > 1900) candidates.push(y);
       }
       if (rel.date) {
         const y = parseInt(rel.date.substring(0, 4), 10);
-        if (!isNaN(y) && y > 1900) return y;
+        if (!isNaN(y) && y > 1900) candidates.push(y);
       }
     }
   }
-  return undefined;
+
+  return candidates.length > 0 ? Math.min(...candidates) : undefined;
 }
 
 function extractCountryFromArtist(detail: MBArtistDetail): string | undefined {

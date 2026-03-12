@@ -64,6 +64,7 @@ jobs:
         run: npm ci
 
       - name: Restore MusicBrainz cache
+        if: inputs.force_refresh != 'true'
         uses: actions/cache@v4
         with:
           path: |
@@ -72,6 +73,12 @@ jobs:
           key: musicbrainz-cache-${{ hashFiles('data/raw-filelist.json') }}
           restore-keys: |
             musicbrainz-cache-
+
+      - name: Clear cache (force refresh)
+        if: inputs.force_refresh == 'true'
+        run: |
+          rm -f scripts/cache.json scripts/artist-cache.json
+          echo "Cache cleared for force refresh"
 
       - name: Backup current songs.json
         run: |
