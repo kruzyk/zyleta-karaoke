@@ -360,6 +360,8 @@ export async function resolveSongs(
 
   // --- Step 5: Build songs from recording results + artist data ---
   const newSongs: Song[] = [];
+  const artistNormLog: Array<{ from: string; to: string; score: number }> = [];
+  const titleNormLog: Array<{ from: string; to: string; score: number }> = [];
 
   for (const { song: parsedSong, response } of recordingResults) {
     const recordings = response.recordings;
@@ -374,11 +376,24 @@ export async function resolveSongs(
     } else {
       const best = recordings[0];
       const credit = best['artist-credit']?.[0];
-      const artistName = credit?.artist?.name || parsedSong.artist;
+      const mbArtistName = credit?.artist?.name;
       const artistMbid = credit?.artist?.id;
-      const songTitle = best.title || parsedSong.title;
+      const mbTitle = best.title;
       const year = extractYear(best);
       const country = artistMbid ? artistCache[artistMbid]?.country : undefined;
+
+      // Use canonical MusicBrainz names when match confidence is high
+      const useCanonical = best.score >= 80;
+      const artistName = (useCanonical && mbArtistName) ? mbArtistName : parsedSong.artist;
+      const songTitle = (useCanonical && mbTitle) ? mbTitle : parsedSong.title;
+
+      // Log name normalization
+      if (mbArtistName && mbArtistName.toLowerCase() !== parsedSong.artist.toLowerCase()) {
+        artistNormLog.push({ from: parsedSong.artist, to: mbArtistName, score: best.score });
+      }
+      if (mbTitle && mbTitle.toLowerCase() !== parsedSong.title.toLowerCase()) {
+        titleNormLog.push({ from: parsedSong.title, to: mbTitle, score: best.score });
+      }
 
       resolved = {
         id: generateId(artistName, songTitle),
@@ -409,12 +424,33 @@ export async function resolveSongs(
 
   await saveCaches();
 
+  // Log artist/title normalizations
+  if (artistNormLog.length > 0) {
+    console.log(`\n   Artist name normalizations (${artistNormLog.length}):`);
+    for (const { from, to, score } of artistNormLog.slice(0, 30)) {
+      console.log(`     "${from}" -> "${to}" (score: ${score})`);
+    }
+    if (artistNormLog.length > 30) {
+      console.log(`     ... and ${artistNormLog.length - 30} more`);
+    }
+  }
+  if (titleNormLog.length > 0) {
+    console.log(`\n   Title normalizations (${titleNormLog.length}):`);
+    for (const { from, to, score } of titleNormLog.slice(0, 20)) {
+      console.log(`     "${from}" -> "${to}" (score: ${score})`);
+    }
+    if (titleNormLog.length > 20) {
+      console.log(`     ... and ${titleNormLog.length - 20} more`);
+    }
+  }
+
   const allResolved = [...cached, ...newSongs];
   console.log(`\n   Summary:`);
   console.log(`   - Total unique songs: ${allResolved.length}`);
   console.log(`   - From cache: ${cached.length}`);
   console.log(`   - Newly resolved: ${newSongs.length} (${failures} failures)`);
   console.log(`   - API calls: ${apiCalls} recordings + ${artistMbids.size} artists`);
+  console.log(`   - Artist names normalized: ${artistNormLog.filter((n) => n.score >= 80).length}`);
   console.log(`   - Metadata: ${withCountry}/${allResolved.length} with country, ${withYear}/${allResolved.length} with year`);
 
   return rebuildFullList(parsed, allResolved);

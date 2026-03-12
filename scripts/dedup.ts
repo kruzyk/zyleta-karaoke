@@ -8,13 +8,37 @@ interface ManualOverride {
   year?: number;
 }
 
+/**
+ * Normalize a string for deduplication comparison.
+ * Strips diacritics, punctuation, extra whitespace and lowercases.
+ * This ensures variants like "2 Plus 1" / "2 plus 1" / "2+1" collapse
+ * into the same dedup key.
+ */
+function normalizeForDedup(s: string): string {
+  return s
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '') // strip diacritics
+    .replace(/[^a-z0-9\s]/g, '')    // strip punctuation
+    .replace(/\s+/g, ' ')           // collapse whitespace
+    .trim();
+}
+
 export function deduplicateSongs(songs: Song[]): Song[] {
   const seen = new Map<string, Song>();
 
   for (const song of songs) {
-    const key = `${song.artist.toLowerCase().trim()}||${song.title.toLowerCase().trim()}`;
+    const key = `${normalizeForDedup(song.artist)}||${normalizeForDedup(song.title)}`;
     if (!seen.has(key)) {
       seen.set(key, song);
+    } else {
+      // Prefer the entry that has more metadata (country/year)
+      const existing = seen.get(key)!;
+      const existingScore = (existing.country ? 1 : 0) + (existing.year ? 1 : 0);
+      const newScore = (song.country ? 1 : 0) + (song.year ? 1 : 0);
+      if (newScore > existingScore) {
+        seen.set(key, song);
+      }
     }
   }
 
