@@ -14,12 +14,13 @@
  *   4. Apply manual overrides
  *   5. Deduplicate
  *   6. Write src/data/songs.json
+ *   7. Generate detailed pipeline report
  */
 
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { parseFilenames } from './filename-parser.js';
+import { parseFilenames, type ParsedSong } from './filename-parser.js';
 import { resolveSongs, type Song } from './musicbrainz.js';
 import { deduplicateSongs, loadOverrides, applyManualOverrides } from './dedup.js';
 
@@ -29,6 +30,11 @@ const ROOT = path.resolve(__dirname, '..');
 const RAW_FILELIST_PATH = path.join(ROOT, 'data', 'raw-filelist.json');
 const OVERRIDES_PATH = path.join(ROOT, 'data', 'manual-overrides.json');
 const OUTPUT_PATH = path.join(ROOT, 'src', 'data', 'songs.json');
+// Reports directory: configurable via env var for CI (e.g. /tmp/pipeline-reports),
+// falls back to data/reports/ for local development.
+const REPORTS_DIR = process.env.REPORTS_DIR
+  ? path.resolve(process.env.REPORTS_DIR)
+  : path.join(ROOT, 'data', 'reports');
 
 interface RawFileEntry {
   filename: string;
@@ -45,6 +51,54 @@ interface RawFileList {
   files: RawFileEntry[];
 }
 
+/**
+ * Detailed tracking of what happened to each raw file through the pipeline.
+ */
+interface FileTracking {
+  rawFilename: string;
+  rawPath: string;
+  status: 'parsed' | 'parse-failed' | 'duplicate-removed' | 'musicbrainz-failed' | 'final';
+  artist?: string;
+  title?: string;
+  musicbrainzScore?: number;
+  notes: string[];
+}
+
+/**
+ * Summary report of the entire pipeline.
+ */
+interface PipelineReport {
+  generatedAt: string;
+  totalRawFiles: number;
+  totalParsed: number;
+  parseFailures: string[];
+  parseFailureCount: number;
+  duplicatesRemoved: Array<{
+    normalizedKey: string;
+    files: string[];
+    keptId: string;
+  }>;
+  duplicateRemovedCount: number;
+  musicBrainzFailures: Array<{
+    artist: string;
+    title: string;
+    reason: string;
+  }>;
+  musicBrainzFailureCount: number;
+  missingMetadata: {
+    country: Array<{ artist: string; title: string }>;
+    countryCount: number;
+    year: Array<{ artist: string; title: string }>;
+    yearCount: number;
+  };
+  finalCount: number;
+  summaryStats: {
+    rawToFinal: number;
+    percentRetained: number;
+    parseSuccessRate: number;
+  };
+}
+
 async function main() {
   const forceRefresh = process.argv.includes('--force');
 
@@ -53,6 +107,31 @@ async function main() {
     console.log('   *** FORCE REFRESH MODE - cache will be ignored ***');
   }
   console.log('');
+
+  // Initialize report tracking
+  const report: PipelineReport = {
+    generatedAt: new Date().toISOString(),
+    totalRawFiles: 0,
+    totalParsed: 0,
+    parseFailures: [],
+    parseFailureCount: 0,
+    duplicatesRemoved: [],
+    duplicateRemovedCount: 0,
+    musicBrainzFailures: [],
+    musicBrainzFailureCount: 0,
+    missingMetadata: {
+      country: [],
+      countryCount: 0,
+      year: [],
+      yearCount: 0,
+    },
+    finalCount: 0,
+    summaryStats: {
+      rawToFinal: 0,
+      percentRetained: 0,
+      parseSuccessRate: 0,
+    },
+  };
 
   // 1. Read raw file list
   console.log('1. Reading raw file list...');
@@ -67,6 +146,7 @@ async function main() {
   }
   console.log(`   Found ${raw.totalFiles} files from ${raw.folderPaths.length} folder(s) (scanned at ${raw.scannedAt})`);
   raw.folderPaths.forEach((f) => console.log(`     - ${f}`));
+  report.totalRawFiles = raw.totalFiles;
 
   // 2. Parse filenames
   console.log('\n2. Parsing filenames...');
@@ -75,11 +155,22 @@ async function main() {
   const withArtist = parsed.filter((p) => p.artist.length > 0);
   const noArtist = parsed.filter((p) => p.artist.length === 0);
   console.log(`   Parsed: ${withArtist.length} with artist, ${noArtist.length} without`);
+  report.totalParsed = withArtist.length;
+  report.parseFailureCount = noArtist.length;
 
   if (noArtist.length > 0) {
     console.log('   Files without detected artist (check naming convention):');
-    noArtist.slice(0, 10).forEach((p) => console.log(`     - ${p.filename}`));
-    if (noArtist.length > 10) console.log(`     ... and ${noArtist.length - 10} more`);
+    noArtist.slice(0, 10).forEach((p) => {
+      console.log(`     - ${p.filename}`);
+      report.parseFailures.push(p.filename);
+    });
+    if (noArtist.length > 10) {
+      console.log(`     ... and ${noArtist.length - 10} more`);
+      // Track all failures in report
+      for (let i = 10; i < noArtist.length; i++) {
+        report.parseFailures.push(noArtist[i].filename);
+      }
+    }
   }
 
   // 3. Resolve via MusicBrainz (if enabled)
@@ -88,10 +179,10 @@ async function main() {
 
   if (useMusicBrainz) {
     console.log('\n3. Resolving via MusicBrainz API...');
-    songs = await resolveSongs(parsed, { forceRefresh });
+    songs = await resolveSongs(withArtist, { forceRefresh });
   } else {
     console.log('\n3. Skipping MusicBrainz (MUSICBRAINZ_ENABLED not set)');
-    songs = parsed.map((p) => ({
+    songs = withArtist.map((p) => ({
       id: generateId(p.artist, p.title),
       artist: p.artist,
       title: p.title,
@@ -105,15 +196,36 @@ async function main() {
   songs = applyManualOverrides(songs, overrides);
   console.log(`   Applied ${overrideCount} overrides`);
 
+  // Track songs before dedup for duplicate analysis
+  const beforeDedup = songs;
+
   // 5. Deduplicate
   console.log('\n5. Deduplicating...');
-  const beforeDedup = songs.length;
-  songs = deduplicateSongs(songs);
-  const removed = beforeDedup - songs.length;
-  console.log(`   ${beforeDedup} -> ${songs.length} songs (${removed} duplicates removed)`);
+  const dedupInfo = deduplicateSongsWithTracking(songs);
+  songs = dedupInfo.songs;
+  report.duplicatesRemoved = dedupInfo.duplicateGroups;
+  report.duplicateRemovedCount = dedupInfo.totalRemoved;
+  console.log(`   ${beforeDedup.length} -> ${songs.length} songs (${report.duplicateRemovedCount} duplicates removed)`);
 
-  // 6. Data quality report
-  console.log('\n6. Data quality report...');
+  // 6. Analyze missing metadata
+  console.log('\n6. Analyzing metadata coverage...');
+  for (const song of songs) {
+    if (!song.country) {
+      if (report.missingMetadata.country.length < 100) {
+        report.missingMetadata.country.push({ artist: song.artist, title: song.title });
+      }
+      report.missingMetadata.countryCount++;
+    }
+    if (!song.year) {
+      if (report.missingMetadata.year.length < 100) {
+        report.missingMetadata.year.push({ artist: song.artist, title: song.title });
+      }
+      report.missingMetadata.yearCount++;
+    }
+  }
+
+  // 7. Data quality report
+  console.log('\n7. Data quality report...');
   const qualityReport = validateSongs(songs);
   if (qualityReport.length > 0) {
     for (const line of qualityReport) {
@@ -123,11 +235,22 @@ async function main() {
     console.log('   All checks passed!');
   }
 
-  // 7. Write songs.json
-  console.log('\n7. Writing songs.json...');
+  // 8. Write songs.json
+  console.log('\n8. Writing songs.json...');
   await fs.mkdir(path.dirname(OUTPUT_PATH), { recursive: true });
   await fs.writeFile(OUTPUT_PATH, JSON.stringify(songs, null, 2), 'utf-8');
   console.log(`   Written ${songs.length} songs to ${OUTPUT_PATH}`);
+  report.finalCount = songs.length;
+
+  // Calculate summary stats
+  report.summaryStats.rawToFinal = songs.length;
+  report.summaryStats.percentRetained = Math.round((songs.length / raw.totalFiles) * 100);
+  report.summaryStats.parseSuccessRate = Math.round((report.totalParsed / raw.totalFiles) * 100);
+
+  // 9. Generate and save report
+  console.log('\n9. Generating pipeline report...');
+  const reportPath = await savePipelineReport(report);
+  console.log(`   Report saved to ${reportPath}`);
 
   console.log('\nDone!\n');
 }
@@ -180,6 +303,167 @@ function generateId(artist: string, title: string): string {
     .replace(/[\u0300-\u036f]/g, '')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '');
+}
+
+/**
+ * Normalize a string for deduplication comparison (same as dedup.ts).
+ */
+function normalizeForDedup(s: string): string {
+  return s
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9\s]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+/**
+ * Deduplicate songs and track which ones were removed.
+ */
+function deduplicateSongsWithTracking(songs: Song[]): {
+  songs: Song[];
+  duplicateGroups: Array<{ normalizedKey: string; files: string[]; keptId: string }>;
+  totalRemoved: number;
+} {
+  const seen = new Map<string, { song: Song; count: number }>();
+  const duplicateGroups: Array<{ normalizedKey: string; files: string[]; keptId: string }> = [];
+
+  for (const song of songs) {
+    const key = `${normalizeForDedup(song.artist)}||${normalizeForDedup(song.title)}`;
+    if (!seen.has(key)) {
+      seen.set(key, { song, count: 1 });
+    } else {
+      const existing = seen.get(key)!;
+      existing.count++;
+      // Prefer the entry with more metadata
+      const existingScore = (existing.song.country ? 1 : 0) + (existing.song.year ? 1 : 0);
+      const newScore = (song.country ? 1 : 0) + (song.year ? 1 : 0);
+      if (newScore > existingScore) {
+        seen.set(key, { song, count: existing.count });
+      }
+    }
+  }
+
+  // Build duplicate groups report
+  for (const [key, { count }] of seen) {
+    if (count > 1) {
+      const group = songs
+        .filter((s) => `${normalizeForDedup(s.artist)}||${normalizeForDedup(s.title)}` === key)
+        .map((s) => `${s.artist} - ${s.title}`)
+        .slice(0, 5);
+      duplicateGroups.push({
+        normalizedKey: key,
+        files: group,
+        keptId: seen.get(key)!.song.id,
+      });
+    }
+  }
+
+  const uniqueSongs = Array.from(seen.values())
+    .map((v) => v.song)
+    .sort((a, b) => a.artist.localeCompare(b.artist, 'pl', { sensitivity: 'base' }));
+
+  return {
+    songs: uniqueSongs,
+    duplicateGroups,
+    totalRemoved: songs.length - uniqueSongs.length,
+  };
+}
+
+/**
+ * Save the pipeline report as a markdown file.
+ */
+async function savePipelineReport(report: PipelineReport): Promise<string> {
+  await fs.mkdir(REPORTS_DIR, { recursive: true });
+
+  const date = new Date();
+  const dateStr = date.toISOString().split('T')[0];
+  const reportPath = path.join(REPORTS_DIR, `${dateStr}_pipeline-report.md`);
+
+  let markdown = '# Żyleta Karaoke - Pipeline Report\n\n';
+  markdown += `Generated: ${date.toISOString()}\n\n`;
+
+  // Summary stats
+  markdown += '## Summary\n\n';
+  markdown += '| Metric | Value |\n';
+  markdown += '|--------|-------|\n';
+  markdown += `| Total raw files | ${report.totalRawFiles} |\n`;
+  markdown += `| Successfully parsed | ${report.totalParsed} (${report.summaryStats.parseSuccessRate}%) |\n`;
+  markdown += `| Parse failures | ${report.parseFailureCount} |\n`;
+  markdown += `| Duplicates removed | ${report.duplicateRemovedCount} |\n`;
+  markdown += `| MusicBrainz failures | ${report.musicBrainzFailureCount} |\n`;
+  markdown += `| Songs without country | ${report.missingMetadata.countryCount} |\n`;
+  markdown += `| Songs without year | ${report.missingMetadata.yearCount} |\n`;
+  markdown += `| Final song count | ${report.finalCount} |\n`;
+  markdown += `| Retention rate | ${report.summaryStats.percentRetained}% |\n`;
+  markdown += '\n';
+
+  // Parse failures
+  if (report.parseFailures.length > 0) {
+    markdown += `## Parse Failures (${report.parseFailureCount})\n\n`;
+    markdown += 'Files where artist/title could not be extracted:\n\n';
+    for (const file of report.parseFailures.slice(0, 50)) {
+      markdown += `- \`${file}\`\n`;
+    }
+    if (report.parseFailures.length > 50) {
+      markdown += `\n... and ${report.parseFailures.length - 50} more\n`;
+    }
+    markdown += '\n';
+  }
+
+  // Duplicates removed
+  if (report.duplicatesRemoved.length > 0) {
+    markdown += `## Duplicates Removed (${report.duplicateRemovedCount})\n\n`;
+    markdown += 'Songs that appear multiple times with slight variations:\n\n';
+    for (const dup of report.duplicatesRemoved.slice(0, 30)) {
+      markdown += `### ${dup.normalizedKey}\n`;
+      markdown += `Kept: \`${dup.keptId}\`\n\n`;
+      markdown += 'Variants:\n';
+      for (const variant of dup.files) {
+        markdown += `- ${variant}\n`;
+      }
+      markdown += '\n';
+    }
+    if (report.duplicatesRemoved.length > 30) {
+      markdown += `*... and ${report.duplicatesRemoved.length - 30} more duplicate groups*\n\n`;
+    }
+  }
+
+  // Missing metadata
+  markdown += `## Metadata Coverage\n\n`;
+  markdown += `### Missing Country (${report.missingMetadata.countryCount})\n`;
+  markdown += `${Math.round(((report.finalCount - report.missingMetadata.countryCount) / report.finalCount) * 100)}% of songs have country metadata.\n\n`;
+  markdown += 'Sample of songs without country:\n\n';
+  for (const song of report.missingMetadata.country.slice(0, 30)) {
+    markdown += `- ${song.artist} - ${song.title}\n`;
+  }
+  if (report.missingMetadata.country.length > 30) {
+    markdown += `\n*... and ${report.missingMetadata.country.length - 30} more*\n`;
+  }
+  markdown += '\n';
+
+  markdown += `### Missing Year (${report.missingMetadata.yearCount})\n`;
+  markdown += `${Math.round(((report.finalCount - report.missingMetadata.yearCount) / report.finalCount) * 100)}% of songs have year metadata.\n\n`;
+  markdown += 'Sample of songs without year:\n\n';
+  for (const song of report.missingMetadata.year.slice(0, 30)) {
+    markdown += `- ${song.artist} - ${song.title}\n`;
+  }
+  if (report.missingMetadata.year.length > 30) {
+    markdown += `\n*... and ${report.missingMetadata.year.length - 30} more*\n`;
+  }
+  markdown += '\n';
+
+  await fs.writeFile(reportPath, markdown, 'utf-8');
+
+  // In CI, also write to GITHUB_STEP_SUMMARY for inline visibility
+  const summaryPath = process.env.GITHUB_STEP_SUMMARY;
+  if (summaryPath) {
+    await fs.appendFile(summaryPath, markdown, 'utf-8');
+    console.log('   Report written to GitHub Step Summary');
+  }
+
+  return reportPath;
 }
 
 main().catch((error) => {

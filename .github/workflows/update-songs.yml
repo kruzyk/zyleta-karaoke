@@ -70,14 +70,15 @@ jobs:
           path: |
             scripts/cache.json
             scripts/artist-cache.json
-          key: musicbrainz-cache-${{ hashFiles('data/raw-filelist.json') }}
+            scripts/discogs-cache.json
+          key: api-cache-${{ hashFiles('data/raw-filelist.json') }}
           restore-keys: |
-            musicbrainz-cache-
+            api-cache-
 
       - name: Clear cache (force refresh)
         if: inputs.force_refresh == 'true'
         run: |
-          rm -f scripts/cache.json scripts/artist-cache.json
+          rm -f scripts/cache.json scripts/artist-cache.json scripts/discogs-cache.json
           echo "Cache cleared for force refresh"
 
       - name: Backup current songs.json
@@ -98,6 +99,10 @@ jobs:
           npx tsx scripts/process-filelist.ts $FORCE_FLAG
         env:
           MUSICBRAINZ_ENABLED: 'true'
+          REPORTS_DIR: /tmp/pipeline-reports
+          DISCOGS_TOKEN: ${{ secrets.DISCOGS_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
 
       - name: Safety check - prevent catastrophic song loss
         run: |
@@ -119,6 +124,15 @@ jobs:
 
           echo "Safety check passed: $NEW_COUNT songs"
 
+      - name: Upload pipeline report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pipeline-reports
+          path: /tmp/pipeline-reports/
+          retention-days: 90
+          if-no-files-found: ignore
+
       - name: Check for changes
         id: changes
         run: |
@@ -138,6 +152,66 @@ jobs:
           git commit -m "chore: auto-update songs.json from raw file list"
           git pull --rebase origin master
           git push
+
+      - name: Find pipeline report
+        if: always()
+        id: report_info
+        run: |
+          LATEST_REPORT=$(ls -t /tmp/pipeline-reports/*.md 2>/dev/null | head -1)
+          if [ -n "$LATEST_REPORT" ]; then
+            echo "report_path=$LATEST_REPORT" >> $GITHUB_OUTPUT
+            echo "report_exists=true" >> $GITHUB_OUTPUT
+            echo "Found report: $LATEST_REPORT"
+          else
+            echo "report_exists=false" >> $GITHUB_OUTPUT
+            echo "No pipeline report found"
+          fi
+
+      - name: Push report to private repository
+        if: steps.report_info.outputs.report_exists == 'true'
+        env:
+          REPORT_REPO_TOKEN: ${{ secrets.REPORT_REPO_TOKEN }}
+        run: |
+          # Setup:
+          # 1. Create a private repo: github.com/kruzyk/zyleta-karaoke-reports
+          # 2. Generate a Fine-grained Personal Access Token (PAT):
+          #    GitHub → Settings → Developer settings → Fine-grained tokens → Generate
+          #    - Repository access: "Only select repositories" → zyleta-karaoke-reports
+          #    - Permissions: Contents → Read and write
+          # 3. Add the token as a secret in zyleta-karaoke repo:
+          #    Settings → Secrets → Actions → New secret → REPORT_REPO_TOKEN
+
+          if [ -z "$REPORT_REPO_TOKEN" ]; then
+            echo "::warning::REPORT_REPO_TOKEN not configured. Skipping private repo push."
+            echo "See workflow comments for setup instructions."
+            exit 0
+          fi
+
+          REPORT_FILE="${{ steps.report_info.outputs.report_path }}"
+          REPORT_BASENAME=$(basename "$REPORT_FILE")
+
+          # Clone the private reports repository
+          git clone "https://x-access-token:${REPORT_REPO_TOKEN}@github.com/kruzyk/zyleta-karaoke-reports.git" /tmp/report-repo
+
+          cd /tmp/report-repo
+
+          # Organize reports by year/month
+          YEAR=$(date +%Y)
+          MONTH=$(date +%m)
+          mkdir -p "reports/${YEAR}/${MONTH}"
+          cp "$REPORT_FILE" "reports/${YEAR}/${MONTH}/${REPORT_BASENAME}"
+
+          # Update latest symlink / copy
+          cp "$REPORT_FILE" "reports/latest.md"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet && echo "No changes to commit" && exit 0
+          git commit -m "report: pipeline run #${{ github.run_number }} ($(date +%Y-%m-%d))"
+          git push
+          echo "Report pushed to private repository"
+        continue-on-error: true
 
   deploy:
     needs: process

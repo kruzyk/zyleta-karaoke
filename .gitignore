@@ -9,9 +9,11 @@ Thumbs.db
 .env.*.local
 scripts/cache.json
 scripts/artist-cache.json
+scripts/discogs-cache.json
 scripts/remote-scan/scan-config.json
 scripts/remote-scan/scan-log.txt
 *.tsbuildinfo
+data/reports/
 
 # IDE
 .vscode/
