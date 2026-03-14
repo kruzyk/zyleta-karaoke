@@ -182,7 +182,7 @@ async function main() {
   if (useApis) {
     console.log('\n3. Resolving via multi-API orchestrator...');
     const orchestrator = await createOrchestrator();
-    report.apiStats.providers = orchestrator.getStats ? [] : [];
+    report.apiStats.providers = orchestrator.getProviderHealth().map((h) => h.name);
 
     // Deduplicate input by artist+title before API calls (save API quota)
     const uniqueMap = new Map<string, ParsedSong>();
@@ -254,26 +254,31 @@ async function main() {
     // 4. AI verification of flagged entries (optional)
     if (report.flaggedEntries.length > 0) {
       console.log('\n4. AI verification of flagged entries...');
-      const aiResults = await verifyWithAi(report.flaggedEntries);
-      report.apiStats.aiVerifiedCount = aiResults.filter((r) => !r.stillFlagged).length;
+      try {
+        const aiResults = await verifyWithAi(report.flaggedEntries);
+        report.apiStats.aiVerifiedCount = aiResults.filter((r) => !r.stillFlagged).length;
 
-      // Apply AI corrections to consensus results
-      if (aiResults.length > 0) {
-        const aiMap = new Map(aiResults.map((r) => [
-          `${r.originalArtist.toLowerCase()}||${r.originalTitle.toLowerCase()}`,
-          r,
-        ]));
-        for (const cr of consensusResults) {
-          const key = `${cr.artist.toLowerCase()}||${cr.title.toLowerCase()}`;
-          const aiResult = aiMap.get(key);
-          if (aiResult && !aiResult.stillFlagged) {
-            cr.artist = aiResult.verifiedArtist;
-            cr.title = aiResult.verifiedTitle;
-            cr.flagged = false;
-            cr.flagReasons = [];
+        // Apply AI corrections to consensus results
+        if (aiResults.length > 0) {
+          const aiMap = new Map(aiResults.map((r) => [
+            `${r.originalArtist.toLowerCase()}||${r.originalTitle.toLowerCase()}`,
+            r,
+          ]));
+          for (const cr of consensusResults) {
+            const key = `${cr.artist.toLowerCase()}||${cr.title.toLowerCase()}`;
+            const aiResult = aiMap.get(key);
+            if (aiResult && !aiResult.stillFlagged) {
+              cr.artist = aiResult.verifiedArtist;
+              cr.title = aiResult.verifiedTitle;
+              cr.flagged = false;
+              cr.flagReasons = [];
+            }
           }
+          console.log(`   AI resolved ${report.apiStats.aiVerifiedCount} entries, ${report.flaggedEntries.length - report.apiStats.aiVerifiedCount} still flagged`);
         }
-        console.log(`   AI resolved ${report.apiStats.aiVerifiedCount} entries, ${report.flaggedEntries.length - report.apiStats.aiVerifiedCount} still flagged`);
+      } catch (error) {
+        console.warn(`   ⚠️ AI verification failed: ${error instanceof Error ? error.message : error}`);
+        console.warn('   Flagged entries kept as-is. Pipeline continues.');
       }
     } else {
       console.log('\n4. No flagged entries — skipping AI verification');
