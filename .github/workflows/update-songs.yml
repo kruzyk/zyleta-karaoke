@@ -82,6 +82,70 @@ jobs:
           rm -f scripts/cache.json scripts/artist-cache.json scripts/discogs-cache.json scripts/lastfm-cache.json
           echo "Cache cleared for force refresh"
 
+      - name: Validate API tokens
+        run: |
+          echo "## API Token Status" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Provider | Token | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|----------|-------|--------|" >> $GITHUB_STEP_SUMMARY
+
+          # MusicBrainz - no token needed
+          echo "| MusicBrainz | not required | ✅ Always active |" >> $GITHUB_STEP_SUMMARY
+
+          # Discogs
+          if [ -n "$DISCOGS_TOKEN" ]; then
+            # Quick validation: test request to Discogs API
+            HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" \
+              -H "Authorization: Discogs token=${DISCOGS_TOKEN}" \
+              -H "User-Agent: ZyletaKaraoke/1.0" \
+              "https://api.discogs.com/database/search?q=test&per_page=1" 2>/dev/null || echo "000")
+            if [ "$HTTP_CODE" = "200" ]; then
+              echo "| Discogs | configured | ✅ Valid |" >> $GITHUB_STEP_SUMMARY
+            else
+              echo "| Discogs | configured | ⚠️ HTTP $HTTP_CODE — token may be expired |" >> $GITHUB_STEP_SUMMARY
+              echo "::warning::Discogs token returned HTTP $HTTP_CODE. Pipeline will continue without Discogs."
+            fi
+          else
+            echo "| Discogs | not configured | ⏭️ Skipped |" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          # Last.fm
+          if [ -n "$LASTFM_API_KEY" ]; then
+            HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" \
+              "https://ws.audioscrobbler.com/2.0/?method=track.search&track=test&api_key=${LASTFM_API_KEY}&format=json&limit=1" 2>/dev/null || echo "000")
+            if [ "$HTTP_CODE" = "200" ]; then
+              echo "| Last.fm | configured | ✅ Valid |" >> $GITHUB_STEP_SUMMARY
+            else
+              echo "| Last.fm | configured | ⚠️ HTTP $HTTP_CODE — API key may be invalid |" >> $GITHUB_STEP_SUMMARY
+              echo "::warning::Last.fm API key returned HTTP $HTTP_CODE. Pipeline will continue without Last.fm."
+            fi
+          else
+            echo "| Last.fm | not configured | ⏭️ Skipped |" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          # Claude AI
+          if [ -n "$ANTHROPIC_API_KEY" ]; then
+            echo "| Claude AI | configured | ✅ Available for verification |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| Claude AI | not configured | ⏭️ Skipped |" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          # Gemini AI
+          if [ -n "$GEMINI_API_KEY" ]; then
+            echo "| Gemini AI | configured | ✅ Available for verification |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| Gemini AI | not configured | ⏭️ Skipped |" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+        env:
+          DISCOGS_TOKEN: ${{ secrets.DISCOGS_TOKEN }}
+          LASTFM_API_KEY: ${{ secrets.LASTFM_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+
       - name: Backup current songs.json
         run: |
           if [ -f src/data/songs.json ]; then

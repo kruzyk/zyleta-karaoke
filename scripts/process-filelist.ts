@@ -25,7 +25,7 @@ import { parseFilenames, type ParsedSong } from './filename-parser.js';
 import type { Song } from './musicbrainz.js';
 import { loadOverrides, applyManualOverrides } from './dedup.js';
 import { createOrchestrator, verifyWithAi } from './api-providers/index.js';
-import type { ConsensusResult } from './api-providers/types.js';
+import type { ConsensusResult, ProviderHealth } from './api-providers/types.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -78,6 +78,7 @@ interface PipelineReport {
     flaggedCount: number;
     aiVerifiedCount: number;
   };
+  providerHealth: ProviderHealth[];
   missingMetadata: {
     country: Array<{ artist: string; title: string }>;
     countryCount: number;
@@ -120,6 +121,7 @@ async function main() {
       flaggedCount: 0,
       aiVerifiedCount: 0,
     },
+    providerHealth: [],
     missingMetadata: {
       country: [],
       countryCount: 0,
@@ -222,11 +224,32 @@ async function main() {
     report.apiStats.flaggedCount = stats.flagged;
     report.flaggedEntries = orchestrator.getFlaggedEntries();
 
+    // Collect provider health
+    const providerHealth = orchestrator.getProviderHealth();
+    report.providerHealth = providerHealth;
+
     console.log(`\n   API Resolution Summary:`);
     console.log(`   - Consensus (multiple APIs agree): ${stats.consensus}`);
     console.log(`   - Single API match: ${stats.singleMatch}`);
     console.log(`   - No match: ${stats.noMatch}`);
     console.log(`   - Flagged for review: ${stats.flagged}`);
+
+    // Log provider health
+    console.log(`\n   Provider Health:`);
+    for (const h of providerHealth) {
+      const statusIcon = h.status === 'active' ? '✅' : '❌';
+      const details = h.status === 'active'
+        ? `${h.successCount}/${h.totalRequests} successful`
+        : `DISABLED: ${h.reason || h.status}`;
+      console.log(`   ${statusIcon} ${h.name}: ${details}`);
+    }
+
+    // Warn loudly if any provider had auth errors
+    if (orchestrator.hasAuthErrors()) {
+      console.error('\n   🚨 WARNING: One or more API providers had authentication errors!');
+      console.error('   🚨 Check your API tokens/keys in GitHub Secrets.');
+      console.error('   🚨 The pipeline continued with remaining providers.');
+    }
 
     // 4. AI verification of flagged entries (optional)
     if (report.flaggedEntries.length > 0) {
@@ -482,12 +505,38 @@ async function savePipelineReport(report: PipelineReport): Promise<string> {
   markdown += `| Retention rate | ${report.summaryStats.percentRetained}% |\n`;
   markdown += '\n';
 
+  // Provider Health — always show, critical for token monitoring
+  if (report.providerHealth.length > 0) {
+    const hasProblems = report.providerHealth.some((h) => h.status !== 'active');
+    markdown += hasProblems
+      ? '## ⚠️ Provider Health\n\n'
+      : '## Provider Health\n\n';
+    markdown += '| Provider | Status | Requests | Success | Errors | Details |\n';
+    markdown += '|----------|--------|----------|---------|--------|---------|\n';
+    for (const h of report.providerHealth) {
+      const statusEmoji = h.status === 'active' ? '✅' : h.status === 'disabled-auth' ? '🔑❌' : '❌';
+      const details = h.reason || (h.status === 'active' ? 'OK' : h.status);
+      markdown += `| ${h.name} | ${statusEmoji} ${h.status} | ${h.totalRequests} | ${h.successCount} | ${h.errorCount} | ${details} |\n`;
+    }
+    markdown += '\n';
+
+    // Big warning for auth errors
+    const authFailed = report.providerHealth.filter((h) => h.status === 'disabled-auth');
+    if (authFailed.length > 0) {
+      markdown += '> **🚨 CRITICAL: API token/key error detected!**\n>\n';
+      for (const h of authFailed) {
+        markdown += `> **${h.name}**: ${h.reason}\n>\n`;
+      }
+      markdown += '> Check your GitHub Secrets and regenerate expired tokens.\n>\n';
+      markdown += '> The pipeline continued with remaining providers, but data quality may be reduced.\n\n';
+    }
+  }
+
   // API resolution stats
-  if (report.apiStats.providers.length > 0 || report.apiStats.totalResolved > 0) {
+  if (report.apiStats.totalResolved > 0) {
     markdown += '## API Resolution\n\n';
     markdown += '| Metric | Value |\n';
     markdown += '|--------|-------|\n';
-    markdown += `| Active providers | ${report.apiStats.providers.join(', ') || 'see logs'} |\n`;
     markdown += `| Total resolved | ${report.apiStats.totalResolved} |\n`;
     markdown += `| Consensus (multi-API agree) | ${report.apiStats.consensusMatches} |\n`;
     markdown += `| Single API match | ${report.apiStats.singleMatches} |\n`;

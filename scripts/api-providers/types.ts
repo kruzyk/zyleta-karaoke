@@ -99,6 +99,19 @@ export interface MusicApiProvider {
 }
 
 /**
+ * Runtime health status of a provider.
+ */
+export interface ProviderHealth {
+  name: string;
+  status: 'active' | 'disabled-auth' | 'disabled-errors' | 'disabled-no-key' | 'not-configured';
+  reason?: string;
+  totalRequests: number;
+  successCount: number;
+  errorCount: number;
+  consecutiveErrors: number;
+}
+
+/**
  * Configuration for the multi-API orchestrator.
  */
 export interface OrchestratorConfig {
