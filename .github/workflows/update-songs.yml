@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
     inputs:
       force_refresh:
-        description: 'Force re-fetch all songs from MusicBrainz (ignore cache)'
+        description: 'Force re-fetch all songs from APIs (ignore cache)'
         required: false
         default: 'false'
         type: choice
@@ -63,7 +63,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Restore MusicBrainz cache
+      - name: Restore API cache
         if: inputs.force_refresh != 'true'
         uses: actions/cache@v4
         with:
@@ -71,6 +71,7 @@ jobs:
             scripts/cache.json
             scripts/artist-cache.json
             scripts/discogs-cache.json
+            scripts/lastfm-cache.json
           key: api-cache-${{ hashFiles('data/raw-filelist.json') }}
           restore-keys: |
             api-cache-
@@ -78,7 +79,7 @@ jobs:
       - name: Clear cache (force refresh)
         if: inputs.force_refresh == 'true'
         run: |
-          rm -f scripts/cache.json scripts/artist-cache.json scripts/discogs-cache.json
+          rm -f scripts/cache.json scripts/artist-cache.json scripts/discogs-cache.json scripts/lastfm-cache.json
           echo "Cache cleared for force refresh"
 
       - name: Backup current songs.json
@@ -101,6 +102,7 @@ jobs:
           MUSICBRAINZ_ENABLED: 'true'
           REPORTS_DIR: /tmp/pipeline-reports
           DISCOGS_TOKEN: ${{ secrets.DISCOGS_TOKEN }}
+          LASTFM_API_KEY: ${{ secrets.LASTFM_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
 
