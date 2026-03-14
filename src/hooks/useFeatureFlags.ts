@@ -43,6 +43,8 @@ export function useFeatureFlags(): FeatureFlags {
     isLoading: true,
   });
 
+  /* eslint-disable react-you-might-not-need-an-effect/no-initialize-state --
+     Async ConfigCat fetch — must live in useEffect, not a useState initializer */
   useEffect(() => {
     let cancelled = false;
 
@@ -109,6 +111,7 @@ export function useFeatureFlags(): FeatureFlags {
       cancelled = true;
     };
   }, []);
+  /* eslint-enable react-you-might-not-need-an-effect/no-initialize-state */
 
   return flags;
 }
