@@ -1,33 +1,23 @@
 /**
- * Multi-API Verification Service — public API.
+ * Multi-API Verification Service — factory + re-exported helpers.
  *
  * Usage in process-filelist.ts:
  *
- *   import { createOrchestrator } from './api-providers/index.js';
+ *   import { createOrchestrator, verifyWithAi } from './api-providers/index.js';
+ *   import type { ConsensusResult, ProviderHealth } from './api-providers/types.js';
  *
  *   const orchestrator = await createOrchestrator();
  *   const result = await orchestrator.resolve(artist, title);
  */
-
-export { MultiApiOrchestrator } from './orchestrator.js';
-export { MusicBrainzProvider } from './musicbrainz-provider.js';
-export { DiscogsProvider } from './discogs.js';
-export { LastfmProvider } from './lastfm.js';
-export { verifyWithAi } from './ai-verifier.js';
-export type {
-  MusicApiProvider,
-  ApiMatch,
-  ApiProviderResult,
-  ConsensusResult,
-  OrchestratorConfig,
-} from './types.js';
-export { FlagReason } from './types.js';
 
 import { MultiApiOrchestrator } from './orchestrator.js';
 import { MusicBrainzProvider } from './musicbrainz-provider.js';
 import { DiscogsProvider } from './discogs.js';
 import { LastfmProvider } from './lastfm.js';
 import type { MusicApiProvider } from './types.js';
+
+// Re-export only what process-filelist.ts actually needs from here
+export { verifyWithAi } from './ai-verifier.js';
 
 /**
  * Create and initialize the orchestrator with all available providers.
