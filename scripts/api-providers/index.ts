@@ -1,38 +1,30 @@
 /**
- * Multi-API Verification Service — public API.
+ * Multi-API Verification Service — factory + re-exported helpers.
  *
  * Usage in process-filelist.ts:
  *
- *   import { createOrchestrator } from './api-providers/index.js';
+ *   import { createOrchestrator, verifyWithAi } from './api-providers/index.js';
+ *   import type { ConsensusResult, ProviderHealth } from './api-providers/types.js';
  *
  *   const orchestrator = await createOrchestrator();
  *   const result = await orchestrator.resolve(artist, title);
  */
 
-export { MultiApiOrchestrator } from './orchestrator.js';
-export { MusicBrainzProvider } from './musicbrainz-provider.js';
-export { DiscogsProvider } from './discogs.js';
-export { verifyWithAi } from './ai-verifier.js';
-export type {
-  MusicApiProvider,
-  ApiMatch,
-  ApiProviderResult,
-  ConsensusResult,
-  OrchestratorConfig,
-} from './types.js';
-export { FlagReason } from './types.js';
-
 import { MultiApiOrchestrator } from './orchestrator.js';
 import { MusicBrainzProvider } from './musicbrainz-provider.js';
 import { DiscogsProvider } from './discogs.js';
+import { LastfmProvider } from './lastfm.js';
 import type { MusicApiProvider } from './types.js';
+
+// Re-export only what process-filelist.ts actually needs from here
+export { verifyWithAi } from './ai-verifier.js';
 
 /**
  * Create and initialize the orchestrator with all available providers.
  * Providers are enabled based on environment variables:
  *   - MusicBrainz: always enabled (no auth required)
  *   - Discogs: enabled when DISCOGS_TOKEN is set
- *   - ReccoBeats: enabled when RECCOBEATS_API_KEY is set (future)
+ *   - Last.fm: enabled when LASTFM_API_KEY is set
  */
 export async function createOrchestrator(): Promise<MultiApiOrchestrator> {
   const providers: MusicApiProvider[] = [];
@@ -40,17 +32,19 @@ export async function createOrchestrator(): Promise<MultiApiOrchestrator> {
   // MusicBrainz — always available (no auth required)
   providers.push(new MusicBrainzProvider());
 
-  // Discogs — requires token
+  // Discogs — requires personal access token
   if (process.env.DISCOGS_TOKEN) {
     providers.push(new DiscogsProvider());
   } else {
     console.log('   [Config] Discogs disabled (set DISCOGS_TOKEN to enable)');
   }
 
-  // ReccoBeats — future provider
-  // if (process.env.RECCOBEATS_API_KEY) {
-  //   providers.push(new ReccoBeatsProvider());
-  // }
+  // Last.fm — requires free API key
+  if (process.env.LASTFM_API_KEY) {
+    providers.push(new LastfmProvider());
+  } else {
+    console.log('   [Config] Last.fm disabled (set LASTFM_API_KEY to enable)');
+  }
 
   console.log(`   [Config] Active providers: ${providers.map((p) => p.name).join(', ')}`);
 

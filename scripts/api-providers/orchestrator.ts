@@ -5,16 +5,12 @@
  * merging to produce the most reliable result. Flags entries that need manual
  * review when APIs disagree or confidence is low.
  *
- * Strategy:
- *   1. Send search query to all providers simultaneously
- *   2. Collect results (with timeouts — don't wait for slow/failing APIs)
- *   3. Compare results across providers
- *   4. Build consensus: pick artist/title that most APIs agree on
- *   5. Flag entries where:
- *      - No API returned a match
- *      - APIs disagree on artist/title
- *      - Only one API matched with low confidence
- *      - Significant normalization happened
+ * Resilience:
+ *   - Each provider is wrapped in try/catch — a failing provider never crashes the pipeline
+ *   - Auth errors (401/403) immediately disable the provider for the rest of the run
+ *   - After 5 consecutive errors, a provider is auto-disabled
+ *   - Provider health is tracked and reported in the pipeline report
+ *   - The pipeline continues with whatever providers are still active
  */
 
 import type {
@@ -23,14 +19,20 @@ import type {
   ApiProviderResult,
   ConsensusResult,
   OrchestratorConfig,
+  ProviderHealth,
 } from './types.js';
 import { FlagReason } from './types.js';
+
+/** Max consecutive errors before auto-disabling a provider */
+const MAX_CONSECUTIVE_ERRORS = 5;
+/** Patterns in error messages that indicate an auth/token problem */
+const AUTH_ERROR_PATTERNS = ['HTTP 401', 'HTTP 403', 'Unauthorized', 'Forbidden', 'invalid key', 'Invalid API key', 'Invalid API Key', 'invalid_api_key'];
 
 const DEFAULT_CONFIG: OrchestratorConfig = {
   providers: [],
   singleProviderMinConfidence: 80,
   consensusMinConfidence: 60,
-  maxStringDistance: 0.3, // 30% distance allowed
+  maxStringDistance: 0.3,
   aiVerification: false,
 };
 
@@ -44,20 +46,44 @@ export class MultiApiOrchestrator {
     noMatch: 0,
     flagged: 0,
   };
+  /** Per-provider health tracking */
+  private healthMap: Map<string, ProviderHealth> = new Map();
 
   constructor(config: Partial<OrchestratorConfig> & { providers: MusicApiProvider[] }) {
     this.config = { ...DEFAULT_CONFIG, ...config };
+    for (const p of this.config.providers) {
+      this.healthMap.set(p.name, {
+        name: p.name,
+        status: 'active',
+        totalRequests: 0,
+        successCount: 0,
+        errorCount: 0,
+        consecutiveErrors: 0,
+      });
+    }
   }
 
   async init(): Promise<void> {
     for (const provider of this.config.providers) {
-      if (provider.init) await provider.init();
+      try {
+        if (provider.init) await provider.init();
+      } catch (error) {
+        const msg = error instanceof Error ? error.message : String(error);
+        console.error(`   ⚠️  [${provider.name}] INIT FAILED: ${msg} — provider disabled`);
+        this.disableProvider(provider.name, 'disabled-errors', `Init failed: ${msg}`);
+      }
     }
   }
 
   async saveCaches(): Promise<void> {
     for (const provider of this.config.providers) {
-      if (provider.saveCache) await provider.saveCache();
+      if (!this.isProviderActive(provider.name)) continue;
+      try {
+        if (provider.saveCache) await provider.saveCache();
+      } catch (error) {
+        // Cache save failure is non-critical
+        console.warn(`   [${provider.name}] Cache save failed: ${error instanceof Error ? error.message : error}`);
+      }
     }
   }
 
@@ -67,9 +93,12 @@ export class MultiApiOrchestrator {
   async resolve(artist: string, title: string): Promise<ConsensusResult> {
     this.stats.total++;
 
-    // Query all providers in parallel with timeout
+    // Only query active providers
+    const activeProviders = this.config.providers.filter((p) => this.isProviderActive(p.name));
+
+    // Query all active providers in parallel with timeout
     const providerResults = await Promise.all(
-      this.config.providers.map((provider) => this.queryProvider(provider, artist, title)),
+      activeProviders.map((provider) => this.queryProvider(provider, artist, title)),
     );
 
     // Build consensus from results
@@ -84,7 +113,7 @@ export class MultiApiOrchestrator {
   }
 
   /**
-   * Query a single provider with timeout handling.
+   * Query a single provider with timeout and health tracking.
    */
   private async queryProvider(
     provider: MusicApiProvider,
@@ -96,27 +125,97 @@ export class MultiApiOrchestrator {
       const match = await Promise.race([
         provider.search(artist, title),
         new Promise<null>((_, reject) =>
-          setTimeout(() => reject(new Error('Timeout')), 30000),
+          setTimeout(() => reject(new Error('Timeout (30s)')), 30000),
         ),
       ]);
+      this.recordSuccess(provider.name);
       return {
         provider: provider.name,
         match,
         elapsed: Date.now() - start,
       };
     } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : String(error);
+      this.recordError(provider.name, errorMsg);
       return {
         provider: provider.name,
         match: null,
         elapsed: Date.now() - start,
-        error: error instanceof Error ? error.message : String(error),
+        error: errorMsg,
       };
     }
   }
 
+  // --- Health tracking ---
+
+  private disableProvider(name: string, status: ProviderHealth['status'], reason: string): void {
+    const h = this.healthMap.get(name);
+    if (h && h.status === 'active') {
+      h.status = status;
+      h.reason = reason;
+    }
+  }
+
+  private isProviderActive(name: string): boolean {
+    return this.healthMap.get(name)?.status === 'active';
+  }
+
+  private recordSuccess(name: string): void {
+    const h = this.healthMap.get(name);
+    if (h) {
+      h.totalRequests++;
+      h.successCount++;
+      h.consecutiveErrors = 0;
+    }
+  }
+
+  private recordError(name: string, errorMessage: string): void {
+    const h = this.healthMap.get(name);
+    if (!h) return;
+    h.totalRequests++;
+    h.errorCount++;
+    h.consecutiveErrors++;
+
+    const isAuthError = AUTH_ERROR_PATTERNS.some((pat) => errorMessage.includes(pat));
+    if (isAuthError) {
+      console.error(`   ⚠️  [${name}] AUTH ERROR: ${errorMessage}`);
+      console.error(`   ⚠️  [${name}] Provider disabled — check your API token/key!`);
+      this.disableProvider(name, 'disabled-auth', errorMessage);
+      return;
+    }
+
+    if (h.consecutiveErrors >= MAX_CONSECUTIVE_ERRORS) {
+      console.error(`   ⚠️  [${name}] ${MAX_CONSECUTIVE_ERRORS} consecutive errors — provider auto-disabled`);
+      this.disableProvider(name, 'disabled-errors', `${MAX_CONSECUTIVE_ERRORS} consecutive errors. Last: ${errorMessage}`);
+    }
+  }
+
+  // --- Public getters ---
+
+  getFlaggedEntries(): ConsensusResult[] {
+    return this.flaggedEntries;
+  }
+
+  getStats(): typeof this.stats {
+    return { ...this.stats };
+  }
+
   /**
-   * Build consensus from multiple API results.
+   * Get health status of all providers.
    */
+  getProviderHealth(): ProviderHealth[] {
+    return Array.from(this.healthMap.values());
+  }
+
+  /**
+   * Check if any provider had auth/token issues (for workflow-level reporting).
+   */
+  hasAuthErrors(): boolean {
+    return Array.from(this.healthMap.values()).some((h) => h.status === 'disabled-auth');
+  }
+
+  // --- Consensus building (unchanged logic) ---
+
   private buildConsensus(
     originalArtist: string,
     originalTitle: string,
@@ -125,7 +224,6 @@ export class MultiApiOrchestrator {
     const matches = results.filter((r) => r.match !== null).map((r) => r.match!);
     const flagReasons: string[] = [];
 
-    // Case 1: No matches from any API
     if (matches.length === 0) {
       this.stats.noMatch++;
       return {
@@ -139,14 +237,12 @@ export class MultiApiOrchestrator {
       };
     }
 
-    // Case 2: Single match
     if (matches.length === 1) {
       this.stats.singleMatch++;
       const match = matches[0];
       const flagged = match.confidence < this.config.singleProviderMinConfidence;
       if (flagged) flagReasons.push(FlagReason.LOW_CONFIDENCE);
 
-      // Check for significant normalization
       if (this.isSignificantChange(originalArtist, match.artist)) {
         flagReasons.push(FlagReason.MAJOR_NORMALIZATION);
       }
@@ -165,27 +261,17 @@ export class MultiApiOrchestrator {
       };
     }
 
-    // Case 3: Multiple matches — build consensus
+    // Multiple matches — build consensus
     this.stats.consensus++;
 
-    // Check if APIs agree on artist name
     const artistNames = matches.map((m) => m.artist);
     const artistAgreement = this.calculateAgreement(artistNames);
-
-    // Check if APIs agree on title
     const titles = matches.map((m) => m.title);
     const titleAgreement = this.calculateAgreement(titles);
 
-    // Flag disagreements
-    if (!artistAgreement.consensus) {
-      flagReasons.push(FlagReason.ARTIST_MISMATCH);
-    }
-    if (!titleAgreement.consensus) {
-      flagReasons.push(FlagReason.TITLE_MISMATCH);
-    }
+    if (!artistAgreement.consensus) flagReasons.push(FlagReason.ARTIST_MISMATCH);
+    if (!titleAgreement.consensus) flagReasons.push(FlagReason.TITLE_MISMATCH);
 
-    // Pick the best artist: prefer the name most APIs agree on,
-    // weighted by confidence scores
     const bestArtist = artistAgreement.consensus
       ? artistAgreement.bestValue
       : this.pickBestByConfidence(matches, 'artist');
@@ -194,27 +280,22 @@ export class MultiApiOrchestrator {
       ? titleAgreement.bestValue
       : this.pickBestByConfidence(matches, 'title');
 
-    // Year: prefer earliest plausible year
     const years = matches.map((m) => m.year).filter((y): y is number => y !== undefined && y > 1900);
     const bestYear = years.length > 0 ? Math.min(...years) : undefined;
 
-    // Country: prefer MusicBrainz (most reliable for artist origin)
     const countryMatch = matches.find((m) => m.source === 'musicbrainz' && m.country)
       || matches.find((m) => m.country);
     const bestCountry = countryMatch?.country;
 
-    // Genres: merge all unique
     const allGenres = new Set<string>();
     for (const m of matches) {
       if (m.genres) m.genres.forEach((g) => allGenres.add(g));
     }
 
-    // Combined confidence: average of all matches, boosted if they agree
     const avgConfidence = matches.reduce((sum, m) => sum + m.confidence, 0) / matches.length;
     const agreementBonus = (artistAgreement.consensus ? 10 : -10) + (titleAgreement.consensus ? 10 : -10);
     const confidence = Math.min(100, Math.max(0, Math.round(avgConfidence + agreementBonus)));
 
-    // Check for significant normalization from original
     if (this.isSignificantChange(originalArtist, bestArtist)) {
       flagReasons.push(FlagReason.MAJOR_NORMALIZATION);
     }
@@ -233,17 +314,11 @@ export class MultiApiOrchestrator {
     };
   }
 
-  /**
-   * Check if multiple strings roughly agree (allowing for minor differences).
-   */
   private calculateAgreement(values: string[]): { consensus: boolean; bestValue: string } {
     if (values.length === 0) return { consensus: false, bestValue: '' };
     if (values.length === 1) return { consensus: true, bestValue: values[0] };
 
-    // Normalize for comparison
     const normalized = values.map((v) => this.normalizeForComparison(v));
-
-    // Count occurrences of each normalized form
     const counts = new Map<string, { count: number; original: string }>();
     for (let i = 0; i < normalized.length; i++) {
       const key = normalized[i];
@@ -255,47 +330,31 @@ export class MultiApiOrchestrator {
       }
     }
 
-    // Check if most values agree (allowing fuzzy match)
     const sorted = Array.from(counts.entries()).sort((a, b) => b[1].count - a[1].count);
     const topCount = sorted[0][1].count;
-    const consensus = topCount >= Math.ceil(values.length / 2);
-
-    return { consensus, bestValue: sorted[0][1].original };
+    return { consensus: topCount >= Math.ceil(values.length / 2), bestValue: sorted[0][1].original };
   }
 
-  /**
-   * Pick the best value from matches, weighted by confidence.
-   */
   private pickBestByConfidence(matches: ApiMatch[], field: 'artist' | 'title'): string {
     const best = matches.reduce((a, b) => (a.confidence >= b.confidence ? a : b));
     return best[field];
   }
 
-  /**
-   * Check if the change from original is significant enough to flag.
-   */
   private isSignificantChange(original: string, normalized: string): boolean {
     const a = this.normalizeForComparison(original);
     const b = this.normalizeForComparison(normalized);
     if (a === b) return false;
-
-    // Calculate Levenshtein-like distance ratio
     const maxLen = Math.max(a.length, b.length);
     if (maxLen === 0) return false;
-
     let distance = 0;
     const minLen = Math.min(a.length, b.length);
     for (let i = 0; i < minLen; i++) {
       if (a[i] !== b[i]) distance++;
     }
     distance += Math.abs(a.length - b.length);
-
     return distance / maxLen > this.config.maxStringDistance;
   }
 
-  /**
-   * Normalize a string for comparison (lowercase, strip diacritics, punctuation).
-   */
   private normalizeForComparison(s: string): string {
     return s
       .toLowerCase()
@@ -304,56 +363,5 @@ export class MultiApiOrchestrator {
       .replace(/[^a-z0-9\s]/g, '')
       .replace(/\s+/g, ' ')
       .trim();
-  }
-
-  /**
-   * Get all flagged entries for manual review.
-   */
-  getFlaggedEntries(): ConsensusResult[] {
-    return this.flaggedEntries;
-  }
-
-  /**
-   * Get pipeline statistics.
-   */
-  getStats(): typeof this.stats {
-    return { ...this.stats };
-  }
-
-  /**
-   * Generate a flagged entries report as markdown.
-   */
-  generateFlagReport(): string {
-    let md = '## Flagged Entries for Manual Review\n\n';
-    md += `Total flagged: ${this.flaggedEntries.length}\n\n`;
-
-    // Group by flag reason
-    const byReason = new Map<string, ConsensusResult[]>();
-    for (const entry of this.flaggedEntries) {
-      for (const reason of entry.flagReasons) {
-        if (!byReason.has(reason)) byReason.set(reason, []);
-        byReason.get(reason)!.push(entry);
-      }
-    }
-
-    for (const [reason, entries] of byReason) {
-      md += `### ${reason} (${entries.length})\n\n`;
-      for (const entry of entries.slice(0, 20)) {
-        md += `- **${entry.artist} — ${entry.title}** (confidence: ${entry.confidence})\n`;
-        for (const pr of entry.providerResults) {
-          if (pr.match) {
-            md += `  - ${pr.provider}: "${pr.match.artist} — ${pr.match.title}" (${pr.match.confidence}%)\n`;
-          } else {
-            md += `  - ${pr.provider}: no match${pr.error ? ` (${pr.error})` : ''}\n`;
-          }
-        }
-        md += '\n';
-      }
-      if (entries.length > 20) {
-        md += `*... and ${entries.length - 20} more*\n\n`;
-      }
-    }
-
-    return md;
   }
 }

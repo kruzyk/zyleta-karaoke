@@ -5,24 +5,27 @@
  *
  * Usage:
  *   npx tsx scripts/process-filelist.ts           # Normal (uses cache)
- *   npx tsx scripts/process-filelist.ts --force    # Force re-fetch all from MusicBrainz
+ *   npx tsx scripts/process-filelist.ts --force    # Force re-fetch all from APIs
  *
  * Pipeline:
  *   1. Read data/raw-filelist.json (uploaded by scan-and-upload.ps1)
  *   2. Parse filenames -> artist/title
- *   3. (Optional) Resolve via MusicBrainz API
- *   4. Apply manual overrides
- *   5. Deduplicate
- *   6. Write src/data/songs.json
- *   7. Generate detailed pipeline report
+ *   3. Resolve via multi-API orchestrator (MusicBrainz, Discogs, Last.fm)
+ *   4. AI verification of flagged entries (optional, when API keys available)
+ *   5. Apply manual overrides
+ *   6. Deduplicate
+ *   7. Write src/data/songs.json
+ *   8. Generate pipeline report (summary + flagged entries)
  */
 
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseFilenames, type ParsedSong } from './filename-parser.js';
-import { resolveSongs, type Song } from './musicbrainz.js';
-import { deduplicateSongs, loadOverrides, applyManualOverrides } from './dedup.js';
+import type { Song } from './musicbrainz.js';
+import { loadOverrides, applyManualOverrides } from './dedup.js';
+import { createOrchestrator, verifyWithAi } from './api-providers/index.js';
+import type { ConsensusResult, ProviderHealth } from './api-providers/types.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -31,10 +34,10 @@ const RAW_FILELIST_PATH = path.join(ROOT, 'data', 'raw-filelist.json');
 const OVERRIDES_PATH = path.join(ROOT, 'data', 'manual-overrides.json');
 const OUTPUT_PATH = path.join(ROOT, 'src', 'data', 'songs.json');
 // Reports directory: configurable via env var for CI (e.g. /tmp/pipeline-reports),
-// falls back to data/reports/ for local development.
+// defaults to a temp directory to avoid writing into the project.
 const REPORTS_DIR = process.env.REPORTS_DIR
   ? path.resolve(process.env.REPORTS_DIR)
-  : path.join(ROOT, 'data', 'reports');
+  : path.join(ROOT, '..', 'pipeline-reports');
 
 interface RawFileEntry {
   filename: string;
@@ -52,19 +55,6 @@ interface RawFileList {
 }
 
 /**
- * Detailed tracking of what happened to each raw file through the pipeline.
- */
-interface FileTracking {
-  rawFilename: string;
-  rawPath: string;
-  status: 'parsed' | 'parse-failed' | 'duplicate-removed' | 'musicbrainz-failed' | 'final';
-  artist?: string;
-  title?: string;
-  musicbrainzScore?: number;
-  notes: string[];
-}
-
-/**
  * Summary report of the entire pipeline.
  */
 interface PipelineReport {
@@ -79,12 +69,16 @@ interface PipelineReport {
     keptId: string;
   }>;
   duplicateRemovedCount: number;
-  musicBrainzFailures: Array<{
-    artist: string;
-    title: string;
-    reason: string;
-  }>;
-  musicBrainzFailureCount: number;
+  apiStats: {
+    providers: string[];
+    totalResolved: number;
+    consensusMatches: number;
+    singleMatches: number;
+    noMatches: number;
+    flaggedCount: number;
+    aiVerifiedCount: number;
+  };
+  providerHealth: ProviderHealth[];
   missingMetadata: {
     country: Array<{ artist: string; title: string }>;
     countryCount: number;
@@ -97,6 +91,7 @@ interface PipelineReport {
     percentRetained: number;
     parseSuccessRate: number;
   };
+  flaggedEntries: ConsensusResult[];
 }
 
 async function main() {
@@ -117,8 +112,16 @@ async function main() {
     parseFailureCount: 0,
     duplicatesRemoved: [],
     duplicateRemovedCount: 0,
-    musicBrainzFailures: [],
-    musicBrainzFailureCount: 0,
+    apiStats: {
+      providers: [],
+      totalResolved: 0,
+      consensusMatches: 0,
+      singleMatches: 0,
+      noMatches: 0,
+      flaggedCount: 0,
+      aiVerifiedCount: 0,
+    },
+    providerHealth: [],
     missingMetadata: {
       country: [],
       countryCount: 0,
@@ -131,6 +134,7 @@ async function main() {
       percentRetained: 0,
       parseSuccessRate: 0,
     },
+    flaggedEntries: [],
   };
 
   // 1. Read raw file list
@@ -162,26 +166,135 @@ async function main() {
     console.log('   Files without detected artist (check naming convention):');
     noArtist.slice(0, 10).forEach((p) => {
       console.log(`     - ${p.filename}`);
-      report.parseFailures.push(p.filename);
     });
     if (noArtist.length > 10) {
       console.log(`     ... and ${noArtist.length - 10} more`);
-      // Track all failures in report
-      for (let i = 10; i < noArtist.length; i++) {
-        report.parseFailures.push(noArtist[i].filename);
-      }
+    }
+    for (const p of noArtist) {
+      report.parseFailures.push(p.filename);
     }
   }
 
-  // 3. Resolve via MusicBrainz (if enabled)
-  const useMusicBrainz = process.env.MUSICBRAINZ_ENABLED === 'true';
+  // 3. Resolve via multi-API orchestrator
+  const useApis = process.env.MUSICBRAINZ_ENABLED === 'true';
   let songs: Song[];
 
-  if (useMusicBrainz) {
-    console.log('\n3. Resolving via MusicBrainz API...');
-    songs = await resolveSongs(withArtist, { forceRefresh });
+  if (useApis) {
+    console.log('\n3. Resolving via multi-API orchestrator...');
+    const orchestrator = await createOrchestrator();
+    report.apiStats.providers = orchestrator.getProviderHealth().map((h) => h.name);
+
+    // Deduplicate input by artist+title before API calls (save API quota)
+    const uniqueMap = new Map<string, ParsedSong>();
+    for (const song of withArtist) {
+      const key = `${song.artist.toLowerCase()}||${song.title.toLowerCase()}`;
+      if (!uniqueMap.has(key)) {
+        uniqueMap.set(key, song);
+      }
+    }
+    const uniqueSongs = Array.from(uniqueMap.values());
+    console.log(`   Unique artist+title pairs: ${uniqueSongs.length} (from ${withArtist.length} files)`);
+
+    const estimatedMinutes = Math.ceil(uniqueSongs.length * 1.2 / 60);
+    console.log(`   Estimated time: ~${estimatedMinutes} min`);
+
+    // Resolve each unique song through the orchestrator
+    const consensusResults: ConsensusResult[] = [];
+    for (let i = 0; i < uniqueSongs.length; i++) {
+      const parsed = uniqueSongs[i];
+      const result = await orchestrator.resolve(parsed.artist, parsed.title);
+      consensusResults.push(result);
+
+      if ((i + 1) % 100 === 0 || i === uniqueSongs.length - 1) {
+        const stats = orchestrator.getStats();
+        console.log(`   Progress: ${i + 1}/${uniqueSongs.length} | consensus: ${stats.consensus} | single: ${stats.singleMatch} | no-match: ${stats.noMatch} | flagged: ${stats.flagged}`);
+        await orchestrator.saveCaches();
+      }
+    }
+
+    // Save caches
+    await orchestrator.saveCaches();
+
+    // Collect stats
+    const stats = orchestrator.getStats();
+    report.apiStats.totalResolved = stats.total;
+    report.apiStats.consensusMatches = stats.consensus;
+    report.apiStats.singleMatches = stats.singleMatch;
+    report.apiStats.noMatches = stats.noMatch;
+    report.apiStats.flaggedCount = stats.flagged;
+    report.flaggedEntries = orchestrator.getFlaggedEntries();
+
+    // Collect provider health
+    const providerHealth = orchestrator.getProviderHealth();
+    report.providerHealth = providerHealth;
+
+    console.log(`\n   API Resolution Summary:`);
+    console.log(`   - Consensus (multiple APIs agree): ${stats.consensus}`);
+    console.log(`   - Single API match: ${stats.singleMatch}`);
+    console.log(`   - No match: ${stats.noMatch}`);
+    console.log(`   - Flagged for review: ${stats.flagged}`);
+
+    // Log provider health
+    console.log(`\n   Provider Health:`);
+    for (const h of providerHealth) {
+      const statusIcon = h.status === 'active' ? '✅' : '❌';
+      const details = h.status === 'active'
+        ? `${h.successCount}/${h.totalRequests} successful`
+        : `DISABLED: ${h.reason || h.status}`;
+      console.log(`   ${statusIcon} ${h.name}: ${details}`);
+    }
+
+    // Warn loudly if any provider had auth errors
+    if (orchestrator.hasAuthErrors()) {
+      console.error('\n   🚨 WARNING: One or more API providers had authentication errors!');
+      console.error('   🚨 Check your API tokens/keys in GitHub Secrets.');
+      console.error('   🚨 The pipeline continued with remaining providers.');
+    }
+
+    // 4. AI verification of flagged entries (optional)
+    if (report.flaggedEntries.length > 0) {
+      console.log('\n4. AI verification of flagged entries...');
+      try {
+        const aiResults = await verifyWithAi(report.flaggedEntries);
+        report.apiStats.aiVerifiedCount = aiResults.filter((r) => !r.stillFlagged).length;
+
+        // Apply AI corrections to consensus results
+        if (aiResults.length > 0) {
+          const aiMap = new Map(aiResults.map((r) => [
+            `${r.originalArtist.toLowerCase()}||${r.originalTitle.toLowerCase()}`,
+            r,
+          ]));
+          for (const cr of consensusResults) {
+            const key = `${cr.artist.toLowerCase()}||${cr.title.toLowerCase()}`;
+            const aiResult = aiMap.get(key);
+            if (aiResult && !aiResult.stillFlagged) {
+              cr.artist = aiResult.verifiedArtist;
+              cr.title = aiResult.verifiedTitle;
+              cr.flagged = false;
+              cr.flagReasons = [];
+            }
+          }
+          console.log(`   AI resolved ${report.apiStats.aiVerifiedCount} entries, ${report.flaggedEntries.length - report.apiStats.aiVerifiedCount} still flagged`);
+        }
+      } catch (error) {
+        console.warn(`   ⚠️ AI verification failed: ${error instanceof Error ? error.message : error}`);
+        console.warn('   Flagged entries kept as-is. Pipeline continues.');
+      }
+    } else {
+      console.log('\n4. No flagged entries — skipping AI verification');
+    }
+
+    // Convert ConsensusResult[] to Song[]
+    songs = consensusResults.map((cr) => ({
+      id: generateId(cr.artist, cr.title),
+      artist: cr.artist,
+      title: cr.title,
+      ...(cr.country ? { country: cr.country } : {}),
+      ...(cr.year ? { year: cr.year } : {}),
+    }));
   } else {
-    console.log('\n3. Skipping MusicBrainz (MUSICBRAINZ_ENABLED not set)');
+    console.log('\n3. Skipping API resolution (MUSICBRAINZ_ENABLED not set)');
+    console.log('\n4. Skipping AI verification');
     songs = withArtist.map((p) => ({
       id: generateId(p.artist, p.title),
       artist: p.artist,
@@ -189,8 +302,8 @@ async function main() {
     }));
   }
 
-  // 4. Apply manual overrides
-  console.log('\n4. Applying manual overrides...');
+  // 5. Apply manual overrides
+  console.log('\n5. Applying manual overrides...');
   const overrides = await loadOverrides(OVERRIDES_PATH);
   const overrideCount = Object.keys(overrides).length;
   songs = applyManualOverrides(songs, overrides);
@@ -199,16 +312,16 @@ async function main() {
   // Track songs before dedup for duplicate analysis
   const beforeDedup = songs;
 
-  // 5. Deduplicate
-  console.log('\n5. Deduplicating...');
+  // 6. Deduplicate
+  console.log('\n6. Deduplicating...');
   const dedupInfo = deduplicateSongsWithTracking(songs);
   songs = dedupInfo.songs;
   report.duplicatesRemoved = dedupInfo.duplicateGroups;
   report.duplicateRemovedCount = dedupInfo.totalRemoved;
   console.log(`   ${beforeDedup.length} -> ${songs.length} songs (${report.duplicateRemovedCount} duplicates removed)`);
 
-  // 6. Analyze missing metadata
-  console.log('\n6. Analyzing metadata coverage...');
+  // 7. Analyze missing metadata
+  console.log('\n7. Analyzing metadata coverage...');
   for (const song of songs) {
     if (!song.country) {
       if (report.missingMetadata.country.length < 100) {
@@ -224,8 +337,8 @@ async function main() {
     }
   }
 
-  // 7. Data quality report
-  console.log('\n7. Data quality report...');
+  // Data quality report
+  console.log('\n   Data quality checks...');
   const qualityReport = validateSongs(songs);
   if (qualityReport.length > 0) {
     for (const line of qualityReport) {
@@ -256,14 +369,14 @@ async function main() {
 }
 
 function validateSongs(songs: Song[]): string[] {
-  const report: string[] = [];
+  const lines: string[] = [];
 
   // Check for empty artists
   const noArtist = songs.filter((s) => !s.artist);
   if (noArtist.length > 0) {
-    report.push(`WARNING: ${noArtist.length} songs have no artist:`);
-    noArtist.slice(0, 10).forEach((s) => report.push(`  - "${s.title}"`));
-    if (noArtist.length > 10) report.push(`  ... and ${noArtist.length - 10} more`);
+    lines.push(`WARNING: ${noArtist.length} songs have no artist:`);
+    noArtist.slice(0, 10).forEach((s) => lines.push(`  - "${s.title}"`));
+    if (noArtist.length > 10) lines.push(`  ... and ${noArtist.length - 10} more`);
   }
 
   // Check for duplicate artist names (case/punctuation variants)
@@ -278,11 +391,11 @@ function validateSongs(songs: Song[]): string[] {
   const inconsistent = Array.from(artistVariants.entries())
     .filter(([, variants]) => variants.size > 1);
   if (inconsistent.length > 0) {
-    report.push(`WARNING: ${inconsistent.length} artists have inconsistent naming:`);
+    lines.push(`WARNING: ${inconsistent.length} artists have inconsistent naming:`);
     inconsistent.slice(0, 15).forEach(([, variants]) => {
-      report.push(`  - ${Array.from(variants).map((v) => `"${v}"`).join(' vs ')}`);
+      lines.push(`  - ${Array.from(variants).map((v) => `"${v}"`).join(' vs ')}`);
     });
-    if (inconsistent.length > 15) report.push(`  ... and ${inconsistent.length - 15} more`);
+    if (inconsistent.length > 15) lines.push(`  ... and ${inconsistent.length - 15} more`);
   }
 
   // Metadata coverage
@@ -290,10 +403,10 @@ function validateSongs(songs: Song[]): string[] {
   const noYear = songs.filter((s) => !s.year).length;
   const countryPct = Math.round(((songs.length - noCountry) / songs.length) * 100);
   const yearPct = Math.round(((songs.length - noYear) / songs.length) * 100);
-  report.push(`Metadata coverage: country ${countryPct}%, year ${yearPct}%`);
-  report.push(`Total: ${songs.length} songs`);
+  lines.push(`Metadata coverage: country ${countryPct}%, year ${yearPct}%`);
+  lines.push(`Total: ${songs.length} songs`);
 
-  return report;
+  return lines;
 }
 
 function generateId(artist: string, title: string): string {
@@ -373,6 +486,7 @@ function deduplicateSongsWithTracking(songs: Song[]): {
 
 /**
  * Save the pipeline report as a markdown file.
+ * Report includes: summary, API stats, flagged entries, metadata coverage.
  */
 async function savePipelineReport(report: PipelineReport): Promise<string> {
   await fs.mkdir(REPORTS_DIR, { recursive: true });
@@ -392,12 +506,83 @@ async function savePipelineReport(report: PipelineReport): Promise<string> {
   markdown += `| Successfully parsed | ${report.totalParsed} (${report.summaryStats.parseSuccessRate}%) |\n`;
   markdown += `| Parse failures | ${report.parseFailureCount} |\n`;
   markdown += `| Duplicates removed | ${report.duplicateRemovedCount} |\n`;
-  markdown += `| MusicBrainz failures | ${report.musicBrainzFailureCount} |\n`;
-  markdown += `| Songs without country | ${report.missingMetadata.countryCount} |\n`;
-  markdown += `| Songs without year | ${report.missingMetadata.yearCount} |\n`;
   markdown += `| Final song count | ${report.finalCount} |\n`;
   markdown += `| Retention rate | ${report.summaryStats.percentRetained}% |\n`;
   markdown += '\n';
+
+  // Provider Health — always show, critical for token monitoring
+  if (report.providerHealth.length > 0) {
+    const hasProblems = report.providerHealth.some((h) => h.status !== 'active');
+    markdown += hasProblems
+      ? '## ⚠️ Provider Health\n\n'
+      : '## Provider Health\n\n';
+    markdown += '| Provider | Status | Requests | Success | Errors | Details |\n';
+    markdown += '|----------|--------|----------|---------|--------|---------|\n';
+    for (const h of report.providerHealth) {
+      const statusEmoji = h.status === 'active' ? '✅' : h.status === 'disabled-auth' ? '🔑❌' : '❌';
+      const details = h.reason || (h.status === 'active' ? 'OK' : h.status);
+      markdown += `| ${h.name} | ${statusEmoji} ${h.status} | ${h.totalRequests} | ${h.successCount} | ${h.errorCount} | ${details} |\n`;
+    }
+    markdown += '\n';
+
+    // Big warning for auth errors
+    const authFailed = report.providerHealth.filter((h) => h.status === 'disabled-auth');
+    if (authFailed.length > 0) {
+      markdown += '> **🚨 CRITICAL: API token/key error detected!**\n>\n';
+      for (const h of authFailed) {
+        markdown += `> **${h.name}**: ${h.reason}\n>\n`;
+      }
+      markdown += '> Check your GitHub Secrets and regenerate expired tokens.\n>\n';
+      markdown += '> The pipeline continued with remaining providers, but data quality may be reduced.\n\n';
+    }
+  }
+
+  // API resolution stats
+  if (report.apiStats.totalResolved > 0) {
+    markdown += '## API Resolution\n\n';
+    markdown += '| Metric | Value |\n';
+    markdown += '|--------|-------|\n';
+    markdown += `| Total resolved | ${report.apiStats.totalResolved} |\n`;
+    markdown += `| Consensus (multi-API agree) | ${report.apiStats.consensusMatches} |\n`;
+    markdown += `| Single API match | ${report.apiStats.singleMatches} |\n`;
+    markdown += `| No match | ${report.apiStats.noMatches} |\n`;
+    markdown += `| Flagged for review | ${report.apiStats.flaggedCount} |\n`;
+    markdown += `| AI-verified | ${report.apiStats.aiVerifiedCount} |\n`;
+    markdown += '\n';
+  }
+
+  // Flagged entries for manual review
+  if (report.flaggedEntries.length > 0) {
+    markdown += `## Flagged Entries for Manual Review (${report.flaggedEntries.length})\n\n`;
+    markdown += 'These entries need human verification. You can add corrections to `data/manual-overrides.json`.\n\n';
+
+    // Group by flag reason
+    const byReason = new Map<string, ConsensusResult[]>();
+    for (const entry of report.flaggedEntries) {
+      for (const reason of entry.flagReasons) {
+        if (!byReason.has(reason)) byReason.set(reason, []);
+        byReason.get(reason)!.push(entry);
+      }
+    }
+
+    for (const [reason, entries] of byReason) {
+      markdown += `### ${reason} (${entries.length})\n\n`;
+      for (const entry of entries.slice(0, 30)) {
+        markdown += `- **${entry.artist} — ${entry.title}** (confidence: ${entry.confidence})\n`;
+        for (const pr of entry.providerResults) {
+          if (pr.match) {
+            markdown += `  - ${pr.provider}: "${pr.match.artist} — ${pr.match.title}" (${pr.match.confidence}%)\n`;
+          } else {
+            markdown += `  - ${pr.provider}: no match${pr.error ? ` (${pr.error})` : ''}\n`;
+          }
+        }
+        markdown += '\n';
+      }
+      if (entries.length > 30) {
+        markdown += `*... and ${entries.length - 30} more*\n\n`;
+      }
+    }
+  }
 
   // Parse failures
   if (report.parseFailures.length > 0) {
@@ -417,7 +602,7 @@ async function savePipelineReport(report: PipelineReport): Promise<string> {
     markdown += `## Duplicates Removed (${report.duplicateRemovedCount})\n\n`;
     markdown += 'Songs that appear multiple times with slight variations:\n\n';
     for (const dup of report.duplicatesRemoved.slice(0, 30)) {
-      markdown += `### ${dup.normalizedKey}\n`;
+      markdown += `#### ${dup.normalizedKey}\n`;
       markdown += `Kept: \`${dup.keptId}\`\n\n`;
       markdown += 'Variants:\n';
       for (const variant of dup.files) {
