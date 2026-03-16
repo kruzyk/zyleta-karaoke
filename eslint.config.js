@@ -13,6 +13,9 @@ export default tseslint.config(
   js.configs.recommended,
   ...tseslint.configs.recommended,
 
+  // React hooks (v5 flat config)
+  reactHooks.configs['recommended-latest'],
+
   // React useEffect best practices (all 9 rules as warnings)
   reactEffect.configs.recommended,
 
@@ -24,11 +27,9 @@ export default tseslint.config(
       globals: globals.browser,
     },
     plugins: {
-      'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
     },
     rules: {
-      ...reactHooks.configs.recommended.rules,
       'react-refresh/only-export-components': [
         'warn',
         { allowConstantExport: true },
