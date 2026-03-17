@@ -11,11 +11,11 @@
  *   1. Read data/raw-filelist.json (uploaded by scan-and-upload.ps1)
  *   2. Parse filenames -> artist/title
  *   3. Resolve via multi-API orchestrator (MusicBrainz, Discogs, Last.fm)
- *   4. AI verification of flagged entries (optional, when API keys available)
+ *   4. AI verification of flagged + discrepancy entries (optional)
  *   5. Apply manual overrides
  *   6. Deduplicate
  *   7. Write src/data/songs.json
- *   8. Generate pipeline report (summary + flagged entries)
+ *   8. Generate pipeline report (summary + AI decisions + flagged entries)
  */
 
 import fs from 'node:fs/promises';
@@ -76,7 +76,11 @@ interface PipelineReport {
     singleMatches: number;
     noMatches: number;
     flaggedCount: number;
+    discrepancyCount: number;
     aiVerifiedCount: number;
+    aiAccepted: number;
+    aiCorrected: number;
+    aiRejected: number;
   };
   providerHealth: ProviderHealth[];
   missingMetadata: {
@@ -92,6 +96,8 @@ interface PipelineReport {
     parseSuccessRate: number;
   };
   flaggedEntries: ConsensusResult[];
+  /** All entries that went through AI verification (flagged + discrepancies) */
+  aiReviewedEntries: ConsensusResult[];
 }
 
 async function main() {
@@ -119,7 +125,11 @@ async function main() {
       singleMatches: 0,
       noMatches: 0,
       flaggedCount: 0,
+      discrepancyCount: 0,
       aiVerifiedCount: 0,
+      aiAccepted: 0,
+      aiCorrected: 0,
+      aiRejected: 0,
     },
     providerHealth: [],
     missingMetadata: {
@@ -135,6 +145,7 @@ async function main() {
       parseSuccessRate: 0,
     },
     flaggedEntries: [],
+    aiReviewedEntries: [],
   };
 
   // 1. Read raw file list
@@ -203,6 +214,14 @@ async function main() {
     for (let i = 0; i < uniqueSongs.length; i++) {
       const parsed = uniqueSongs[i];
       const result = await orchestrator.resolve(parsed.artist, parsed.title);
+
+      // Attach original filename data for traceability
+      result.originalInput = {
+        artist: parsed.artist,
+        title: parsed.title,
+        filename: parsed.filename,
+      };
+
       consensusResults.push(result);
 
       if ((i + 1) % 100 === 0 || i === uniqueSongs.length - 1) {
@@ -251,38 +270,96 @@ async function main() {
       console.error('   🚨 The pipeline continued with remaining providers.');
     }
 
-    // 4. AI verification of flagged entries (optional)
-    if (report.flaggedEntries.length > 0) {
-      console.log('\n4. AI verification of flagged entries...');
+    // Find discrepancy entries: API data differs from original filename data
+    // (entries where consensus changed artist or title, but weren't flagged)
+    const discrepancyEntries = consensusResults.filter((cr) => {
+      if (cr.flagged) return false; // Already flagged, handled separately
+      if (!cr.originalInput) return false;
+      const origArtist = normalizeForComparison(cr.originalInput.artist);
+      const origTitle = normalizeForComparison(cr.originalInput.title);
+      const consArtist = normalizeForComparison(cr.artist);
+      const consTitle = normalizeForComparison(cr.title);
+      return origArtist !== consArtist || origTitle !== consTitle;
+    });
+    report.apiStats.discrepancyCount = discrepancyEntries.length;
+
+    if (discrepancyEntries.length > 0) {
+      console.log(`\n   Discrepancies (original != API result, not flagged): ${discrepancyEntries.length}`);
+    }
+
+    // 4. AI verification of flagged entries + discrepancies
+    const entriesToVerify = [...report.flaggedEntries, ...discrepancyEntries];
+    if (entriesToVerify.length > 0) {
+      console.log(`\n4. AI verification of ${entriesToVerify.length} entries (${report.flaggedEntries.length} flagged + ${discrepancyEntries.length} discrepancies)...`);
       try {
-        const aiResults = await verifyWithAi(report.flaggedEntries);
+        const aiResults = await verifyWithAi(entriesToVerify);
         report.apiStats.aiVerifiedCount = aiResults.filter((r) => !r.stillFlagged).length;
 
-        // Apply AI corrections to consensus results
+        // Count AI decisions
+        report.apiStats.aiAccepted = aiResults.filter((r) => r.decision?.action === 'accepted').length;
+        report.apiStats.aiCorrected = aiResults.filter((r) => r.decision?.action === 'corrected').length;
+        report.apiStats.aiRejected = aiResults.filter((r) => r.decision?.action === 'rejected').length;
+
+        // Apply AI decisions to consensus results
         if (aiResults.length > 0) {
           const aiMap = new Map(aiResults.map((r) => [
             `${r.originalArtist.toLowerCase()}||${r.originalTitle.toLowerCase()}`,
             r,
           ]));
           for (const cr of consensusResults) {
-            const key = `${cr.artist.toLowerCase()}||${cr.title.toLowerCase()}`;
+            const origArtist = cr.originalInput?.artist || cr.artist;
+            const origTitle = cr.originalInput?.title || cr.title;
+            const key = `${origArtist.toLowerCase()}||${origTitle.toLowerCase()}`;
             const aiResult = aiMap.get(key);
-            if (aiResult && !aiResult.stillFlagged) {
+            if (aiResult) {
+              // Store AI decision on the consensus result for reporting
+              cr.aiDecision = aiResult.decision;
+
+              // Apply the AI's chosen artist/title
               cr.artist = aiResult.verifiedArtist;
               cr.title = aiResult.verifiedTitle;
-              cr.flagged = false;
-              cr.flagReasons = [];
+              if (!aiResult.stillFlagged) {
+                cr.flagged = false;
+                cr.flagReasons = [];
+              }
             }
           }
-          console.log(`   AI resolved ${report.apiStats.aiVerifiedCount} entries, ${report.flaggedEntries.length - report.apiStats.aiVerifiedCount} still flagged`);
+
+          // Log AI decisions to console
+          console.log(`\n   AI Decision Summary:`);
+          console.log(`   - Accepted (API data correct): ${report.apiStats.aiAccepted}`);
+          console.log(`   - Corrected (AI fixed data): ${report.apiStats.aiCorrected}`);
+          console.log(`   - Rejected (kept original): ${report.apiStats.aiRejected}`);
+          console.log(`   - Still needs manual review: ${aiResults.filter((r) => r.stillFlagged).length}`);
+
+          // Log notable decisions (corrections and rejections)
+          const notable = aiResults.filter((r) => r.decision?.action !== 'accepted');
+          if (notable.length > 0) {
+            console.log(`\n   Notable AI decisions:`);
+            for (const r of notable.slice(0, 20)) {
+              const icon = r.decision?.action === 'rejected' ? '🚫' : '✏️';
+              console.log(`   ${icon} [${r.decision?.action}] "${r.originalArtist} — ${r.originalTitle}"`);
+              console.log(`      → "${r.verifiedArtist} — ${r.verifiedTitle}" (${r.decision?.confidence})`);
+              if (r.aiNotes) console.log(`      Reason: ${r.aiNotes}`);
+            }
+            if (notable.length > 20) {
+              console.log(`   ... and ${notable.length - 20} more (see report)`);
+            }
+          }
         }
+
+        // Collect entries that went through AI for reporting
+        report.aiReviewedEntries = consensusResults.filter((cr) => cr.aiDecision !== undefined);
       } catch (error) {
         console.warn(`   ⚠️ AI verification failed: ${error instanceof Error ? error.message : error}`);
-        console.warn('   Flagged entries kept as-is. Pipeline continues.');
+        console.warn('   Entries kept as-is. Pipeline continues.');
       }
     } else {
-      console.log('\n4. No flagged entries — skipping AI verification');
+      console.log('\n4. No entries need AI verification');
     }
+
+    // Update flagged entries (some may have been resolved by AI)
+    report.flaggedEntries = consensusResults.filter((cr) => cr.flagged);
 
     // Convert ConsensusResult[] to Song[]
     songs = consensusResults.map((cr) => ({
@@ -366,6 +443,19 @@ async function main() {
   console.log(`   Report saved to ${reportPath}`);
 
   console.log('\nDone!\n');
+}
+
+/**
+ * Normalize a string for comparison (remove accents, lowercase, strip punctuation).
+ */
+function normalizeForComparison(s: string): string {
+  return s
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9\s]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 function validateSongs(songs: Song[]): string[] {
@@ -485,8 +575,19 @@ function deduplicateSongsWithTracking(songs: Song[]): {
 }
 
 /**
+ * Get a safe display label for a ConsensusResult entry.
+ * Returns the original filename if available, otherwise "artist — title".
+ */
+function getEntryLabel(entry: ConsensusResult): string {
+  if (entry.originalInput?.filename) return entry.originalInput.filename;
+  const artist = entry.originalInput?.artist || entry.artist || 'unknown';
+  const title = entry.originalInput?.title || entry.title || 'unknown';
+  return `${artist} — ${title}`;
+}
+
+/**
  * Save the pipeline report as a markdown file.
- * Report includes: summary, API stats, flagged entries, metadata coverage.
+ * Report includes: summary, API stats, AI decisions, flagged entries, metadata coverage.
  */
 async function savePipelineReport(report: PipelineReport): Promise<string> {
   await fs.mkdir(REPORTS_DIR, { recursive: true });
@@ -547,11 +648,96 @@ async function savePipelineReport(report: PipelineReport): Promise<string> {
     markdown += `| Single API match | ${report.apiStats.singleMatches} |\n`;
     markdown += `| No match | ${report.apiStats.noMatches} |\n`;
     markdown += `| Flagged for review | ${report.apiStats.flaggedCount} |\n`;
+    markdown += `| Discrepancies (original ≠ API) | ${report.apiStats.discrepancyCount} |\n`;
     markdown += `| AI-verified | ${report.apiStats.aiVerifiedCount} |\n`;
     markdown += '\n';
   }
 
-  // Flagged entries for manual review
+  // AI Decisions — detailed audit trail
+  if (report.aiReviewedEntries.length > 0) {
+    markdown += `## AI Decisions (${report.aiReviewedEntries.length})\n\n`;
+    markdown += `AI reviewed ${report.aiReviewedEntries.length} entries and made these decisions:\n`;
+    markdown += `✅ Accepted: ${report.apiStats.aiAccepted} | ✏️ Corrected: ${report.apiStats.aiCorrected} | 🚫 Rejected: ${report.apiStats.aiRejected}\n\n`;
+
+    // Group by decision type
+    const byAction = new Map<string, ConsensusResult[]>();
+    for (const entry of report.aiReviewedEntries) {
+      const action = entry.aiDecision?.action || 'unknown';
+      if (!byAction.has(action)) byAction.set(action, []);
+      byAction.get(action)!.push(entry);
+    }
+
+    // Show rejections first (most important — AI kept original data)
+    const rejections = byAction.get('rejected') || [];
+    if (rejections.length > 0) {
+      markdown += `### 🚫 Rejected — API data was wrong, kept original (${rejections.length})\n\n`;
+      for (const entry of rejections.slice(0, 50)) {
+        const filename = getEntryLabel(entry);
+        markdown += `- **\`${filename}\`** — confidence (${entry.confidence})\n`;
+        for (const pr of entry.providerResults) {
+          if (pr.match) {
+            markdown += `  - ${pr.provider}: "${pr.match.artist} — ${pr.match.title}" (${pr.match.confidence}%)\n`;
+          } else {
+            markdown += `  - ${pr.provider}: no match${pr.error ? ` (${pr.error})` : ''}\n`;
+          }
+        }
+        markdown += `  - **AI decision**: ${entry.aiDecision?.reason || 'no reason given'}\n`;
+        markdown += '\n';
+      }
+      if (rejections.length > 50) {
+        markdown += `*... and ${rejections.length - 50} more*\n\n`;
+      }
+    }
+
+    // Show corrections (AI fixed the data)
+    const corrections = byAction.get('corrected') || [];
+    if (corrections.length > 0) {
+      markdown += `### ✏️ Corrected — AI fixed API data (${corrections.length})\n\n`;
+      for (const entry of corrections.slice(0, 50)) {
+        const filename = getEntryLabel(entry);
+        markdown += `- **\`${filename}\`** — confidence (${entry.confidence})\n`;
+        const origArtist = entry.originalInput?.artist || entry.artist || 'unknown';
+        const origTitle = entry.originalInput?.title || entry.title || 'unknown';
+        const chosenArtist = entry.aiDecision?.chosenArtist || entry.artist || 'unknown';
+        const chosenTitle = entry.aiDecision?.chosenTitle || entry.title || 'unknown';
+        markdown += `  - Original: "${origArtist} — ${origTitle}"\n`;
+        markdown += `  - AI chose: "${chosenArtist} — ${chosenTitle}"\n`;
+        for (const pr of entry.providerResults) {
+          if (pr.match) {
+            markdown += `  - ${pr.provider}: "${pr.match.artist} — ${pr.match.title}" (${pr.match.confidence}%)\n`;
+          } else {
+            markdown += `  - ${pr.provider}: no match${pr.error ? ` (${pr.error})` : ''}\n`;
+          }
+        }
+        markdown += `  - **AI decision**: ${entry.aiDecision?.reason || 'no reason given'}\n`;
+        markdown += '\n';
+      }
+      if (corrections.length > 50) {
+        markdown += `*... and ${corrections.length - 50} more*\n\n`;
+      }
+    }
+
+    // Show acceptances (brief, less detail needed)
+    const acceptances = byAction.get('accepted') || [];
+    if (acceptances.length > 0) {
+      markdown += `### ✅ Accepted — API data confirmed correct (${acceptances.length})\n\n`;
+      markdown += '<details>\n<summary>Click to expand</summary>\n\n';
+      for (const entry of acceptances.slice(0, 100)) {
+        const filename = getEntryLabel(entry);
+        markdown += `- \`${filename}\` → "${entry.artist} — ${entry.title}"`;
+        if (entry.aiDecision?.reason) {
+          markdown += ` — ${entry.aiDecision.reason}`;
+        }
+        markdown += '\n';
+      }
+      if (acceptances.length > 100) {
+        markdown += `\n*... and ${acceptances.length - 100} more*\n`;
+      }
+      markdown += '\n</details>\n\n';
+    }
+  }
+
+  // Flagged entries still needing manual review
   if (report.flaggedEntries.length > 0) {
     markdown += `## Flagged Entries for Manual Review (${report.flaggedEntries.length})\n\n`;
     markdown += 'These entries need human verification. You can add corrections to `data/manual-overrides.json`.\n\n';
@@ -568,7 +754,8 @@ async function savePipelineReport(report: PipelineReport): Promise<string> {
     for (const [reason, entries] of byReason) {
       markdown += `### ${reason} (${entries.length})\n\n`;
       for (const entry of entries.slice(0, 30)) {
-        markdown += `- **${entry.artist} — ${entry.title}** (confidence: ${entry.confidence})\n`;
+        const filename = getEntryLabel(entry);
+        markdown += `- **\`${filename}\`** — confidence (${entry.confidence})\n`;
         for (const pr of entry.providerResults) {
           if (pr.match) {
             markdown += `  - ${pr.provider}: "${pr.match.artist} — ${pr.match.title}" (${pr.match.confidence}%)\n`;

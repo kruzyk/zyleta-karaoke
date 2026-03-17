@@ -54,6 +54,31 @@ export interface ConsensusResult {
   flagReasons: string[];
   /** Individual API results for audit trail */
   providerResults: ApiProviderResult[];
+  /** Original input from filename parser (set by process-filelist, not orchestrator) */
+  originalInput?: {
+    artist: string;
+    title: string;
+    filename: string;
+  };
+  /** AI decision details — set during AI verification phase */
+  aiDecision?: AiDecision;
+}
+
+/**
+ * Describes what the AI decided about a song entry.
+ * Stored on ConsensusResult for audit trail in reports.
+ */
+export interface AiDecision {
+  /** What the AI did: accepted API data, corrected it, or rejected it (kept original) */
+  action: 'accepted' | 'corrected' | 'rejected';
+  /** AI's explanation of the decision */
+  reason: string;
+  /** AI confidence level */
+  confidence: 'high' | 'medium' | 'low';
+  /** Artist name the AI chose */
+  chosenArtist: string;
+  /** Title the AI chose */
+  chosenTitle: string;
 }
 
 /**

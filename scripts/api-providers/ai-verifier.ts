@@ -1,28 +1,24 @@
 /**
  * AI Verification Module
  *
- * Uses Claude or Gemini API to verify flagged entries from the multi-API
- * orchestrator. Called from GitHub Actions for entries that need manual review.
+ * Uses Claude or Gemini API to verify entries from the multi-API orchestrator.
+ * Called from GitHub Actions when API results don't 100% match the original
+ * filename data, or when entries are flagged for review.
  *
- * Strategy:
- *   1. Collect all flagged entries from the orchestrator
- *   2. Batch them into groups (to minimize API calls)
- *   3. Send to AI with structured prompt asking for verification
- *   4. Parse AI response and apply corrections
+ * The AI makes explicit accept/correct/reject decisions:
+ *   - "accepted": API data is correct, use it as-is
+ *   - "corrected": API data was partially wrong, AI provides corrections
+ *   - "rejected": API returned completely wrong data, keep original filename data
+ *
+ * All decisions are documented in the pipeline report for audit.
  *
  * Setup:
  *   - Claude: Set ANTHROPIC_API_KEY as GitHub secret
  *   - Gemini: Set GEMINI_API_KEY as GitHub secret
- *
- * The AI is asked to:
- *   - Verify artist name spelling and canonical form
- *   - Verify song title accuracy
- *   - Resolve conflicts between API results
- *   - Flag entries it cannot verify (for true manual review)
  */
 
 import https from 'node:https';
-import type { ConsensusResult } from './types.js';
+import type { ConsensusResult, AiDecision } from './types.js';
 
 export interface AiVerificationResult {
   originalArtist: string;
@@ -32,6 +28,8 @@ export interface AiVerificationResult {
   aiConfidence: 'high' | 'medium' | 'low' | 'unknown';
   aiNotes: string;
   stillFlagged: boolean;
+  /** Structured decision for audit trail */
+  decision?: AiDecision;
 }
 
 interface AiConfig {
@@ -42,11 +40,13 @@ interface AiConfig {
 }
 
 /**
- * Verify flagged entries using AI.
- * Returns verification results for each entry.
+ * Verify entries using AI.
+ * Accepts both flagged entries and discrepancy entries (where API data
+ * differs from original filename data).
+ * Returns verification results with explicit decisions for each entry.
  */
 export async function verifyWithAi(
-  flaggedEntries: ConsensusResult[],
+  entries: ConsensusResult[],
   config?: Partial<AiConfig>,
 ): Promise<AiVerificationResult[]> {
   const aiConfig = resolveConfig(config);
@@ -55,9 +55,9 @@ export async function verifyWithAi(
     return [];
   }
 
-  console.log(`   [AI] Verifying ${Math.min(flaggedEntries.length, aiConfig.maxEntries)} flagged entries with ${aiConfig.provider}...`);
+  console.log(`   [AI] Verifying ${Math.min(entries.length, aiConfig.maxEntries)} entries with ${aiConfig.provider}...`);
 
-  const toVerify = flaggedEntries.slice(0, aiConfig.maxEntries);
+  const toVerify = entries.slice(0, aiConfig.maxEntries);
   const results: AiVerificationResult[] = [];
 
   // Process in batches
@@ -72,8 +72,11 @@ export async function verifyWithAi(
     }
   }
 
-  const verified = results.filter((r) => !r.stillFlagged).length;
-  console.log(`   [AI] Verified: ${verified}/${results.length} entries resolved, ${results.length - verified} still flagged`);
+  const accepted = results.filter((r) => r.decision?.action === 'accepted').length;
+  const corrected = results.filter((r) => r.decision?.action === 'corrected').length;
+  const rejected = results.filter((r) => r.decision?.action === 'rejected').length;
+  const needsReview = results.filter((r) => r.stillFlagged).length;
+  console.log(`   [AI] Results: ${accepted} accepted, ${corrected} corrected, ${rejected} rejected, ${needsReview} still need manual review`);
 
   return results;
 }
@@ -119,26 +122,42 @@ async function verifyBatch(
 
     return parseAiResponse(entries, response);
   } catch (error) {
-    console.warn(`   [AI] Batch verification failed: ${error instanceof Error ? error.message : error}`);
-    // Return all entries as still flagged
-    return entries.map((entry) => ({
-      originalArtist: entry.artist,
-      originalTitle: entry.title,
-      verifiedArtist: entry.artist,
-      verifiedTitle: entry.title,
-      aiConfidence: 'unknown' as const,
-      aiNotes: `AI verification failed: ${error instanceof Error ? error.message : 'unknown error'}`,
-      stillFlagged: true,
-    }));
+    const errorDetail = error instanceof Error ? error.message : String(error);
+    console.warn(`   [AI] Batch verification failed: ${errorDetail}`);
+    // Return all entries as still flagged, with decision for audit trail
+    return entries.map((entry) => {
+      const origArtist = entry.originalInput?.artist ?? entry.artist;
+      const origTitle = entry.originalInput?.title ?? entry.title;
+      return {
+        originalArtist: origArtist,
+        originalTitle: origTitle,
+        verifiedArtist: entry.artist,
+        verifiedTitle: entry.title,
+        aiConfidence: 'unknown' as const,
+        aiNotes: `AI verification failed: ${errorDetail}`,
+        stillFlagged: true,
+        decision: {
+          action: 'rejected' as const,
+          reason: `AI verification failed: ${errorDetail}`,
+          confidence: 'low' as const,
+          chosenArtist: entry.artist,
+          chosenTitle: entry.title,
+        },
+      };
+    });
   }
 }
 
 function buildPrompt(entries: ConsensusResult[]): string {
   const entriesJson = entries.map((e, i) => ({
     index: i,
+    originalFilename: e.originalInput?.filename || 'unknown',
+    originalArtist: e.originalInput?.artist || e.artist,
+    originalTitle: e.originalInput?.title || e.title,
     currentArtist: e.artist,
     currentTitle: e.title,
-    flagReasons: e.flagReasons,
+    confidence: e.confidence,
+    flagReasons: e.flagReasons.length > 0 ? e.flagReasons : ['discrepancy'],
     apiResults: e.providerResults.map((pr) => ({
       source: pr.provider,
       artist: pr.match?.artist || null,
@@ -147,21 +166,35 @@ function buildPrompt(entries: ConsensusResult[]): string {
     })),
   }));
 
-  return `You are a music metadata verification assistant. Below is a list of songs from a karaoke song database that have been flagged for review because multiple music APIs returned conflicting information or low confidence matches.
+  return `You are a music metadata verification assistant for a Polish karaoke business.
 
-For each entry, determine the correct canonical artist name and song title. Consider:
-- Common spelling variants (e.g., "2 Plus 1" vs "2+1" — the correct form is "2 plus 1")
-- Polish vs English naming (this is a Polish karaoke business, so Polish artists should use Polish naming)
-- The most commonly recognized form of the artist name
-- Which API result is most likely correct based on confidence scores
+Below is a list of songs where the API lookup results don't perfectly match the original filename data, or where multiple APIs returned conflicting information.
+
+For each entry you have:
+- "originalArtist" / "originalTitle": what was parsed from the karaoke file name (this is what the business owner expects)
+- "currentArtist" / "currentTitle": what the API consensus engine chose
+- "apiResults": individual results from each music API
+
+YOUR TASK: For each entry, make one of these decisions:
+1. "accepted" — the API data is correct and matches the song (even if spelling differs slightly, e.g. "AC/DC" vs "ACDC")
+2. "corrected" — the API data is partially right but needs fixing (provide the correct artist/title)
+3. "rejected" — the API returned data for a COMPLETELY DIFFERENT song (wrong artist AND/OR wrong title that doesn't match at all). In this case, keep the original filename data.
+
+IMPORTANT RULES:
+- If an API returns a completely different artist or song (e.g., searching for "The Doors - 13" but getting "8667 - 13"), that API result should be REJECTED
+- Minor spelling/formatting differences are OK (e.g., "98°" vs "98 Degrees" — these are the same artist)
+- Polish artists should use their commonly recognized Polish name
+- When in doubt, prefer the original filename data over low-confidence API results
+- Be especially suspicious of single-API matches with confidence < 80%
 
 Respond with a JSON array where each element has:
 - "index": the entry index
-- "artist": the correct canonical artist name
-- "title": the correct canonical song title
+- "action": "accepted", "corrected", or "rejected"
+- "artist": the final correct artist name
+- "title": the final correct song title
 - "confidence": "high", "medium", or "low"
-- "notes": brief explanation of your decision (especially if you changed something)
-- "needsManualReview": true if you're not confident and a human should check
+- "notes": brief explanation of your decision (REQUIRED — explain why you accepted, corrected, or rejected)
+- "needsManualReview": true only if you truly cannot determine the correct data
 
 ENTRIES:
 ${JSON.stringify(entriesJson, null, 2)}
@@ -271,39 +304,91 @@ function parseAiResponse(
       throw new Error('No JSON array found in AI response');
     }
 
-    const parsed = JSON.parse(jsonMatch[0]) as Array<{
-      index: number;
-      artist: string;
-      title: string;
-      confidence: string;
-      notes: string;
-      needsManualReview: boolean;
-    }>;
+    const parsed = JSON.parse(jsonMatch[0]) as Array<Record<string, unknown>>;
 
-    return parsed.map((item) => {
-      const entry = entries[item.index];
+    const results: AiVerificationResult[] = [];
+    for (const item of parsed) {
+      // Validate index bounds
+      const index = typeof item.index === 'number' ? item.index : -1;
+      if (index < 0 || index >= entries.length) {
+        console.warn(`   [AI] Skipping item with out-of-bounds index: ${item.index} (entries: ${entries.length})`);
+        continue;
+      }
+
+      const entry = entries[index];
+      const originalArtist = entry.originalInput?.artist ?? entry.artist;
+      const originalTitle = entry.originalInput?.title ?? entry.title;
+
+      // Validate and normalize action (case-insensitive)
+      const rawAction = typeof item.action === 'string' ? item.action.toLowerCase() : '';
+      const action = (['accepted', 'corrected', 'rejected'].includes(rawAction)
+        ? rawAction
+        : 'accepted') as 'accepted' | 'corrected' | 'rejected';
+
+      // Validate and normalize confidence (case-insensitive)
+      const rawConfidence = typeof item.confidence === 'string' ? item.confidence.toLowerCase() : '';
+      const confidence = (['high', 'medium', 'low'].includes(rawConfidence)
+        ? rawConfidence
+        : 'medium') as 'high' | 'medium' | 'low';
+
+      // Validate artist/title are strings
+      const itemArtist = typeof item.artist === 'string' ? item.artist : '';
+      const itemTitle = typeof item.title === 'string' ? item.title : '';
+      const itemNotes = typeof item.notes === 'string' ? item.notes : '';
+      const needsManualReview = typeof item.needsManualReview === 'boolean' ? item.needsManualReview : false;
+
+      // Determine final artist/title based on action
+      let finalArtist: string;
+      let finalTitle: string;
+      if (action === 'rejected') {
+        finalArtist = originalArtist;
+        finalTitle = originalTitle;
+      } else {
+        finalArtist = itemArtist || entry.artist;
+        finalTitle = itemTitle || entry.title;
+      }
+
+      results.push({
+        originalArtist,
+        originalTitle,
+        verifiedArtist: finalArtist,
+        verifiedTitle: finalTitle,
+        aiConfidence: confidence,
+        aiNotes: itemNotes,
+        stillFlagged: needsManualReview,
+        decision: {
+          action,
+          reason: itemNotes,
+          confidence,
+          chosenArtist: finalArtist,
+          chosenTitle: finalTitle,
+        },
+      });
+    }
+
+    return results;
+  } catch (error) {
+    const errorDetail = error instanceof Error ? error.message : String(error);
+    console.warn(`   [AI] Failed to parse AI response: ${errorDetail}`);
+    return entries.map((entry) => {
+      const origArtist = entry.originalInput?.artist ?? entry.artist;
+      const origTitle = entry.originalInput?.title ?? entry.title;
       return {
-        originalArtist: entry?.artist || '',
-        originalTitle: entry?.title || '',
-        verifiedArtist: item.artist || entry?.artist || '',
-        verifiedTitle: item.title || entry?.title || '',
-        aiConfidence: (['high', 'medium', 'low'].includes(item.confidence)
-          ? item.confidence
-          : 'unknown') as 'high' | 'medium' | 'low' | 'unknown',
-        aiNotes: item.notes || '',
-        stillFlagged: item.needsManualReview ?? false,
+        originalArtist: origArtist,
+        originalTitle: origTitle,
+        verifiedArtist: entry.artist,
+        verifiedTitle: entry.title,
+        aiConfidence: 'unknown' as const,
+        aiNotes: `Failed to parse AI response: ${errorDetail}`,
+        stillFlagged: true,
+        decision: {
+          action: 'rejected' as const,
+          reason: `Failed to parse AI response: ${errorDetail}`,
+          confidence: 'low' as const,
+          chosenArtist: entry.artist,
+          chosenTitle: entry.title,
+        },
       };
     });
-  } catch (error) {
-    console.warn(`   [AI] Failed to parse AI response: ${error instanceof Error ? error.message : error}`);
-    return entries.map((entry) => ({
-      originalArtist: entry.artist,
-      originalTitle: entry.title,
-      verifiedArtist: entry.artist,
-      verifiedTitle: entry.title,
-      aiConfidence: 'unknown' as const,
-      aiNotes: 'Failed to parse AI response',
-      stillFlagged: true,
-    }));
   }
 }
