@@ -122,17 +122,29 @@ async function verifyBatch(
 
     return parseAiResponse(entries, response);
   } catch (error) {
-    console.warn(`   [AI] Batch verification failed: ${error instanceof Error ? error.message : error}`);
-    // Return all entries as still flagged
-    return entries.map((entry) => ({
-      originalArtist: entry.originalInput?.artist || entry.artist,
-      originalTitle: entry.originalInput?.title || entry.title,
-      verifiedArtist: entry.artist,
-      verifiedTitle: entry.title,
-      aiConfidence: 'unknown' as const,
-      aiNotes: `AI verification failed: ${error instanceof Error ? error.message : 'unknown error'}`,
-      stillFlagged: true,
-    }));
+    const errorDetail = error instanceof Error ? error.message : String(error);
+    console.warn(`   [AI] Batch verification failed: ${errorDetail}`);
+    // Return all entries as still flagged, with decision for audit trail
+    return entries.map((entry) => {
+      const origArtist = entry.originalInput?.artist ?? entry.artist;
+      const origTitle = entry.originalInput?.title ?? entry.title;
+      return {
+        originalArtist: origArtist,
+        originalTitle: origTitle,
+        verifiedArtist: entry.artist,
+        verifiedTitle: entry.title,
+        aiConfidence: 'unknown' as const,
+        aiNotes: `AI verification failed: ${errorDetail}`,
+        stillFlagged: true,
+        decision: {
+          action: 'rejected' as const,
+          reason: `AI verification failed: ${errorDetail}`,
+          confidence: 'low' as const,
+          chosenArtist: entry.artist,
+          chosenTitle: entry.title,
+        },
+      };
+    });
   }
 }
 
@@ -292,26 +304,38 @@ function parseAiResponse(
       throw new Error('No JSON array found in AI response');
     }
 
-    const parsed = JSON.parse(jsonMatch[0]) as Array<{
-      index: number;
-      action?: string;
-      artist: string;
-      title: string;
-      confidence: string;
-      notes: string;
-      needsManualReview: boolean;
-    }>;
+    const parsed = JSON.parse(jsonMatch[0]) as Array<Record<string, unknown>>;
 
-    return parsed.map((item) => {
-      const entry = entries[item.index];
-      const originalArtist = entry?.originalInput?.artist || entry?.artist || '';
-      const originalTitle = entry?.originalInput?.title || entry?.title || '';
-      const action = (['accepted', 'corrected', 'rejected'].includes(item.action || '')
-        ? item.action
+    const results: AiVerificationResult[] = [];
+    for (const item of parsed) {
+      // Validate index bounds
+      const index = typeof item.index === 'number' ? item.index : -1;
+      if (index < 0 || index >= entries.length) {
+        console.warn(`   [AI] Skipping item with out-of-bounds index: ${item.index} (entries: ${entries.length})`);
+        continue;
+      }
+
+      const entry = entries[index];
+      const originalArtist = entry.originalInput?.artist ?? entry.artist;
+      const originalTitle = entry.originalInput?.title ?? entry.title;
+
+      // Validate and normalize action (case-insensitive)
+      const rawAction = typeof item.action === 'string' ? item.action.toLowerCase() : '';
+      const action = (['accepted', 'corrected', 'rejected'].includes(rawAction)
+        ? rawAction
         : 'accepted') as 'accepted' | 'corrected' | 'rejected';
-      const confidence = (['high', 'medium', 'low'].includes(item.confidence)
-        ? item.confidence
+
+      // Validate and normalize confidence (case-insensitive)
+      const rawConfidence = typeof item.confidence === 'string' ? item.confidence.toLowerCase() : '';
+      const confidence = (['high', 'medium', 'low'].includes(rawConfidence)
+        ? rawConfidence
         : 'medium') as 'high' | 'medium' | 'low';
+
+      // Validate artist/title are strings
+      const itemArtist = typeof item.artist === 'string' ? item.artist : '';
+      const itemTitle = typeof item.title === 'string' ? item.title : '';
+      const itemNotes = typeof item.notes === 'string' ? item.notes : '';
+      const needsManualReview = typeof item.needsManualReview === 'boolean' ? item.needsManualReview : false;
 
       // Determine final artist/title based on action
       let finalArtist: string;
@@ -320,37 +344,51 @@ function parseAiResponse(
         finalArtist = originalArtist;
         finalTitle = originalTitle;
       } else {
-        finalArtist = item.artist || entry?.artist || '';
-        finalTitle = item.title || entry?.title || '';
+        finalArtist = itemArtist || entry.artist;
+        finalTitle = itemTitle || entry.title;
       }
 
-      return {
+      results.push({
         originalArtist,
         originalTitle,
         verifiedArtist: finalArtist,
         verifiedTitle: finalTitle,
         aiConfidence: confidence,
-        aiNotes: item.notes || '',
-        stillFlagged: item.needsManualReview ?? false,
+        aiNotes: itemNotes,
+        stillFlagged: needsManualReview,
         decision: {
           action,
-          reason: item.notes || '',
+          reason: itemNotes,
           confidence,
           chosenArtist: finalArtist,
           chosenTitle: finalTitle,
         },
+      });
+    }
+
+    return results;
+  } catch (error) {
+    const errorDetail = error instanceof Error ? error.message : String(error);
+    console.warn(`   [AI] Failed to parse AI response: ${errorDetail}`);
+    return entries.map((entry) => {
+      const origArtist = entry.originalInput?.artist ?? entry.artist;
+      const origTitle = entry.originalInput?.title ?? entry.title;
+      return {
+        originalArtist: origArtist,
+        originalTitle: origTitle,
+        verifiedArtist: entry.artist,
+        verifiedTitle: entry.title,
+        aiConfidence: 'unknown' as const,
+        aiNotes: `Failed to parse AI response: ${errorDetail}`,
+        stillFlagged: true,
+        decision: {
+          action: 'rejected' as const,
+          reason: `Failed to parse AI response: ${errorDetail}`,
+          confidence: 'low' as const,
+          chosenArtist: entry.artist,
+          chosenTitle: entry.title,
+        },
       };
     });
-  } catch (error) {
-    console.warn(`   [AI] Failed to parse AI response: ${error instanceof Error ? error.message : error}`);
-    return entries.map((entry) => ({
-      originalArtist: entry.originalInput?.artist || entry.artist,
-      originalTitle: entry.originalInput?.title || entry.title,
-      verifiedArtist: entry.artist,
-      verifiedTitle: entry.title,
-      aiConfidence: 'unknown' as const,
-      aiNotes: 'Failed to parse AI response',
-      stillFlagged: true,
-    }));
   }
 }
