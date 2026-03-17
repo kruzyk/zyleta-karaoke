@@ -175,11 +175,8 @@ async function main() {
 
   if (noArtist.length > 0) {
     console.log('   Files without detected artist (check naming convention):');
-    noArtist.slice(0, 10).forEach((p) => {
+    for (const p of noArtist) {
       console.log(`     - ${p.filename}`);
-    });
-    if (noArtist.length > 10) {
-      console.log(`     ... and ${noArtist.length - 10} more`);
     }
     for (const p of noArtist) {
       report.parseFailures.push(p.filename);
