@@ -49,24 +49,27 @@ export async function verifyWithAi(
   entries: ConsensusResult[],
   config?: Partial<AiConfig>,
 ): Promise<AiVerificationResult[]> {
-  const aiConfig = resolveConfig(config);
-  if (!aiConfig) {
+  const configs = resolveConfigs(config);
+  if (configs.length === 0) {
     console.log('   [AI] No API key configured. Skipping AI verification.');
     return [];
   }
 
-  console.log(`   [AI] Verifying ${Math.min(entries.length, aiConfig.maxEntries)} entries with ${aiConfig.provider}...`);
+  const primaryConfig = configs[0];
+  const fallbackConfig = configs.length > 1 ? configs[1] : null;
 
-  const toVerify = entries.slice(0, aiConfig.maxEntries);
+  console.log(`   [AI] Verifying ${Math.min(entries.length, primaryConfig.maxEntries)} entries with ${primaryConfig.provider}${fallbackConfig ? ` (fallback: ${fallbackConfig.provider})` : ''}...`);
+
+  const toVerify = entries.slice(0, primaryConfig.maxEntries);
   const results: AiVerificationResult[] = [];
 
   // Process in batches
-  for (let i = 0; i < toVerify.length; i += aiConfig.batchSize) {
-    const batch = toVerify.slice(i, i + aiConfig.batchSize);
-    const batchResults = await verifyBatch(batch, aiConfig);
+  for (let i = 0; i < toVerify.length; i += primaryConfig.batchSize) {
+    const batch = toVerify.slice(i, i + primaryConfig.batchSize);
+    const batchResults = await verifyBatchWithFallback(batch, primaryConfig, fallbackConfig);
     results.push(...batchResults);
 
-    if (i + aiConfig.batchSize < toVerify.length) {
+    if (i + primaryConfig.batchSize < toVerify.length) {
       // Rate limit between batches
       await new Promise((resolve) => setTimeout(resolve, 2000));
     }
@@ -81,50 +84,68 @@ export async function verifyWithAi(
   return results;
 }
 
-function resolveConfig(override?: Partial<AiConfig>): AiConfig | null {
-  // Try Claude first, then Gemini
+function resolveConfigs(override?: Partial<AiConfig>): AiConfig[] {
+  const configs: AiConfig[] = [];
   const anthropicKey = process.env.ANTHROPIC_API_KEY || '';
   const geminiKey = process.env.GEMINI_API_KEY || '';
 
   if (anthropicKey) {
-    return {
+    configs.push({
       provider: 'claude',
       apiKey: anthropicKey,
       batchSize: override?.batchSize ?? 25,
       maxEntries: override?.maxEntries ?? 200,
       ...override,
-    };
+    });
   }
 
   if (geminiKey) {
-    return {
+    configs.push({
       provider: 'gemini',
       apiKey: geminiKey,
       batchSize: override?.batchSize ?? 25,
       maxEntries: override?.maxEntries ?? 200,
       ...override,
-    };
+    });
   }
 
-  return null;
+  return configs;
 }
 
-async function verifyBatch(
+async function callProvider(prompt: string, config: AiConfig): Promise<string> {
+  return config.provider === 'claude'
+    ? await callClaude(prompt, config.apiKey)
+    : await callGemini(prompt, config.apiKey);
+}
+
+async function verifyBatchWithFallback(
   entries: ConsensusResult[],
-  config: AiConfig,
+  primary: AiConfig,
+  fallback: AiConfig | null,
 ): Promise<AiVerificationResult[]> {
   const prompt = buildPrompt(entries);
 
+  // Try primary provider
   try {
-    const response = config.provider === 'claude'
-      ? await callClaude(prompt, config.apiKey)
-      : await callGemini(prompt, config.apiKey);
-
+    const response = await callProvider(prompt, primary);
     return parseAiResponse(entries, response);
   } catch (error) {
     const errorDetail = error instanceof Error ? error.message : String(error);
-    console.warn(`   [AI] Batch verification failed: ${errorDetail}`);
-    // Return all entries as still flagged, with decision for audit trail
+    console.warn(`   [AI] ${primary.provider} failed: ${errorDetail}`);
+
+    // Try fallback provider
+    if (fallback) {
+      console.log(`   [AI] Falling back to ${fallback.provider}...`);
+      try {
+        const response = await callProvider(prompt, fallback);
+        return parseAiResponse(entries, response);
+      } catch (fallbackError) {
+        const fbDetail = fallbackError instanceof Error ? fallbackError.message : String(fallbackError);
+        console.warn(`   [AI] ${fallback.provider} also failed: ${fbDetail}`);
+      }
+    }
+
+    // Both providers failed — return entries as unverified
     return entries.map((entry) => {
       const origArtist = entry.originalInput?.artist ?? entry.artist;
       const origTitle = entry.originalInput?.title ?? entry.title;
@@ -138,7 +159,7 @@ async function verifyBatch(
         stillFlagged: true,
         decision: {
           action: 'rejected' as const,
-          reason: `AI verification failed: ${errorDetail}`,
+          reason: `AI verification failed (${primary.provider} + ${fallback?.provider || 'no fallback'}): ${errorDetail}`,
           confidence: 'low' as const,
           chosenArtist: entry.artist,
           chosenTitle: entry.title,
