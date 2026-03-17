@@ -333,14 +333,11 @@ async function main() {
           const notable = aiResults.filter((r) => r.decision?.action !== 'accepted');
           if (notable.length > 0) {
             console.log(`\n   Notable AI decisions:`);
-            for (const r of notable.slice(0, 20)) {
+            for (const r of notable) {
               const icon = r.decision?.action === 'rejected' ? '🚫' : '✏️';
               console.log(`   ${icon} [${r.decision?.action}] "${r.originalArtist} — ${r.originalTitle}"`);
               console.log(`      → "${r.verifiedArtist} — ${r.verifiedTitle}" (${r.decision?.confidence})`);
               if (r.aiNotes) console.log(`      Reason: ${r.aiNotes}`);
-            }
-            if (notable.length > 20) {
-              console.log(`   ... and ${notable.length - 20} more (see report)`);
             }
           }
         }
@@ -398,15 +395,11 @@ async function main() {
   console.log('\n7. Analyzing metadata coverage...');
   for (const song of songs) {
     if (!song.country) {
-      if (report.missingMetadata.country.length < 100) {
-        report.missingMetadata.country.push({ artist: song.artist, title: song.title });
-      }
+      report.missingMetadata.country.push({ artist: song.artist, title: song.title });
       report.missingMetadata.countryCount++;
     }
     if (!song.year) {
-      if (report.missingMetadata.year.length < 100) {
-        report.missingMetadata.year.push({ artist: song.artist, title: song.title });
-      }
+      report.missingMetadata.year.push({ artist: song.artist, title: song.title });
       report.missingMetadata.yearCount++;
     }
   }
@@ -462,8 +455,7 @@ function validateSongs(songs: Song[]): string[] {
   const noArtist = songs.filter((s) => !s.artist);
   if (noArtist.length > 0) {
     lines.push(`WARNING: ${noArtist.length} songs have no artist:`);
-    noArtist.slice(0, 10).forEach((s) => lines.push(`  - "${s.title}"`));
-    if (noArtist.length > 10) lines.push(`  ... and ${noArtist.length - 10} more`);
+    for (const s of noArtist) lines.push(`  - "${s.title}"`);
   }
 
   // Check for duplicate artist names (case/punctuation variants)
@@ -479,10 +471,9 @@ function validateSongs(songs: Song[]): string[] {
     .filter(([, variants]) => variants.size > 1);
   if (inconsistent.length > 0) {
     lines.push(`WARNING: ${inconsistent.length} artists have inconsistent naming:`);
-    inconsistent.slice(0, 15).forEach(([, variants]) => {
+    for (const [, variants] of inconsistent) {
       lines.push(`  - ${Array.from(variants).map((v) => `"${v}"`).join(' vs ')}`);
-    });
-    if (inconsistent.length > 15) lines.push(`  ... and ${inconsistent.length - 15} more`);
+    }
   }
 
   // Metadata coverage
@@ -668,7 +659,7 @@ async function savePipelineReport(report: PipelineReport): Promise<string> {
     const rejections = byAction.get('rejected') || [];
     if (rejections.length > 0) {
       markdown += `### 🚫 Rejected — API data was wrong, kept original (${rejections.length})\n\n`;
-      for (const entry of rejections.slice(0, 50)) {
+      for (const entry of rejections) {
         const filename = getEntryLabel(entry);
         markdown += `- **\`${filename}\`** — confidence (${entry.confidence})\n`;
         for (const pr of entry.providerResults) {
@@ -681,16 +672,13 @@ async function savePipelineReport(report: PipelineReport): Promise<string> {
         markdown += `  - **AI decision**: ${entry.aiDecision?.reason || 'no reason given'}\n`;
         markdown += '\n';
       }
-      if (rejections.length > 50) {
-        markdown += `*... and ${rejections.length - 50} more*\n\n`;
-      }
     }
 
     // Show corrections (AI fixed the data)
     const corrections = byAction.get('corrected') || [];
     if (corrections.length > 0) {
       markdown += `### ✏️ Corrected — AI fixed API data (${corrections.length})\n\n`;
-      for (const entry of corrections.slice(0, 50)) {
+      for (const entry of corrections) {
         const filename = getEntryLabel(entry);
         markdown += `- **\`${filename}\`** — confidence (${entry.confidence})\n`;
         const origArtist = entry.originalInput?.artist || entry.artist || 'unknown';
@@ -709,9 +697,6 @@ async function savePipelineReport(report: PipelineReport): Promise<string> {
         markdown += `  - **AI decision**: ${entry.aiDecision?.reason || 'no reason given'}\n`;
         markdown += '\n';
       }
-      if (corrections.length > 50) {
-        markdown += `*... and ${corrections.length - 50} more*\n\n`;
-      }
     }
 
     // Show acceptances (brief, less detail needed)
@@ -719,16 +704,13 @@ async function savePipelineReport(report: PipelineReport): Promise<string> {
     if (acceptances.length > 0) {
       markdown += `### ✅ Accepted — API data confirmed correct (${acceptances.length})\n\n`;
       markdown += '<details>\n<summary>Click to expand</summary>\n\n';
-      for (const entry of acceptances.slice(0, 100)) {
+      for (const entry of acceptances) {
         const filename = getEntryLabel(entry);
         markdown += `- \`${filename}\` → "${entry.artist} — ${entry.title}"`;
         if (entry.aiDecision?.reason) {
           markdown += ` — ${entry.aiDecision.reason}`;
         }
         markdown += '\n';
-      }
-      if (acceptances.length > 100) {
-        markdown += `\n*... and ${acceptances.length - 100} more*\n`;
       }
       markdown += '\n</details>\n\n';
     }
@@ -750,7 +732,7 @@ async function savePipelineReport(report: PipelineReport): Promise<string> {
 
     for (const [reason, entries] of byReason) {
       markdown += `### ${reason} (${entries.length})\n\n`;
-      for (const entry of entries.slice(0, 30)) {
+      for (const entry of entries) {
         const filename = getEntryLabel(entry);
         markdown += `- **\`${filename}\`** — confidence (${entry.confidence})\n`;
         for (const pr of entry.providerResults) {
@@ -762,9 +744,6 @@ async function savePipelineReport(report: PipelineReport): Promise<string> {
         }
         markdown += '\n';
       }
-      if (entries.length > 30) {
-        markdown += `*... and ${entries.length - 30} more*\n\n`;
-      }
     }
   }
 
@@ -772,11 +751,8 @@ async function savePipelineReport(report: PipelineReport): Promise<string> {
   if (report.parseFailures.length > 0) {
     markdown += `## Parse Failures (${report.parseFailureCount})\n\n`;
     markdown += 'Files where artist/title could not be extracted:\n\n';
-    for (const file of report.parseFailures.slice(0, 50)) {
+    for (const file of report.parseFailures) {
       markdown += `- \`${file}\`\n`;
-    }
-    if (report.parseFailures.length > 50) {
-      markdown += `\n... and ${report.parseFailures.length - 50} more\n`;
     }
     markdown += '\n';
   }
@@ -785,7 +761,7 @@ async function savePipelineReport(report: PipelineReport): Promise<string> {
   if (report.duplicatesRemoved.length > 0) {
     markdown += `## Duplicates Removed (${report.duplicateRemovedCount})\n\n`;
     markdown += 'Songs that appear multiple times with slight variations:\n\n';
-    for (const dup of report.duplicatesRemoved.slice(0, 30)) {
+    for (const dup of report.duplicatesRemoved) {
       markdown += `#### ${dup.normalizedKey}\n`;
       markdown += `Kept: \`${dup.keptId}\`\n\n`;
       markdown += 'Variants:\n';
@@ -794,32 +770,21 @@ async function savePipelineReport(report: PipelineReport): Promise<string> {
       }
       markdown += '\n';
     }
-    if (report.duplicatesRemoved.length > 30) {
-      markdown += `*... and ${report.duplicatesRemoved.length - 30} more duplicate groups*\n\n`;
-    }
   }
 
   // Missing metadata
   markdown += `## Metadata Coverage\n\n`;
   markdown += `### Missing Country (${report.missingMetadata.countryCount})\n`;
   markdown += `${Math.round(((report.finalCount - report.missingMetadata.countryCount) / report.finalCount) * 100)}% of songs have country metadata.\n\n`;
-  markdown += 'Sample of songs without country:\n\n';
-  for (const song of report.missingMetadata.country.slice(0, 30)) {
+  for (const song of report.missingMetadata.country) {
     markdown += `- ${song.artist} - ${song.title}\n`;
-  }
-  if (report.missingMetadata.country.length > 30) {
-    markdown += `\n*... and ${report.missingMetadata.country.length - 30} more*\n`;
   }
   markdown += '\n';
 
   markdown += `### Missing Year (${report.missingMetadata.yearCount})\n`;
   markdown += `${Math.round(((report.finalCount - report.missingMetadata.yearCount) / report.finalCount) * 100)}% of songs have year metadata.\n\n`;
-  markdown += 'Sample of songs without year:\n\n';
-  for (const song of report.missingMetadata.year.slice(0, 30)) {
+  for (const song of report.missingMetadata.year) {
     markdown += `- ${song.artist} - ${song.title}\n`;
-  }
-  if (report.missingMetadata.year.length > 30) {
-    markdown += `\n*... and ${report.missingMetadata.year.length - 30} more*\n`;
   }
   markdown += '\n';
 
