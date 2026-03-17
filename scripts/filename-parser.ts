@@ -114,11 +114,13 @@ function parseFilename(filepath: string): ParsedSong {
 }
 
 /**
- * Clean artist name: collapse whitespace, trim.
+ * Clean artist name: collapse whitespace, strip surrounding quotes, trim.
  * Does NOT strip brackets — [Disney], [theatre] are valid artist labels.
+ * Strips quotes so "Weird Al" Yankovic sorts under W, not under ".
  */
 function cleanString(str: string): string {
   return str
+    .replace(/["'""'']/g, '')
     .replace(/\s+/g, ' ')
     .trim();
 }
