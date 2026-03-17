@@ -575,6 +575,17 @@ function deduplicateSongsWithTracking(songs: Song[]): {
 }
 
 /**
+ * Get a safe display label for a ConsensusResult entry.
+ * Returns the original filename if available, otherwise "artist — title".
+ */
+function getEntryLabel(entry: ConsensusResult): string {
+  if (entry.originalInput?.filename) return entry.originalInput.filename;
+  const artist = entry.originalInput?.artist || entry.artist || 'unknown';
+  const title = entry.originalInput?.title || entry.title || 'unknown';
+  return `${artist} — ${title}`;
+}
+
+/**
  * Save the pipeline report as a markdown file.
  * Report includes: summary, API stats, AI decisions, flagged entries, metadata coverage.
  */
@@ -661,7 +672,7 @@ async function savePipelineReport(report: PipelineReport): Promise<string> {
     if (rejections.length > 0) {
       markdown += `### 🚫 Rejected — API data was wrong, kept original (${rejections.length})\n\n`;
       for (const entry of rejections.slice(0, 50)) {
-        const filename = entry.originalInput?.filename || `${entry.originalInput?.artist} — ${entry.originalInput?.title}`;
+        const filename = getEntryLabel(entry);
         markdown += `- **\`${filename}\`** — confidence (${entry.confidence})\n`;
         for (const pr of entry.providerResults) {
           if (pr.match) {
@@ -683,10 +694,14 @@ async function savePipelineReport(report: PipelineReport): Promise<string> {
     if (corrections.length > 0) {
       markdown += `### ✏️ Corrected — AI fixed API data (${corrections.length})\n\n`;
       for (const entry of corrections.slice(0, 50)) {
-        const filename = entry.originalInput?.filename || `${entry.originalInput?.artist} — ${entry.originalInput?.title}`;
+        const filename = getEntryLabel(entry);
         markdown += `- **\`${filename}\`** — confidence (${entry.confidence})\n`;
-        markdown += `  - Original: "${entry.originalInput?.artist} — ${entry.originalInput?.title}"\n`;
-        markdown += `  - AI chose: "${entry.aiDecision?.chosenArtist} — ${entry.aiDecision?.chosenTitle}"\n`;
+        const origArtist = entry.originalInput?.artist || entry.artist || 'unknown';
+        const origTitle = entry.originalInput?.title || entry.title || 'unknown';
+        const chosenArtist = entry.aiDecision?.chosenArtist || entry.artist || 'unknown';
+        const chosenTitle = entry.aiDecision?.chosenTitle || entry.title || 'unknown';
+        markdown += `  - Original: "${origArtist} — ${origTitle}"\n`;
+        markdown += `  - AI chose: "${chosenArtist} — ${chosenTitle}"\n`;
         for (const pr of entry.providerResults) {
           if (pr.match) {
             markdown += `  - ${pr.provider}: "${pr.match.artist} — ${pr.match.title}" (${pr.match.confidence}%)\n`;
@@ -708,7 +723,7 @@ async function savePipelineReport(report: PipelineReport): Promise<string> {
       markdown += `### ✅ Accepted — API data confirmed correct (${acceptances.length})\n\n`;
       markdown += '<details>\n<summary>Click to expand</summary>\n\n';
       for (const entry of acceptances.slice(0, 100)) {
-        const filename = entry.originalInput?.filename || `${entry.originalInput?.artist} — ${entry.originalInput?.title}`;
+        const filename = getEntryLabel(entry);
         markdown += `- \`${filename}\` → "${entry.artist} — ${entry.title}"`;
         if (entry.aiDecision?.reason) {
           markdown += ` — ${entry.aiDecision.reason}`;
@@ -739,7 +754,7 @@ async function savePipelineReport(report: PipelineReport): Promise<string> {
     for (const [reason, entries] of byReason) {
       markdown += `### ${reason} (${entries.length})\n\n`;
       for (const entry of entries.slice(0, 30)) {
-        const filename = entry.originalInput?.filename || `${entry.artist} — ${entry.title}`;
+        const filename = getEntryLabel(entry);
         markdown += `- **\`${filename}\`** — confidence (${entry.confidence})\n`;
         for (const pr of entry.providerResults) {
           if (pr.match) {
