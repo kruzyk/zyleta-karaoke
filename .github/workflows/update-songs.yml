@@ -18,8 +18,7 @@ on:
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
+  pull-requests: write
 
 concurrency:
   group: 'update-songs'
@@ -209,15 +208,30 @@ jobs:
             echo "changed=true" >> $GITHUB_OUTPUT
           fi
 
-      - name: Commit updated songs.json
+      - name: Create PR with updated songs.json
         if: steps.changes.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          BRANCH="chore/update-songs-$(date +%Y%m%d-%H%M%S)"
+
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
           git add src/data/songs.json
           git commit -m "chore: auto-update songs.json from raw file list"
-          git pull --rebase origin master
-          git push
+          git push -u origin "$BRANCH"
+
+          PR_URL=$(gh pr create \
+            --title "chore: auto-update songs.json" \
+            --body "Automated songs.json update from pipeline run #${{ github.run_number }}." \
+            --base master \
+            --head "$BRANCH")
+
+          echo "Created PR: $PR_URL"
+
+          gh pr merge "$PR_URL" --auto --squash --delete-branch
+          echo "Auto-merge enabled — PR will merge when all checks pass."
 
       - name: Find pipeline report
         if: always()
@@ -279,37 +293,3 @@ jobs:
           echo "Report pushed to private repository"
         continue-on-error: true
 
-  deploy:
-    needs: process
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-        with:
-          ref: master
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v5
-        with:
-          node-version: '22'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build
-        run: npm run build
-        env:
-          VITE_CONFIGCAT_SDK_KEY: ${{ secrets.CONFIGCAT_SDK_KEY }}
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./dist
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
