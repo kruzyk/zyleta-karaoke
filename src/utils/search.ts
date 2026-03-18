@@ -38,7 +38,7 @@ function wordPrefixMatch(text: string, prefix: string): boolean {
  * When searching for these characters we need substring match instead of word-prefix.
  */
 function hasSpecialChars(query: string): boolean {
-  return /[/.()'"\-]/.test(query);
+  return /[/.()'"-]/.test(query);
 }
 
 /**
