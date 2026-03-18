@@ -34,10 +34,32 @@ function wordPrefixMatch(text: string, prefix: string): boolean {
 }
 
 /**
+ * Check if query contains special characters that are used as word separators.
+ * When searching for these characters we need substring match instead of word-prefix.
+ */
+function hasSpecialChars(query: string): boolean {
+  return /[/.()'"-]/.test(query);
+}
+
+/**
+ * Simple substring match (case-insensitive, accent-insensitive).
+ * Used when query contains special characters like (, ), ", etc.
+ */
+function substringSearch(songs: Song[], query: string): Song[] {
+  const q = normalize(query);
+  return songs.filter(
+    (song) => normalize(song.artist).includes(q) || normalize(song.title).includes(q),
+  );
+}
+
+/**
  * Primary search: word-prefix match (case-insensitive, accent-insensitive).
- * Returns songs where any word in artist OR title starts with the query.
+ * Falls back to substring match when query contains special characters.
  */
 function wordPrefixSearch(songs: Song[], query: string): Song[] {
+  if (hasSpecialChars(query)) {
+    return substringSearch(songs, query);
+  }
   return songs.filter(
     (song) => wordPrefixMatch(song.artist, query) || wordPrefixMatch(song.title, query),
   );
