@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import type { MainFilter, DecadeFilter } from '@/types/song';
+import type { MainFilter, DecadeFilter, SongCountry } from '@/types/song';
 import type { FeatureFlags } from '@/hooks/useFeatureFlags';
 import { countryCodeToFlag, getCountryName } from '@/utils/country-flags';
 import styles from './FilterChips.module.css';
@@ -7,13 +7,13 @@ import styles from './FilterChips.module.css';
 interface FilterChipsProps {
   activeMain: MainFilter;
   activeDecade: DecadeFilter | null;
-  activeCountry: string | null;
-  availableCountries: string[];
+  activeCountry: SongCountry | null;
+  availableCountries: SongCountry[];
   availableDecades: DecadeFilter[];
   featureFlags: FeatureFlags;
   onMainChange: (main: MainFilter) => void;
   onDecadeChange: (decade: DecadeFilter | null) => void;
-  onCountryChange: (country: string | null) => void;
+  onCountryChange: (country: SongCountry | null) => void;
 }
 
 const MAIN_FILTERS: MainFilter[] = ['all', 'international', 'polish'];

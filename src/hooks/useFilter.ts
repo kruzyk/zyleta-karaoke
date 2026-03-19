@@ -94,7 +94,7 @@ export function useFilter(allSongs: Song[], featureFlags: FeatureFlags) {
     setFilter((prev) => ({ ...prev, decade }));
   }, []);
 
-  const setCountryFilter = useCallback((country: string | null) => {
+  const setCountryFilter = useCallback((country: SongCountry | null) => {
     setFilter((prev) => ({ ...prev, country }));
   }, []);
 
