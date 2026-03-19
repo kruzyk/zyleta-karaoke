@@ -24,7 +24,7 @@ import { fileURLToPath } from 'node:url';
 import { parseFilenames, type ParsedSong } from './filename-parser.js';
 import type { Song } from './musicbrainz.js';
 import { loadOverrides, applyManualOverrides } from './dedup.js';
-import { createOrchestrator, verifyWithAi } from './api-providers/index.js';
+import { createOrchestrator, verifyWithAi, preValidateInputs, normalizeCountry } from './api-providers/index.js';
 import type { ConsensusResult, ProviderHealth } from './api-providers/types.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -188,20 +188,45 @@ async function main() {
   let songs: Song[];
 
   if (useApis) {
+    // 2.5. AI pre-validation of input data
+    const aiPreValidation = process.env.AI_PRE_VALIDATION === 'true';
+    let songsForApi: ParsedSong[] = withArtist;
+
+    if (aiPreValidation) {
+      console.log('\n2.5. AI pre-validation of input data...');
+      try {
+        const validationResults = await preValidateInputs(withArtist);
+        const changed = validationResults.filter((r) => r.wasChanged);
+        if (changed.length > 0) {
+          console.log(`   AI corrected ${changed.length} entries before API lookup:`);
+          for (const r of changed) {
+            console.log(`   ✏️ "${r.original.artist} — ${r.original.title}" → "${r.corrected.artist} — ${r.corrected.title}"`);
+            if (r.notes) console.log(`      ${r.notes}`);
+          }
+        }
+        songsForApi = validationResults.map((r) => r.corrected);
+      } catch (error) {
+        console.warn(`   ⚠️ AI pre-validation failed: ${error instanceof Error ? error.message : error}`);
+        console.warn('   Using original parsed data.');
+      }
+    } else {
+      console.log('\n2.5. Skipping AI pre-validation (set AI_PRE_VALIDATION=true to enable)');
+    }
+
     console.log('\n3. Resolving via multi-API orchestrator...');
     const orchestrator = await createOrchestrator();
     report.apiStats.providers = orchestrator.getProviderHealth().map((h) => h.name);
 
     // Deduplicate input by artist+title before API calls (save API quota)
     const uniqueMap = new Map<string, ParsedSong>();
-    for (const song of withArtist) {
+    for (const song of songsForApi) {
       const key = `${song.artist.toLowerCase()}||${song.title.toLowerCase()}`;
       if (!uniqueMap.has(key)) {
         uniqueMap.set(key, song);
       }
     }
     const uniqueSongs = Array.from(uniqueMap.values());
-    console.log(`   Unique artist+title pairs: ${uniqueSongs.length} (from ${withArtist.length} files)`);
+    console.log(`   Unique artist+title pairs: ${uniqueSongs.length} (from ${songsForApi.length} files)`);
 
     const estimatedMinutes = Math.ceil(uniqueSongs.length * 1.2 / 60);
     console.log(`   Estimated time: ~${estimatedMinutes} min`);
@@ -267,6 +292,25 @@ async function main() {
       console.error('   🚨 The pipeline continued with remaining providers.');
     }
 
+    // Normalize country codes: reject release regions, convert full names to ISO
+    let countryNormalized = 0;
+    let countryRejected = 0;
+    for (const cr of consensusResults) {
+      if (cr.country) {
+        const normalized = normalizeCountry(cr.country);
+        if (normalized === null) {
+          countryRejected++;
+          delete cr.country;
+        } else if (normalized !== cr.country) {
+          countryNormalized++;
+          cr.country = normalized;
+        }
+      }
+    }
+    if (countryNormalized > 0 || countryRejected > 0) {
+      console.log(`\n   Country normalization: ${countryNormalized} converted to ISO, ${countryRejected} release regions rejected`);
+    }
+
     // Find discrepancy entries: API data differs from original filename data
     // (entries where consensus changed artist or title, but weren't flagged)
     const discrepancyEntries = consensusResults.filter((cr) => {
@@ -315,6 +359,11 @@ async function main() {
               // Apply the AI's chosen artist/title
               cr.artist = aiResult.verifiedArtist;
               cr.title = aiResult.verifiedTitle;
+
+              // Apply AI-verified year and country
+              if (aiResult.verifiedYear) cr.year = aiResult.verifiedYear;
+              if (aiResult.verifiedCountry) cr.country = aiResult.verifiedCountry;
+
               if (!aiResult.stillFlagged) {
                 cr.flagged = false;
                 cr.flagReasons = [];

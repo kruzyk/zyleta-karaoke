@@ -25,6 +25,8 @@ export interface AiVerificationResult {
   originalTitle: string;
   verifiedArtist: string;
   verifiedTitle: string;
+  verifiedYear?: number;
+  verifiedCountry?: string;
   aiConfidence: 'high' | 'medium' | 'low' | 'unknown';
   aiNotes: string;
   stillFlagged: boolean;
@@ -177,44 +179,68 @@ function buildPrompt(entries: ConsensusResult[]): string {
     originalTitle: e.originalInput?.title || e.title,
     currentArtist: e.artist,
     currentTitle: e.title,
+    currentYear: e.year || null,
+    currentCountry: e.country || null,
     confidence: e.confidence,
     flagReasons: e.flagReasons.length > 0 ? e.flagReasons : ['discrepancy'],
     apiResults: e.providerResults.map((pr) => ({
       source: pr.provider,
       artist: pr.match?.artist || null,
       title: pr.match?.title || null,
+      year: pr.match?.year || null,
+      country: pr.match?.country || null,
       confidence: pr.match?.confidence || 0,
     })),
   }));
 
   return `You are a music metadata verification assistant for a Polish karaoke business.
 
-Below is a list of songs where the API lookup results don't perfectly match the original filename data, or where multiple APIs returned conflicting information.
-
-For each entry you have:
-- "originalArtist" / "originalTitle": what was parsed from the karaoke file name (this is what the business owner expects)
-- "currentArtist" / "currentTitle": what the API consensus engine chose
+Below is a list of songs where the API lookup results need verification. For each entry you have:
+- "originalArtist" / "originalTitle": parsed from the karaoke filename
+- "currentArtist" / "currentTitle": API consensus result
+- "currentYear" / "currentCountry": year and country from APIs
 - "apiResults": individual results from each music API
 
-YOUR TASK: For each entry, make one of these decisions:
-1. "accepted" — the API data is correct and matches the song (even if spelling differs slightly, e.g. "AC/DC" vs "ACDC")
-2. "corrected" — the API data is partially right but needs fixing (provide the correct artist/title)
-3. "rejected" — the API returned data for a COMPLETELY DIFFERENT song (wrong artist AND/OR wrong title that doesn't match at all). In this case, keep the original filename data.
+YOUR TASK: For each entry, verify ALL metadata fields:
+
+1. **Artist & Title** — decide:
+   - "accepted": API data is correct
+   - "corrected": needs fixing (provide correct values)
+   - "rejected": completely wrong data, keep original filename
+
+2. **Year** — provide the year of the ORIGINAL FIRST RELEASE of this song:
+   - NOT remaster, compilation, or re-release year
+   - NOT karaoke version release year
+   - Example: "Bohemian Rhapsody" → 1975 (not 2018 movie re-release)
+   - If unsure, use null
+
+3. **Country** — provide the ISO 3166-1 alpha-2 code of the ARTIST'S country of origin:
+   - This is where the artist/band was formed or born, NOT the release region
+   - CRITICAL: Discogs often returns release distribution region (e.g. "Europe", "UK & Europe") — these are WRONG
+   - Examples: AC/DC → "AU", a-ha → "NO", ABBA → "SE", Sting → "GB"
+   - For collaborations, use the primary/first artist's country
+   - For Polish artists, use "PL"
+   - Must be exactly 2 uppercase letters (ISO 3166-1 alpha-2)
+   - If unsure, use null
 
 IMPORTANT RULES:
-- If an API returns a completely different artist or song (e.g., searching for "The Doors - 13" but getting "8667 - 13"), that API result should be REJECTED
-- Minor spelling/formatting differences are OK (e.g., "98°" vs "98 Degrees" — these are the same artist)
+- If an API returns a completely different artist/song, REJECT it
+- Minor spelling/formatting differences are OK (e.g., "98°" vs "98 Degrees")
 - Polish artists should use their commonly recognized Polish name
-- When in doubt, prefer the original filename data over low-confidence API results
-- Be especially suspicious of single-API matches with confidence < 80%
+- Prefer original filename data over low-confidence API results
+- Be suspicious of single-API matches with confidence < 80%
+- For year: always prefer the EARLIEST known release year for the song
+- For country: NEVER use region names — only ISO 3166-1 alpha-2 codes
 
 Respond with a JSON array where each element has:
 - "index": the entry index
 - "action": "accepted", "corrected", or "rejected"
 - "artist": the final correct artist name
 - "title": the final correct song title
+- "year": year of ORIGINAL first release (number or null)
+- "country": artist's country of origin as ISO 3166-1 alpha-2 (string or null)
 - "confidence": "high", "medium", or "low"
-- "notes": brief explanation of your decision (REQUIRED — explain why you accepted, corrected, or rejected)
+- "notes": brief explanation of your decision (REQUIRED)
 - "needsManualReview": true only if you truly cannot determine the correct data
 
 ENTRIES:
@@ -358,6 +384,18 @@ function parseAiResponse(
       const itemNotes = typeof item.notes === 'string' ? item.notes : '';
       const needsManualReview = typeof item.needsManualReview === 'boolean' ? item.needsManualReview : false;
 
+      // Validate year (must be a reasonable number or null)
+      const rawYear = typeof item.year === 'number' ? item.year : null;
+      const itemYear = rawYear !== null && rawYear >= 1900 && rawYear <= new Date().getFullYear() + 1
+        ? rawYear
+        : null;
+
+      // Validate country (must be 2 uppercase letters or null)
+      const rawCountry = typeof item.country === 'string' ? item.country.trim().toUpperCase() : null;
+      const itemCountry = rawCountry !== null && /^[A-Z]{2}$/.test(rawCountry)
+        ? rawCountry
+        : null;
+
       // Determine final artist/title based on action
       let finalArtist: string;
       let finalTitle: string;
@@ -369,11 +407,17 @@ function parseAiResponse(
         finalTitle = itemTitle || entry.title;
       }
 
+      // For year and country: prefer AI's answer over API data (even if rejected)
+      const finalYear = itemYear ?? entry.year;
+      const finalCountry = itemCountry ?? entry.country;
+
       results.push({
         originalArtist,
         originalTitle,
         verifiedArtist: finalArtist,
         verifiedTitle: finalTitle,
+        verifiedYear: finalYear,
+        verifiedCountry: finalCountry,
         aiConfidence: confidence,
         aiNotes: itemNotes,
         stillFlagged: needsManualReview,
@@ -383,6 +427,8 @@ function parseAiResponse(
           confidence,
           chosenArtist: finalArtist,
           chosenTitle: finalTitle,
+          chosenYear: finalYear,
+          chosenCountry: finalCountry,
         },
       });
     }

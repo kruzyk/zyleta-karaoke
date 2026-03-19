@@ -79,6 +79,10 @@ export interface AiDecision {
   chosenArtist: string;
   /** Title the AI chose */
   chosenTitle: string;
+  /** Year of original first release (AI-verified) */
+  chosenYear?: number;
+  /** Artist country ISO 3166-1 alpha-2 (AI-verified) */
+  chosenCountry?: string;
 }
 
 /**

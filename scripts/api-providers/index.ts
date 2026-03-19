@@ -18,6 +18,8 @@ import type { MusicApiProvider } from './types.js';
 
 // Re-export only what process-filelist.ts actually needs from here
 export { verifyWithAi } from './ai-verifier.js';
+export { preValidateInputs } from './ai-input-validator.js';
+export { normalizeCountry, isValidIsoCountry } from './country-validator.js';
 
 /**
  * Create and initialize the orchestrator with all available providers.
