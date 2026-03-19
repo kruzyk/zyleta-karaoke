@@ -27,6 +27,7 @@ export interface AiEnrichmentStats {
   provider: string;
   nullYearCount: number;
   nullCountryCount: number;
+  nullLanguageCount: number;
 }
 
 const VALID_COUNTRIES: Set<string> = new Set([
@@ -93,6 +94,13 @@ FIELDS:
    This field determines which filter chips a song appears under in the UI.
    Example: ABBA sings in English → language is "EN", so the song appears under both "Sweden" (origin) and "EN" (language).
 
+IMPORTANT FORMATTING RULES:
+- NEVER use quotation marks (single quotes, double quotes, smart quotes) around parts of artist or title names.
+  Wrong: "'Weird Al' Yankovic"  Correct: "Weird Al Yankovic"
+  Wrong: '"Weird Al" Yankovic'  Correct: "Weird Al Yankovic"
+- Apostrophes within words are OK: "Don't", "I'm", "Rock 'n' Roll" — these are contractions, not quotes.
+- When artist is empty (""), identify the song by title alone and return the correct canonical artist name.
+
 EXAMPLES:
 
 Input: [{"artist":"beatles","title":"help"}]
@@ -117,7 +125,32 @@ Input: [{"artist":"a-ha","title":"take on me"}]
 Output: [{"artist":"a-ha","title":"Take On Me","year":1985,"country":"Norway","language":"EN"}]
 
 Input: [{"artist":"rammstein","title":"du hast"}]
-Output: [{"artist":"Rammstein","title":"Du Hast","year":1997,"country":"Germany","language":"Germany"}]`;
+Output: [{"artist":"Rammstein","title":"Du Hast","year":1997,"country":"Germany","language":"Germany"}]
+
+Input: [{"artist":"","title":"Happy Birthday"}]
+Output: [{"artist":"Traditional","title":"Happy Birthday to You","year":1893,"country":"EN","language":"EN"}]
+
+Input: [{"artist":"","title":"BARKA"}]
+Output: [{"artist":"Traditional","title":"Barka","year":1974,"country":"PL","language":"PL"}]`;
+
+/**
+ * Strip wrapping quotes from artist/title strings returned by AI.
+ * Removes quotes around nicknames/substrings like 'Weird Al' → Weird Al.
+ * Keeps apostrophes in contractions (Don't, I'm, 'n', Believin').
+ */
+function sanitizeString(str: string): string {
+  return str
+    // Remove paired quotes wrapping substrings that contain spaces (nicknames, stage names).
+    // Uses lookbehind/lookahead to avoid stripping contractions like don't, l'amour.
+    // 'Weird Al' → Weird Al, "Left Eye" → Left Eye
+    // Keeps: don't, I'm, 'n', L'Hymne, Believin'
+    .replace(/(?<!\w)['""''"]([^'""''"]*\s[^'""''"]*?)['""''"](?!\w)/g, '$1')
+    // Strip trailing asterisks (AI sometimes appends * to indicate uncertainty)
+    // Keeps internal asterisks: "A*Teens" stays, "Kazik*" → "Kazik"
+    .replace(/\*+$/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
 
 function validateCountry(value: unknown): SongCountry | null {
   if (typeof value === 'string' && VALID_COUNTRIES.has(value)) return value as SongCountry;
@@ -141,8 +174,8 @@ function validateResponse(
   if (response.length !== inputLength) return null;
 
   return response.map((item) => ({
-    artist: typeof item.artist === 'string' ? item.artist : '',
-    title: typeof item.title === 'string' ? item.title : '',
+    artist: typeof item.artist === 'string' ? sanitizeString(item.artist) : '',
+    title: typeof item.title === 'string' ? sanitizeString(item.title) : '',
     country: validateCountry(item.country),
     language: validateCountry(item.language),
     year: validateYear(item.year),
@@ -314,6 +347,7 @@ export async function enrichWithAi(
     provider: primary,
     nullYearCount: 0,
     nullCountryCount: 0,
+    nullLanguageCount: 0,
   };
 
   const allResults: AiEnrichmentResult[] = [];
@@ -332,6 +366,7 @@ export async function enrichWithAi(
       for (const r of results) {
         if (r.year === null) stats.nullYearCount++;
         if (r.country === null) stats.nullCountryCount++;
+        if (r.language === null) stats.nullLanguageCount++;
       }
 
       console.log(

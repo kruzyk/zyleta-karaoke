@@ -55,12 +55,18 @@ interface RawFileList {
   files: RawFileEntry[];
 }
 
+interface ProblematicSong {
+  artist: string;
+  title: string;
+  issues: string[];
+}
+
 interface PipelineReport {
   generatedAt: string;
   totalRawFiles: number;
   totalParsed: number;
-  parseFailures: string[];
-  parseFailureCount: number;
+  titleOnlyFiles: string[];
+  titleOnlyCount: number;
   duplicatesRemoved: Array<{
     normalizedKey: string;
     files: string[];
@@ -73,7 +79,11 @@ interface PipelineReport {
     countryCount: number;
     year: Array<{ artist: string; title: string }>;
     yearCount: number;
+    language: Array<{ artist: string; title: string }>;
+    languageCount: number;
   };
+  problematicSongs: ProblematicSong[];
+  inconsistentArtists: Array<{ normalized: string; variants: string[] }>;
   finalCount: number;
   summaryStats: {
     rawToFinal: number;
@@ -95,8 +105,8 @@ async function main() {
     generatedAt: new Date().toISOString(),
     totalRawFiles: 0,
     totalParsed: 0,
-    parseFailures: [],
-    parseFailureCount: 0,
+    titleOnlyFiles: [],
+    titleOnlyCount: 0,
     duplicatesRemoved: [],
     duplicateRemovedCount: 0,
     aiStats: {
@@ -107,13 +117,18 @@ async function main() {
       provider: '',
       nullYearCount: 0,
       nullCountryCount: 0,
+      nullLanguageCount: 0,
     },
     missingMetadata: {
       country: [],
       countryCount: 0,
       year: [],
       yearCount: 0,
+      language: [],
+      languageCount: 0,
     },
+    problematicSongs: [],
+    inconsistentArtists: [],
     finalCount: 0,
     summaryStats: {
       rawToFinal: 0,
@@ -143,15 +158,15 @@ async function main() {
   const parsed = parseFilenames(filenames);
   const withArtist = parsed.filter((p) => p.artist.length > 0);
   const noArtist = parsed.filter((p) => p.artist.length === 0);
-  console.log(`   Parsed: ${withArtist.length} with artist, ${noArtist.length} without`);
+  console.log(`   Parsed: ${withArtist.length} with artist, ${noArtist.length} title-only`);
   report.totalParsed = withArtist.length;
-  report.parseFailureCount = noArtist.length;
+  report.titleOnlyCount = noArtist.length;
 
   if (noArtist.length > 0) {
-    console.log('   Files without detected artist:');
+    console.log('   Title-only files (AI will identify artist):');
     for (const p of noArtist) {
       console.log(`     - ${p.filename}`);
-      report.parseFailures.push(p.filename);
+      report.titleOnlyFiles.push(p.filename);
     }
   }
 
@@ -178,13 +193,16 @@ async function main() {
     existingMap.set(key, song);
   }
 
+  // Combine both: songs with artist + title-only songs (AI will identify artist)
+  const allParsed = [...withArtist, ...noArtist];
+
   // Find songs not yet in existing data
-  const newSongs = withArtist.filter((p) => {
+  const newSongs = allParsed.filter((p) => {
     const key = `${normalizeForDedup(p.artist)}||${normalizeForDedup(p.title)}`;
     return !existingMap.has(key);
   });
 
-  const songsToEnrich = forceRefresh ? withArtist : newSongs;
+  const songsToEnrich = forceRefresh ? allParsed : newSongs;
   console.log(
     forceRefresh
       ? `   Force mode: enriching all ${songsToEnrich.length} songs`
@@ -254,6 +272,22 @@ async function main() {
       report.missingMetadata.year.push({ artist: song.artist, title: song.title });
       report.missingMetadata.yearCount++;
     }
+    if (!song.language) {
+      report.missingMetadata.language.push({ artist: song.artist, title: song.title });
+      report.missingMetadata.languageCount++;
+    }
+  }
+
+  // Detect problematic songs
+  report.problematicSongs = findProblematicSongs(songs);
+  if (report.problematicSongs.length > 0) {
+    console.log(`   ⚠️ ${report.problematicSongs.length} problematic songs detected`);
+  }
+
+  // Find inconsistent artist naming
+  report.inconsistentArtists = findInconsistentArtists(songs);
+  if (report.inconsistentArtists.length > 0) {
+    console.log(`   ⚠️ ${report.inconsistentArtists.length} artists with inconsistent naming`);
   }
 
   // Data quality report
@@ -375,6 +409,65 @@ function validateSongs(songs: Song[]): string[] {
   return lines;
 }
 
+function findProblematicSongs(songs: Song[]): ProblematicSong[] {
+  const problematic: ProblematicSong[] = [];
+
+  for (const song of songs) {
+    const issues: string[] = [];
+
+    // No artist
+    if (!song.artist) issues.push('Missing artist');
+
+    // Trailing special characters (asterisks, quotes)
+    if (/[*"']+$/.test(song.artist)) issues.push(`Trailing special chars in artist: "${song.artist}"`);
+    if (/[*"']+$/.test(song.title)) issues.push(`Trailing special chars in title: "${song.title}"`);
+
+    // Wrapping quotes in artist or title
+    if (/^['""''].*['""'']$/.test(song.artist)) issues.push(`Wrapping quotes in artist: "${song.artist}"`);
+    if (/^['""''].*['""'']$/.test(song.title)) issues.push(`Wrapping quotes in title: "${song.title}"`);
+
+    // All metadata missing
+    if (!song.country && !song.year && !song.language) {
+      issues.push('No metadata (country, year, language all missing)');
+    }
+
+    // Suspicious short artist (1 character)
+    if (song.artist.length === 1) issues.push(`Suspiciously short artist: "${song.artist}"`);
+
+    // Artist looks like a filename (contains file extensions)
+    if (/\.(mp3|mp4|avi|mkv|cdg|kfn|mid|kar)/i.test(song.artist)) {
+      issues.push(`Artist looks like a filename: "${song.artist}"`);
+    }
+    if (/\.(mp3|mp4|avi|mkv|cdg|kfn|mid|kar)/i.test(song.title)) {
+      issues.push(`Title looks like a filename: "${song.title}"`);
+    }
+
+    if (issues.length > 0) {
+      problematic.push({ artist: song.artist, title: song.title, issues });
+    }
+  }
+
+  return problematic;
+}
+
+function findInconsistentArtists(songs: Song[]): Array<{ normalized: string; variants: string[] }> {
+  const artistVariants = new Map<string, Set<string>>();
+  for (const s of songs) {
+    if (!s.artist) continue;
+    const normalized = s.artist
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]/g, '');
+    if (!artistVariants.has(normalized)) artistVariants.set(normalized, new Set());
+    artistVariants.get(normalized)!.add(s.artist);
+  }
+
+  return [...artistVariants.entries()]
+    .filter(([, v]) => v.size > 1)
+    .map(([normalized, variants]) => ({ normalized, variants: [...variants] }));
+}
+
 async function savePipelineReport(report: PipelineReport): Promise<string> {
   await fs.mkdir(REPORTS_DIR, { recursive: true });
   const dateStr = new Date().toISOString().split('T')[0];
@@ -386,34 +479,48 @@ async function savePipelineReport(report: PipelineReport): Promise<string> {
   md += '## Summary\n\n';
   md += '| Metric | Value |\n|--------|-------|\n';
   md += `| Raw files | ${report.totalRawFiles} |\n`;
-  md += `| Parsed | ${report.totalParsed} (${report.summaryStats.parseSuccessRate}%) |\n`;
-  md += `| Parse failures | ${report.parseFailureCount} |\n`;
+  md += `| Parsed (with artist) | ${report.totalParsed} (${report.summaryStats.parseSuccessRate}%) |\n`;
+  md += `| Title-only (AI identified) | ${report.titleOnlyCount} |\n`;
   md += `| Duplicates removed | ${report.duplicateRemovedCount} |\n`;
   md += `| Final songs | ${report.finalCount} |\n\n`;
 
   md += '## AI Enrichment\n\n';
   md += '| Metric | Value |\n|--------|-------|\n';
   md += `| Provider | ${report.aiStats.provider} |\n`;
-  md += `| Batches | ${report.aiStats.totalBatches} |\n`;
-  md += `| Enriched | ${report.aiStats.enrichedCount} |\n`;
-  md += `| Skipped (already in songs.json) | ${report.aiStats.skippedCount} |\n`;
-  md += `| Failed batches | ${report.aiStats.failedBatches} |\n`;
-  md += `| Null years | ${report.aiStats.nullYearCount} |\n`;
-  md += `| Null countries | ${report.aiStats.nullCountryCount} |\n\n`;
+  md += `| Total batches | ${report.aiStats.totalBatches} |\n`;
+  md += `| Songs enriched | ${report.aiStats.enrichedCount} |\n`;
+  md += `| Songs skipped (already in songs.json) | ${report.aiStats.skippedCount} |\n`;
+  md += `| Failed batches | ${report.aiStats.failedBatches} |\n\n`;
 
-  md += '## Metadata Coverage\n\n';
+  md += '### Enrichment Quality\n\n';
+  md += '| Field | Filled | Null | Coverage |\n|-------|--------|------|----------|\n';
+  const enriched = report.aiStats.enrichedCount || 1;
+  const yearFilled = enriched - report.aiStats.nullYearCount;
+  const countryFilled = enriched - report.aiStats.nullCountryCount;
+  const langFilled = enriched - report.aiStats.nullLanguageCount;
+  md += `| Year | ${yearFilled} | ${report.aiStats.nullYearCount} | ${Math.round((yearFilled / enriched) * 100)}% |\n`;
+  md += `| Country | ${countryFilled} | ${report.aiStats.nullCountryCount} | ${Math.round((countryFilled / enriched) * 100)}% |\n`;
+  md += `| Language | ${langFilled} | ${report.aiStats.nullLanguageCount} | ${Math.round((langFilled / enriched) * 100)}% |\n\n`;
+
+  md += '## Metadata Coverage (Final)\n\n';
   const countryPct = report.finalCount > 0
     ? Math.round(((report.finalCount - report.missingMetadata.countryCount) / report.finalCount) * 100)
     : 0;
   const yearPct = report.finalCount > 0
     ? Math.round(((report.finalCount - report.missingMetadata.yearCount) / report.finalCount) * 100)
     : 0;
-  md += `Country: ${countryPct}% coverage (${report.missingMetadata.countryCount} missing)\n\n`;
-  md += `Year: ${yearPct}% coverage (${report.missingMetadata.yearCount} missing)\n\n`;
+  const langCovPct = report.finalCount > 0
+    ? Math.round(((report.finalCount - report.missingMetadata.languageCount) / report.finalCount) * 100)
+    : 0;
+  md += '| Field | Coverage | Missing |\n|-------|----------|----------|\n';
+  md += `| Country | ${countryPct}% | ${report.missingMetadata.countryCount} |\n`;
+  md += `| Year | ${yearPct}% | ${report.missingMetadata.yearCount} |\n`;
+  md += `| Language | ${langCovPct}% | ${report.missingMetadata.languageCount} |\n\n`;
 
-  if (report.parseFailures.length > 0) {
-    md += `## Parse Failures (${report.parseFailureCount})\n\n`;
-    for (const file of report.parseFailures) md += `- \`${file}\`\n`;
+  if (report.titleOnlyFiles.length > 0) {
+    md += `## Title-Only Files (${report.titleOnlyCount})\n\n`;
+    md += 'These files had no artist in the filename — AI identified the artist.\n\n';
+    for (const file of report.titleOnlyFiles) md += `- \`${file}\`\n`;
     md += '\n';
   }
 
@@ -421,6 +528,44 @@ async function savePipelineReport(report: PipelineReport): Promise<string> {
     md += `## Duplicates Removed (${report.duplicateRemovedCount})\n\n`;
     for (const dup of report.duplicatesRemoved) {
       md += `- **${dup.normalizedKey}** (kept: \`${dup.keptId}\`)\n`;
+    }
+    md += '\n';
+  }
+
+  if (report.problematicSongs.length > 0) {
+    md += `## Problematic Songs (${report.problematicSongs.length})\n\n`;
+    md += 'Songs with data quality issues that may need manual review.\n\n';
+    md += '| Artist | Title | Issues |\n|--------|-------|--------|\n';
+    for (const song of report.problematicSongs) {
+      const escapedArtist = song.artist || '_(empty)_';
+      const escapedIssues = song.issues.join('; ');
+      md += `| ${escapedArtist} | ${song.title} | ${escapedIssues} |\n`;
+    }
+    md += '\n';
+  }
+
+  if (report.inconsistentArtists.length > 0) {
+    md += `## Inconsistent Artist Names (${report.inconsistentArtists.length})\n\n`;
+    md += 'Same artist with different spellings/capitalizations in the database.\n\n';
+    for (const entry of report.inconsistentArtists) {
+      md += `- ${entry.variants.map((v) => `\`${v}\``).join(' vs ')}\n`;
+    }
+    md += '\n';
+  }
+
+  // List songs missing all metadata (most severe cases, max 50)
+  const noMetadata = report.problematicSongs.filter((s) =>
+    s.issues.some((i) => i.includes('No metadata')),
+  );
+  if (noMetadata.length > 0) {
+    md += `## Songs Missing All Metadata (${noMetadata.length})\n\n`;
+    md += 'These songs have no country, year, or language — may need manual overrides.\n\n';
+    const shown = noMetadata.slice(0, 50);
+    for (const song of shown) {
+      md += `- ${song.artist || '_(no artist)_'} — ${song.title}\n`;
+    }
+    if (noMetadata.length > 50) {
+      md += `\n_…and ${noMetadata.length - 50} more._\n`;
     }
     md += '\n';
   }
