@@ -55,6 +55,12 @@ interface RawFileList {
   files: RawFileEntry[];
 }
 
+interface ProblematicSong {
+  artist: string;
+  title: string;
+  issues: string[];
+}
+
 interface PipelineReport {
   generatedAt: string;
   totalRawFiles: number;
@@ -76,6 +82,8 @@ interface PipelineReport {
     language: Array<{ artist: string; title: string }>;
     languageCount: number;
   };
+  problematicSongs: ProblematicSong[];
+  inconsistentArtists: Array<{ normalized: string; variants: string[] }>;
   finalCount: number;
   summaryStats: {
     rawToFinal: number;
@@ -119,6 +127,8 @@ async function main() {
       language: [],
       languageCount: 0,
     },
+    problematicSongs: [],
+    inconsistentArtists: [],
     finalCount: 0,
     summaryStats: {
       rawToFinal: 0,
@@ -268,6 +278,18 @@ async function main() {
     }
   }
 
+  // Detect problematic songs
+  report.problematicSongs = findProblematicSongs(songs);
+  if (report.problematicSongs.length > 0) {
+    console.log(`   ⚠️ ${report.problematicSongs.length} problematic songs detected`);
+  }
+
+  // Find inconsistent artist naming
+  report.inconsistentArtists = findInconsistentArtists(songs);
+  if (report.inconsistentArtists.length > 0) {
+    console.log(`   ⚠️ ${report.inconsistentArtists.length} artists with inconsistent naming`);
+  }
+
   // Data quality report
   const qualityReport = validateSongs(songs);
   if (qualityReport.length > 0) {
@@ -387,6 +409,65 @@ function validateSongs(songs: Song[]): string[] {
   return lines;
 }
 
+function findProblematicSongs(songs: Song[]): ProblematicSong[] {
+  const problematic: ProblematicSong[] = [];
+
+  for (const song of songs) {
+    const issues: string[] = [];
+
+    // No artist
+    if (!song.artist) issues.push('Missing artist');
+
+    // Trailing special characters (asterisks, quotes)
+    if (/[*"']+$/.test(song.artist)) issues.push(`Trailing special chars in artist: "${song.artist}"`);
+    if (/[*"']+$/.test(song.title)) issues.push(`Trailing special chars in title: "${song.title}"`);
+
+    // Wrapping quotes in artist or title
+    if (/^['""''].*['""'']$/.test(song.artist)) issues.push(`Wrapping quotes in artist: "${song.artist}"`);
+    if (/^['""''].*['""'']$/.test(song.title)) issues.push(`Wrapping quotes in title: "${song.title}"`);
+
+    // All metadata missing
+    if (!song.country && !song.year && !song.language) {
+      issues.push('No metadata (country, year, language all missing)');
+    }
+
+    // Suspicious short artist (1 character)
+    if (song.artist.length === 1) issues.push(`Suspiciously short artist: "${song.artist}"`);
+
+    // Artist looks like a filename (contains file extensions)
+    if (/\.(mp3|mp4|avi|mkv|cdg|kfn|mid|kar)/i.test(song.artist)) {
+      issues.push(`Artist looks like a filename: "${song.artist}"`);
+    }
+    if (/\.(mp3|mp4|avi|mkv|cdg|kfn|mid|kar)/i.test(song.title)) {
+      issues.push(`Title looks like a filename: "${song.title}"`);
+    }
+
+    if (issues.length > 0) {
+      problematic.push({ artist: song.artist, title: song.title, issues });
+    }
+  }
+
+  return problematic;
+}
+
+function findInconsistentArtists(songs: Song[]): Array<{ normalized: string; variants: string[] }> {
+  const artistVariants = new Map<string, Set<string>>();
+  for (const s of songs) {
+    if (!s.artist) continue;
+    const normalized = s.artist
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]/g, '');
+    if (!artistVariants.has(normalized)) artistVariants.set(normalized, new Set());
+    artistVariants.get(normalized)!.add(s.artist);
+  }
+
+  return [...artistVariants.entries()]
+    .filter(([, v]) => v.size > 1)
+    .map(([normalized, variants]) => ({ normalized, variants: [...variants] }));
+}
+
 async function savePipelineReport(report: PipelineReport): Promise<string> {
   await fs.mkdir(REPORTS_DIR, { recursive: true });
   const dateStr = new Date().toISOString().split('T')[0];
@@ -447,6 +528,44 @@ async function savePipelineReport(report: PipelineReport): Promise<string> {
     md += `## Duplicates Removed (${report.duplicateRemovedCount})\n\n`;
     for (const dup of report.duplicatesRemoved) {
       md += `- **${dup.normalizedKey}** (kept: \`${dup.keptId}\`)\n`;
+    }
+    md += '\n';
+  }
+
+  if (report.problematicSongs.length > 0) {
+    md += `## Problematic Songs (${report.problematicSongs.length})\n\n`;
+    md += 'Songs with data quality issues that may need manual review.\n\n';
+    md += '| Artist | Title | Issues |\n|--------|-------|--------|\n';
+    for (const song of report.problematicSongs) {
+      const escapedArtist = song.artist || '_(empty)_';
+      const escapedIssues = song.issues.join('; ');
+      md += `| ${escapedArtist} | ${song.title} | ${escapedIssues} |\n`;
+    }
+    md += '\n';
+  }
+
+  if (report.inconsistentArtists.length > 0) {
+    md += `## Inconsistent Artist Names (${report.inconsistentArtists.length})\n\n`;
+    md += 'Same artist with different spellings/capitalizations in the database.\n\n';
+    for (const entry of report.inconsistentArtists) {
+      md += `- ${entry.variants.map((v) => `\`${v}\``).join(' vs ')}\n`;
+    }
+    md += '\n';
+  }
+
+  // List songs missing all metadata (most severe cases, max 50)
+  const noMetadata = report.problematicSongs.filter((s) =>
+    s.issues.some((i) => i.includes('No metadata')),
+  );
+  if (noMetadata.length > 0) {
+    md += `## Songs Missing All Metadata (${noMetadata.length})\n\n`;
+    md += 'These songs have no country, year, or language — may need manual overrides.\n\n';
+    const shown = noMetadata.slice(0, 50);
+    for (const song of shown) {
+      md += `- ${song.artist || '_(no artist)_'} — ${song.title}\n`;
+    }
+    if (noMetadata.length > 50) {
+      md += `\n_…and ${noMetadata.length - 50} more._\n`;
     }
     md += '\n';
   }

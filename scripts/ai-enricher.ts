@@ -145,6 +145,9 @@ function sanitizeString(str: string): string {
     // 'Weird Al' → Weird Al, "Left Eye" → Left Eye
     // Keeps: don't, I'm, 'n', L'Hymne, Believin'
     .replace(/(?<!\w)['""''"]([^'""''"]*\s[^'""''"]*?)['""''"](?!\w)/g, '$1')
+    // Strip trailing asterisks (AI sometimes appends * to indicate uncertainty)
+    // Keeps internal asterisks: "A*Teens" stays, "Kazik*" → "Kazik"
+    .replace(/\*+$/g, '')
     .replace(/\s+/g, ' ')
     .trim();
 }
