@@ -46,7 +46,7 @@ FIELDS:
 1. "artist" (string): Canonical artist/band name.
    - Fix typos and normalize spelling: "ACDC" → "AC/DC", "2 plus 1" → "2+1", "Goombay dance band" → "Goombay Dance Band"
    - Use the most widely recognized form: "Freddie Mercury" not "Farrokh Bulsara"
-   - For "feat." collaborations, keep only the primary artist: "Beyoncé feat. Jay-Z" → "Beyoncé"
+   - For "feat." collaborations, keep both artists: "Beyoncé feat. Jay-Z"
    - For bands/duos, keep the full name: "Simon & Garfunkel" stays as is
 
 2. "title" (string): Canonical song title.
