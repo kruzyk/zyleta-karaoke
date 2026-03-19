@@ -6,5 +6,5 @@
   ],
   "githubRepo": "kruzyk/zyleta-karaoke",
   "githubToken": "github_pat_XXX",
-  "fileExtensions": [".mp3", ".kfn", ".wav", ".mid", ".kar", ".mp4", ".avi", ".mkv", ".cdg", ".wmv"]
+  "fileExtensions": [".kfn", ".wav", ".mid", ".kar", ".mp4", ".avi", ".mkv", ".cdg", ".wmv"]
 }

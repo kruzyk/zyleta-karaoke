@@ -146,16 +146,11 @@ foreach ($folder in $validFolders) {
     }
 
     $folderFileCount = 0
-    $folderRoot = $folder.TrimEnd('\', '/')
     foreach ($f in $allFiles) {
-        if ($extSet.Contains($f.Extension)) {
-            $relativePath = $f.FullName.Substring($folderRoot.Length).TrimStart('\', '/')
+        if ($extSet.Contains($f.Extension) -and $f.Extension -ne '.mp3') {
             $files.Add(@{
                 filename     = $f.Name
-                relativePath = $relativePath
                 sourceFolder = $folderName
-                extension    = $f.Extension.ToLower()
-                sizeBytes    = $f.Length
             })
             $folderFileCount++
         }
