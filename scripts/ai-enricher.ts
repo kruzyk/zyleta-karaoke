@@ -34,9 +34,13 @@ const VALID_COUNTRIES: Set<string> = new Set([
   'PL', 'EN', 'Sweden', 'Norway', 'Spain', 'Italy', 'Germany',
 ]);
 
-const SYSTEM_PROMPT = `You are a music metadata expert specializing in karaoke song databases.
+const SYSTEM_PROMPT = `You are a music metadata expert.
 You will receive a JSON array of songs with approximate artist/title from filenames.
-Return a JSON array of the same length with enriched metadata.
+Your role is to get more data about each song and return a JSON array of the same length with songs with enriched metadata:
+- Even if there is only partial information given to you, like no artist and only title, take what you have,
+do your best to find what you can about that song and add what is missing. Year, country, language of each song must always be provided by you.
+- If there is no artist - find the best match to some generic name, like Traditional, Disney, Animation or so (it is important to be consistent here with grouping).
+- I don't want to hear from you that there is no metadata available for a song. You must do your best to find something, even if it's just a guess based on the title or partial artist name. Dig in, Internet is full of information, so you always can return something for every field.
 
 RESPONSE FORMAT:
 - Return ONLY a valid JSON array, no markdown, no explanation, no extra text.
@@ -167,7 +171,7 @@ function validateYear(value: unknown): number | null {
 }
 
 function validateResponse(
-  response: unknown[],
+  response: AiEnrichmentResult[],
   inputLength: number,
 ): AiEnrichmentResult[] | null {
   if (!Array.isArray(response)) return null;
@@ -257,17 +261,17 @@ async function callAiProvider(
   return callGemini(systemPrompt, userMessage);
 }
 
-function parseJsonFromResponse(text: string): unknown[] {
+function parseJsonFromResponse(text: string) {
   // Try direct parse first
   try {
-    const parsed = JSON.parse(text);
+    const parsed: AiEnrichmentResult[] = JSON.parse(text);
     if (Array.isArray(parsed)) return parsed;
   } catch { /* ignore */ }
 
   // Try extracting JSON from markdown code block
   const match = text.match(/```(?:json)?\s*([\s\S]*?)```/);
   if (match) {
-    const parsed = JSON.parse(match[1].trim());
+    const parsed: AiEnrichmentResult[] = JSON.parse(match[1].trim());
     if (Array.isArray(parsed)) return parsed;
   }
 
@@ -299,6 +303,7 @@ async function enrichBatch(
 
   // Try fallback provider (with one retry)
   if (fallbackProvider) {
+    //TODO: code below is duplicated from above — could be refactored to a helper function to avoid repetition
     for (let attempt = 0; attempt < 2; attempt++) {
       try {
         const text = await callAiProvider(fallbackProvider, SYSTEM_PROMPT, userMessage);

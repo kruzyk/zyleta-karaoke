@@ -560,12 +560,8 @@ async function savePipelineReport(report: PipelineReport): Promise<string> {
   if (noMetadata.length > 0) {
     md += `## Songs Missing All Metadata (${noMetadata.length})\n\n`;
     md += 'These songs have no country, year, or language — may need manual overrides.\n\n';
-    const shown = noMetadata.slice(0, 50);
-    for (const song of shown) {
+    for (const song of noMetadata) {
       md += `- ${song.artist || '_(no artist)_'} — ${song.title}\n`;
-    }
-    if (noMetadata.length > 50) {
-      md += `\n_…and ${noMetadata.length - 50} more._\n`;
     }
     md += '\n';
   }
