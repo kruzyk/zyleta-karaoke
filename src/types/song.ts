@@ -1,13 +1,12 @@
+export type SongCountry = 'PL' | 'EN' | 'Sweden' | 'Norway' | 'Spain' | 'Italy' | 'Germany';
+
 export interface Song {
   id: string;
   artist: string;
   title: string;
-  // Phase 2 — extended metadata:
-  genre?: string;
   year?: number;
-  album?: string;
-  language?: string;
-  country?: string;   // ISO 3166-1 alpha-2 (e.g. 'PL', 'US', 'GB') — Polish artists have 'PL'
+  country?: SongCountry;
+  language?: SongCountry;
 }
 
 export interface SongListState {
@@ -27,5 +26,5 @@ export type DecadeFilter = '60s' | '70s' | '80s' | '90s' | '00s' | '10s' | '20s'
 export interface FilterState {
   main: MainFilter;
   decade: DecadeFilter | null;
-  country: string | null; // ISO country code or null
+  country: SongCountry | null;
 }

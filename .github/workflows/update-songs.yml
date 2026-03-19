@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
     inputs:
       force_refresh:
-        description: 'Force re-fetch all songs from APIs (ignore cache)'
+        description: 'Force re-process all songs with AI (ignore existing data)'
         required: false
         default: 'false'
         type: choice
@@ -62,25 +62,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Restore API cache
-        if: inputs.force_refresh != 'true'
-        uses: actions/cache@v4
-        with:
-          path: |
-            scripts/cache.json
-            scripts/artist-cache.json
-            scripts/discogs-cache.json
-            scripts/lastfm-cache.json
-          key: api-cache-${{ hashFiles('data/raw-filelist.json') }}
-          restore-keys: |
-            api-cache-
-
-      - name: Clear cache (force refresh)
-        if: inputs.force_refresh == 'true'
-        run: |
-          rm -f scripts/cache.json scripts/artist-cache.json scripts/discogs-cache.json scripts/lastfm-cache.json
-          echo "Cache cleared for force refresh"
-
       - name: Validate API tokens
         run: |
           echo "## API Token Status" >> $GITHUB_STEP_SUMMARY
@@ -88,60 +69,30 @@ jobs:
           echo "| Provider | Token | Status |" >> $GITHUB_STEP_SUMMARY
           echo "|----------|-------|--------|" >> $GITHUB_STEP_SUMMARY
 
-          # MusicBrainz - no token needed
-          echo "| MusicBrainz | not required | ✅ Always active |" >> $GITHUB_STEP_SUMMARY
-
-          # Discogs
-          if [ -n "$DISCOGS_TOKEN" ]; then
-            # Quick validation: test request to Discogs API
-            HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" \
-              -H "Authorization: Discogs token=${DISCOGS_TOKEN}" \
-              -H "User-Agent: ZyletaKaraoke/1.0" \
-              "https://api.discogs.com/database/search?q=test&per_page=1" 2>/dev/null || echo "000")
-            if [ "$HTTP_CODE" = "200" ]; then
-              echo "| Discogs | configured | ✅ Valid |" >> $GITHUB_STEP_SUMMARY
-            else
-              echo "| Discogs | configured | ⚠️ HTTP $HTTP_CODE — token may be expired |" >> $GITHUB_STEP_SUMMARY
-              echo "::warning::Discogs token returned HTTP $HTTP_CODE. Pipeline will continue without Discogs."
-            fi
-          else
-            echo "| Discogs | not configured | ⏭️ Skipped |" >> $GITHUB_STEP_SUMMARY
-          fi
-
-          # Last.fm
-          if [ -n "$LASTFM_API_KEY" ]; then
-            HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" \
-              "https://ws.audioscrobbler.com/2.0/?method=track.search&track=test&api_key=${LASTFM_API_KEY}&format=json&limit=1" 2>/dev/null || echo "000")
-            if [ "$HTTP_CODE" = "200" ]; then
-              echo "| Last.fm | configured | ✅ Valid |" >> $GITHUB_STEP_SUMMARY
-            else
-              echo "| Last.fm | configured | ⚠️ HTTP $HTTP_CODE — API key may be invalid |" >> $GITHUB_STEP_SUMMARY
-              echo "::warning::Last.fm API key returned HTTP $HTTP_CODE. Pipeline will continue without Last.fm."
-            fi
-          else
-            echo "| Last.fm | not configured | ⏭️ Skipped |" >> $GITHUB_STEP_SUMMARY
-          fi
-
-          # Claude AI
+          # Claude AI (primary)
           if [ -n "$ANTHROPIC_API_KEY" ]; then
-            echo "| Claude AI | configured | ✅ Available for verification |" >> $GITHUB_STEP_SUMMARY
+            echo "| Claude AI | configured | ✅ Primary provider |" >> $GITHUB_STEP_SUMMARY
           else
-            echo "| Claude AI | not configured | ⏭️ Skipped |" >> $GITHUB_STEP_SUMMARY
+            echo "| Claude AI | not configured | ⚠️ Not available |" >> $GITHUB_STEP_SUMMARY
           fi
 
-          # Gemini AI
+          # Gemini AI (fallback)
           if [ -n "$GEMINI_API_KEY" ]; then
-            echo "| Gemini AI | configured | ✅ Available for verification |" >> $GITHUB_STEP_SUMMARY
+            echo "| Gemini AI | configured | ✅ Fallback provider |" >> $GITHUB_STEP_SUMMARY
           else
-            echo "| Gemini AI | not configured | ⏭️ Skipped |" >> $GITHUB_STEP_SUMMARY
+            echo "| Gemini AI | not configured | ⏭️ No fallback |" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          # At least one provider must be configured
+          if [ -z "$ANTHROPIC_API_KEY" ] && [ -z "$GEMINI_API_KEY" ]; then
+            echo "::error::No AI provider configured. Set ANTHROPIC_API_KEY or GEMINI_API_KEY."
+            exit 1
           fi
 
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "---" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
         env:
-          DISCOGS_TOKEN: ${{ secrets.DISCOGS_TOKEN }}
-          LASTFM_API_KEY: ${{ secrets.LASTFM_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
 
@@ -162,10 +113,7 @@ jobs:
           fi
           npx tsx scripts/process-filelist.ts $FORCE_FLAG
         env:
-          MUSICBRAINZ_ENABLED: 'true'
           REPORTS_DIR: /tmp/pipeline-reports
-          DISCOGS_TOKEN: ${{ secrets.DISCOGS_TOKEN }}
-          LASTFM_API_KEY: ${{ secrets.LASTFM_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
 
