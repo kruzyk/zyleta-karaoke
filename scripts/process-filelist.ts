@@ -39,6 +39,7 @@ interface Song {
   artist: string;
   title: string;
   country?: SongCountry;
+  language?: SongCountry;
   year?: number;
 }
 
@@ -205,6 +206,7 @@ async function main() {
       artist: r.artist,
       title: r.title,
       ...(r.country ? { country: r.country } : {}),
+      ...(r.language ? { language: r.language } : {}),
       ...(r.year ? { year: r.year } : {}),
     }));
 
@@ -310,8 +312,8 @@ function deduplicateSongsWithTracking(songs: Song[]): {
     } else {
       const existing = seen.get(key)!;
       existing.count++;
-      const existingScore = (existing.song.country ? 1 : 0) + (existing.song.year ? 1 : 0);
-      const newScore = (song.country ? 1 : 0) + (song.year ? 1 : 0);
+      const existingScore = (existing.song.country ? 1 : 0) + (existing.song.language ? 1 : 0) + (existing.song.year ? 1 : 0);
+      const newScore = (song.country ? 1 : 0) + (song.language ? 1 : 0) + (song.year ? 1 : 0);
       if (newScore > existingScore) {
         seen.set(key, { song, count: existing.count });
       }

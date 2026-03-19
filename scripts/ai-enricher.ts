@@ -15,6 +15,7 @@ export interface AiEnrichmentResult {
   artist: string;
   title: string;
   country: SongCountry | null;
+  language: SongCountry | null;
   year: number | null;
 }
 
@@ -38,7 +39,7 @@ Return a JSON array of the same length with enriched metadata.
 
 RESPONSE FORMAT:
 - Return ONLY a valid JSON array, no markdown, no explanation, no extra text.
-- Each element must have exactly 4 fields: "artist", "title", "year", "country".
+- Each element must have exactly 5 fields: "artist", "title", "year", "country", "language".
 - The output array MUST have the same length and order as the input array.
 
 FIELDS:
@@ -78,31 +79,47 @@ FIELDS:
    - Solo artist who moved countries → use birth/origin country
    - If genuinely unknown, return null
 
+5. "language" (string or null): The language the song is sung in, mapped to the SAME closed set as country.
+   Use ONLY these exact values:
+   "PL" — Polish
+   "EN" — English
+   "Sweden" — Swedish
+   "Norway" — Norwegian
+   "Spain" — Spanish
+   "Italy" — Italian
+   "Germany" — German
+   null — any other language (French, Portuguese, Japanese, etc.) or instrumental/unknown
+
+   This field determines which filter chips a song appears under in the UI.
+   Example: ABBA sings in English → language is "EN", so the song appears under both "Sweden" (origin) and "EN" (language).
+
 EXAMPLES:
 
 Input: [{"artist":"beatles","title":"help"}]
-Output: [{"artist":"The Beatles","title":"Help!","year":1965,"country":"EN"}]
+Output: [{"artist":"The Beatles","title":"Help!","year":1965,"country":"EN","language":"EN"}]
 
 Input: [{"artist":"budka suflera","title":"takie tango"}]
-Output: [{"artist":"Budka Suflera","title":"Takie tango","year":1980,"country":"PL"}]
+Output: [{"artist":"Budka Suflera","title":"Takie tango","year":1980,"country":"PL","language":"PL"}]
 
 Input: [{"artist":"ABBA","title":"waterloo"}]
-Output: [{"artist":"ABBA","title":"Waterloo","year":1974,"country":"Sweden"}]
+Output: [{"artist":"ABBA","title":"Waterloo","year":1974,"country":"Sweden","language":"EN"}]
 
 Input: [{"artist":"edith piaf","title":"la vie en rose"}]
-Output: [{"artist":"Édith Piaf","title":"La Vie en rose","year":1947,"country":null}]
+Output: [{"artist":"Édith Piaf","title":"La Vie en rose","year":1947,"country":null,"language":null}]
 
 Input: [{"artist":"Boney M","title":"rasputin"}]
-Output: [{"artist":"Boney M.","title":"Rasputin","year":1978,"country":"Germany"}]
+Output: [{"artist":"Boney M.","title":"Rasputin","year":1978,"country":"Germany","language":"EN"}]
 
 Input: [{"artist":"ich troje","title":"powiedz"}]
-Output: [{"artist":"Ich Troje","title":"Powiedz","year":2003,"country":"PL"}]
+Output: [{"artist":"Ich Troje","title":"Powiedz","year":2003,"country":"PL","language":"PL"}]
 
 Input: [{"artist":"a-ha","title":"take on me"}]
-Output: [{"artist":"a-ha","title":"Take On Me","year":1985,"country":"Norway"}]`;
+Output: [{"artist":"a-ha","title":"Take On Me","year":1985,"country":"Norway","language":"EN"}]
+
+Input: [{"artist":"rammstein","title":"du hast"}]
+Output: [{"artist":"Rammstein","title":"Du Hast","year":1997,"country":"Germany","language":"Germany"}]`;
 
 function validateCountry(value: unknown): SongCountry | null {
-  if (value === null || value === undefined) return null;
   if (typeof value === 'string' && VALID_COUNTRIES.has(value)) return value as SongCountry;
   return null;
 }
@@ -127,6 +144,7 @@ function validateResponse(
     artist: typeof item.artist === 'string' ? item.artist : '',
     title: typeof item.title === 'string' ? item.title : '',
     country: validateCountry(item.country),
+    language: validateCountry(item.language),
     year: validateYear(item.year),
   }));
 }
@@ -331,6 +349,7 @@ export async function enrichWithAi(
           artist: song.artist,
           title: song.title,
           country: null,
+          language: null,
           year: null,
         });
       }

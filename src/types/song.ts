@@ -4,12 +4,9 @@ export interface Song {
   id: string;
   artist: string;
   title: string;
-  // Phase 2 — extended metadata:
-  genre?: string;
   year?: number;
-  album?: string;
-  language?: string;
   country?: SongCountry;
+  language?: SongCountry;
 }
 
 export interface SongListState {

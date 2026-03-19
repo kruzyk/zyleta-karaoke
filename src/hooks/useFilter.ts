@@ -35,8 +35,8 @@ function filterByDecade(songs: Song[], decade: DecadeFilter): Song[] {
   return songs.filter((s) => s.year != null && s.year >= min && s.year <= max);
 }
 
-function filterByCountry(songs: Song[], countryCode: string): Song[] {
-  return songs.filter((s) => s.country === countryCode);
+function filterByCountry(songs: Song[], countryCode: SongCountry): Song[] {
+  return songs.filter((s) => s.country === countryCode || s.language === countryCode);
 }
 
 /** Fixed set of international country categories (excluding PL which has its own main chip) */

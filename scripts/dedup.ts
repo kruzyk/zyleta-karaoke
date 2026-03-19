@@ -5,6 +5,7 @@ interface ManualOverride {
   artist?: string;
   title?: string;
   country?: string;
+  language?: string;
   year?: number;
 }
 
@@ -34,8 +35,8 @@ export function deduplicateSongs(songs: Song[]): Song[] {
     } else {
       // Prefer the entry that has more metadata (country/year)
       const existing = seen.get(key)!;
-      const existingScore = (existing.country ? 1 : 0) + (existing.year ? 1 : 0);
-      const newScore = (song.country ? 1 : 0) + (song.year ? 1 : 0);
+      const existingScore = (existing.country ? 1 : 0) + (existing.language ? 1 : 0) + (existing.year ? 1 : 0);
+      const newScore = (song.country ? 1 : 0) + (song.language ? 1 : 0) + (song.year ? 1 : 0);
       if (newScore > existingScore) {
         seen.set(key, song);
       }
@@ -72,6 +73,7 @@ export function applyManualOverrides(
         artist: override.artist ?? song.artist,
         title: override.title ?? song.title,
         ...(override.country !== undefined ? { country: override.country } : {}),
+        ...(override.language !== undefined ? { language: override.language } : {}),
         ...(override.year !== undefined ? { year: override.year } : {}),
       };
     }
