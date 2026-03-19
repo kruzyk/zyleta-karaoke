@@ -1,5 +1,5 @@
 import fs from 'node:fs/promises';
-import type { Song } from './musicbrainz.js';
+import type { Song } from '../src/types/song.js';
 
 interface ManualOverride {
   artist?: string;
