@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback } from 'react';
-import type { Song, MainFilter, DecadeFilter, FilterState } from '@/types/song';
+import type { Song, MainFilter, DecadeFilter, FilterState, SongCountry } from '@/types/song';
 import type { FeatureFlags } from '@/hooks/useFeatureFlags';
 
 const DECADE_RANGES: Record<DecadeFilter, [number, number]> = {
@@ -39,16 +39,9 @@ function filterByCountry(songs: Song[], countryCode: string): Song[] {
   return songs.filter((s) => s.country === countryCode);
 }
 
-/** Extract unique country codes from international songs, sorted by frequency (descending) */
-function getAvailableCountries(songs: Song[]): string[] {
-  const intlSongs = songs.filter((s) => s.country != null && s.country !== 'PL');
-  const countMap = new Map<string, number>();
-  for (const s of intlSongs) {
-    countMap.set(s.country!, (countMap.get(s.country!) || 0) + 1);
-  }
-  return [...countMap.entries()]
-    .sort((a, b) => b[1] - a[1])
-    .map(([code]) => code);
+/** Fixed set of international country categories (excluding PL which has its own main chip) */
+function getAvailableCountries(): SongCountry[] {
+  return ['EN', 'Sweden', 'Norway', 'Spain', 'Italy', 'Germany'];
 }
 
 /** Extract which decades have songs present */
@@ -74,7 +67,7 @@ export function useFilter(allSongs: Song[], featureFlags: FeatureFlags) {
     country: null,
   });
 
-  const availableCountries = useMemo(() => getAvailableCountries(allSongs), [allSongs]);
+  const availableCountries = useMemo(() => getAvailableCountries(), []);
   const availableDecades = useMemo(() => getAvailableDecades(allSongs), [allSongs]);
 
   const filteredSongs = useMemo(() => {
