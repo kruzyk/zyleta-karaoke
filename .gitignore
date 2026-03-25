@@ -10,7 +10,6 @@ Thumbs.db
 scripts/remote-scan/scan-config.json
 scripts/remote-scan/scan-log.txt
 *.tsbuildinfo
-docs/
 
 # IDE
 .vscode/

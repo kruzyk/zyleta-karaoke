@@ -31,8 +31,11 @@ export function generateReport(
   if (parsedFailed.length > 0) {
     lines.push('  ⚠️  UNPARSEABLE FILES (need manual review):');
     lines.push('  ─────────────────────────────────────────');
-    for (const p of parsedFailed) {
+    for (const p of parsedFailed.slice(0, 20)) {
       lines.push(`    ${p.filename}`);
+    }
+    if (parsedFailed.length > 20) {
+      lines.push(`    ... and ${parsedFailed.length - 20} more`);
     }
     lines.push('');
   }
