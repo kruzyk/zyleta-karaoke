@@ -4,6 +4,8 @@
  * Sends songs in batches to Claude API (primary) or Gemini API (fallback)
  * to get canonical artist names, original release years, and country of origin.
  */
+import { AiEnrichmentResponseSchema } from './schemas.js';
+import type { AiEnrichmentItem } from './schemas.js';
 import type { SongCountry } from '../src/types/song.js';
 
 export interface AiEnrichmentInput {
@@ -29,10 +31,6 @@ export interface AiEnrichmentStats {
   nullCountryCount: number;
   nullLanguageCount: number;
 }
-
-const VALID_COUNTRIES: Set<string> = new Set([
-  'PL', 'EN', 'Sweden', 'Norway', 'Spain', 'Italy', 'Germany',
-]);
 
 const SYSTEM_PROMPT = `You are a music metadata expert.
 You will receive a JSON array of songs with approximate artist/title from filenames.
@@ -156,33 +154,20 @@ function sanitizeString(str: string): string {
     .trim();
 }
 
-function validateCountry(value: unknown): SongCountry | null {
-  if (typeof value === 'string' && VALID_COUNTRIES.has(value)) return value as SongCountry;
-  return null;
-}
-
-function validateYear(value: unknown): number | null {
-  if (value === null || value === undefined) return null;
-  const num = typeof value === 'number' ? value : Number(value);
-  if (!Number.isInteger(num)) return null;
-  const currentYear = new Date().getFullYear();
-  if (num < 1800 || num > currentYear) return null;
-  return num;
-}
-
 function validateResponse(
-  response: AiEnrichmentResult[],
+  raw: unknown,
   inputLength: number,
 ): AiEnrichmentResult[] | null {
-  if (!Array.isArray(response)) return null;
-  if (response.length !== inputLength) return null;
+  const result = AiEnrichmentResponseSchema.safeParse(raw);
+  if (!result.success) return null;
+  if (result.data.length !== inputLength) return null;
 
-  return response.map((item) => ({
-    artist: typeof item.artist === 'string' ? sanitizeString(item.artist) : '',
-    title: typeof item.title === 'string' ? sanitizeString(item.title) : '',
-    country: validateCountry(item.country),
-    language: validateCountry(item.language),
-    year: validateYear(item.year),
+  return result.data.map((item: AiEnrichmentItem) => ({
+    artist: sanitizeString(item.artist),
+    title: sanitizeString(item.title),
+    country: item.country,
+    language: item.language,
+    year: item.year,
   }));
 }
 
@@ -261,17 +246,17 @@ async function callAiProvider(
   return callGemini(systemPrompt, userMessage);
 }
 
-function parseJsonFromResponse(text: string) {
+function parseJsonFromResponse(text: string): unknown {
   // Try direct parse first
   try {
-    const parsed: AiEnrichmentResult[] = JSON.parse(text);
+    const parsed: unknown = JSON.parse(text);
     if (Array.isArray(parsed)) return parsed;
   } catch { /* ignore */ }
 
   // Try extracting JSON from markdown code block
   const match = text.match(/```(?:json)?\s*([\s\S]*?)```/);
   if (match) {
-    const parsed: AiEnrichmentResult[] = JSON.parse(match[1].trim());
+    const parsed: unknown = JSON.parse(match[1].trim());
     if (Array.isArray(parsed)) return parsed;
   }
 

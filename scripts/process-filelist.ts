@@ -23,6 +23,7 @@ import { loadOverrides, applyManualOverrides } from './dedup.js';
 import { enrichWithAi } from './ai-enricher.js';
 import type { AiEnrichmentStats } from './ai-enricher.js';
 import type { SongCountry } from '../src/types/song.js';
+import { RawFileListSchema, SongsArraySchema } from './schemas.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -43,17 +44,7 @@ interface Song {
   year?: number;
 }
 
-interface RawFileEntry {
-  filename: string;
-  sourceFolder?: string;
-}
-
-interface RawFileList {
-  scannedAt: string;
-  folderPaths: string[];
-  totalFiles: number;
-  files: RawFileEntry[];
-}
+import type { RawFileList } from './schemas.js';
 
 interface ProblematicSong {
   artist: string;
@@ -142,9 +133,10 @@ async function main() {
   let raw: RawFileList;
   try {
     const data = await fs.readFile(RAW_FILELIST_PATH, 'utf-8');
-    raw = JSON.parse(data);
-  } catch {
-    console.error(`   Could not read ${RAW_FILELIST_PATH}`);
+    raw = RawFileListSchema.parse(JSON.parse(data));
+  } catch (error) {
+    console.error(`   Could not read or validate ${RAW_FILELIST_PATH}`);
+    if (error instanceof Error) console.error(`   ${error.message}`);
     process.exit(1);
   }
   console.log(
@@ -177,10 +169,10 @@ async function main() {
   if (!forceRefresh) {
     try {
       const existingData = await fs.readFile(OUTPUT_PATH, 'utf-8');
-      existingSongs = JSON.parse(existingData);
+      existingSongs = SongsArraySchema.parse(JSON.parse(existingData));
       console.log(`   Existing songs.json: ${existingSongs.length} songs`);
     } catch {
-      console.log('   No existing songs.json found — processing all songs');
+      console.log('   No existing songs.json found or invalid — processing all songs');
     }
   } else {
     console.log('   Force mode — processing all songs');

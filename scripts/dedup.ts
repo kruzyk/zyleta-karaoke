@@ -1,13 +1,7 @@
 import fs from 'node:fs/promises';
 import type { Song } from '../src/types/song.js';
-
-interface ManualOverride {
-  artist?: string;
-  title?: string;
-  country?: string;
-  language?: string;
-  year?: number;
-}
+import { ManualOverridesSchema } from './schemas.js';
+import type { ManualOverride } from './schemas.js';
 
 /**
  * Normalize a string for deduplication comparison.
@@ -53,7 +47,15 @@ export async function loadOverrides(
 ): Promise<Record<string, ManualOverride>> {
   try {
     const data = await fs.readFile(filepath, 'utf-8');
-    return JSON.parse(data);
+    const parsed = ManualOverridesSchema.parse(JSON.parse(data));
+    // Filter out metadata keys (starting with _) and string values
+    const overrides: Record<string, ManualOverride> = {};
+    for (const [key, value] of Object.entries(parsed)) {
+      if (!key.startsWith('_') && typeof value === 'object') {
+        overrides[key] = value;
+      }
+    }
+    return overrides;
   } catch {
     return {};
   }
