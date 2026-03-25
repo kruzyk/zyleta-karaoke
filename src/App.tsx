@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { Header } from '@/components/Header/Header';
 import { SearchBar } from '@/components/SearchBar/SearchBar';
 import { FilterChips } from '@/components/FilterChips/FilterChips';
@@ -16,7 +17,6 @@ export default function App() {
   const { songs, isLoading, sortField, setSortField } = useSongs();
   const featureFlags = useFeatureFlags();
 
-  // Filter chips narrow down songs first, then search operates within filtered set
   const {
     filter,
     filteredSongs,
@@ -27,10 +27,15 @@ export default function App() {
     setCountryFilter,
   } = useFilter(songs, featureFlags);
 
-  const search = useSearch(filteredSongs);
+  // Search operates on the full song list so typo-tolerance works globally.
+  // Chip filter is then applied as an intersection with search results.
+  const search = useSearch(songs);
 
-  // Display songs: if searching → search results, else → filtered songs
-  const displaySongs = search.isSearching ? search.results : filteredSongs;
+  const displaySongs = useMemo(() => {
+    if (!search.isSearching) return filteredSongs;
+    const filterSet = new Set(filteredSongs);
+    return search.results.filter((s) => filterSet.has(s));
+  }, [search.isSearching, search.results, filteredSongs]);
 
   return (
     <div className={styles.app}>
@@ -41,7 +46,7 @@ export default function App() {
           <SearchBar
             query={search.query}
             onChange={search.setQuery}
-            resultCount={search.resultCount}
+            resultCount={displaySongs.length}
             totalCount={filteredSongs.length}
             isSearching={search.isSearching}
           />
