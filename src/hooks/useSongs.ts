@@ -54,6 +54,7 @@ export function useSongs() {
 
   return {
     songs: sortedSongs,
+    allSongs: state.songs,
     isLoading: state.isLoading,
     error: state.error,
     totalCount: state.songs.length,
