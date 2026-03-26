@@ -10,12 +10,16 @@
     "resultsCount": "{{count}} songs found",
     "resultsCountAll": "{{count}} songs"
   },
+  "common": {
+    "scrollToTop": "Scroll to top"
+  },
   "songList": {
     "noResults": "No songs found. Try a different search.",
     "loading": "Loading songs...",
     "sortByArtist": "Artist",
     "sortByTitle": "Title",
-    "sortLabel": "Sort by"
+    "sortLabel": "Sort by",
+    "ariaLabel": "Song list"
   },
   "filter": {
     "ariaLabel": "Filter songs",
@@ -40,6 +44,10 @@
   },
   "footer": {
     "copyright": "© {{year}} Żyleta Karaoke. All rights reserved.",
-    "followUs": "Follow us"
+    "followUs": "Follow us",
+    "aria": {
+      "facebook": "Żyleta Karaoke on Facebook",
+      "instagram": "Żyleta Karaoke on Instagram"
+    }
   }
 }
