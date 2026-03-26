@@ -50,19 +50,21 @@ export function SearchBar({
           value={query}
           onChange={(e) => onChange(e.target.value)}
           placeholder={t('search.placeholder')}
-          className={`${styles.input} ${!query ? styles.inputWithCount : ''}`}
+          className={styles.input}
           aria-label={t('search.placeholder')}
           autoComplete="off"
           spellCheck={false}
         />
 
-        {!query && (
-          <span className={styles.inlineCount} aria-live="polite" aria-atomic="true">
-            {isSearching
-              ? t('search.resultsCount', { count: resultCount })
-              : t('search.resultsCountAll', { count: totalCount })}
-          </span>
-        )}
+        <span
+          className={`${styles.inlineCount} ${query ? styles.inlineCountWithClear : ''}`}
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          {isSearching
+            ? t('search.resultsCount', { count: resultCount })
+            : t('search.resultsCountAll', { count: totalCount })}
+        </span>
 
         {query && (
           <button

@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import type { Song, SortField } from '@/types/song';
 import styles from './AlphabeticScroller.module.css';
 
@@ -18,6 +18,8 @@ function getSortKey(song: Song, sortField: SortField): string {
 }
 
 export function AlphabeticScroller({ songs, sortField, scrollContainerRef, estimatedItemHeight }: AlphabeticScrollerProps) {
+  const [activeLetter, setActiveLetter] = useState<string | null>(null);
+
   const letterMap = useMemo(() => {
     const map = new Map<string, number>();
     songs.forEach((song, i) => {
@@ -27,6 +29,29 @@ export function AlphabeticScroller({ songs, sortField, scrollContainerRef, estim
     });
     return map;
   }, [songs, sortField]);
+
+  const sortedLetterEntries = useMemo(() => {
+    return [...letterMap.entries()].sort((a, b) => a[1] - b[1]);
+  }, [letterMap]);
+
+  useEffect(() => {
+    const el = scrollContainerRef.current;
+    if (!el) return;
+
+    const handleScroll = () => {
+      const currentIndex = Math.floor(el.scrollTop / estimatedItemHeight);
+      let active: string | null = null;
+      for (const [letter, index] of sortedLetterEntries) {
+        if (index <= currentIndex) active = letter;
+        else break;
+      }
+      setActiveLetter(active);
+    };
+
+    el.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => el.removeEventListener('scroll', handleScroll);
+  }, [sortedLetterEntries, estimatedItemHeight, scrollContainerRef]);
 
   if (songs.length <= 50) return null;
 
@@ -55,15 +80,17 @@ export function AlphabeticScroller({ songs, sortField, scrollContainerRef, estim
     >
       {LETTERS.map((letter, i) => {
         const hasMatch = letterMap.has(letter);
+        const isActive = letter === activeLetter;
         return (
           <div key={letter} className={styles.letterGroup}>
             {i > 0 && <span className={styles.dot} aria-hidden="true">·</span>}
             <button
               data-letter={letter}
-              className={`${styles.letter} ${!hasMatch ? styles.letterDisabled : ''}`}
+              className={`${styles.letter} ${!hasMatch ? styles.letterDisabled : ''} ${isActive ? styles.letterActive : ''}`}
               onClick={hasMatch ? () => scrollToLetter(letter) : undefined}
               disabled={!hasMatch}
               aria-label={`Scroll to ${letter}`}
+              aria-current={isActive ? 'true' : undefined}
               type="button"
             >
               {letter}

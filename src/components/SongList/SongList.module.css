@@ -45,13 +45,18 @@
   box-shadow: 0 0 8px var(--glow-secondary);
 }
 
+.listArea {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
 .scrollContainer {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   contain: strict;
-  padding-right: 20px;
 }
 
 .stateContainer {
@@ -73,7 +78,7 @@
 .backToTop {
   position: absolute;
   bottom: clamp(1rem, 4vw, 2rem);
-  right: clamp(1rem, 4vw, 2rem);
+  right: calc(22px + clamp(1rem, 4vw, 2rem));
   z-index: 50;
   display: flex;
   align-items: center;

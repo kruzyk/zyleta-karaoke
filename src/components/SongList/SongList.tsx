@@ -19,6 +19,7 @@ export function SongList({ songs, isLoading, sortField, onSortChange }: SongList
   const parentRef = useRef<HTMLDivElement>(null);
 
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const isContainerVisible = !isLoading && songs.length > 0;
 
   useEffect(() => {
     if (parentRef.current) {
@@ -32,7 +33,7 @@ export function SongList({ songs, isLoading, sortField, onSortChange }: SongList
     const handleScroll = () => setShowBackToTop(el.scrollTop > 300);
     el.addEventListener('scroll', handleScroll, { passive: true });
     return () => el.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isContainerVisible]);
 
   const scrollToTop = () => {
     parentRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
@@ -84,44 +85,46 @@ export function SongList({ songs, isLoading, sortField, onSortChange }: SongList
         </button>
       </div>
 
-      <div
-        ref={parentRef}
-        className={styles.scrollContainer}
-        role="list"
-        aria-label={t('songList.ariaLabel')}
-      >
+      <div className={styles.listArea}>
         <div
-          style={{
-            height: `${virtualizer.getTotalSize()}px`,
-            width: '100%',
-            position: 'relative',
-          }}
+          ref={parentRef}
+          className={styles.scrollContainer}
+          role="list"
+          aria-label={t('songList.ariaLabel')}
         >
-          {virtualizer.getVirtualItems().map((virtualItem) => (
-            <div
-              key={virtualItem.key}
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                transform: `translateY(${virtualItem.start}px)`,
-              }}
-              data-index={virtualItem.index}
-              ref={virtualizer.measureElement}
-            >
-              <SongItem song={songs[virtualItem.index]} />
-            </div>
-          ))}
+          <div
+            style={{
+              height: `${virtualizer.getTotalSize()}px`,
+              width: '100%',
+              position: 'relative',
+            }}
+          >
+            {virtualizer.getVirtualItems().map((virtualItem) => (
+              <div
+                key={virtualItem.key}
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  transform: `translateY(${virtualItem.start}px)`,
+                }}
+                data-index={virtualItem.index}
+                ref={virtualizer.measureElement}
+              >
+                <SongItem song={songs[virtualItem.index]} />
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
 
-      <AlphabeticScroller
-        songs={songs}
-        sortField={sortField}
-        scrollContainerRef={parentRef}
-        estimatedItemHeight={56}
-      />
+        <AlphabeticScroller
+          songs={songs}
+          sortField={sortField}
+          scrollContainerRef={parentRef}
+          estimatedItemHeight={56}
+        />
+      </div>
 
       {showBackToTop && (
         <button
