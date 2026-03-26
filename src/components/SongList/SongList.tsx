@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import type { Song, SortField } from '@/types/song';
 import { SongItem } from './SongItem';
 import { Spinner } from '../common/Spinner';
-import { AlphaScroller } from './AlphaScroller';
+import { AlphabeticScroller } from './AlphabeticScroller';
 import styles from './SongList.module.css';
 
 interface SongListProps {
@@ -116,7 +116,7 @@ export function SongList({ songs, isLoading, sortField, onSortChange }: SongList
         </div>
       </div>
 
-      <AlphaScroller
+      <AlphabeticScroller
         songs={songs}
         sortField={sortField}
         scrollContainerRef={parentRef}

@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 import type { Song, SortField } from '@/types/song';
-import styles from './AlphaScroller.module.css';
+import styles from './AlphabeticScroller.module.css';
 
-interface AlphaScrollerProps {
+interface AlphabeticScrollerProps {
   songs: Song[];
   sortField: SortField;
   scrollContainerRef: React.RefObject<HTMLDivElement>;
@@ -17,7 +17,7 @@ function getSortKey(song: Song, sortField: SortField): string {
   return raw.replace(/^['"\u2018\u201C]/, '').toUpperCase();
 }
 
-export function AlphaScroller({ songs, sortField, scrollContainerRef, estimatedItemHeight }: AlphaScrollerProps) {
+export function AlphabeticScroller({ songs, sortField, scrollContainerRef, estimatedItemHeight }: AlphabeticScrollerProps) {
   const letterMap = useMemo(() => {
     const map = new Map<string, number>();
     songs.forEach((song, i) => {
@@ -48,23 +48,29 @@ export function AlphaScroller({ songs, sortField, scrollContainerRef, estimatedI
   };
 
   return (
-    <div
+    <nav
       className={styles.scroller}
+      aria-label="Alphabetic navigation"
       onTouchMove={handleTouchMove}
     >
-      {LETTERS.map((letter) => {
+      {LETTERS.map((letter, i) => {
         const hasMatch = letterMap.has(letter);
         return (
-          <span
-            key={letter}
-            data-letter={letter}
-            className={`${styles.letter} ${!hasMatch ? styles.letterDisabled : ''}`}
-            onClick={hasMatch ? () => scrollToLetter(letter) : undefined}
-          >
-            {letter}
-          </span>
+          <div key={letter} className={styles.letterGroup}>
+            {i > 0 && <span className={styles.dot} aria-hidden="true">·</span>}
+            <button
+              data-letter={letter}
+              className={`${styles.letter} ${!hasMatch ? styles.letterDisabled : ''}`}
+              onClick={hasMatch ? () => scrollToLetter(letter) : undefined}
+              disabled={!hasMatch}
+              aria-label={`Scroll to ${letter}`}
+              type="button"
+            >
+              {letter}
+            </button>
+          </div>
         );
       })}
-    </div>
+    </nav>
   );
 }

@@ -1,0 +1,73 @@
+.scroller {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 10;
+  padding: 4px 0;
+  pointer-events: none;
+  background-color: var(--bg-surface);
+  border-left: 1px solid var(--border-color);
+}
+
+.letterGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+  flex: 1;
+  justify-content: center;
+}
+
+.dot {
+  font-size: 0.5rem;
+  line-height: 1;
+  color: var(--border-color);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.letter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  min-height: 14px;
+  font-size: 0.625rem;
+  font-weight: 600;
+  line-height: 1;
+  padding: 1px 2px;
+  color: var(--text-primary);
+  background: transparent;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  pointer-events: auto;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: background-color 0.1s, color 0.1s;
+}
+
+.letter:hover:not(:disabled),
+.letter:focus-visible {
+  background-color: var(--neon-secondary);
+  color: var(--bg-primary);
+  outline: none;
+}
+
+.letter:focus-visible {
+  outline: 2px solid var(--neon-secondary);
+  outline-offset: 1px;
+}
+
+.letterDisabled {
+  color: var(--text-muted);
+  cursor: default;
+  opacity: 0.4;
+}

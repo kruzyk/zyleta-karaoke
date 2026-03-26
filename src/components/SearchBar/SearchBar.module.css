@@ -22,10 +22,6 @@
 .input {
   width: 100%;
   padding: 0.875rem 2.75rem 0.875rem 2.75rem;
-}
-
-.inputWithCount {
-  padding-right: 6rem;
   background-color: var(--bg-surface);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
@@ -35,6 +31,10 @@
   transition: var(--transition-theme);
   -webkit-appearance: none;
   appearance: none;
+}
+
+.inputWithCount {
+  padding-right: 6rem;
 }
 
 .input::placeholder {
