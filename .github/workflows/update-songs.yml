@@ -4,7 +4,7 @@ on:
   push:
     branches: [master]
     paths:
-      - 'data/raw-filelist.json'
+      - 'pipeline/input/raw-filelist.json'
   workflow_dispatch:
     inputs:
       force_refresh:
@@ -38,7 +38,7 @@ jobs:
 
       - name: Validate raw file list
         run: |
-          FILE="data/raw-filelist.json"
+          FILE="pipeline/input/raw-filelist.json"
           if [ ! -f "$FILE" ]; then
             echo "::error::raw-filelist.json not found"
             exit 1
@@ -99,8 +99,8 @@ jobs:
       - name: Backup current songs.json
         id: backup
         run: |
-          if [ -f src/data/songs.json ]; then
-            SONG_COUNT=$(node -e "console.log(JSON.parse(require('fs').readFileSync('src/data/songs.json','utf8')).length)")
+          if [ -f pipeline/output/songs.json ]; then
+            SONG_COUNT=$(node -e "console.log(JSON.parse(require('fs').readFileSync('pipeline/output/songs.json','utf8')).length)")
             echo "old_count=$SONG_COUNT" >> $GITHUB_OUTPUT
             echo "Recorded baseline: $SONG_COUNT songs"
           fi
@@ -120,12 +120,12 @@ jobs:
 
       - name: Safety check - prevent catastrophic song loss
         run: |
-          if [ ! -f src/data/songs.json ]; then
+          if [ ! -f pipeline/output/songs.json ]; then
             echo "::error::songs.json was not generated!"
             exit 1
           fi
 
-          NEW_COUNT=$(node -e "console.log(JSON.parse(require('fs').readFileSync('src/data/songs.json','utf8')).length)")
+          NEW_COUNT=$(node -e "console.log(JSON.parse(require('fs').readFileSync('pipeline/output/songs.json','utf8')).length)")
           OLD_COUNT="${{ steps.backup.outputs.old_count }}"
 
           if [ -n "$OLD_COUNT" ] && [ "$OLD_COUNT" -gt 50 ] && [ "$NEW_COUNT" -lt $((OLD_COUNT / 2)) ]; then
@@ -147,7 +147,7 @@ jobs:
       - name: Check for changes
         id: changes
         run: |
-          if git diff --quiet src/data/songs.json 2>/dev/null; then
+          if git diff --quiet pipeline/output/songs.json 2>/dev/null; then
             echo "changed=false" >> $GITHUB_OUTPUT
           else
             echo "changed=true" >> $GITHUB_OUTPUT
@@ -163,7 +163,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git checkout -b "$BRANCH"
-          git add src/data/songs.json
+          git add pipeline/output/songs.json
           git commit -m "chore: auto-update songs.json from raw file list"
           git push -u origin "$BRANCH"
 

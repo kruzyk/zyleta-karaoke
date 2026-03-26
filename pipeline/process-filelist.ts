@@ -1,14 +1,14 @@
 /**
  * Process raw file list (uploaded from karaoke laptop) into songs.json.
  *
- * This script is run by GitHub Actions when data/raw-filelist.json is updated.
+ * This script is run by GitHub Actions when pipeline/input/raw-filelist.json is updated.
  *
  * Usage:
- *   npx tsx scripts/process-filelist.ts           # Incremental (enrich new songs only)
- *   npx tsx scripts/process-filelist.ts --force    # Force re-enrich ALL songs
+ *   npx tsx pipeline/process-filelist.ts           # Incremental (enrich new songs only)
+ *   npx tsx pipeline/process-filelist.ts --force    # Force re-enrich ALL songs
  *
  * Pipeline:
- *   1. READ   → Load data/raw-filelist.json
+ *   1. READ   → Load pipeline/input/raw-filelist.json
  *   2. PARSE  → Parse filenames → artist/title
  *   3. DIFF   → Compare with existing songs.json → find new songs (--force skips this)
  *   4. ENRICH → Send new songs to AI in batches → get canonical data + metadata
@@ -22,27 +22,18 @@ import { parseFilenames } from './filename-parser.js';
 import { loadOverrides, applyManualOverrides } from './dedup.js';
 import { enrichWithAi } from './ai-enricher.js';
 import type { AiEnrichmentStats } from './ai-enricher.js';
-import type { SongCountry } from '../src/types/song.js';
+import type { Song } from '../src/types/song.js';
 import { RawFileListSchema, SongsArraySchema } from './schemas.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 
-const RAW_FILELIST_PATH = path.join(ROOT, 'data', 'raw-filelist.json');
-const OVERRIDES_PATH = path.join(ROOT, 'data', 'manual-overrides.json');
-const OUTPUT_PATH = path.join(ROOT, 'src', 'data', 'songs.json');
+const RAW_FILELIST_PATH = path.join(ROOT, 'pipeline', 'input', 'raw-filelist.json');
+const OVERRIDES_PATH = path.join(ROOT, 'pipeline', 'input', 'manual-overrides.json');
+const OUTPUT_PATH = path.join(ROOT, 'pipeline', 'output', 'songs.json');
 const REPORTS_DIR = process.env.REPORTS_DIR
   ? path.resolve(process.env.REPORTS_DIR)
   : path.join(ROOT, '..', 'pipeline-reports');
-
-interface Song {
-  id: string;
-  artist: string;
-  title: string;
-  country?: SongCountry;
-  language?: SongCountry;
-  year?: number;
-}
 
 import type { RawFileList } from './schemas.js';
 
@@ -296,9 +287,7 @@ async function main() {
 
   report.summaryStats.rawToFinal = songs.length;
   report.summaryStats.percentRetained = Math.round((songs.length / raw.totalFiles) * 100);
-  report.summaryStats.parseSuccessRate = Math.round(
-    (report.totalParsed / raw.totalFiles) * 100,
-  );
+  report.summaryStats.parseSuccessRate = Math.round((report.totalParsed / raw.totalFiles) * 100);
 
   // Generate report
   const reportPath = await savePipelineReport(report);
@@ -338,7 +327,10 @@ function deduplicateSongsWithTracking(songs: Song[]): {
     } else {
       const existing = seen.get(key)!;
       existing.count++;
-      const existingScore = (existing.song.country ? 1 : 0) + (existing.song.language ? 1 : 0) + (existing.song.year ? 1 : 0);
+      const existingScore =
+        (existing.song.country ? 1 : 0) +
+        (existing.song.language ? 1 : 0) +
+        (existing.song.year ? 1 : 0);
       const newScore = (song.country ? 1 : 0) + (song.language ? 1 : 0) + (song.year ? 1 : 0);
       if (newScore > existingScore) {
         seen.set(key, { song, count: existing.count });
@@ -411,12 +403,15 @@ function findProblematicSongs(songs: Song[]): ProblematicSong[] {
     if (!song.artist) issues.push('Missing artist');
 
     // Trailing special characters (asterisks, quotes)
-    if (/[*"']+$/.test(song.artist)) issues.push(`Trailing special chars in artist: "${song.artist}"`);
+    if (/[*"']+$/.test(song.artist))
+      issues.push(`Trailing special chars in artist: "${song.artist}"`);
     if (/[*"']+$/.test(song.title)) issues.push(`Trailing special chars in title: "${song.title}"`);
 
     // Wrapping quotes in artist or title
-    if (/^['""''].*['""'']$/.test(song.artist)) issues.push(`Wrapping quotes in artist: "${song.artist}"`);
-    if (/^['""''].*['""'']$/.test(song.title)) issues.push(`Wrapping quotes in title: "${song.title}"`);
+    if (/^['""''].*['""'']$/.test(song.artist))
+      issues.push(`Wrapping quotes in artist: "${song.artist}"`);
+    if (/^['""''].*['""'']$/.test(song.title))
+      issues.push(`Wrapping quotes in title: "${song.title}"`);
 
     // All metadata missing
     if (!song.country && !song.year && !song.language) {
@@ -495,15 +490,24 @@ async function savePipelineReport(report: PipelineReport): Promise<string> {
   md += `| Language | ${langFilled} | ${report.aiStats.nullLanguageCount} | ${Math.round((langFilled / enriched) * 100)}% |\n\n`;
 
   md += '## Metadata Coverage (Final)\n\n';
-  const countryPct = report.finalCount > 0
-    ? Math.round(((report.finalCount - report.missingMetadata.countryCount) / report.finalCount) * 100)
-    : 0;
-  const yearPct = report.finalCount > 0
-    ? Math.round(((report.finalCount - report.missingMetadata.yearCount) / report.finalCount) * 100)
-    : 0;
-  const langCovPct = report.finalCount > 0
-    ? Math.round(((report.finalCount - report.missingMetadata.languageCount) / report.finalCount) * 100)
-    : 0;
+  const countryPct =
+    report.finalCount > 0
+      ? Math.round(
+          ((report.finalCount - report.missingMetadata.countryCount) / report.finalCount) * 100,
+        )
+      : 0;
+  const yearPct =
+    report.finalCount > 0
+      ? Math.round(
+          ((report.finalCount - report.missingMetadata.yearCount) / report.finalCount) * 100,
+        )
+      : 0;
+  const langCovPct =
+    report.finalCount > 0
+      ? Math.round(
+          ((report.finalCount - report.missingMetadata.languageCount) / report.finalCount) * 100,
+        )
+      : 0;
   md += '| Field | Coverage | Missing |\n|-------|----------|----------|\n';
   md += `| Country | ${countryPct}% | ${report.missingMetadata.countryCount} |\n`;
   md += `| Year | ${yearPct}% | ${report.missingMetadata.yearCount} |\n`;
