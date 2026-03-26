@@ -141,23 +141,22 @@ Output: [{"artist":"Traditional","title":"Barka","year":1974,"country":"PL","lan
  * Keeps apostrophes in contractions (Don't, I'm, 'n', Believin').
  */
 function sanitizeString(str: string): string {
-  return str
-    // Remove paired quotes wrapping substrings that contain spaces (nicknames, stage names).
-    // Uses lookbehind/lookahead to avoid stripping contractions like don't, l'amour.
-    // 'Weird Al' → Weird Al, "Left Eye" → Left Eye
-    // Keeps: don't, I'm, 'n', L'Hymne, Believin'
-    .replace(/(?<!\w)['""''"]([^'""''"]*\s[^'""''"]*?)['""''"](?!\w)/g, '$1')
-    // Strip trailing asterisks (AI sometimes appends * to indicate uncertainty)
-    // Keeps internal asterisks: "A*Teens" stays, "Kazik*" → "Kazik"
-    .replace(/\*+$/g, '')
-    .replace(/\s+/g, ' ')
-    .trim();
+  return (
+    str
+      // Remove paired quotes wrapping substrings that contain spaces (nicknames, stage names).
+      // Uses lookbehind/lookahead to avoid stripping contractions like don't, l'amour.
+      // 'Weird Al' → Weird Al, "Left Eye" → Left Eye
+      // Keeps: don't, I'm, 'n', L'Hymne, Believin'
+      .replace(/(?<!\w)['""''"]([^'""''"]*\s[^'""''"]*?)['""''"](?!\w)/g, '$1')
+      // Strip trailing asterisks (AI sometimes appends * to indicate uncertainty)
+      // Keeps internal asterisks: "A*Teens" stays, "Kazik*" → "Kazik"
+      .replace(/\*+$/g, '')
+      .replace(/\s+/g, ' ')
+      .trim()
+  );
 }
 
-function validateResponse(
-  raw: unknown,
-  inputLength: number,
-): AiEnrichmentResult[] | null {
+function validateResponse(raw: unknown, inputLength: number): AiEnrichmentResult[] | null {
   const result = AiEnrichmentResponseSchema.safeParse(raw);
   if (!result.success) return null;
   if (result.data.length !== inputLength) return null;
@@ -171,10 +170,7 @@ function validateResponse(
   }));
 }
 
-async function callClaude(
-  systemPrompt: string,
-  userMessage: string,
-): Promise<string> {
+async function callClaude(systemPrompt: string, userMessage: string): Promise<string> {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) throw new Error('ANTHROPIC_API_KEY not set');
 
@@ -204,10 +200,7 @@ async function callClaude(
   return text;
 }
 
-async function callGemini(
-  systemPrompt: string,
-  userMessage: string,
-): Promise<string> {
+async function callGemini(systemPrompt: string, userMessage: string): Promise<string> {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) throw new Error('GEMINI_API_KEY not set');
 
@@ -235,6 +228,8 @@ async function callGemini(
   return text;
 }
 
+const sleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
+
 type AiProvider = 'claude' | 'gemini';
 
 async function callAiProvider(
@@ -251,7 +246,9 @@ function parseJsonFromResponse(text: string): unknown {
   try {
     const parsed: unknown = JSON.parse(text);
     if (Array.isArray(parsed)) return parsed;
-  } catch { /* ignore */ }
+  } catch {
+    /* ignore */
+  }
 
   // Try extracting JSON from markdown code block
   const match = text.match(/```(?:json)?\s*([\s\S]*?)```/);
@@ -268,12 +265,11 @@ async function enrichBatch(
   primaryProvider: AiProvider,
   fallbackProvider: AiProvider | null,
 ): Promise<{ results: AiEnrichmentResult[]; provider: AiProvider }> {
-  const userMessage = JSON.stringify(
-    batch.map((s) => ({ artist: s.artist, title: s.title })),
-  );
+  const userMessage = JSON.stringify(batch.map((s) => ({ artist: s.artist, title: s.title })));
 
-  // Try primary provider (with one retry)
+  // Try primary provider (with exponential backoff retries)
   for (let attempt = 0; attempt < 2; attempt++) {
+    if (attempt > 0) await sleep(1000 * Math.pow(2, attempt - 1));
     try {
       const text = await callAiProvider(primaryProvider, SYSTEM_PROMPT, userMessage);
       const parsed = parseJsonFromResponse(text);
@@ -286,10 +282,11 @@ async function enrichBatch(
     }
   }
 
-  // Try fallback provider (with one retry)
+  // Try fallback provider (with exponential backoff retries)
   if (fallbackProvider) {
     //TODO: code below is duplicated from above — could be refactored to a helper function to avoid repetition
     for (let attempt = 0; attempt < 2; attempt++) {
+      if (attempt > 0) await sleep(1000 * Math.pow(2, attempt - 1));
       try {
         const text = await callAiProvider(fallbackProvider, SYSTEM_PROMPT, userMessage);
         const parsed = parseJsonFromResponse(text);
@@ -310,9 +307,7 @@ function determinePrimaryProvider(): { primary: AiProvider; fallback: AiProvider
   const hasGemini = Boolean(process.env.GEMINI_API_KEY);
 
   if (!hasClaude && !hasGemini) {
-    throw new Error(
-      'No AI provider configured. Set ANTHROPIC_API_KEY or GEMINI_API_KEY.',
-    );
+    throw new Error('No AI provider configured. Set ANTHROPIC_API_KEY or GEMINI_API_KEY.');
   }
 
   if (hasClaude) return { primary: 'claude', fallback: hasGemini ? 'gemini' : null };
@@ -342,7 +337,11 @@ export async function enrichWithAi(
 
   const allResults: AiEnrichmentResult[] = [];
 
+  // Minimum delay between batches to respect API rate limits (ms)
+  const INTER_BATCH_DELAY_MS = 500;
+
   for (let i = 0; i < songs.length; i += batchSize) {
+    if (i > 0) await sleep(INTER_BATCH_DELAY_MS);
     const batch = songs.slice(i, i + batchSize);
     const batchNum = Math.floor(i / batchSize) + 1;
 
@@ -359,13 +358,9 @@ export async function enrichWithAi(
         if (r.language === null) stats.nullLanguageCount++;
       }
 
-      console.log(
-        `   Batch ${batchNum}/${stats.totalBatches}: ${results.length} songs enriched`,
-      );
+      console.log(`   Batch ${batchNum}/${stats.totalBatches}: ${results.length} songs enriched`);
     } catch {
-      console.error(
-        `   ❌ Batch ${batchNum}/${stats.totalBatches}: FAILED — using original data`,
-      );
+      console.error(`   ❌ Batch ${batchNum}/${stats.totalBatches}: FAILED — using original data`);
       stats.failedBatches++;
 
       // Fall back to original parsed data with null metadata
