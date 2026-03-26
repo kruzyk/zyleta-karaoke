@@ -16,24 +16,6 @@
   cursor: pointer;
 }
 
-.letterGroup {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  pointer-events: none;
-  flex: 1;
-  justify-content: center;
-}
-
-.dot {
-  font-size: 0.5rem;
-  line-height: 1;
-  color: var(--border-color);
-  pointer-events: none;
-  user-select: none;
-  -webkit-user-select: none;
-}
-
 .letter {
   display: flex;
   align-items: center;
