@@ -36,7 +36,9 @@ export function SongList({ songs, isLoading, sortField, onSortChange }: SongList
   if (songs.length === 0) {
     return (
       <div className={styles.stateContainer}>
-        <p className={styles.noResults}>{t('songList.noResults')}</p>
+        <p className={styles.noResults} aria-live="polite">
+          {t('songList.noResults')}
+        </p>
       </div>
     );
   }
@@ -65,7 +67,7 @@ export function SongList({ songs, isLoading, sortField, onSortChange }: SongList
         ref={parentRef}
         className={styles.scrollContainer}
         role="list"
-        aria-label="Song list"
+        aria-label={t('songList.ariaLabel')}
       >
         <div
           style={{

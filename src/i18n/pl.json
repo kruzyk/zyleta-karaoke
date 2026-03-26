@@ -10,12 +10,17 @@
     "resultsCount": "Znaleziono {{count}} piosenek",
     "resultsCountAll": "{{count}} piosenek"
   },
+  "common": {
+    "scrollToTop": "Przewiń na górę",
+    "skipToContent": "Przejdź do treści"
+  },
   "songList": {
     "noResults": "Nie znaleziono piosenek. Spróbuj innego wyszukiwania.",
     "loading": "Ładowanie piosenek...",
     "sortByArtist": "Wykonawca",
     "sortByTitle": "Tytuł",
-    "sortLabel": "Sortuj wg"
+    "sortLabel": "Sortuj wg",
+    "ariaLabel": "Lista piosenek"
   },
   "filter": {
     "ariaLabel": "Filtruj piosenki",
@@ -40,6 +45,10 @@
   },
   "footer": {
     "copyright": "© {{year}} Żyleta Karaoke. Wszelkie prawa zastrzeżone.",
-    "followUs": "Obserwuj nas"
+    "followUs": "Obserwuj nas",
+    "aria": {
+      "facebook": "Żyleta Karaoke na Facebooku",
+      "instagram": "Żyleta Karaoke na Instagramie"
+    }
   }
 }
