@@ -7,17 +7,51 @@ interface AlphabeticScrollerProps {
   sortField: SortField;
   scrollContainerRef: React.RefObject<HTMLDivElement>;
   estimatedItemHeight: number;
+  onScrollToIndex: (index: number) => void;
 }
 
-const LETTERS = ['#', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-  'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+const LETTERS = [
+  '#',
+  'A',
+  'B',
+  'C',
+  'D',
+  'E',
+  'F',
+  'G',
+  'H',
+  'I',
+  'J',
+  'K',
+  'L',
+  'M',
+  'N',
+  'O',
+  'P',
+  'Q',
+  'R',
+  'S',
+  'T',
+  'U',
+  'V',
+  'W',
+  'X',
+  'Y',
+  'Z',
+];
 
 function getSortKey(song: Song, sortField: SortField): string {
   const raw = sortField === 'artist' ? song.artist : song.title;
   return raw.replace(/^['"\u2018\u201C]/, '').toUpperCase();
 }
 
-export function AlphabeticScroller({ songs, sortField, scrollContainerRef, estimatedItemHeight }: AlphabeticScrollerProps) {
+export function AlphabeticScroller({
+  songs,
+  sortField,
+  scrollContainerRef,
+  estimatedItemHeight,
+  onScrollToIndex,
+}: AlphabeticScrollerProps) {
   const [activeLetter, setActiveLetter] = useState<string | null>(null);
 
   const letterMap = useMemo(() => {
@@ -58,10 +92,7 @@ export function AlphabeticScroller({ songs, sortField, scrollContainerRef, estim
   const scrollToLetter = (letter: string) => {
     const index = letterMap.get(letter);
     if (index === undefined) return;
-    scrollContainerRef.current?.scrollTo({
-      top: index * estimatedItemHeight,
-      behavior: 'smooth',
-    });
+    onScrollToIndex(index);
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
@@ -83,7 +114,11 @@ export function AlphabeticScroller({ songs, sortField, scrollContainerRef, estim
         const isActive = letter === activeLetter;
         return (
           <div key={letter} className={styles.letterGroup}>
-            {i > 0 && <span className={styles.dot} aria-hidden="true">·</span>}
+            {i > 0 && (
+              <span className={styles.dot} aria-hidden="true">
+                ·
+              </span>
+            )}
             <button
               data-letter={letter}
               className={`${styles.letter} ${!hasMatch ? styles.letterDisabled : ''} ${isActive ? styles.letterActive : ''}`}
