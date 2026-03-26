@@ -12,7 +12,13 @@ import { z } from 'zod';
 // ── Shared enums ──
 
 export const SongCountrySchema = z.enum([
-  'PL', 'EN', 'Sweden', 'Norway', 'Spain', 'Italy', 'Germany',
+  'PL',
+  'EN',
+  'Sweden',
+  'Norway',
+  'Spain',
+  'Italy',
+  'Germany',
 ]);
 
 // ── raw-filelist.json ──
@@ -69,12 +75,31 @@ export type ManualOverride = z.infer<typeof ManualOverrideSchema>;
 
 const currentYear = new Date().getFullYear();
 
+/** Counts how many times a `.catch()` fallback fired during AI response validation. */
+export let aiValidationFallbackCount = 0;
+
+/** Resets the fallback counter — call before each batch validation. */
+export function resetAiValidationFallbackCount(): void {
+  aiValidationFallbackCount = 0;
+}
+
+function warnOnCatch<T>(fallback: T, field: string) {
+  return (ctx: { error: z.ZodError; input: unknown }) => {
+    aiValidationFallbackCount++;
+    const issues = ctx.error.issues.map((i) => i.message).join('; ');
+    console.warn(
+      `[schema] AI field "${field}" failed validation (${issues}), value: ${JSON.stringify(ctx.input)} → defaulting to ${JSON.stringify(fallback)}`,
+    );
+    return fallback;
+  };
+}
+
 export const AiEnrichmentItemSchema = z.object({
   artist: z.string().default(''),
   title: z.string().default(''),
-  year: z.number().int().min(1800).max(currentYear).nullable().catch(null),
-  country: SongCountrySchema.nullable().catch(null),
-  language: SongCountrySchema.nullable().catch(null),
+  year: z.number().int().min(1800).max(currentYear).nullable().catch(warnOnCatch(null, 'year')),
+  country: SongCountrySchema.nullable().catch(warnOnCatch(null, 'country')),
+  language: SongCountrySchema.nullable().catch(warnOnCatch(null, 'language')),
 });
 
 export const AiEnrichmentResponseSchema = z.array(AiEnrichmentItemSchema);
