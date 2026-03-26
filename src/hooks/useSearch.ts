@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import type { Song } from '@/types/song';
 import { createSearchIndex, searchSongs } from '@/utils/search';
 import config from '@/config';
@@ -30,14 +30,5 @@ export function useSearch(allSongs: Song[]) {
 
   const isSearching = query.trim().length > 0;
 
-  return useMemo(
-    () => ({
-      query,
-      setQuery,
-      results,
-      isSearching,
-      resultCount: results.length,
-    }),
-    [query, results, isSearching],
-  );
+  return { query, setQuery, results, isSearching, resultCount: results.length };
 }
