@@ -26,8 +26,15 @@
 }
 
 .logo {
-  height: clamp(36px, 10vw, 56px);
+  height: clamp(28px, 8vw, 56px);
   width: auto;
+}
+
+@media (max-width: 390px) {
+  .inner {
+    padding-top: 0.375rem;
+    padding-bottom: 0.375rem;
+  }
 }
 
 .controls {

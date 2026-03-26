@@ -10,7 +10,13 @@ interface SearchBarProps {
   isSearching: boolean;
 }
 
-export function SearchBar({ query, onChange, resultCount, totalCount, isSearching }: SearchBarProps) {
+export function SearchBar({
+  query,
+  onChange,
+  resultCount,
+  totalCount,
+  isSearching,
+}: SearchBarProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const { t } = useTranslation();
 
@@ -44,11 +50,19 @@ export function SearchBar({ query, onChange, resultCount, totalCount, isSearchin
           value={query}
           onChange={(e) => onChange(e.target.value)}
           placeholder={t('search.placeholder')}
-          className={styles.input}
+          className={`${styles.input} ${!query ? styles.inputWithCount : ''}`}
           aria-label={t('search.placeholder')}
           autoComplete="off"
           spellCheck={false}
         />
+
+        {!query && (
+          <span className={styles.inlineCount} aria-live="polite" aria-atomic="true">
+            {isSearching
+              ? t('search.resultsCount', { count: resultCount })
+              : t('search.resultsCountAll', { count: totalCount })}
+          </span>
+        )}
 
         {query && (
           <button
@@ -73,12 +87,6 @@ export function SearchBar({ query, onChange, resultCount, totalCount, isSearchin
             </svg>
           </button>
         )}
-      </div>
-
-      <div className={styles.count} aria-live="polite" aria-atomic="true">
-        {isSearching
-          ? t('search.resultsCount', { count: resultCount })
-          : t('search.resultsCountAll', { count: totalCount })}
       </div>
     </div>
   );

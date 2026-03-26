@@ -1,9 +1,10 @@
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useTranslation } from 'react-i18next';
 import type { Song, SortField } from '@/types/song';
 import { SongItem } from './SongItem';
 import { Spinner } from '../common/Spinner';
+import { AlphaScroller } from './AlphaScroller';
 import styles from './SongList.module.css';
 
 interface SongListProps {
@@ -16,6 +17,26 @@ interface SongListProps {
 export function SongList({ songs, isLoading, sortField, onSortChange }: SongListProps) {
   const { t } = useTranslation();
   const parentRef = useRef<HTMLDivElement>(null);
+
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
+  useEffect(() => {
+    if (parentRef.current) {
+      parentRef.current.scrollTop = 0;
+    }
+  }, [songs]);
+
+  useEffect(() => {
+    const el = parentRef.current;
+    if (!el) return;
+    const handleScroll = () => setShowBackToTop(el.scrollTop > 300);
+    el.addEventListener('scroll', handleScroll, { passive: true });
+    return () => el.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    parentRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const virtualizer = useVirtualizer({
     count: songs.length,
@@ -94,6 +115,36 @@ export function SongList({ songs, isLoading, sortField, onSortChange }: SongList
           ))}
         </div>
       </div>
+
+      <AlphaScroller
+        songs={songs}
+        sortField={sortField}
+        scrollContainerRef={parentRef}
+        estimatedItemHeight={56}
+      />
+
+      {showBackToTop && (
+        <button
+          onClick={scrollToTop}
+          className={styles.backToTop}
+          aria-label={t('common.scrollToTop')}
+          title={t('common.scrollToTop')}
+        >
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <polyline points="18 15 12 9 6 15" />
+          </svg>
+        </button>
+      )}
     </div>
   );
 }
