@@ -1,4 +1,5 @@
 .scroller {
+  position: relative;
   flex-shrink: 0;
   width: 22px;
   height: 100%;
@@ -60,4 +61,48 @@
 .letterActive {
   background-color: var(--neon-secondary);
   color: var(--bg-primary);
+}
+
+.dragBadge {
+  position: absolute;
+  right: calc(100% + 12px);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background-color: var(--neon-secondary);
+  color: var(--bg-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1;
+  pointer-events: none;
+  z-index: 100;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (pointer: coarse) {
+  .scroller {
+    width: 32px;
+  }
+
+  .letter {
+    min-height: 44px;
+    width: 28px;
+  }
 }

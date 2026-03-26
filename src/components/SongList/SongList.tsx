@@ -122,7 +122,6 @@ export function SongList({ songs, isLoading, sortField, onSortChange }: SongList
           songs={songs}
           sortField={sortField}
           scrollContainerRef={parentRef}
-          estimatedItemHeight={56}
           onScrollToIndex={(index) => virtualizer.scrollToIndex(index, { behavior: 'smooth' })}
         />
       </div>

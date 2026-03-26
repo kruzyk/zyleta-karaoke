@@ -1,4 +1,5 @@
 import { useMemo, useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { Song, SortField } from '@/types/song';
 import styles from './AlphabeticScroller.module.css';
 
@@ -6,7 +7,6 @@ interface AlphabeticScrollerProps {
   songs: Song[];
   sortField: SortField;
   scrollContainerRef: React.RefObject<HTMLDivElement>;
-  estimatedItemHeight: number;
   onScrollToIndex: (index: number) => void;
 }
 
@@ -27,12 +27,13 @@ export function AlphabeticScroller({
   songs,
   sortField,
   scrollContainerRef,
-  estimatedItemHeight,
   onScrollToIndex,
 }: AlphabeticScrollerProps) {
+  const { t } = useTranslation();
   const navRef = useRef<HTMLElement>(null);
   const [navHeight, setNavHeight] = useState(0);
   const [activeLetter, setActiveLetter] = useState<string | null>(null);
+  const [dragLetter, setDragLetter] = useState<string | null>(null);
 
   // letter → index of first song with that starting letter
   const letterMap = useMemo(() => {
@@ -52,8 +53,7 @@ export function AlphabeticScroller({
   );
 
   // Subset of ALL_LETTERS that fits the available height.
-  // When bar is short we thin the alphabet (every 2nd, every 3rd …) —
-  // same strategy as index-scrollbar's checkVisibleLetters().
+  // When bar is short we thin the alphabet (every 2nd, every 3rd …)
   const visibleLetters = useMemo(() => {
     if (navHeight === 0) return ALL_LETTERS;
     const maxSlots = Math.floor(navHeight / MIN_SLOT_PX);
@@ -74,12 +74,24 @@ export function AlphabeticScroller({
     return () => ro.disconnect();
   }, []);
 
-  // Active-letter indicator: which letter section is currently in view
+  // Active-letter indicator: detect first visible song by reading actual DOM positions
+  // from tanstack-virtual's absolutley-positioned items (transform: translateY(Xpx))
   useEffect(() => {
     const el = scrollContainerRef.current;
     if (!el) return;
     const onScroll = () => {
-      const idx = Math.floor(el.scrollTop / estimatedItemHeight);
+      const { scrollTop } = el;
+      let idx = 0;
+      let bestTop = -1;
+      el.querySelectorAll<HTMLElement>('[data-index]').forEach(item => {
+        const match = /translateY\((\d+(?:\.\d+)?)px\)/.exec(item.style.transform);
+        if (!match) return;
+        const itemTop = parseFloat(match[1]);
+        if (itemTop <= scrollTop && itemTop > bestTop) {
+          bestTop = itemTop;
+          idx = parseInt(item.dataset.index ?? '0', 10);
+        }
+      });
       let active: string | null = null;
       for (const [letter, firstIdx] of sortedLetterEntries) {
         if (firstIdx <= idx) active = letter;
@@ -90,26 +102,28 @@ export function AlphabeticScroller({
     el.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
     return () => el.removeEventListener('scroll', onScroll);
-  }, [sortedLetterEntries, estimatedItemHeight, scrollContainerRef]);
+  }, [sortedLetterEntries, scrollContainerRef]);
 
-  if (songs.length <= 50) return null;
+  if (songs.length <= 20) return null;
 
-  // Given a target letter (from Y position), find the nearest available letter.
-  // Mirrors index-scrollbar's getClosestValidLetterIndex() approach.
+  // Given a target letter, find the nearest available letter (true nearest-neighbor).
+  // Checks both directions at the same distance d simultaneously.
   const findNearestAvailable = (targetLetter: string): number | undefined => {
     if (letterMap.has(targetLetter)) return letterMap.get(targetLetter);
     const ti = ALL_LETTERS.indexOf(targetLetter);
     for (let d = 1; d < ALL_LETTERS.length; d++) {
       const before = ALL_LETTERS[ti - d];
-      if (before && letterMap.has(before)) return letterMap.get(before);
       const after = ALL_LETTERS[ti + d];
-      if (after && letterMap.has(after)) return letterMap.get(after);
+      const hasBefore = before !== undefined && letterMap.has(before);
+      const hasAfter = after !== undefined && letterMap.has(after);
+      if (hasBefore || hasAfter) {
+        return hasBefore ? letterMap.get(before) : letterMap.get(after);
+      }
     }
     return undefined;
   };
 
-  // Maps pointer Y to a letter and triggers navigation.
-  // Core formula from index-scrollbar: ratio * (letters.length - 1)
+  // Maps pointer Y to a letter, shows drag badge, and triggers navigation.
   const navigateToY = (clientY: number) => {
     const nav = navRef.current;
     if (!nav) return;
@@ -117,12 +131,12 @@ export function AlphabeticScroller({
     const ratio = Math.max(0, Math.min((clientY - top) / height, 1));
     const idx = Math.round(ratio * (visibleLetters.length - 1));
     const letter = visibleLetters[idx];
+    setDragLetter(letter);
     const songIdx = findNearestAvailable(letter);
     if (songIdx !== undefined) onScrollToIndex(songIdx);
   };
 
   const handlePointerDown = (e: React.PointerEvent<HTMLElement>) => {
-    // Capture so pointermove continues even if finger leaves the bar
     e.currentTarget.setPointerCapture(e.pointerId);
     navigateToY(e.clientY);
   };
@@ -132,14 +146,30 @@ export function AlphabeticScroller({
     navigateToY(e.clientY);
   };
 
+  const handlePointerUp = (e: React.PointerEvent<HTMLElement>) => {
+    e.currentTarget.releasePointerCapture(e.pointerId);
+    setDragLetter(null);
+  };
+
   return (
     <nav
       ref={navRef}
       className={styles.scroller}
-      aria-label="Alphabetic navigation"
+      aria-label={t('alphabeticScroller.navLabel')}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
     >
+      <span className={styles.srOnly} aria-live="polite" aria-atomic="true">
+        {activeLetter
+          ? t('alphabeticScroller.currentSection', { letter: activeLetter })
+          : ''}
+      </span>
+      {dragLetter && (
+        <span className={styles.dragBadge} aria-hidden="true">
+          {dragLetter}
+        </span>
+      )}
       {visibleLetters.map((letter) => {
         const hasMatch = letterMap.has(letter);
         const isActive = letter === activeLetter;
@@ -151,8 +181,7 @@ export function AlphabeticScroller({
             onClick={hasMatch ? () => onScrollToIndex(letterMap.get(letter)!) : undefined}
             disabled={!hasMatch}
             tabIndex={hasMatch ? 0 : -1}
-            aria-label={`Scroll to ${letter}`}
-            aria-current={isActive ? 'true' : undefined}
+            aria-label={t('alphabeticScroller.scrollTo', { letter })}
             type="button"
           >
             {letter}
