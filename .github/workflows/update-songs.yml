@@ -112,7 +112,7 @@ jobs:
             FORCE_FLAG="--force"
             echo "Running with --force (cache ignored)"
           fi
-          npx tsx scripts/process-filelist.ts $FORCE_FLAG
+          npx tsx pipeline/process-filelist.ts $FORCE_FLAG
         env:
           REPORTS_DIR: /tmp/pipeline-reports
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
