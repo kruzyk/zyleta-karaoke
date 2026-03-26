@@ -14,7 +14,7 @@ import styles from './App.module.css';
 
 export default function App() {
   const { theme, toggleTheme } = useTheme();
-  const { songs, isLoading, sortField, setSortField } = useSongs();
+  const { songs, allSongs, isLoading, sortField, setSortField } = useSongs();
   const featureFlags = useFeatureFlags();
 
   const {
@@ -27,9 +27,10 @@ export default function App() {
     setCountryFilter,
   } = useFilter(songs, featureFlags);
 
-  // Search operates on the full song list so typo-tolerance works globally.
+  // Search operates on the unsorted list so typo-tolerance works globally
+  // and sort changes don't trigger a Fuse.js index rebuild.
   // Chip filter is then applied as an intersection with search results.
-  const search = useSearch(songs);
+  const search = useSearch(allSongs);
 
   const displaySongs = useMemo(() => {
     if (!search.isSearching) return filteredSongs;
