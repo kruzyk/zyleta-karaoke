@@ -98,16 +98,13 @@ export function useFilter(allSongs: Song[], featureFlags: FeatureFlags) {
     setFilter((prev) => ({ ...prev, country }));
   }, []);
 
-  return useMemo(
-    () => ({
-      filter,
-      filteredSongs,
-      availableCountries,
-      availableDecades,
-      setMainFilter,
-      setDecadeFilter,
-      setCountryFilter,
-    }),
-    [filter, filteredSongs, availableCountries, availableDecades, setMainFilter, setDecadeFilter, setCountryFilter],
-  );
+  return {
+    filter,
+    filteredSongs,
+    availableCountries,
+    availableDecades,
+    setMainFilter,
+    setDecadeFilter,
+    setCountryFilter,
+  };
 }

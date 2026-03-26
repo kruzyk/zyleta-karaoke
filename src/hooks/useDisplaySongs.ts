@@ -9,8 +9,8 @@ import { useSearch } from '@/hooks/useSearch';
  * as `displaySongs`. Search operates on the full list for global typo-tolerance;
  * the active chip filter is applied as a post-intersection step.
  */
-export function useDisplaySongs(allSongs: Song[], featureFlags: FeatureFlags) {
-  const filterResult = useFilter(allSongs, featureFlags);
+export function useDisplaySongs(songs: Song[], allSongs: Song[], featureFlags: FeatureFlags) {
+  const filterResult = useFilter(songs, featureFlags);
   const search = useSearch(allSongs);
 
   const displaySongs = useMemo(() => {

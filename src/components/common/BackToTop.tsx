@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import styles from './BackToTop.module.css';
 
 export function BackToTop() {
+  const { t } = useTranslation();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -23,8 +25,8 @@ export function BackToTop() {
     <button
       onClick={scrollToTop}
       className={styles.button}
-      aria-label="Scroll to top"
-      title="Back to top"
+      aria-label={t('common.scrollToTop')}
+      title={t('common.scrollToTop')}
     >
       <svg
         width="20"

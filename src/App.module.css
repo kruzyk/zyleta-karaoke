@@ -4,6 +4,26 @@
   min-height: 100dvh;
 }
 
+.skipLink {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  z-index: 9999;
+  padding: 0.75rem 1.25rem;
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border: 2px solid var(--neon-primary);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  text-decoration: none;
+  transition: top 0.1s;
+}
+
+.skipLink:focus {
+  top: 0.5rem;
+  left: 0.5rem;
+}
+
 .main {
   flex: 1;
   display: flex;

@@ -14,15 +14,15 @@
   gap: 0.5rem;
   overflow-x: auto;
   overflow-y: hidden;
-  scrollbar-width: none;          /* Firefox */
-  -ms-overflow-style: none;       /* IE/Edge */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
   -webkit-overflow-scrolling: touch;
   padding: 0.25rem 0;
   scroll-snap-type: x proximity;
 }
 
 .chipRow::-webkit-scrollbar {
-  display: none;                  /* Chrome/Safari */
+  display: none; /* Chrome/Safari */
 }
 
 /* Base chip style */
@@ -97,7 +97,7 @@
   color: var(--text-secondary);
   cursor: pointer;
   transition: var(--transition-theme);
-  min-height: 30px;
+  min-height: 36px;
   scroll-snap-align: start;
   flex-shrink: 0;
   user-select: none;
