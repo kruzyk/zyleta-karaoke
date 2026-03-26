@@ -11,7 +11,8 @@
     "resultsCountAll": "{{count}} piosenek"
   },
   "common": {
-    "scrollToTop": "Przewiń na górę"
+    "scrollToTop": "Przewiń na górę",
+    "skipToContent": "Przejdź do treści"
   },
   "songList": {
     "noResults": "Nie znaleziono piosenek. Spróbuj innego wyszukiwania.",

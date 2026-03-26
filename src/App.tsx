@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Header } from '@/components/Header/Header';
 import { SearchBar } from '@/components/SearchBar/SearchBar';
 import { FilterChips } from '@/components/FilterChips/FilterChips';
@@ -13,6 +14,7 @@ import { useSearch } from '@/hooks/useSearch';
 import styles from './App.module.css';
 
 export default function App() {
+  const { t } = useTranslation();
   const { theme, toggleTheme } = useTheme();
   const { songs, isLoading, sortField, setSortField } = useSongs();
   const featureFlags = useFeatureFlags();
@@ -39,9 +41,12 @@ export default function App() {
 
   return (
     <div className={styles.app}>
+      <a href="#main-content" className={styles.skipLink}>
+        {t('common.skipToContent')}
+      </a>
       <Header theme={theme} onToggleTheme={toggleTheme} />
 
-      <main className={styles.main}>
+      <main id="main-content" className={styles.main}>
         <div className={styles.content}>
           <SearchBar
             query={search.query}

@@ -11,7 +11,8 @@
     "resultsCountAll": "{{count}} songs"
   },
   "common": {
-    "scrollToTop": "Scroll to top"
+    "scrollToTop": "Scroll to top",
+    "skipToContent": "Skip to main content"
   },
   "songList": {
     "noResults": "No songs found. Try a different search.",
