@@ -51,8 +51,6 @@ export const SongSchema = z.object({
 
 export const SongsArraySchema = z.array(SongSchema);
 
-export type Song = z.infer<typeof SongSchema>;
-
 // ── manual-overrides.json ──
 
 export const ManualOverrideSchema = z.object({

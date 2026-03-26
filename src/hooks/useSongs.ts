@@ -16,7 +16,7 @@ export function useSongs() {
 
     async function loadSongs() {
       try {
-        const module = await import('@/data/songs.json');
+        const module = await import('@pipeline/output/songs.json');
         const songs = module.default as Song[];
 
         if (!cancelled) {

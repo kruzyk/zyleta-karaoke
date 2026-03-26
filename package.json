@@ -12,7 +12,7 @@
     "test:watch": "vitest",
     "lint": "eslint src/ --max-warnings 0",
     "format": "prettier --write \"src/**/*.{ts,tsx,css,json}\"",
-    "update-songs": "npx tsx scripts/process-filelist.ts"
+    "update-songs": "npx tsx pipeline/process-filelist.ts"
   },
   "dependencies": {
     "@tanstack/react-virtual": "^3.11.0",
