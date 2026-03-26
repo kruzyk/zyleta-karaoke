@@ -97,11 +97,12 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
 
       - name: Backup current songs.json
+        id: backup
         run: |
           if [ -f src/data/songs.json ]; then
-            cp src/data/songs.json src/data/songs.backup.json
             SONG_COUNT=$(node -e "console.log(JSON.parse(require('fs').readFileSync('src/data/songs.json','utf8')).length)")
-            echo "Backed up songs.json ($SONG_COUNT songs)"
+            echo "old_count=$SONG_COUNT" >> $GITHUB_OUTPUT
+            echo "Recorded baseline: $SONG_COUNT songs"
           fi
 
       - name: Process raw file list into songs.json
@@ -125,14 +126,11 @@ jobs:
           fi
 
           NEW_COUNT=$(node -e "console.log(JSON.parse(require('fs').readFileSync('src/data/songs.json','utf8')).length)")
+          OLD_COUNT="${{ steps.backup.outputs.old_count }}"
 
-          if [ -f src/data/songs.backup.json ]; then
-            OLD_COUNT=$(node -e "console.log(JSON.parse(require('fs').readFileSync('src/data/songs.backup.json','utf8')).length)")
-
-            if [ "$OLD_COUNT" -gt 50 ] && [ "$NEW_COUNT" -lt $((OLD_COUNT / 2)) ]; then
-              echo "::error::New list ($NEW_COUNT songs) is less than half of previous ($OLD_COUNT songs). Aborting."
-              exit 1
-            fi
+          if [ -n "$OLD_COUNT" ] && [ "$OLD_COUNT" -gt 50 ] && [ "$NEW_COUNT" -lt $((OLD_COUNT / 2)) ]; then
+            echo "::error::New list ($NEW_COUNT songs) is less than half of previous ($OLD_COUNT songs). Aborting."
+            exit 1
           fi
 
           echo "Safety check passed: $NEW_COUNT songs"
@@ -149,7 +147,6 @@ jobs:
       - name: Check for changes
         id: changes
         run: |
-          rm -f src/data/songs.backup.json
           if git diff --quiet src/data/songs.json 2>/dev/null; then
             echo "changed=false" >> $GITHUB_OUTPUT
           else
