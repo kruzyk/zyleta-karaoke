@@ -1,8 +1,25 @@
+import type { KeyboardEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { MainFilter, DecadeFilter, SongCountry } from '@/types/song';
 import type { FeatureFlags } from '@/hooks/useFeatureFlags';
 import { countryCodeToFlag, getCountryName } from '@/utils/country-flags';
 import styles from './FilterChips.module.css';
+
+function handleChipRowKeyDown(e: KeyboardEvent<HTMLDivElement>) {
+  if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+  const chips = Array.from(
+    e.currentTarget.querySelectorAll<HTMLButtonElement>('button[role="tab"]'),
+  );
+  const focused = chips.indexOf(document.activeElement as HTMLButtonElement);
+  if (focused === -1) return;
+  e.preventDefault();
+  const next =
+    e.key === 'ArrowRight'
+      ? (focused + 1) % chips.length
+      : (focused - 1 + chips.length) % chips.length;
+  chips[next].focus();
+  chips[next].scrollIntoView({ block: 'nearest', inline: 'nearest' });
+}
 
 interface FilterChipsProps {
   activeMain: MainFilter;
@@ -39,20 +56,21 @@ export function FilterChips({
 
   // Show country sub-chips when "international" is active AND feature flag is on
   const showCountrySubChips =
-    activeMain === 'international' &&
-    featureFlags.international &&
-    availableCountries.length > 0;
+    activeMain === 'international' && featureFlags.international && availableCountries.length > 0;
 
   // Show decade sub-chips when "decades" is active AND feature flag is on
   const showDecadeSubChips =
-    activeMain === 'decades' &&
-    featureFlags.decades &&
-    availableDecades.length > 0;
+    activeMain === 'decades' && featureFlags.decades && availableDecades.length > 0;
 
   return (
     <div className={styles.container} role="navigation" aria-label={t('filter.ariaLabel')}>
       {/* Main filter chips */}
-      <div className={styles.chipRow} role="tablist" aria-label={t('filter.mainLabel')}>
+      <div
+        className={styles.chipRow}
+        role="tablist"
+        aria-label={t('filter.mainLabel')}
+        onKeyDown={handleChipRowKeyDown}
+      >
         {mainChips.map((filter) => (
           <button
             key={filter}
@@ -68,7 +86,12 @@ export function FilterChips({
 
       {/* Country sub-chips */}
       {showCountrySubChips && (
-        <div className={styles.subChipRow} role="tablist" aria-label={t('filter.countryLabel')}>
+        <div
+          className={styles.subChipRow}
+          role="tablist"
+          aria-label={t('filter.countryLabel')}
+          onKeyDown={handleChipRowKeyDown}
+        >
           {availableCountries.map((code) => (
             <button
               key={code}
@@ -89,7 +112,12 @@ export function FilterChips({
 
       {/* Decade sub-chips */}
       {showDecadeSubChips && (
-        <div className={styles.subChipRow} role="tablist" aria-label={t('filter.decadeLabel')}>
+        <div
+          className={styles.subChipRow}
+          role="tablist"
+          aria-label={t('filter.decadeLabel')}
+          onKeyDown={handleChipRowKeyDown}
+        >
           {availableDecades.map((decade) => (
             <button
               key={decade}
