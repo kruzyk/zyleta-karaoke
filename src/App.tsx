@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import { Header } from '@/components/Header/Header';
 import { SearchBar } from '@/components/SearchBar/SearchBar';
 import { FilterChips } from '@/components/FilterChips/FilterChips';
@@ -8,8 +7,7 @@ import { BackToTop } from '@/components/common/BackToTop';
 import { useTheme } from '@/hooks/useTheme';
 import { useSongs } from '@/hooks/useSongs';
 import { useFeatureFlags } from '@/hooks/useFeatureFlags';
-import { useFilter } from '@/hooks/useFilter';
-import { useSearch } from '@/hooks/useSearch';
+import { useDisplaySongs } from '@/hooks/useDisplaySongs';
 import styles from './App.module.css';
 
 export default function App() {
@@ -25,17 +23,9 @@ export default function App() {
     setMainFilter,
     setDecadeFilter,
     setCountryFilter,
-  } = useFilter(songs, featureFlags);
-
-  // Search operates on the full song list so typo-tolerance works globally.
-  // Chip filter is then applied as an intersection with search results.
-  const search = useSearch(songs);
-
-  const displaySongs = useMemo(() => {
-    if (!search.isSearching) return filteredSongs;
-    const filterSet = new Set(filteredSongs);
-    return search.results.filter((s) => filterSet.has(s));
-  }, [search.isSearching, search.results, filteredSongs]);
+    search,
+    displaySongs,
+  } = useDisplaySongs(songs, featureFlags);
 
   return (
     <div className={styles.app}>
