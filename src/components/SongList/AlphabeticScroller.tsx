@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useState, useEffect, useRef } from 'react';
 import type { Song, SortField } from '@/types/song';
 import styles from './AlphabeticScroller.module.css';
 
@@ -10,35 +10,8 @@ interface AlphabeticScrollerProps {
   onScrollToIndex: (index: number) => void;
 }
 
-const LETTERS = [
-  '#',
-  'A',
-  'B',
-  'C',
-  'D',
-  'E',
-  'F',
-  'G',
-  'H',
-  'I',
-  'J',
-  'K',
-  'L',
-  'M',
-  'N',
-  'O',
-  'P',
-  'Q',
-  'R',
-  'S',
-  'T',
-  'U',
-  'V',
-  'W',
-  'X',
-  'Y',
-  'Z',
-];
+const LETTERS = ['#', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+  'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
 function getSortKey(song: Song, sortField: SortField): string {
   const raw = sortField === 'artist' ? song.artist : song.title;
@@ -53,6 +26,7 @@ export function AlphabeticScroller({
   onScrollToIndex,
 }: AlphabeticScrollerProps) {
   const [activeLetter, setActiveLetter] = useState<string | null>(null);
+  const navRef = useRef<HTMLElement>(null);
 
   const letterMap = useMemo(() => {
     const map = new Map<string, number>();
@@ -71,7 +45,6 @@ export function AlphabeticScroller({
   useEffect(() => {
     const el = scrollContainerRef.current;
     if (!el) return;
-
     const handleScroll = () => {
       const currentIndex = Math.floor(el.scrollTop / estimatedItemHeight);
       let active: string | null = null;
@@ -81,7 +54,6 @@ export function AlphabeticScroller({
       }
       setActiveLetter(active);
     };
-
     el.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
     return () => el.removeEventListener('scroll', handleScroll);
@@ -89,40 +61,47 @@ export function AlphabeticScroller({
 
   if (songs.length <= 50) return null;
 
-  const scrollToLetter = (letter: string) => {
-    const index = letterMap.get(letter);
-    if (index === undefined) return;
-    onScrollToIndex(index);
+  // Maps pointer Y position to the nearest letter and triggers scrollToIndex.
+  // Core of the section-index-bar interaction: drag anywhere on the bar to navigate.
+  const navigateToY = (clientY: number) => {
+    const nav = navRef.current;
+    if (!nav) return;
+    const rect = nav.getBoundingClientRect();
+    const ratio = Math.max(0, Math.min((clientY - rect.top) / rect.height, 1));
+    const letterIndex = Math.min(Math.round(ratio * (LETTERS.length - 1)), LETTERS.length - 1);
+    const songIndex = letterMap.get(LETTERS[letterIndex]);
+    if (songIndex !== undefined) onScrollToIndex(songIndex);
   };
 
-  const handleTouchMove = (e: React.TouchEvent) => {
-    e.preventDefault();
-    const touch = e.touches[0];
-    const el = document.elementFromPoint(touch.clientX, touch.clientY);
-    const letter = el?.getAttribute('data-letter');
-    if (letter) scrollToLetter(letter);
+  const handlePointerDown = (e: React.PointerEvent<HTMLElement>) => {
+    // Capture so pointermove keeps firing even when dragging outside the bar
+    e.currentTarget.setPointerCapture(e.pointerId);
+    navigateToY(e.clientY);
+  };
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLElement>) => {
+    if (!e.buttons) return;
+    navigateToY(e.clientY);
   };
 
   return (
     <nav
+      ref={navRef}
       className={styles.scroller}
       aria-label="Alphabetic navigation"
-      onTouchMove={handleTouchMove}
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
     >
       {LETTERS.map((letter, i) => {
         const hasMatch = letterMap.has(letter);
         const isActive = letter === activeLetter;
         return (
           <div key={letter} className={styles.letterGroup}>
-            {i > 0 && (
-              <span className={styles.dot} aria-hidden="true">
-                ·
-              </span>
-            )}
+            {i > 0 && <span className={styles.dot} aria-hidden="true">·</span>}
             <button
               data-letter={letter}
               className={`${styles.letter} ${!hasMatch ? styles.letterDisabled : ''} ${isActive ? styles.letterActive : ''}`}
-              onClick={hasMatch ? () => scrollToLetter(letter) : undefined}
+              onClick={hasMatch ? () => onScrollToIndex(letterMap.get(letter)!) : undefined}
               disabled={!hasMatch}
               aria-label={`Scroll to ${letter}`}
               aria-current={isActive ? 'true' : undefined}
