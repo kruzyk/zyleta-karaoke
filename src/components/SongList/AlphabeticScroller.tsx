@@ -97,8 +97,7 @@ export function AlphabeticScroller({
     const ro = new ResizeObserver((entries) => {
       setNavHeight(entries[0].contentRect.height);
     });
-    ro.observe(nav);
-    setNavHeight(nav.clientHeight);
+    ro.observe(nav); // eslint-disable-line react-you-might-not-need-an-effect/no-initialize-state
     return () => ro.disconnect();
   }, []);
 
