@@ -84,6 +84,45 @@
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
+/* ── Track mode (coarse pointer, small screen) ── */
+
+.track {
+  position: absolute;
+  left: 50%;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  transform: translateX(-50%);
+  background: var(--border-color);
+  border-radius: 1px;
+  pointer-events: none;
+}
+
+.trackTick {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 2px;
+  background: var(--text-muted);
+  border-radius: 1px;
+  pointer-events: none;
+}
+
+.trackThumb {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--neon-secondary);
+  box-shadow: 0 0 6px var(--glow-secondary);
+  pointer-events: none;
+  z-index: 2;
+  transition: top 0.1s ease;
+}
+
 .srOnly {
   position: absolute;
   width: 1px;

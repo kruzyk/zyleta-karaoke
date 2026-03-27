@@ -11,8 +11,33 @@ interface AlphabeticScrollerProps {
 }
 
 const ALL_LETTERS = [
-  '#', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-  'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+  '#',
+  'A',
+  'B',
+  'C',
+  'D',
+  'E',
+  'F',
+  'G',
+  'H',
+  'I',
+  'J',
+  'K',
+  'L',
+  'M',
+  'N',
+  'O',
+  'P',
+  'Q',
+  'R',
+  'S',
+  'T',
+  'U',
+  'V',
+  'W',
+  'X',
+  'Y',
+  'Z',
 ];
 
 // Minimum pixel height per letter slot — below this letters start overlapping
@@ -34,6 +59,9 @@ export function AlphabeticScroller({
   const [navHeight, setNavHeight] = useState(0);
   const [activeLetter, setActiveLetter] = useState<string | null>(null);
   const [dragLetter, setDragLetter] = useState<string | null>(null);
+  const [isCoarse, setIsCoarse] = useState<boolean>(
+    () => window.matchMedia('(pointer: coarse)').matches,
+  );
 
   // letter → index of first song with that starting letter
   const letterMap = useMemo(() => {
@@ -66,12 +94,19 @@ export function AlphabeticScroller({
   useEffect(() => {
     const nav = navRef.current;
     if (!nav) return;
-    const ro = new ResizeObserver(entries => {
+    const ro = new ResizeObserver((entries) => {
       setNavHeight(entries[0].contentRect.height);
     });
     ro.observe(nav);
     setNavHeight(nav.clientHeight);
     return () => ro.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(pointer: coarse)');
+    const handler = (e: MediaQueryListEvent) => setIsCoarse(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
   }, []);
 
   // Active-letter indicator: detect first visible song by reading actual DOM positions
@@ -83,7 +118,7 @@ export function AlphabeticScroller({
       const { scrollTop } = el;
       let idx = 0;
       let bestTop = -1;
-      el.querySelectorAll<HTMLElement>('[data-index]').forEach(item => {
+      el.querySelectorAll<HTMLElement>('[data-index]').forEach((item) => {
         const match = /translateY\((\d+(?:\.\d+)?)px\)/.exec(item.style.transform);
         if (!match) return;
         const itemTop = parseFloat(match[1]);
@@ -106,6 +141,13 @@ export function AlphabeticScroller({
 
   if (songs.length <= 20) return null;
 
+  // Track mode: coarse pointer and 44px-tall buttons would overflow the nav
+  const isTrackMode = isCoarse && navHeight > 0 && navHeight / 44 < ALL_LETTERS.length;
+  const thumbPct =
+    activeLetter !== null
+      ? (ALL_LETTERS.indexOf(activeLetter) / (ALL_LETTERS.length - 1)) * 100
+      : 0;
+
   // Given a target letter, find the nearest available letter (true nearest-neighbor).
   // Checks both directions at the same distance d simultaneously.
   const findNearestAvailable = (targetLetter: string): number | undefined => {
@@ -124,13 +166,15 @@ export function AlphabeticScroller({
   };
 
   // Maps pointer Y to a letter, shows drag badge, and triggers navigation.
+  // Track mode maps across ALL_LETTERS; letter mode maps across the thinned visibleLetters.
   const navigateToY = (clientY: number) => {
     const nav = navRef.current;
     if (!nav) return;
     const { top, height } = nav.getBoundingClientRect();
     const ratio = Math.max(0, Math.min((clientY - top) / height, 1));
-    const idx = Math.round(ratio * (visibleLetters.length - 1));
-    const letter = visibleLetters[idx];
+    const letters = isTrackMode ? ALL_LETTERS : visibleLetters;
+    const idx = Math.round(ratio * (letters.length - 1));
+    const letter = letters[idx];
     setDragLetter(letter);
     const songIdx = findNearestAvailable(letter);
     if (songIdx !== undefined) onScrollToIndex(songIdx);
@@ -161,33 +205,52 @@ export function AlphabeticScroller({
       onPointerUp={handlePointerUp}
     >
       <span className={styles.srOnly} aria-live="polite" aria-atomic="true">
-        {activeLetter
-          ? t('alphabeticScroller.currentSection', { letter: activeLetter })
-          : ''}
+        {activeLetter ? t('alphabeticScroller.currentSection', { letter: activeLetter }) : ''}
       </span>
-      {dragLetter && (
+      {/* Badge: always visible in track mode (active or drag), only during drag in letter mode */}
+      {(isTrackMode ? (dragLetter ?? activeLetter) : dragLetter) && (
         <span className={styles.dragBadge} aria-hidden="true">
-          {dragLetter}
+          {dragLetter ?? activeLetter}
         </span>
       )}
-      {visibleLetters.map((letter) => {
-        const hasMatch = letterMap.has(letter);
-        const isActive = letter === activeLetter;
-        return (
-          <button
-            key={letter}
-            className={`${styles.letter} ${!hasMatch ? styles.letterDisabled : ''} ${isActive ? styles.letterActive : ''}`}
-            // onClick fires for keyboard (Enter/Space); pointer nav is handled at nav level
-            onClick={hasMatch ? () => onScrollToIndex(letterMap.get(letter)!) : undefined}
-            disabled={!hasMatch}
-            tabIndex={hasMatch ? 0 : -1}
-            aria-label={t('alphabeticScroller.scrollTo', { letter })}
-            type="button"
-          >
-            {letter}
-          </button>
-        );
-      })}
+
+      {isTrackMode ? (
+        <>
+          <div className={styles.track} aria-hidden="true">
+            {ALL_LETTERS.map((letter, i) =>
+              letterMap.has(letter) ? (
+                <div
+                  key={letter}
+                  className={styles.trackTick}
+                  style={{ top: `${(i / (ALL_LETTERS.length - 1)) * 100}%` }}
+                />
+              ) : null,
+            )}
+          </div>
+          {activeLetter !== null && (
+            <div className={styles.trackThumb} style={{ top: `${thumbPct}%` }} aria-hidden="true" />
+          )}
+        </>
+      ) : (
+        visibleLetters.map((letter) => {
+          const hasMatch = letterMap.has(letter);
+          const isActive = letter === activeLetter;
+          return (
+            <button
+              key={letter}
+              className={`${styles.letter} ${!hasMatch ? styles.letterDisabled : ''} ${isActive ? styles.letterActive : ''}`}
+              // onClick fires for keyboard (Enter/Space); pointer nav is handled at nav level
+              onClick={hasMatch ? () => onScrollToIndex(letterMap.get(letter)!) : undefined}
+              disabled={!hasMatch}
+              tabIndex={hasMatch ? 0 : -1}
+              aria-label={t('alphabeticScroller.scrollTo', { letter })}
+              type="button"
+            >
+              {letter}
+            </button>
+          );
+        })
+      )}
     </nav>
   );
 }

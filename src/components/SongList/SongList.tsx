@@ -122,7 +122,9 @@ export function SongList({ songs, isLoading, sortField, onSortChange }: SongList
           songs={songs}
           sortField={sortField}
           scrollContainerRef={parentRef}
-          onScrollToIndex={(index) => virtualizer.scrollToIndex(index, { behavior: 'smooth' })}
+          onScrollToIndex={(index) =>
+            virtualizer.scrollToIndex(index, { align: 'start', behavior: 'auto' })
+          }
         />
       </div>
 
