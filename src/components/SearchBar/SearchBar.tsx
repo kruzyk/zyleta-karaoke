@@ -10,7 +10,13 @@ interface SearchBarProps {
   isSearching: boolean;
 }
 
-export function SearchBar({ query, onChange, resultCount, totalCount, isSearching }: SearchBarProps) {
+export function SearchBar({
+  query,
+  onChange,
+  resultCount,
+  totalCount,
+  isSearching,
+}: SearchBarProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const { t } = useTranslation();
 
@@ -50,6 +56,16 @@ export function SearchBar({ query, onChange, resultCount, totalCount, isSearchin
           spellCheck={false}
         />
 
+        <span
+          className={`${styles.inlineCount} ${query ? styles.inlineCountWithClear : ''}`}
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          {isSearching
+            ? t('search.resultsCount', { count: resultCount })
+            : t('search.resultsCountAll', { count: totalCount })}
+        </span>
+
         {query && (
           <button
             onClick={handleClear}
@@ -73,12 +89,6 @@ export function SearchBar({ query, onChange, resultCount, totalCount, isSearchin
             </svg>
           </button>
         )}
-      </div>
-
-      <div className={styles.count} aria-live="polite" aria-atomic="true">
-        {isSearching
-          ? t('search.resultsCount', { count: resultCount })
-          : t('search.resultsCountAll', { count: totalCount })}
       </div>
     </div>
   );

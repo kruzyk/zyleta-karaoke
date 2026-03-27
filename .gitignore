@@ -7,9 +7,10 @@ Thumbs.db
 .env
 .env.local
 .env.*.local
-scripts/remote-scan/scan-config.json
-scripts/remote-scan/scan-log.txt
+pipeline/remote-scan/scan-config.json
+pipeline/remote-scan/scan-log.txt
 *.tsbuildinfo
+.playwright-mcp
 
 # IDE
 .vscode/

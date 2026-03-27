@@ -1,9 +1,10 @@
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useTranslation } from 'react-i18next';
 import type { Song, SortField } from '@/types/song';
 import { SongItem } from './SongItem';
 import { Spinner } from '../common/Spinner';
+import { AlphabeticScroller } from './AlphabeticScroller';
 import styles from './SongList.module.css';
 
 interface SongListProps {
@@ -17,12 +18,35 @@ export function SongList({ songs, isLoading, sortField, onSortChange }: SongList
   const { t } = useTranslation();
   const parentRef = useRef<HTMLDivElement>(null);
 
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
+  useEffect(() => {
+    if (parentRef.current) {
+      parentRef.current.scrollTop = 0;
+    }
+  }, [songs]);
+
+  useEffect(() => {
+    const el = parentRef.current;
+    if (!el) return;
+    const handleScroll = () => setShowBackToTop(el.scrollTop > 300);
+    el.addEventListener('scroll', handleScroll, { passive: true });
+    return () => el.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    parentRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const virtualizer = useVirtualizer({
     count: songs.length,
     getScrollElement: () => parentRef.current,
     estimateSize: () => 56,
     overscan: 15,
   });
+
+  const virtualItems = virtualizer.getVirtualItems();
+  const topVisibleIndex = virtualItems.length > 0 ? virtualItems[0].index : 0;
 
   if (isLoading) {
     return (
@@ -63,37 +87,71 @@ export function SongList({ songs, isLoading, sortField, onSortChange }: SongList
         </button>
       </div>
 
-      <div
-        ref={parentRef}
-        className={styles.scrollContainer}
-        role="list"
-        aria-label={t('songList.ariaLabel')}
-      >
+      <div className={styles.listArea}>
         <div
-          style={{
-            height: `${virtualizer.getTotalSize()}px`,
-            width: '100%',
-            position: 'relative',
-          }}
+          ref={parentRef}
+          className={styles.scrollContainer}
+          role="list"
+          aria-label={t('songList.ariaLabel')}
         >
-          {virtualizer.getVirtualItems().map((virtualItem) => (
-            <div
-              key={virtualItem.key}
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                transform: `translateY(${virtualItem.start}px)`,
-              }}
-              data-index={virtualItem.index}
-              ref={virtualizer.measureElement}
-            >
-              <SongItem song={songs[virtualItem.index]} />
-            </div>
-          ))}
+          <div
+            style={{
+              height: `${virtualizer.getTotalSize()}px`,
+              width: '100%',
+              position: 'relative',
+            }}
+          >
+            {virtualItems.map((virtualItem) => (
+              <div
+                key={virtualItem.key}
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  transform: `translateY(${virtualItem.start}px)`,
+                }}
+                data-index={virtualItem.index}
+                ref={virtualizer.measureElement}
+              >
+                <SongItem song={songs[virtualItem.index]} />
+              </div>
+            ))}
+          </div>
         </div>
+
+        <AlphabeticScroller
+          songs={songs}
+          sortField={sortField}
+          topVisibleIndex={topVisibleIndex}
+          onScrollToIndex={(index) =>
+            virtualizer.scrollToIndex(index, { align: 'start', behavior: 'auto' })
+          }
+        />
       </div>
+
+      {showBackToTop && (
+        <button
+          onClick={scrollToTop}
+          className={styles.backToTop}
+          aria-label={t('common.scrollToTop')}
+          title={t('common.scrollToTop')}
+        >
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <polyline points="18 15 12 9 6 15" />
+          </svg>
+        </button>
+      )}
     </div>
   );
 }

@@ -43,6 +43,11 @@
       "20s": "20s"
     }
   },
+  "alphabeticScroller": {
+    "navLabel": "Alphabetic navigation",
+    "scrollTo": "Scroll to {{letter}}",
+    "currentSection": "Current section: {{letter}}"
+  },
   "footer": {
     "copyright": "© {{year}} Żyleta Karaoke. All rights reserved.",
     "followUs": "Follow us",

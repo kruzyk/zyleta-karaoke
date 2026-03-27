@@ -1,0 +1,147 @@
+.scroller {
+  position: relative;
+  flex-shrink: 0;
+  width: 22px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 10;
+  padding: 4px 0;
+  background-color: var(--bg-surface);
+  border-left: 1px solid var(--border-color);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: pointer;
+}
+
+.letter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  min-height: 14px;
+  font-size: 0.625rem;
+  font-weight: 600;
+  line-height: 1;
+  padding: 1px 2px;
+  color: var(--text-primary);
+  background: transparent;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  pointer-events: auto;
+  user-select: none;
+  -webkit-user-select: none;
+  transition:
+    background-color 0.1s,
+    color 0.1s;
+}
+
+.letter:hover:not(:disabled),
+.letter:focus-visible {
+  background-color: var(--neon-secondary);
+  color: var(--bg-primary);
+  outline: none;
+}
+
+.letter:focus-visible {
+  outline: 2px solid var(--neon-secondary);
+  outline-offset: 1px;
+}
+
+.letterDisabled {
+  color: var(--text-muted);
+  cursor: default;
+  opacity: 0.4;
+}
+
+.letterActive {
+  background-color: var(--neon-secondary);
+  color: var(--bg-primary);
+}
+
+.dragBadge {
+  position: absolute;
+  right: calc(100% + 12px);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background-color: var(--neon-secondary);
+  color: var(--bg-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1;
+  pointer-events: none;
+  z-index: 100;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* ── Track mode (coarse pointer, small screen) ── */
+
+.track {
+  position: absolute;
+  left: 50%;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  transform: translateX(-50%);
+  background: var(--border-color);
+  border-radius: 1px;
+  pointer-events: none;
+}
+
+.trackTick {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 2px;
+  background: var(--text-muted);
+  border-radius: 1px;
+  pointer-events: none;
+}
+
+.trackThumb {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--neon-secondary);
+  box-shadow: 0 0 6px var(--glow-secondary);
+  pointer-events: none;
+  z-index: 2;
+  transition: top 0.1s ease;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (pointer: coarse) {
+  .scroller {
+    width: 32px;
+  }
+
+  .letter {
+    min-height: 44px;
+    width: 28px;
+  }
+}
