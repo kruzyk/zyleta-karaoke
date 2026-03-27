@@ -14,8 +14,6 @@ vi.mock('react-i18next', () => ({
   }),
 }));
 
-type ResizeObserverCallback = (entries: ResizeObserverEntry[]) => void;
-
 let resizeCallbacks: ResizeObserverCallback[] = [];
 
 function stubResizeObserver(height = 0) {
@@ -25,7 +23,9 @@ function stubResizeObserver(height = 0) {
       resizeCallbacks.push(cb);
     }
     observe() {
-      resizeCallbacks.forEach((cb) => cb([{ contentRect: { height } } as ResizeObserverEntry]));
+      resizeCallbacks.forEach((cb) =>
+        cb([{ contentRect: { height } } as ResizeObserverEntry], this),
+      );
     }
     disconnect() {}
     unobserve() {}
