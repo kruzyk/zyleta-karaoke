@@ -175,14 +175,32 @@ export function AlphabeticScroller({
     setDragLetter(null);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
+    if (!isTrackMode) return;
+    const currentIdx = activeLetter !== null ? ALL_LETTERS.indexOf(activeLetter) : 0;
+    let targetIdx: number | undefined;
+    if (e.key === 'ArrowDown') targetIdx = currentIdx + 1;
+    else if (e.key === 'ArrowUp') targetIdx = currentIdx - 1;
+    else if (e.key === 'Home') targetIdx = 0;
+    else if (e.key === 'End') targetIdx = ALL_LETTERS.length - 1;
+    else return;
+    e.preventDefault();
+    const clampedIdx = Math.max(0, Math.min(targetIdx, ALL_LETTERS.length - 1));
+    const letter = ALL_LETTERS[clampedIdx];
+    const songIdx = findNearestAvailable(letter);
+    if (songIdx !== undefined) onScrollToIndex(songIdx);
+  };
+
   return (
     <nav
       ref={navRef}
       className={styles.scroller}
       aria-label={t('alphabeticScroller.navLabel')}
+      tabIndex={isTrackMode ? 0 : undefined}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
+      onKeyDown={handleKeyDown}
     >
       <span className={styles.srOnly} aria-live="polite" aria-atomic="true">
         {activeLetter ? t('alphabeticScroller.currentSection', { letter: activeLetter }) : ''}
