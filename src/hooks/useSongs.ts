@@ -46,8 +46,8 @@ export function useSongs() {
 
   const sortedSongs = useMemo(() => {
     return [...state.songs].sort((a, b) => {
-      const fieldA = a[sortField].toLowerCase();
-      const fieldB = b[sortField].toLowerCase();
+      const fieldA = a[sortField].replace(/^['"\u2018\u201C]/, '').toLowerCase();
+      const fieldB = b[sortField].replace(/^['"\u2018\u201C]/, '').toLowerCase();
       return fieldA.localeCompare(fieldB, 'pl');
     });
   }, [state.songs, sortField]);
