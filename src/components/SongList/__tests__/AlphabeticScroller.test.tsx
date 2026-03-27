@@ -24,7 +24,7 @@ function stubResizeObserver(height = 0) {
     constructor(cb: ResizeObserverCallback) {
       resizeCallbacks.push(cb);
     }
-    observe(el: Element) {
+    observe() {
       resizeCallbacks.forEach((cb) => cb([{ contentRect: { height } } as ResizeObserverEntry]));
     }
     disconnect() {}
