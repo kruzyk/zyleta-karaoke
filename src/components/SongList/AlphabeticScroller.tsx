@@ -1,6 +1,7 @@
 import { useMemo, useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { Song, SortField } from '@/types/song';
+import { stripLeadingQuote } from '@/utils/sort-key';
 import styles from './AlphabeticScroller.module.css';
 
 interface AlphabeticScrollerProps {
@@ -45,7 +46,7 @@ const MIN_SLOT_PX = 13;
 
 function getSortKey(song: Song, sortField: SortField): string {
   const raw = sortField === 'artist' ? song.artist : song.title;
-  return raw.replace(/^['"\u2018\u201C]/, '').toUpperCase();
+  return stripLeadingQuote(raw).toUpperCase();
 }
 
 export function AlphabeticScroller({

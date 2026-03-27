@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import type { Song, SongListState, SortField } from '@/types/song';
+import { stripLeadingQuote } from '@/utils/sort-key';
 
 export function useSongs() {
   const [state, setState] = useState<SongListState>({
@@ -46,8 +47,8 @@ export function useSongs() {
 
   const sortedSongs = useMemo(() => {
     return [...state.songs].sort((a, b) => {
-      const fieldA = a[sortField].replace(/^['"\u2018\u201C]/, '').toLowerCase();
-      const fieldB = b[sortField].replace(/^['"\u2018\u201C]/, '').toLowerCase();
+      const fieldA = stripLeadingQuote(a[sortField]).toLowerCase();
+      const fieldB = stripLeadingQuote(b[sortField]).toLowerCase();
       return fieldA.localeCompare(fieldB, 'pl');
     });
   }, [state.songs, sortField]);
