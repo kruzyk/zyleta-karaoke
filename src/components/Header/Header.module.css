@@ -42,3 +42,21 @@
   align-items: center;
   gap: clamp(0.25rem, 2vw, 0.75rem);
 }
+
+.socialLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  min-height: 36px;
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  transition:
+    color 0.2s ease,
+    text-shadow 0.2s ease;
+}
+
+.socialLink:hover {
+  color: var(--neon-primary);
+  text-shadow: 0 0 10px var(--glow-primary);
+}

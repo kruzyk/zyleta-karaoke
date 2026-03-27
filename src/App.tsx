@@ -3,7 +3,6 @@ import { Header } from '@/components/Header/Header';
 import { SearchBar } from '@/components/SearchBar/SearchBar';
 import { FilterChips } from '@/components/FilterChips/FilterChips';
 import { SongList } from '@/components/SongList/SongList';
-import { Footer } from '@/components/Footer/Footer';
 import { useTheme } from '@/hooks/useTheme';
 import { useSongs } from '@/hooks/useSongs';
 import { useFeatureFlags } from '@/hooks/useFeatureFlags';
@@ -63,8 +62,6 @@ export default function App() {
           />
         </div>
       </main>
-
-      <Footer />
     </div>
   );
 }
