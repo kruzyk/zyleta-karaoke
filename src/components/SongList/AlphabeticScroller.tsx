@@ -7,7 +7,7 @@ import styles from './AlphabeticScroller.module.css';
 interface AlphabeticScrollerProps {
   songs: Song[];
   sortField: SortField;
-  scrollContainerRef: React.RefObject<HTMLDivElement>;
+  topVisibleIndex: number;
   onScrollToIndex: (index: number) => void;
 }
 
@@ -52,13 +52,12 @@ function getSortKey(song: Song, sortField: SortField): string {
 export function AlphabeticScroller({
   songs,
   sortField,
-  scrollContainerRef,
+  topVisibleIndex,
   onScrollToIndex,
 }: AlphabeticScrollerProps) {
   const { t } = useTranslation();
   const navRef = useRef<HTMLElement>(null);
   const [navHeight, setNavHeight] = useState(0);
-  const [activeLetter, setActiveLetter] = useState<string | null>(null);
   const [dragLetter, setDragLetter] = useState<string | null>(null);
   const [isCoarse, setIsCoarse] = useState<boolean>(
     () => window.matchMedia('(pointer: coarse)').matches,
@@ -109,35 +108,16 @@ export function AlphabeticScroller({
     return () => mq.removeEventListener('change', handler);
   }, []);
 
-  // Active-letter indicator: detect first visible song by reading actual DOM positions
-  // from tanstack-virtual's absolutley-positioned items (transform: translateY(Xpx))
-  useEffect(() => {
-    const el = scrollContainerRef.current;
-    if (!el) return;
-    const onScroll = () => {
-      const { scrollTop } = el;
-      let idx = 0;
-      let bestTop = -1;
-      el.querySelectorAll<HTMLElement>('[data-index]').forEach((item) => {
-        const match = /translateY\((\d+(?:\.\d+)?)px\)/.exec(item.style.transform);
-        if (!match) return;
-        const itemTop = parseFloat(match[1]);
-        if (itemTop <= scrollTop && itemTop > bestTop) {
-          bestTop = itemTop;
-          idx = parseInt(item.dataset.index ?? '0', 10);
-        }
-      });
-      let active: string | null = null;
-      for (const [letter, firstIdx] of sortedLetterEntries) {
-        if (firstIdx <= idx) active = letter;
-        else break;
-      }
-      setActiveLetter(active);
-    };
-    el.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-    return () => el.removeEventListener('scroll', onScroll);
-  }, [sortedLetterEntries, scrollContainerRef]);
+  // Derive active letter from the virtualizer-provided top visible index.
+  // No DOM querying needed — SongList passes topVisibleIndex directly.
+  const activeLetter = useMemo(() => {
+    let active: string | null = null;
+    for (const [letter, firstIdx] of sortedLetterEntries) {
+      if (firstIdx <= topVisibleIndex) active = letter;
+      else break;
+    }
+    return active;
+  }, [sortedLetterEntries, topVisibleIndex]);
 
   if (songs.length <= 20) return null;
 

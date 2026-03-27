@@ -19,7 +19,6 @@ export function SongList({ songs, isLoading, sortField, onSortChange }: SongList
   const parentRef = useRef<HTMLDivElement>(null);
 
   const [showBackToTop, setShowBackToTop] = useState(false);
-  const isContainerVisible = !isLoading && songs.length > 0;
 
   useEffect(() => {
     if (parentRef.current) {
@@ -33,7 +32,7 @@ export function SongList({ songs, isLoading, sortField, onSortChange }: SongList
     const handleScroll = () => setShowBackToTop(el.scrollTop > 300);
     el.addEventListener('scroll', handleScroll, { passive: true });
     return () => el.removeEventListener('scroll', handleScroll);
-  }, [isContainerVisible]);
+  }, []);
 
   const scrollToTop = () => {
     parentRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
@@ -45,6 +44,9 @@ export function SongList({ songs, isLoading, sortField, onSortChange }: SongList
     estimateSize: () => 56,
     overscan: 15,
   });
+
+  const virtualItems = virtualizer.getVirtualItems();
+  const topVisibleIndex = virtualItems.length > 0 ? virtualItems[0].index : 0;
 
   if (isLoading) {
     return (
@@ -99,7 +101,7 @@ export function SongList({ songs, isLoading, sortField, onSortChange }: SongList
               position: 'relative',
             }}
           >
-            {virtualizer.getVirtualItems().map((virtualItem) => (
+            {virtualItems.map((virtualItem) => (
               <div
                 key={virtualItem.key}
                 style={{
@@ -121,7 +123,7 @@ export function SongList({ songs, isLoading, sortField, onSortChange }: SongList
         <AlphabeticScroller
           songs={songs}
           sortField={sortField}
-          scrollContainerRef={parentRef}
+          topVisibleIndex={topVisibleIndex}
           onScrollToIndex={(index) =>
             virtualizer.scrollToIndex(index, { align: 'start', behavior: 'auto' })
           }
