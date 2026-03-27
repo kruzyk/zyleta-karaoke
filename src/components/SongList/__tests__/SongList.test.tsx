@@ -72,7 +72,7 @@ function makeVirtualItem(index: number): FakeVirtualItem {
 function createMockVirtualizer({
   scrollOffset = 0,
   virtualItems = [] as FakeVirtualItem[],
-  getVirtualItemForOffset = vi.fn<[number], FakeVirtualItem | undefined>(),
+  getVirtualItemForOffset = vi.fn<(offset: number) => FakeVirtualItem | undefined>(),
 } = {}) {
   return {
     getVirtualItems: () => virtualItems,
@@ -104,10 +104,7 @@ beforeEach(() => {
 // ─────────────────────────────────────────────────────────────────────────────
 describe('SongList — topVisibleIndex: active letter accuracy', () => {
   // 100 songs starting with L (indices 0–99), 100 starting with M (indices 100–199)
-  const songs: Song[] = [
-    ...makeSongsForLetter('L', 100, 0),
-    ...makeSongsForLetter('M', 100, 100),
-  ];
+  const songs: Song[] = [...makeSongsForLetter('L', 100, 0), ...makeSongsForLetter('M', 100, 100)];
 
   it('shows M as active when scrolled to M territory, even if virtualItems[0] is still in L (overscan bug)', () => {
     // Setup:
@@ -123,7 +120,9 @@ describe('SongList — topVisibleIndex: active letter accuracy', () => {
       createMockVirtualizer({
         scrollOffset,
         virtualItems: Array.from({ length: 30 }, (_, i) => makeVirtualItem(85 + i)),
-        getVirtualItemForOffset: vi.fn().mockReturnValue(makeVirtualItem(100)),
+        getVirtualItemForOffset: vi
+          .fn<(offset: number) => FakeVirtualItem | undefined>()
+          .mockReturnValue(makeVirtualItem(100)),
       }) as unknown as ReturnType<typeof useVirtualizer>,
     );
 
@@ -138,7 +137,9 @@ describe('SongList — topVisibleIndex: active letter accuracy', () => {
       createMockVirtualizer({
         scrollOffset: 0,
         virtualItems: Array.from({ length: 20 }, (_, i) => makeVirtualItem(i)),
-        getVirtualItemForOffset: vi.fn().mockReturnValue(makeVirtualItem(0)),
+        getVirtualItemForOffset: vi
+          .fn<(offset: number) => FakeVirtualItem | undefined>()
+          .mockReturnValue(makeVirtualItem(0)),
       }) as unknown as ReturnType<typeof useVirtualizer>,
     );
 
@@ -155,7 +156,9 @@ describe('SongList — topVisibleIndex: active letter accuracy', () => {
       createMockVirtualizer({
         scrollOffset: 0,
         virtualItems: [makeVirtualItem(0)],
-        getVirtualItemForOffset: vi.fn().mockReturnValue(undefined),
+        getVirtualItemForOffset: vi
+          .fn<(offset: number) => FakeVirtualItem | undefined>()
+          .mockReturnValue(undefined),
       }) as unknown as ReturnType<typeof useVirtualizer>,
     );
 
