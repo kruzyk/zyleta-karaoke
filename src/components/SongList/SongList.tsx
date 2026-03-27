@@ -42,11 +42,12 @@ export function SongList({ songs, isLoading, sortField, onSortChange }: SongList
     count: songs.length,
     getScrollElement: () => parentRef.current,
     estimateSize: () => 56,
-    overscan: 15,
+    overscan: 5,
   });
 
   const virtualItems = virtualizer.getVirtualItems();
-  const topVisibleIndex = virtualItems.length > 0 ? virtualItems[0].index : 0;
+  const topVisibleIndex =
+    virtualizer.getVirtualItemForOffset(virtualizer.scrollOffset ?? 0)?.index ?? 0;
 
   if (isLoading) {
     return (
