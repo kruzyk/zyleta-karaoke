@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Header } from '@/components/Header/Header';
 import { SearchBar } from '@/components/SearchBar/SearchBar';
@@ -19,6 +19,8 @@ export default function App() {
   const { songs, allSongs, isLoading, sortField, setSortField } = useSongs();
   const featureFlags = useFeatureFlags();
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
+  const [isToolbarHidden, setIsToolbarHidden] = useState(false);
+  const handleScrollHide = useCallback((hidden: boolean) => setIsToolbarHidden(hidden), []);
   const { wishlistedIds, toggleSong, removeSong, clearAll, fabPosition, saveFabPosition } =
     useWishlist();
 
@@ -43,24 +45,26 @@ export default function App() {
 
       <main id="main-content" className={styles.main}>
         <div className={styles.content}>
-          <SearchBar
-            query={search.query}
-            onChange={search.setQuery}
-            resultCount={displaySongs.length}
-            totalCount={filteredSongs.length}
-            isSearching={search.isSearching}
-          />
-          <FilterChips
-            activeMain={filter.main}
-            activeDecade={filter.decade}
-            activeCountry={filter.country}
-            availableCountries={availableCountries}
-            availableDecades={availableDecades}
-            featureFlags={featureFlags}
-            onMainChange={setMainFilter}
-            onDecadeChange={setDecadeFilter}
-            onCountryChange={setCountryFilter}
-          />
+          <div className={`${styles.toolbar}${isToolbarHidden ? ` ${styles.toolbarHidden}` : ''}`}>
+            <SearchBar
+              query={search.query}
+              onChange={search.setQuery}
+              resultCount={displaySongs.length}
+              totalCount={filteredSongs.length}
+              isSearching={search.isSearching}
+            />
+            <FilterChips
+              activeMain={filter.main}
+              activeDecade={filter.decade}
+              activeCountry={filter.country}
+              availableCountries={availableCountries}
+              availableDecades={availableDecades}
+              featureFlags={featureFlags}
+              onMainChange={setMainFilter}
+              onDecadeChange={setDecadeFilter}
+              onCountryChange={setCountryFilter}
+            />
+          </div>
           <SongList
             songs={displaySongs}
             isLoading={isLoading}
@@ -68,6 +72,8 @@ export default function App() {
             onSortChange={setSortField}
             wishlistedIds={featureFlags.wishlist ? wishlistedIds : undefined}
             onToggleWishlist={featureFlags.wishlist ? toggleSong : undefined}
+            isToolbarHidden={isToolbarHidden}
+            onScrollHide={handleScrollHide}
           />
         </div>
       </main>

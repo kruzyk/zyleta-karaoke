@@ -24,9 +24,12 @@ export function WishlistPanel({
   const [isClosing, setIsClosing] = useState(false);
   const [revealedId, setRevealedId] = useState<string | null>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const prevIsOpenRef = useRef(isOpen);
+  const prevIsOpen = prevIsOpenRef.current;
+  prevIsOpenRef.current = isOpen;
 
   if (isOpen && !isMounted) setIsMounted(true);
-  if (isOpen && isClosing) setIsClosing(false);
+  if (!prevIsOpen && isOpen && isClosing) setIsClosing(false); // re-opened while closing animation played
   if (!isOpen && isMounted && !isClosing) setIsClosing(true);
 
   const handleClose = useCallback(() => {

@@ -13,6 +13,10 @@ interface WishlistItemProps {
 
 const REVEAL_THRESHOLD = 48;
 const MAX_REVEAL = 96;
+const IS_MOUSE_DEVICE =
+  typeof window !== 'undefined' &&
+  typeof window.matchMedia === 'function' &&
+  window.matchMedia('(pointer: fine)').matches;
 
 export function WishlistItem({ song, onDelete, isForceClose, onReveal, onTap }: WishlistItemProps) {
   const { t } = useTranslation();
@@ -30,6 +34,7 @@ export function WishlistItem({ song, onDelete, isForceClose, onReveal, onTap }: 
   }
 
   const handlePointerDown = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    if (IS_MOUSE_DEVICE) return;
     startXRef.current = e.clientX;
     startYRef.current = e.clientY;
     swipeActiveRef.current = false;
@@ -111,11 +116,11 @@ export function WishlistItem({ song, onDelete, isForceClose, onReveal, onTap }: 
 
   return (
     <div className={styles.wrapper} role="listitem">
-      <div className={styles.deleteZone} aria-hidden="true">
+      <div className={styles.deleteZone} aria-hidden={IS_MOUSE_DEVICE ? undefined : 'true'}>
         <button
           className={styles.deleteButton}
           onClick={handleDeleteClick}
-          tabIndex={isRevealed ? 0 : -1}
+          tabIndex={IS_MOUSE_DEVICE || isRevealed ? 0 : -1}
           type="button"
           aria-label={t('wishlist.deleteItem')}
         >

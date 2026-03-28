@@ -1,4 +1,4 @@
-import { useRef, useCallback } from 'react';
+import { useRef, useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './WishlistFAB.module.css';
 
@@ -57,6 +57,21 @@ export function WishlistFAB({ count, position, onOpen, onPositionChange }: Wishl
     },
     [clamp],
   );
+
+  useEffect(() => {
+    const handleResize = () => {
+      const clamped = clamp(currentPositionRef.current.x, currentPositionRef.current.y);
+      if (
+        clamped.x !== currentPositionRef.current.x ||
+        clamped.y !== currentPositionRef.current.y
+      ) {
+        currentPositionRef.current = clamped;
+        onPositionChange(clamped.x, clamped.y);
+      }
+    };
+    window.addEventListener('resize', handleResize, { passive: true });
+    return () => window.removeEventListener('resize', handleResize);
+  }, [clamp, onPositionChange]);
 
   const handlePointerUp = useCallback(() => {
     if (isDraggingRef.current) {

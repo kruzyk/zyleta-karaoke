@@ -41,3 +41,18 @@
   flex-direction: column;
   min-height: 0;
 }
+
+@media (pointer: coarse) {
+  .toolbar {
+    overflow: hidden;
+    max-height: 250px;
+    transition:
+      max-height 0.3s ease,
+      opacity 0.2s ease;
+  }
+
+  .toolbarHidden {
+    max-height: 0;
+    opacity: 0;
+  }
+}
