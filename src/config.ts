@@ -28,6 +28,7 @@ const config = {
   features: {
     decades: true, // Show "Dekady" chip + decade sub-chips (60s–20s)
     international: true, // Show country flag sub-chips under "Zagraniczne" chip
+    wishlist: true, // Wishlist feature — add songs to personal request list for karaoke host
   },
 } as const;
 

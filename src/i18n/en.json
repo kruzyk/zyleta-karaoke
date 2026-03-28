@@ -48,6 +48,22 @@
     "scrollTo": "Scroll to {{letter}}",
     "currentSection": "Current section: {{letter}}"
   },
+  "wishlist": {
+    "addToList": "Add to list",
+    "removeFromList": "Remove from list",
+    "panelTitle": "My List",
+    "itemCount_one": "{{count}} song",
+    "itemCount_other": "{{count}} songs",
+    "sortMode": "Reorder",
+    "sortModeExit": "Done",
+    "dragHandle": "Drag to reorder",
+    "deleteItem": "Remove",
+    "clearAll": "Clear all",
+    "clearAllConfirm": "Are you sure? This will remove all songs from your list.",
+    "emptyState": "Your list is empty.\nAdd songs using the + button.",
+    "closePanel": "Close list",
+    "openList": "Open wishlist ({{count}} songs)"
+  },
   "footer": {
     "copyright": "© {{year}} Żyleta Karaoke. All rights reserved.",
     "followUs": "Follow us",

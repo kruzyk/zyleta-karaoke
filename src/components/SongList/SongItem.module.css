@@ -1,12 +1,25 @@
 .item {
   display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
+  flex-wrap: nowrap;
+  align-items: center;
   padding: 0.75rem clamp(0.5rem, 3vw, 1rem);
   border-bottom: 1px solid var(--border-color);
   transition: background-color 0.15s ease;
   height: 56px;
   overflow: hidden;
+}
+
+.songText {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  overflow: hidden;
+}
+
+.itemInWishlist {
+  background-color: var(--wishlist-highlight);
 }
 
 .item:hover {
@@ -31,14 +44,53 @@
   font-size: clamp(0.8125rem, 3vw, 0.9375rem);
 }
 
+.toggleButton {
+  flex-shrink: 0;
+  margin-left: 0.5rem;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 1rem;
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.toggleButton:hover {
+  color: var(--neon-primary);
+  border-color: var(--neon-primary);
+}
+
+.toggleButton:focus-visible {
+  outline: 2px solid var(--neon-secondary);
+  outline-offset: 2px;
+}
+
+.toggleButtonActive {
+  color: var(--neon-primary);
+  border-color: var(--neon-primary);
+  background-color: var(--wishlist-highlight);
+}
+
 @media (max-width: 400px) {
   .item {
-    flex-direction: column;
-    gap: 0.125rem;
     height: 48px;
     overflow: hidden;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
+  }
+
+  .songText {
+    flex-direction: column;
+    gap: 0.125rem;
   }
 
   .separator {

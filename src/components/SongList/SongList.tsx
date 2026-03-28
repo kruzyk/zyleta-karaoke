@@ -12,9 +12,18 @@ interface SongListProps {
   isLoading: boolean;
   sortField: SortField;
   onSortChange: (field: SortField) => void;
+  wishlistedIds?: string[];
+  onToggleWishlist?: (id: string) => void;
 }
 
-export function SongList({ songs, isLoading, sortField, onSortChange }: SongListProps) {
+export function SongList({
+  songs,
+  isLoading,
+  sortField,
+  onSortChange,
+  wishlistedIds,
+  onToggleWishlist,
+}: SongListProps) {
   const { t } = useTranslation();
   const parentRef = useRef<HTMLDivElement>(null);
 
@@ -115,7 +124,15 @@ export function SongList({ songs, isLoading, sortField, onSortChange }: SongList
                 data-index={virtualItem.index}
                 ref={virtualizer.measureElement}
               >
-                <SongItem song={songs[virtualItem.index]} />
+                <SongItem
+                  song={songs[virtualItem.index]}
+                  isInWishlist={wishlistedIds?.includes(songs[virtualItem.index].id)}
+                  onToggleWishlist={
+                    onToggleWishlist
+                      ? () => onToggleWishlist(songs[virtualItem.index].id)
+                      : undefined
+                  }
+                />
               </div>
             ))}
           </div>

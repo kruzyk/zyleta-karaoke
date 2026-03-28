@@ -3,7 +3,6 @@ import { LanguageSwitcher } from './LanguageSwitcher';
 import { ThemeToggle } from './ThemeToggle';
 import type { Theme } from '@/types/song';
 import config from '@/config';
-import LogoSvg from '@/assets/logo.svg?url';
 import styles from './Header.module.css';
 
 interface HeaderProps {
@@ -22,7 +21,83 @@ export function Header({ theme, onToggleTheme }: HeaderProps) {
           className={styles.logoLink}
           aria-label={t('header.title')}
         >
-          <img src={LogoSvg} alt={t('header.title')} className={styles.logo} />
+          <svg
+            viewBox="0 0 400 120"
+            xmlns="http://www.w3.org/2000/svg"
+            role="img"
+            aria-labelledby="logo-title"
+            className={styles.logo}
+          >
+            <title id="logo-title">{t('header.title')}</title>
+            <defs>
+              <filter id="neon-glow-strong" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="4" result="blur1" />
+                <feFlood floodColor="var(--neon-primary)" floodOpacity="0.6" result="color" />
+                <feComposite in="color" in2="blur1" operator="in" result="glow1" />
+                <feGaussianBlur in="SourceGraphic" stdDeviation="1" result="blur2" />
+                <feFlood floodColor="var(--neon-secondary)" floodOpacity="0.3" result="color2" />
+                <feComposite in="color2" in2="blur2" operator="in" result="glow2" />
+                <feMerge>
+                  <feMergeNode in="glow1" />
+                  <feMergeNode in="glow2" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+              <filter id="neon-glow-subtle" x="-10%" y="-10%" width="120%" height="120%">
+                <feGaussianBlur stdDeviation="2" result="blur" />
+                <feFlood floodColor="var(--neon-secondary)" floodOpacity="0.4" result="color" />
+                <feComposite in="color" in2="blur" operator="in" result="glow" />
+                <feMerge>
+                  <feMergeNode in="glow" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+            <text
+              x="200"
+              y="55"
+              textAnchor="middle"
+              fontFamily="'Inter', sans-serif"
+              fontWeight="700"
+              fontSize="48"
+              letterSpacing="2"
+              fill="var(--neon-primary)"
+              filter="url(#neon-glow-strong)"
+            >
+              ŻYLETA
+            </text>
+            <text
+              x="200"
+              y="95"
+              textAnchor="middle"
+              fontFamily="'Inter', sans-serif"
+              fontWeight="500"
+              fontSize="28"
+              letterSpacing="8"
+              fill="var(--neon-secondary)"
+              filter="url(#neon-glow-subtle)"
+            >
+              KARAOKE
+            </text>
+            <line
+              x1="40"
+              y1="68"
+              x2="130"
+              y2="68"
+              stroke="var(--neon-tertiary)"
+              strokeWidth="1"
+              opacity="0.6"
+            />
+            <line
+              x1="270"
+              y1="68"
+              x2="360"
+              y2="68"
+              stroke="var(--neon-tertiary)"
+              strokeWidth="1"
+              opacity="0.6"
+            />
+          </svg>
         </a>
 
         <div className={styles.controls}>

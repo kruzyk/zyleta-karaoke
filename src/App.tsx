@@ -1,12 +1,16 @@
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Header } from '@/components/Header/Header';
 import { SearchBar } from '@/components/SearchBar/SearchBar';
 import { FilterChips } from '@/components/FilterChips/FilterChips';
 import { SongList } from '@/components/SongList/SongList';
+import { WishlistFAB } from '@/components/Wishlist/WishlistFAB';
+import { WishlistPanel } from '@/components/Wishlist/WishlistPanel';
 import { useTheme } from '@/hooks/useTheme';
 import { useSongs } from '@/hooks/useSongs';
 import { useFeatureFlags } from '@/hooks/useFeatureFlags';
 import { useDisplaySongs } from '@/hooks/useDisplaySongs';
+import { useWishlist } from '@/hooks/useWishlist';
 import styles from './App.module.css';
 
 export default function App() {
@@ -14,6 +18,9 @@ export default function App() {
   const { theme, toggleTheme } = useTheme();
   const { songs, allSongs, isLoading, sortField, setSortField } = useSongs();
   const featureFlags = useFeatureFlags();
+  const [isWishlistOpen, setIsWishlistOpen] = useState(false);
+  const { wishlistedIds, toggleSong, removeSong, clearAll, fabPosition, saveFabPosition } =
+    useWishlist();
 
   const {
     filter,
@@ -59,9 +66,33 @@ export default function App() {
             isLoading={isLoading}
             sortField={sortField}
             onSortChange={setSortField}
+            wishlistedIds={featureFlags.wishlist ? wishlistedIds : undefined}
+            onToggleWishlist={featureFlags.wishlist ? toggleSong : undefined}
           />
         </div>
       </main>
+
+      {featureFlags.wishlist && (
+        <>
+          {wishlistedIds.length > 0 && !isWishlistOpen && (
+            <WishlistFAB
+              count={wishlistedIds.length}
+              position={fabPosition}
+              onOpen={() => setIsWishlistOpen(true)}
+              onPositionChange={saveFabPosition}
+            />
+          )}
+          <WishlistPanel
+            isOpen={isWishlistOpen}
+            onClose={() => setIsWishlistOpen(false)}
+            songs={songs
+              .filter((s) => wishlistedIds.includes(s.id))
+              .sort((a, b) => wishlistedIds.indexOf(a.id) - wishlistedIds.indexOf(b.id))}
+            onDelete={removeSong}
+            onClearAll={clearAll}
+          />
+        </>
+      )}
     </div>
   );
 }

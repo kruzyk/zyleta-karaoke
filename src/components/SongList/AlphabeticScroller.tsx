@@ -59,6 +59,8 @@ export function AlphabeticScroller({
   const navRef = useRef<HTMLElement>(null);
   const [navHeight, setNavHeight] = useState(0);
   const [dragLetter, setDragLetter] = useState<string | null>(null);
+  const [showBadge, setShowBadge] = useState(false);
+  const hideBadgeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [isCoarse, setIsCoarse] = useState<boolean>(
     () => window.matchMedia('(pointer: coarse)').matches,
   );
@@ -106,6 +108,12 @@ export function AlphabeticScroller({
     const handler = (e: MediaQueryListEvent) => setIsCoarse(e.matches);
     mq.addEventListener('change', handler);
     return () => mq.removeEventListener('change', handler);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (hideBadgeTimerRef.current !== null) clearTimeout(hideBadgeTimerRef.current);
+    };
   }, []);
 
   // Derive active letter from the virtualizer-provided top visible index.
@@ -162,6 +170,11 @@ export function AlphabeticScroller({
 
   const handlePointerDown = (e: React.PointerEvent<HTMLElement>) => {
     e.currentTarget.setPointerCapture(e.pointerId);
+    if (hideBadgeTimerRef.current !== null) {
+      clearTimeout(hideBadgeTimerRef.current);
+      hideBadgeTimerRef.current = null;
+    }
+    setShowBadge(true);
     navigateToY(e.clientY);
   };
 
@@ -173,6 +186,10 @@ export function AlphabeticScroller({
   const handlePointerUp = (e: React.PointerEvent<HTMLElement>) => {
     e.currentTarget.releasePointerCapture(e.pointerId);
     setDragLetter(null);
+    hideBadgeTimerRef.current = setTimeout(() => {
+      setShowBadge(false);
+      hideBadgeTimerRef.current = null;
+    }, 400);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
@@ -205,8 +222,8 @@ export function AlphabeticScroller({
       <span className={styles.srOnly} aria-live="polite" aria-atomic="true">
         {activeLetter ? t('alphabeticScroller.currentSection', { letter: activeLetter }) : ''}
       </span>
-      {/* Badge: always visible in track mode (active or drag), only during drag in letter mode */}
-      {(isTrackMode ? (dragLetter ?? activeLetter) : dragLetter) && (
+      {/* Badge: only visible when interacting with the scroller track, fades out after release */}
+      {showBadge && (dragLetter ?? activeLetter) && (
         <span className={styles.dragBadge} aria-hidden="true">
           {dragLetter ?? activeLetter}
         </span>

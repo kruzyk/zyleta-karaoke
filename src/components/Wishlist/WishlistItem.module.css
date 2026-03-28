@@ -1,0 +1,97 @@
+.wrapper {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.deleteZone {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #c0392b;
+}
+
+.deleteButton {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0 0.75rem;
+  height: 100%;
+  width: 100%;
+}
+
+.deleteButton:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: -3px;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  padding: 0.875rem clamp(0.5rem, 3vw, 1rem);
+  background-color: var(--bg-surface);
+  transition: background-color 0.15s ease;
+  touch-action: pan-y;
+  user-select: none;
+  min-height: 56px;
+}
+
+.content:hover {
+  background-color: var(--bg-surface-hover);
+}
+
+.contentDragging {
+  touch-action: none;
+  will-change: transform;
+}
+
+.songInfo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0;
+  flex: 1;
+  overflow: hidden;
+}
+
+.artist {
+  color: var(--neon-primary);
+  font-weight: 600;
+  font-size: clamp(0.875rem, 3.5vw, 1rem);
+  white-space: nowrap;
+}
+
+.separator {
+  color: var(--text-muted);
+  margin: 0 0.125rem;
+  font-size: clamp(0.8125rem, 3vw, 0.9375rem);
+}
+
+.title {
+  color: var(--text-primary);
+  font-size: clamp(0.8125rem, 3vw, 0.9375rem);
+}
+
+@media (max-width: 400px) {
+  .songInfo {
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .separator {
+    display: none;
+  }
+
+  .title {
+    color: var(--text-secondary);
+    font-size: 0.8125rem;
+  }
+}

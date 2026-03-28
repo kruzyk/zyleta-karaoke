@@ -48,6 +48,22 @@
     "scrollTo": "Przewiń do {{letter}}",
     "currentSection": "Bieżąca sekcja: {{letter}}"
   },
+  "wishlist": {
+    "addToList": "Dodaj do listy",
+    "removeFromList": "Usuń z listy",
+    "panelTitle": "Moja lista",
+    "itemCount_one": "{{count}} piosenka",
+    "itemCount_other": "{{count}} piosenek",
+    "sortMode": "Zmień kolejność",
+    "sortModeExit": "Gotowe",
+    "dragHandle": "Przeciągnij, aby zmienić kolejność",
+    "deleteItem": "Usuń",
+    "clearAll": "Wyczyść wszystko",
+    "clearAllConfirm": "Czy na pewno? Usunie to wszystkie piosenki z listy.",
+    "emptyState": "Twoja lista jest pusta.\nDodaj piosenki przyciskiem +.",
+    "closePanel": "Zamknij listę",
+    "openList": "Otwórz listę ({{count}} piosenek)"
+  },
   "footer": {
     "copyright": "© {{year}} Żyleta Karaoke. Wszelkie prawa zastrzeżone.",
     "followUs": "Obserwuj nas",

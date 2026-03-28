@@ -39,6 +39,8 @@
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
   --shadow-neon: 0 0 20px var(--glow-primary), 0 0 40px var(--glow-primary);
+
+  --wishlist-highlight: rgba(255, 0, 255, 0.1);
 }
 
 /* ---- Light Theme ---- */
@@ -68,6 +70,8 @@
   --shadow-sm: 0 2px 8px rgba(100, 80, 140, 0.1);
   --shadow-md: 0 4px 16px rgba(100, 80, 140, 0.15);
   --shadow-neon: 0 0 15px var(--glow-primary), 0 0 30px var(--glow-primary);
+
+  --wishlist-highlight: rgba(204, 0, 204, 0.08);
 }
 
 /* ---- Reduced motion & mobile perf ---- */

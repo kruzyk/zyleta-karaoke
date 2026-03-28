@@ -17,6 +17,7 @@ import config from '@/config';
 export interface FeatureFlags {
   decades: boolean;
   international: boolean;
+  wishlist: boolean;
   isLoading: boolean;
 }
 
@@ -27,12 +28,16 @@ function envFlag(name: string): boolean | undefined {
   return val === 'true' || val === '1';
 }
 
-function getLocalOverrides(): Partial<Pick<FeatureFlags, 'decades' | 'international'>> {
-  const overrides: Partial<Pick<FeatureFlags, 'decades' | 'international'>> = {};
+function getLocalOverrides(): Partial<
+  Pick<FeatureFlags, 'decades' | 'international' | 'wishlist'>
+> {
+  const overrides: Partial<Pick<FeatureFlags, 'decades' | 'international' | 'wishlist'>> = {};
   const decades = envFlag('VITE_FF_DECADES');
   const international = envFlag('VITE_FF_INTERNATIONAL');
+  const wishlist = envFlag('VITE_FF_WISHLIST');
   if (decades !== undefined) overrides.decades = decades;
   if (international !== undefined) overrides.international = international;
+  if (wishlist !== undefined) overrides.wishlist = wishlist;
   return overrides;
 }
 
@@ -40,6 +45,7 @@ export function useFeatureFlags(): FeatureFlags {
   const [flags, setFlags] = useState<FeatureFlags>({
     decades: config.features.decades,
     international: config.features.international,
+    wishlist: config.features.wishlist,
     isLoading: true,
   });
 
@@ -52,11 +58,16 @@ export function useFeatureFlags(): FeatureFlags {
       const localOverrides = getLocalOverrides();
 
       // If ALL flags are overridden locally, skip ConfigCat entirely
-      if (localOverrides.decades !== undefined && localOverrides.international !== undefined) {
+      if (
+        localOverrides.decades !== undefined &&
+        localOverrides.international !== undefined &&
+        localOverrides.wishlist !== undefined
+      ) {
         if (!cancelled) {
           setFlags({
             decades: localOverrides.decades,
             international: localOverrides.international,
+            wishlist: localOverrides.wishlist,
             isLoading: false,
           });
         }
@@ -72,15 +83,17 @@ export function useFeatureFlags(): FeatureFlags {
             pollIntervalSeconds: 300, // 5 min refresh
           });
 
-          const [decadesVal, internationalVal] = await Promise.all([
+          const [decadesVal, internationalVal, wishlistVal] = await Promise.all([
             client.getValueAsync('decadesFilter', config.features.decades),
             client.getValueAsync('international', config.features.international),
+            client.getValueAsync('wishlist', config.features.wishlist),
           ]);
 
           if (!cancelled) {
             setFlags({
               decades: localOverrides.decades ?? decadesVal,
               international: localOverrides.international ?? internationalVal,
+              wishlist: localOverrides.wishlist ?? wishlistVal,
               isLoading: false,
             });
           }
@@ -90,6 +103,7 @@ export function useFeatureFlags(): FeatureFlags {
             setFlags({
               decades: localOverrides.decades ?? config.features.decades,
               international: localOverrides.international ?? config.features.international,
+              wishlist: localOverrides.wishlist ?? config.features.wishlist,
               isLoading: false,
             });
           }
@@ -100,6 +114,7 @@ export function useFeatureFlags(): FeatureFlags {
           setFlags({
             decades: localOverrides.decades ?? config.features.decades,
             international: localOverrides.international ?? config.features.international,
+            wishlist: localOverrides.wishlist ?? config.features.wishlist,
             isLoading: false,
           });
         }
