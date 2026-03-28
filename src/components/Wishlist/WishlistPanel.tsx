@@ -25,12 +25,9 @@ export function WishlistPanel({
   const [revealedId, setRevealedId] = useState<string | null>(null);
   const panelRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (isOpen) {
-      setIsMounted(true);
-      setIsClosing(false);
-    }
-  }, [isOpen]);
+  if (isOpen && !isMounted) setIsMounted(true);
+  if (isOpen && isClosing) setIsClosing(false);
+  if (!isOpen && isMounted && !isClosing) setIsClosing(true);
 
   const handleClose = useCallback(() => {
     setIsClosing(true);
@@ -43,12 +40,6 @@ export function WishlistPanel({
       onClose();
     }
   }, [isClosing, onClose]);
-
-  useEffect(() => {
-    if (!isOpen && isMounted) {
-      handleClose();
-    }
-  }, [isOpen, isMounted, handleClose]);
 
   const handleClearAll = useCallback(() => {
     const confirmed = window.confirm(t('wishlist.clearAllConfirm'));
@@ -66,12 +57,6 @@ export function WishlistPanel({
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isMounted, handleClose]);
 
-  useEffect(() => {
-    if (isMounted) {
-      panelRef.current?.focus();
-    }
-  }, [isMounted]);
-
   if (!isMounted) return null;
 
   return (
@@ -79,6 +64,7 @@ export function WishlistPanel({
       ref={panelRef}
       className={`${styles.panel} ${isClosing ? styles.panelClosing : ''}`}
       onAnimationEnd={handleAnimationEnd}
+      autoFocus
       role="dialog"
       aria-modal="true"
       aria-label={t('wishlist.panelTitle')}

@@ -1,4 +1,4 @@
-import { useRef, useState, useCallback, useEffect } from 'react';
+import { useRef, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { Song } from '@/types/song';
 import styles from './WishlistItem.module.css';
@@ -24,12 +24,10 @@ export function WishlistItem({ song, onDelete, isForceClose, onReveal, onTap }: 
   const swipeActiveRef = useRef(false);
   const scrollLockedRef = useRef(false);
 
-  useEffect(() => {
-    if (isForceClose && isRevealed) {
-      setTranslateX(0);
-      setIsRevealed(false);
-    }
-  }, [isForceClose, isRevealed]);
+  if (isForceClose && isRevealed) {
+    setTranslateX(0);
+    setIsRevealed(false);
+  }
 
   const handlePointerDown = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
     startXRef.current = e.clientX;
