@@ -14,6 +14,8 @@ interface SongListProps {
   onSortChange: (field: SortField) => void;
   wishlistedIds?: string[];
   onToggleWishlist?: (id: string) => void;
+  isToolbarHidden?: boolean;
+  onScrollHide?: (hidden: boolean) => void;
 }
 
 export function SongList({
@@ -23,9 +25,13 @@ export function SongList({
   onSortChange,
   wishlistedIds,
   onToggleWishlist,
+  isToolbarHidden,
+  onScrollHide,
 }: SongListProps) {
   const { t } = useTranslation();
   const parentRef = useRef<HTMLDivElement>(null);
+  const lastScrollTopRef = useRef(0);
+  const scrollDirectionRef = useRef<'up' | 'down' | null>(null);
 
   const [showBackToTop, setShowBackToTop] = useState(false);
 
@@ -38,10 +44,29 @@ export function SongList({
   useEffect(() => {
     const el = parentRef.current;
     if (!el) return;
-    const handleScroll = () => setShowBackToTop(el.scrollTop > 300);
+    const handleScroll = () => {
+      const scrollTop = el.scrollTop;
+      setShowBackToTop(scrollTop > 300);
+
+      const diff = scrollTop - lastScrollTopRef.current;
+      lastScrollTopRef.current = scrollTop;
+
+      if (scrollTop <= 5) {
+        if (scrollDirectionRef.current !== 'up') {
+          scrollDirectionRef.current = 'up';
+          onScrollHide?.(false);
+        }
+      } else if (diff > 10 && scrollDirectionRef.current !== 'down') {
+        scrollDirectionRef.current = 'down';
+        onScrollHide?.(true);
+      } else if (diff < -10 && scrollDirectionRef.current !== 'up') {
+        scrollDirectionRef.current = 'up';
+        onScrollHide?.(false);
+      }
+    };
     el.addEventListener('scroll', handleScroll, { passive: true });
     return () => el.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [onScrollHide]);
 
   const scrollToTop = () => {
     parentRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
@@ -79,7 +104,11 @@ export function SongList({
 
   return (
     <div className={styles.container}>
-      <div className={styles.sortBar} role="toolbar" aria-label={t('songList.sortLabel')}>
+      <div
+        className={`${styles.sortBar}${isToolbarHidden ? ` ${styles.sortBarHidden}` : ''}`}
+        role="toolbar"
+        aria-label={t('songList.sortLabel')}
+      >
         <span className={styles.sortLabel}>{t('songList.sortLabel')}:</span>
         <button
           className={`${styles.sortButton} ${sortField === 'artist' ? styles.sortActive : ''}`}

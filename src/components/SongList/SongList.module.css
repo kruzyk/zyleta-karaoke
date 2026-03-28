@@ -122,3 +122,21 @@
     padding: 0.25rem 0.625rem;
   }
 }
+
+@media (pointer: coarse) {
+  .sortBar {
+    overflow: hidden;
+    max-height: 60px;
+    transition:
+      max-height 0.3s ease,
+      padding 0.3s ease,
+      opacity 0.2s ease;
+  }
+
+  .sortBarHidden {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    opacity: 0;
+  }
+}

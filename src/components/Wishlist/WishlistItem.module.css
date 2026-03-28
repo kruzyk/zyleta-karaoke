@@ -80,6 +80,25 @@
   font-size: clamp(0.8125rem, 3vw, 0.9375rem);
 }
 
+@media (pointer: fine) {
+  .wrapper {
+    display: flex;
+    flex-direction: row-reverse;
+    overflow: visible;
+  }
+
+  .deleteZone {
+    position: static;
+    width: 48px;
+    flex-shrink: 0;
+  }
+
+  .content {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
 @media (max-width: 400px) {
   .songInfo {
     flex-direction: column;
