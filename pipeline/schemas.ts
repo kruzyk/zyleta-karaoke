@@ -47,6 +47,7 @@ export const SongSchema = z.object({
   country: SongCountrySchema.optional(),
   language: SongCountrySchema.optional(),
   year: z.number().int().optional(),
+  sourceFilename: z.string().optional(),
 });
 
 export const SongsArraySchema = z.array(SongSchema);
