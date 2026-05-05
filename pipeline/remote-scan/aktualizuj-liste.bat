@@ -44,10 +44,32 @@ if %ERRORLEVEL% neq 0 (
     echo  Aktualizacja nie powiodla sie.
     echo  Szczegoly bledu znajdziesz w pliku: scan-log.txt
     echo  (w tym samym folderze co ten skrypt)
-) else (
     echo.
-    echo  Gotowe!
+    pause
+    exit /b 1
 )
 
+echo.
+echo  Lista plikow wyslana. Uruchamiam workflow Process Song List...
+echo.
+
+powershell -ExecutionPolicy Bypass -Command ^
+  "$token = (Get-Content '%~dp0scan-config.json' -Raw | ConvertFrom-Json).githubToken; " ^
+  "$repo = (Get-Content '%~dp0scan-config.json' -Raw | ConvertFrom-Json).githubRepo; " ^
+  "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; " ^
+  "$headers = @{ 'Authorization' = \"Bearer $token\"; 'Accept' = 'application/vnd.github.v3+json'; 'User-Agent' = 'ZyletaKaraoke/1.0' }; " ^
+  "$body = '{\"ref\":\"master\",\"inputs\":{\"force_refresh\":\"false\"}}'; " ^
+  "try { " ^
+  "  Invoke-RestMethod -Uri \"https://api.github.com/repos/$repo/actions/workflows/update-songs.yml/dispatches\" -Headers $headers -Method Post -Body $body -ContentType 'application/json'; " ^
+  "  Write-Host '  Workflow uruchomiony!' -ForegroundColor Green; " ^
+  "  Write-Host '  Postep: https://github.com/$repo/actions' -ForegroundColor Gray; " ^
+  "} catch { " ^
+  "  Write-Host '  UWAGA: Nie udalo sie uruchomic workflow automatycznie.' -ForegroundColor Yellow; " ^
+  "  Write-Host '  Sprawdz czy token ma uprawnienie Actions: Read and write.' -ForegroundColor Yellow; " ^
+  "  Write-Host \"  $($_.Exception.Message)\" -ForegroundColor Red; " ^
+  "}"
+
+echo.
+echo  Gotowe!
 echo.
 pause
