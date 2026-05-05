@@ -302,6 +302,12 @@
     "year": 2018
   },
   {
+    "id": "5-nizza",
+    "artist": "5'nizza",
+    "title": "Солдат",
+    "year": 2003
+  },
+  {
     "id": "50-cent-candy-shop",
     "artist": "50 Cent",
     "title": "Candy Shop",
@@ -553,6 +559,13 @@
     "country": "EN",
     "language": "EN",
     "year": 2001
+  },
+  {
+    "id": "aaron-bayler-i-m-not-in-love",
+    "artist": "Aaron Bayler",
+    "title": "I'm Not in Love",
+    "country": "EN",
+    "language": "EN"
   },
   {
     "id": "aaron-baylor-i-m-not-in-love",
@@ -1251,6 +1264,14 @@
     "year": 2015
   },
   {
+    "id": "adam-rickett-i-breathe-again",
+    "artist": "Adam Rickett",
+    "title": "I Breathe Again",
+    "country": "EN",
+    "language": "EN",
+    "year": 1999
+  },
+  {
     "id": "adam-rickitt-i-breathe-again",
     "artist": "Adam Rickitt",
     "title": "I Breathe Again",
@@ -1931,7 +1952,9 @@
   {
     "id": "akcent-kylie",
     "artist": "Akcent",
-    "title": "Kylie"
+    "title": "Kylie",
+    "language": "EN",
+    "year": 2010
   },
   {
     "id": "akcent-bia-a-mewa",
@@ -2728,7 +2751,8 @@
     "artist": "Alan Jackson & George Strait",
     "title": "Designated Drinker",
     "country": "EN",
-    "language": "EN"
+    "language": "EN",
+    "year": 1993
   },
   {
     "id": "alan-price-the-house-that-jack-built",
@@ -2938,6 +2962,14 @@
     "language": "EN"
   },
   {
+    "id": "alex-gaudino-feat-kelly-rowland-what-a-feeling",
+    "artist": "Alex Gaudino feat. Kelly Rowland",
+    "title": "What a Feeling",
+    "country": "Italy",
+    "language": "EN",
+    "year": 2011
+  },
+  {
     "id": "alex-parks-cry",
     "artist": "Alex Parks",
     "title": "Cry",
@@ -2989,6 +3021,7 @@
     "id": "alexandra-stan-get-back-asap",
     "artist": "Alexandra Stan",
     "title": "Get Back (ASAP)",
+    "country": "EN",
     "language": "EN",
     "year": 2011
   },
@@ -3734,6 +3767,22 @@
     "year": 1996
   },
   {
+    "id": "amen-corner-if-paradise-is-half-as-nice",
+    "artist": "Amen Corner",
+    "title": "(If Paradise Is) Half as Nice",
+    "country": "EN",
+    "language": "EN",
+    "year": 1969
+  },
+  {
+    "id": "amen-corner-bend-me-shape-me",
+    "artist": "Amen Corner",
+    "title": "Bend Me, Shape Me",
+    "country": "EN",
+    "language": "EN",
+    "year": 1968
+  },
+  {
     "id": "america-tin-man",
     "artist": "America",
     "title": "Tin Man",
@@ -4041,6 +4090,14 @@
     "year": 1999
   },
   {
+    "id": "andreas-johnson-the-games-we-play",
+    "artist": "Andreas Johnson",
+    "title": "The Games We Play",
+    "country": "Sweden",
+    "language": "EN",
+    "year": 2000
+  },
+  {
     "id": "andrew-lloyd-webber-heaven-on-their-minds",
     "artist": "Andrew Lloyd Webber",
     "title": "Heaven on Their Minds",
@@ -4055,6 +4112,14 @@
     "country": "EN",
     "language": "EN",
     "year": 1970
+  },
+  {
+    "id": "andrew-lloyd-webber-the-phantom-of-the-opera",
+    "artist": "Andrew Lloyd Webber",
+    "title": "The Phantom of the Opera",
+    "country": "EN",
+    "language": "EN",
+    "year": 1986
   },
   {
     "id": "andrew-w-k-party-hard",
@@ -6148,6 +6213,14 @@
     "year": 1997
   },
   {
+    "id": "babyface-feat-ll-cool-j-howard-hewett-jody-watley-this-is-for-the-lover-in-you",
+    "artist": "Babyface feat. LL Cool J, Howard Hewett & Jody Watley",
+    "title": "This Is for the Lover in You",
+    "country": "EN",
+    "language": "EN",
+    "year": 1996
+  },
+  {
     "id": "babyface-feat-ll-cool-j-howard-hewett-marc-nelson-someone-to-love",
     "artist": "Babyface feat. LL Cool J, Howard Hewett & Marc Nelson",
     "title": "Someone to Love",
@@ -7238,6 +7311,8 @@
     "id": "becky-g-feat-bad-bunny-mayores",
     "artist": "Becky G feat. Bad Bunny",
     "title": "Mayores",
+    "country": "Spain",
+    "language": "Spain",
     "year": 2017
   },
   {
@@ -7286,6 +7361,14 @@
     "country": "PL",
     "language": "EN",
     "year": 2009
+  },
+  {
+    "id": "behemoth-chant-for-eschaton-2000-e-v",
+    "artist": "Behemoth",
+    "title": "Chant for Eschaton 2000 e.v.",
+    "country": "PL",
+    "language": "EN",
+    "year": 2000
   },
   {
     "id": "belinda-carlisle-circle-in-the-sand",
@@ -7474,6 +7557,14 @@
     "country": "EN",
     "language": "EN",
     "year": 2024
+  },
+  {
+    "id": "beyonce-feat-arrow-benjamin-runnin-lose-it-all",
+    "artist": "Beyoncé feat. Arrow Benjamin",
+    "title": "Runnin' (Lose It All)",
+    "country": "EN",
+    "language": "EN",
+    "year": 2015
   },
   {
     "id": "beyonce-feat-naughty-boy-runnin-lose-it-all",
@@ -8023,6 +8114,14 @@
     "year": 1986
   },
   {
+    "id": "billy-ocean-caribbean-queen-no-more-love-on-the-run",
+    "artist": "Billy Ocean",
+    "title": "Caribbean Queen (No More Love on the Run)",
+    "country": "EN",
+    "language": "EN",
+    "year": 1984
+  },
+  {
     "id": "billy-ray-cyrus-achy-breaky-heart",
     "artist": "Billy Ray Cyrus",
     "title": "Achy Breaky Heart",
@@ -8139,6 +8238,14 @@
     "country": "EN",
     "language": "EN",
     "year": 2003
+  },
+  {
+    "id": "black-eyed-peas-don-t-phunk-with-my-heart",
+    "artist": "Black Eyed Peas",
+    "title": "Don't Phunk with My Heart",
+    "country": "EN",
+    "language": "EN",
+    "year": 2005
   },
   {
     "id": "black-lace-agadoo",
@@ -8900,6 +9007,14 @@
   {
     "id": "bob-marley-sun-is-shining",
     "artist": "Bob Marley",
+    "title": "Sun Is Shining",
+    "country": "EN",
+    "language": "EN",
+    "year": 1971
+  },
+  {
+    "id": "bob-marley-the-wailers-sun-is-shining",
+    "artist": "Bob Marley & The Wailers",
     "title": "Sun Is Shining",
     "country": "EN",
     "language": "EN",
@@ -10254,9 +10369,18 @@
     "year": 2005
   },
   {
+    "id": "bullet-for-my-valentine-all-these-things-i-hate-revolve-around-me",
+    "artist": "Bullet for My Valentine",
+    "title": "All These Things I Hate (Revolve Around Me)",
+    "country": "EN",
+    "language": "EN",
+    "year": 2006
+  },
+  {
     "id": "bum",
     "artist": "Bum",
-    "title": "Каникулы"
+    "title": "Каникулы",
+    "year": 2004
   },
   {
     "id": "bush-glycerine",
@@ -10641,6 +10765,13 @@
     "year": 1995
   },
   {
+    "id": "celine-dion-andrea-bocelli-the-prayer",
+    "artist": "Celine Dion & Andrea Bocelli",
+    "title": "The Prayer",
+    "language": "EN",
+    "year": 1998
+  },
+  {
     "id": "cesaria-evora-besame-mucho",
     "artist": "Cesária Évora",
     "title": "Bésame mucho",
@@ -10763,6 +10894,12 @@
     "country": "EN",
     "language": "EN",
     "year": 2015
+  },
+  {
+    "id": "charly-lownoise-mental-theo-huumaan",
+    "artist": "Charly Lownoise & Mental Theo",
+    "title": "Huumaan",
+    "year": 1997
   },
   {
     "id": "chase-status-feat-liam-bailey-blind-faith",
@@ -10925,12 +11062,28 @@
     "year": 2009
   },
   {
+    "id": "cheryl-cole-feat-dizzee-rascal-everybody",
+    "artist": "Cheryl Cole feat. Dizzee Rascal",
+    "title": "Everybody",
+    "country": "EN",
+    "language": "EN",
+    "year": 2010
+  },
+  {
     "id": "cheryl-cole-feat-travie-mccoy-i-don-t-care",
     "artist": "Cheryl Cole feat. Travie McCoy",
     "title": "I Don't Care",
     "country": "EN",
     "language": "EN",
     "year": 2010
+  },
+  {
+    "id": "cheryl-cole-feat-travie-mccoy-yeah-yeah",
+    "artist": "Cheryl Cole feat. Travie McCoy",
+    "title": "Yeah Yeah",
+    "country": "EN",
+    "language": "EN",
+    "year": 2012
   },
   {
     "id": "chesney-hawkes-the-one-and-only",
@@ -11052,6 +11205,14 @@
     "year": 1987
   },
   {
+    "id": "ch-opcy-z-placu-broni-goraleczka",
+    "artist": "Chłopcy z Placu Broni",
+    "title": "Góraleczka",
+    "country": "PL",
+    "language": "PL",
+    "year": 1984
+  },
+  {
     "id": "chris-brown-turn-up-the-music",
     "artist": "Chris Brown",
     "title": "Turn Up the Music",
@@ -11066,6 +11227,14 @@
     "country": "EN",
     "language": "EN",
     "year": 2010
+  },
+  {
+    "id": "chris-brown-benny-benassi-beautiful-people",
+    "artist": "Chris Brown & Benny Benassi",
+    "title": "Beautiful People",
+    "country": "EN",
+    "language": "EN",
+    "year": 2011
   },
   {
     "id": "chris-brown-tyga-ayo",
@@ -11525,7 +11694,8 @@
     "artist": "Cliver",
     "title": "Femme Fatale",
     "country": "PL",
-    "language": "PL"
+    "language": "PL",
+    "year": 2003
   },
   {
     "id": "cliver-lekarstwo-na-gorzkie-dni",
@@ -12475,6 +12645,14 @@
     "year": 1969
   },
   {
+    "id": "czerwone-gitary-morskie-opowiesci",
+    "artist": "Czerwone Gitary",
+    "title": "Morskie opowieści",
+    "country": "PL",
+    "language": "PL",
+    "year": 1967
+  },
+  {
     "id": "czerwony-tulipan-jedyne-co-mam",
     "artist": "Czerwony Tulipan",
     "title": "Jedyne co mam",
@@ -12733,6 +12911,14 @@
     "year": 1957
   },
   {
+    "id": "danny-devito-one-last-hope",
+    "artist": "Danny DeVito",
+    "title": "One Last Hope",
+    "country": "EN",
+    "language": "EN",
+    "year": 1997
+  },
+  {
     "id": "danny-saucedo-if-only-you",
     "artist": "Danny Saucedo",
     "title": "If Only You",
@@ -12856,6 +13042,22 @@
     "country": "PL",
     "language": "PL",
     "year": 2018
+  },
+  {
+    "id": "daria-zawia-ow-ballada-o-niej",
+    "artist": "Daria Zawiałow",
+    "title": "Ballada o niej",
+    "country": "PL",
+    "language": "PL",
+    "year": 2018
+  },
+  {
+    "id": "daria-zawia-ow-punk-fu",
+    "artist": "Daria Zawiałow",
+    "title": "Punk Fu",
+    "country": "PL",
+    "language": "PL",
+    "year": 2019
   },
   {
     "id": "daria-zawia-ow-artur-rojek-dziwna",
@@ -14154,6 +14356,86 @@
     "language": "PL"
   },
   {
+    "id": "disney-part-of-your-world",
+    "artist": "Disney",
+    "title": "Part of Your World",
+    "country": "EN",
+    "language": "EN",
+    "year": 1989
+  },
+  {
+    "id": "disney-in-summer",
+    "artist": "Disney",
+    "title": "In Summer",
+    "country": "EN",
+    "language": "EN",
+    "year": 2013
+  },
+  {
+    "id": "disney-let-it-go",
+    "artist": "Disney",
+    "title": "Let It Go",
+    "country": "EN",
+    "language": "EN",
+    "year": 2013
+  },
+  {
+    "id": "disney-i-ll-make-a-man-out-of-you",
+    "artist": "Disney",
+    "title": "I'll Make a Man Out of You",
+    "country": "EN",
+    "language": "EN",
+    "year": 1998
+  },
+  {
+    "id": "disney-i-m-still-here",
+    "artist": "Disney",
+    "title": "I'm Still Here",
+    "country": "EN",
+    "language": "EN",
+    "year": 2002
+  },
+  {
+    "id": "disney-ty-druha-we-mnie-masz",
+    "artist": "Disney",
+    "title": "Ty Druha We Mnie Masz",
+    "country": "EN",
+    "language": "PL",
+    "year": 1995
+  },
+  {
+    "id": "disney-how-far-i-ll-go",
+    "artist": "Disney",
+    "title": "How Far I'll Go",
+    "country": "EN",
+    "language": "EN",
+    "year": 2016
+  },
+  {
+    "id": "disney-you-re-welcome",
+    "artist": "Disney",
+    "title": "You're Welcome",
+    "country": "EN",
+    "language": "EN",
+    "year": 2016
+  },
+  {
+    "id": "disney-b-yszczec",
+    "artist": "Disney",
+    "title": "Błyszczeć",
+    "country": "EN",
+    "language": "PL",
+    "year": 2017
+  },
+  {
+    "id": "disney-drobnostka",
+    "artist": "Disney",
+    "title": "Drobnostka",
+    "country": "EN",
+    "language": "PL",
+    "year": 2017
+  },
+  {
     "id": "disturbed-decadence",
     "artist": "Disturbed",
     "title": "Decadence",
@@ -14330,6 +14612,7 @@
     "id": "dj-otzi-hey-baby-uhh-ahh",
     "artist": "DJ Ötzi",
     "title": "Hey Baby (Uhh, Ahh)",
+    "country": "Germany",
     "language": "EN",
     "year": 2000
   },
@@ -14472,6 +14755,14 @@
     "year": 1987
   },
   {
+    "id": "dokken-into-the-fire",
+    "artist": "Dokken",
+    "title": "Into the Fire",
+    "country": "EN",
+    "language": "EN",
+    "year": 1984
+  },
+  {
     "id": "dollar-shooting-star",
     "artist": "Dollar",
     "title": "Shooting Star",
@@ -14546,6 +14837,14 @@
     "id": "donatan-cleo-brac-feat-enej",
     "artist": "Donatan & Cleo",
     "title": "Brać (feat. Enej)",
+    "country": "PL",
+    "language": "PL",
+    "year": 2014
+  },
+  {
+    "id": "donatan-cleo-feat-sitek-cicha-woda",
+    "artist": "Donatan & Cleo feat. Sitek",
+    "title": "Cicha woda",
     "country": "PL",
     "language": "PL",
     "year": 2014
@@ -14668,6 +14967,14 @@
     "year": 1999
   },
   {
+    "id": "dr-dre-feat-xzibit-eminem-what-s-the-difference",
+    "artist": "Dr. Dre feat. Xzibit & Eminem",
+    "title": "What's the Difference",
+    "country": "EN",
+    "language": "EN",
+    "year": 1999
+  },
+  {
     "id": "dr-hook-a-little-bit-more",
     "artist": "Dr. Hook",
     "title": "A Little Bit More",
@@ -14720,7 +15027,8 @@
     "artist": "Dr. Hook",
     "title": "The Sweetest of All",
     "country": "EN",
-    "language": "EN"
+    "language": "EN",
+    "year": 1978
   },
   {
     "id": "dragonforce-through-the-fire-and-flames",
@@ -15255,6 +15563,14 @@
     "country": "PL",
     "language": "PL",
     "year": 1981
+  },
+  {
+    "id": "dzem-ten-o-tobie-film",
+    "artist": "Dżem",
+    "title": "Ten o Tobie Film",
+    "country": "PL",
+    "language": "PL",
+    "year": 1984
   },
   {
     "id": "dzem-tadeusz-nalepa-ten-o-tobie-film",
@@ -15911,8 +16227,9 @@
   {
     "id": "elefante-de-la-noche-a-la-manana",
     "artist": "Elefante",
-    "title": "De la noche a la mañana",
-    "year": 2002
+    "title": "De la Noche a la Mañana",
+    "language": "Spain",
+    "year": 2003
   },
   {
     "id": "elefante-durmiendo-con-la-luna",
@@ -16262,12 +16579,28 @@
     "year": 1970
   },
   {
+    "id": "elton-john-candle-in-the-wind-1997",
+    "artist": "Elton John",
+    "title": "Candle in the Wind 1997",
+    "country": "EN",
+    "language": "EN",
+    "year": 1997
+  },
+  {
     "id": "elton-john-dua-lipa-cold-heart",
     "artist": "Elton John & Dua Lipa",
     "title": "Cold Heart",
     "country": "EN",
     "language": "EN",
     "year": 2021
+  },
+  {
+    "id": "elton-john-kiki-dee-don-t-go-breaking-my-heart",
+    "artist": "Elton John & Kiki Dee",
+    "title": "Don't Go Breaking My Heart",
+    "country": "EN",
+    "language": "EN",
+    "year": 1976
   },
   {
     "id": "eluveitie-a-rose-for-epona",
@@ -16807,6 +17140,14 @@
     "year": 2013
   },
   {
+    "id": "eminem-feat-rihanna-love-the-way-you-lie",
+    "artist": "Eminem feat. Rihanna",
+    "title": "Love the Way You Lie",
+    "country": "EN",
+    "language": "EN",
+    "year": 2010
+  },
+  {
     "id": "emmanuel-moire-mon-essentiel",
     "artist": "Emmanuel Moire",
     "title": "Mon essentiel",
@@ -17019,6 +17360,14 @@
     "country": "Spain",
     "language": "Spain",
     "year": 2015
+  },
+  {
+    "id": "enrique-iglesias-you-re-my-number-one",
+    "artist": "Enrique Iglesias",
+    "title": "You're My Number One",
+    "country": "Spain",
+    "language": "EN",
+    "year": 2006
   },
   {
     "id": "enrique-iglesias-feat-ludacris-dj-frank-e-tonight-i-m-lovin-you",
@@ -18082,7 +18431,8 @@
     "id": "fiona-monday-morning",
     "artist": "Fiona",
     "title": "Monday Morning",
-    "language": "EN"
+    "language": "EN",
+    "year": 1998
   },
   {
     "id": "firebirds-harry",
@@ -18476,6 +18826,13 @@
     "year": 1998
   },
   {
+    "id": "franco-de-vita-si-tu-te-vas",
+    "artist": "Franco de Vita",
+    "title": "Si Tú Te Vas",
+    "language": "Spain",
+    "year": 1998
+  },
+  {
     "id": "franek-kimono-king-bruce-lee-karate-mistrz",
     "artist": "Franek Kimono",
     "title": "King Bruce Lee karate mistrz",
@@ -18757,7 +19114,8 @@
     "artist": "Frontside",
     "title": "Naszym przeznaczeniem jest płonąć",
     "country": "PL",
-    "language": "PL"
+    "language": "PL",
+    "year": 2003
   },
   {
     "id": "fuel-falls-on-me",
@@ -19158,6 +19516,12 @@
     "year": 2001
   },
   {
+    "id": "garou-feat-celine-dion-sous-le-vent",
+    "artist": "Garou feat. Céline Dion",
+    "title": "Sous le vent",
+    "year": 2001
+  },
+  {
     "id": "garth-brooks-pushing-up-daisies",
     "artist": "Garth Brooks",
     "title": "Pushing Up Daisies",
@@ -19201,6 +19565,14 @@
     "id": "gary-glitter-leader-of-the-gang-i-am",
     "artist": "Gary Glitter",
     "title": "Leader of the Gang (I Am)",
+    "country": "EN",
+    "language": "EN",
+    "year": 1973
+  },
+  {
+    "id": "gary-glitter-i-m-the-leader-of-the-gang-i-am",
+    "artist": "Gary Glitter",
+    "title": "I'm the Leader of the Gang (I Am)",
     "country": "EN",
     "language": "EN",
     "year": 1973
@@ -19508,6 +19880,14 @@
     "year": 2013
   },
   {
+    "id": "ghost-with-you",
+    "artist": "Ghost",
+    "title": "With You",
+    "country": "Sweden",
+    "language": "EN",
+    "year": 2024
+  },
+  {
     "id": "giacomo-puccini-che-gelida-manina",
     "artist": "Giacomo Puccini",
     "title": "Che gelida manina",
@@ -19579,6 +19959,13 @@
     "year": 1979
   },
   {
+    "id": "gibson-brothers-que-sera-mi-vida-if-you-should-go",
+    "artist": "Gibson Brothers",
+    "title": "Que Sera Mi Vida (If You Should Go)",
+    "language": "EN",
+    "year": 1979
+  },
+  {
     "id": "gilbert-and-sullivan-major-general-s-song",
     "artist": "Gilbert and Sullivan",
     "title": "Major-General's Song",
@@ -19590,6 +19977,7 @@
     "id": "gioachino-rossini-largo-al-factotum",
     "artist": "Gioachino Rossini",
     "title": "Largo al factotum",
+    "country": "Italy",
     "language": "Italy",
     "year": 1816
   },
@@ -19714,8 +20102,10 @@
   {
     "id": "glory-don-omar-la-traicionera",
     "artist": "Glory & Don Omar",
-    "title": "La traicionera",
-    "year": 2011
+    "title": "La Traicionera",
+    "country": "Spain",
+    "language": "Spain",
+    "year": 2013
   },
   {
     "id": "gnarls-barkley-crazy",
@@ -20074,6 +20464,14 @@
     "country": "PL",
     "language": "PL",
     "year": 1972
+  },
+  {
+    "id": "grazyna-obuszewska-brzydcy",
+    "artist": "Grażyna Łobuszewska",
+    "title": "Brzydcy",
+    "country": "PL",
+    "language": "PL",
+    "year": 1997
   },
   {
     "id": "great-white-rock-me",
@@ -20674,6 +21072,14 @@
     "year": 2011
   },
   {
+    "id": "haley-reinhart-lovefool",
+    "artist": "Haley Reinhart",
+    "title": "Lovefool",
+    "country": "EN",
+    "language": "EN",
+    "year": 2016
+  },
+  {
     "id": "halina-frackowiak-badz-gotowy-dzis-do-drogi",
     "artist": "Halina Frąckowiak",
     "title": "Bądź gotowy dziś do drogi",
@@ -20757,6 +21163,14 @@
     "country": "Sweden",
     "language": "EN",
     "year": 2002
+  },
+  {
+    "id": "hammerfall-bloodbound",
+    "artist": "HammerFall",
+    "title": "Bloodbound",
+    "country": "Sweden",
+    "language": "EN",
+    "year": 2005
   },
   {
     "id": "hania-stach-gdy-nie-ma",
@@ -21164,6 +21578,30 @@
     "country": "EN",
     "language": "EN",
     "year": 2001
+  },
+  {
+    "id": "hear-say-everybody",
+    "artist": "Hear'Say",
+    "title": "Everybody",
+    "country": "EN",
+    "language": "EN",
+    "year": 2001
+  },
+  {
+    "id": "hear-say-the-way-to-your-love",
+    "artist": "Hear'Say",
+    "title": "The Way to Your Love",
+    "country": "EN",
+    "language": "EN",
+    "year": 2001
+  },
+  {
+    "id": "hear-say-lovin-is-easy",
+    "artist": "Hear'Say",
+    "title": "Lovin' Is Easy",
+    "country": "EN",
+    "language": "EN",
+    "year": 2002
   },
   {
     "id": "heart-will-you-be-there-in-the-morning",
@@ -21823,6 +22261,14 @@
     "year": 1985
   },
   {
+    "id": "huey-lewis-and-the-news-feeling-alright",
+    "artist": "Huey Lewis and the News",
+    "title": "Feeling Alright",
+    "country": "EN",
+    "language": "EN",
+    "year": 1984
+  },
+  {
     "id": "human-polski",
     "artist": "Human",
     "title": "Polski",
@@ -22229,9 +22675,25 @@
     "year": 1999
   },
   {
+    "id": "incubus-i-wish-you-were-here",
+    "artist": "Incubus",
+    "title": "I Wish You Were Here",
+    "country": "EN",
+    "language": "EN",
+    "year": 2001
+  },
+  {
     "id": "india-arie-ready-for-love",
     "artist": "India.Arie",
     "title": "Ready for Love",
+    "country": "EN",
+    "language": "EN",
+    "year": 2005
+  },
+  {
+    "id": "india-arie-i-am-ready-for-love",
+    "artist": "India.Arie",
+    "title": "I Am Ready for Love",
     "country": "EN",
     "language": "EN",
     "year": 2005
@@ -22305,6 +22767,14 @@
     "country": "EN",
     "language": "EN",
     "year": 1992
+  },
+  {
+    "id": "invisible-man-game-over",
+    "artist": "Invisible Man",
+    "title": "Game Over",
+    "country": "EN",
+    "language": "EN",
+    "year": 2014
   },
   {
     "id": "inxs-baby-don-t-cry",
@@ -23159,6 +23629,14 @@
     "year": 2015
   },
   {
+    "id": "jason-derulo-feat-nicki-minaj-ty-dolla-ign-swalla",
+    "artist": "Jason Derulo feat. Nicki Minaj & Ty Dolla $ign",
+    "title": "Swalla",
+    "country": "EN",
+    "language": "EN",
+    "year": 2017
+  },
+  {
     "id": "jason-derulo-feat-snoop-dogg-wiggle",
     "artist": "Jason Derulo feat. Snoop Dogg",
     "title": "Wiggle",
@@ -23882,6 +24360,54 @@
     "country": "EN",
     "language": "EN",
     "year": 1967
+  },
+  {
+    "id": "john-kander-fred-ebb-all-i-care-about",
+    "artist": "John Kander & Fred Ebb",
+    "title": "All I Care About",
+    "country": "EN",
+    "language": "EN",
+    "year": 1975
+  },
+  {
+    "id": "john-kander-fred-ebb-class",
+    "artist": "John Kander & Fred Ebb",
+    "title": "Class",
+    "country": "EN",
+    "language": "EN",
+    "year": 1975
+  },
+  {
+    "id": "john-kander-fred-ebb-funny-honey",
+    "artist": "John Kander & Fred Ebb",
+    "title": "Funny Honey",
+    "country": "EN",
+    "language": "EN",
+    "year": 1975
+  },
+  {
+    "id": "john-kander-fred-ebb-me-and-my-baby",
+    "artist": "John Kander & Fred Ebb",
+    "title": "Me and My Baby",
+    "country": "EN",
+    "language": "EN",
+    "year": 1975
+  },
+  {
+    "id": "john-kander-fred-ebb-mr-cellophane",
+    "artist": "John Kander & Fred Ebb",
+    "title": "Mr. Cellophane",
+    "country": "EN",
+    "language": "EN",
+    "year": 1975
+  },
+  {
+    "id": "john-kander-fred-ebb-razzle-dazzle",
+    "artist": "John Kander & Fred Ebb",
+    "title": "Razzle Dazzle",
+    "country": "EN",
+    "language": "EN",
+    "year": 1975
   },
   {
     "id": "john-legend-all-of-me",
@@ -24741,7 +25267,8 @@
     "artist": "Kaliber 44",
     "title": "Film",
     "country": "PL",
-    "language": "PL"
+    "language": "PL",
+    "year": 1998
   },
   {
     "id": "kalina-jedrusik-bo-we-mnie-jest-seks",
@@ -24835,6 +25362,14 @@
     "artist": "Kaoma",
     "title": "Lambada",
     "year": 1989
+  },
+  {
+    "id": "kapela-gorale-greckie-wino",
+    "artist": "Kapela Górale",
+    "title": "Greckie wino",
+    "country": "PL",
+    "language": "PL",
+    "year": 2004
   },
   {
     "id": "kapela-goralska-greckie-wino",
@@ -25592,6 +26127,14 @@
     "year": 1995
   },
   {
+    "id": "kayah-i-bregovic-nie-ma-nie-ma-ciebie",
+    "artist": "Kayah i Bregović",
+    "title": "Nie ma, nie ma ciebie",
+    "country": "PL",
+    "language": "PL",
+    "year": 1999
+  },
+  {
     "id": "kazik-dziewczyny",
     "artist": "Kazik",
     "title": "Dziewczyny",
@@ -25750,6 +26293,14 @@
     "country": "PL",
     "language": "PL",
     "year": 2011
+  },
+  {
+    "id": "kazik-na-zywo-malcziki",
+    "artist": "Kazik na Żywo",
+    "title": "Malcziki",
+    "country": "PL",
+    "language": "PL",
+    "year": 1995
   },
   {
     "id": "kazik-staszewski-25-lat-niewinnosci",
@@ -25940,6 +26491,14 @@
     "country": "EN",
     "language": "EN",
     "year": 1983
+  },
+  {
+    "id": "kenny-rogers-dottie-west-all-i-ever-need-is-you",
+    "artist": "Kenny Rogers & Dottie West",
+    "title": "All I Ever Need Is You",
+    "country": "EN",
+    "language": "EN",
+    "year": 1979
   },
   {
     "id": "kenny-rogers-sheena-easton-we-ve-got-tonight",
@@ -26331,6 +26890,14 @@
     "country": "PL",
     "language": "PL",
     "year": 1988
+  },
+  {
+    "id": "kombi-black-and-white",
+    "artist": "Kombi",
+    "title": "Black and White",
+    "country": "PL",
+    "language": "EN",
+    "year": 1985
   },
   {
     "id": "kool-the-gang-celebration",
@@ -26994,6 +27561,14 @@
     "year": 2020
   },
   {
+    "id": "kwiat-jab-oni-wodymidaj",
+    "artist": "Kwiat Jabłoni",
+    "title": "Wodymidaj",
+    "country": "PL",
+    "language": "PL",
+    "year": 2022
+  },
+  {
     "id": "kws-please-don-t-go",
     "artist": "KWS",
     "title": "Please Don't Go",
@@ -27178,6 +27753,14 @@
     "year": 2000
   },
   {
+    "id": "k-ater-to-juz-lato",
+    "artist": "Kابater",
+    "title": "To już lato",
+    "country": "PL",
+    "language": "PL",
+    "year": 2008
+  },
+  {
     "id": "l-t-d-back-in-love-again",
     "artist": "L.T.D.",
     "title": "Back in Love Again",
@@ -27268,6 +27851,14 @@
   {
     "id": "lady-a-need-you-now",
     "artist": "Lady A",
+    "title": "Need You Now",
+    "country": "EN",
+    "language": "EN",
+    "year": 2009
+  },
+  {
+    "id": "lady-antebellum-need-you-now",
+    "artist": "Lady Antebellum",
     "title": "Need You Now",
     "country": "EN",
     "language": "EN",
@@ -27757,6 +28348,22 @@
     "language": "EN"
   },
   {
+    "id": "laura-doherty-do-you-know-the-way-to-san-jose",
+    "artist": "Laura Doherty",
+    "title": "Do You Know the Way to San Jose",
+    "country": "EN",
+    "language": "EN",
+    "year": 2001
+  },
+  {
+    "id": "laura-doherty-whole-again",
+    "artist": "Laura Doherty",
+    "title": "Whole Again",
+    "country": "EN",
+    "language": "EN",
+    "year": 2002
+  },
+  {
     "id": "laura-pausini-it-s-not-goodbye",
     "artist": "Laura Pausini",
     "title": "It's Not Goodbye",
@@ -27784,6 +28391,7 @@
     "id": "lazytown-we-are-number-one",
     "artist": "LazyTown",
     "title": "We Are Number One",
+    "country": "EN",
     "language": "EN",
     "year": 2014
   },
@@ -27996,6 +28604,12 @@
     "artist": "Legião Urbana",
     "title": "Vento no Litoral",
     "year": 1991
+  },
+  {
+    "id": "legiao-urbana-mais-uma-vez",
+    "artist": "Legião Urbana",
+    "title": "Mais uma vez",
+    "year": 1986
   },
   {
     "id": "lej-mi-po-bu-ka-tu-siedzi",
@@ -28536,6 +29150,14 @@
     "year": 2014
   },
   {
+    "id": "lilly-wood-and-the-prick-robin-schulz-prayer-in-c",
+    "artist": "Lilly Wood and the Prick & Robin Schulz",
+    "title": "Prayer in C",
+    "country": "EN",
+    "language": "EN",
+    "year": 2014
+  },
+  {
     "id": "lily-allen-fuck-you",
     "artist": "Lily Allen",
     "title": "Fuck You",
@@ -28928,6 +29550,14 @@
     "year": 1985
   },
   {
+    "id": "lionel-richie-nightshift",
+    "artist": "Lionel Richie",
+    "title": "Nightshift",
+    "country": "EN",
+    "language": "EN",
+    "year": 1985
+  },
+  {
     "id": "lipali-jezozwierz",
     "artist": "Lipali",
     "title": "Jeżozwierz",
@@ -29080,6 +29710,14 @@
     "year": 1982
   },
   {
+    "id": "little-shop-of-horrors-feed-me",
+    "artist": "Little Shop of Horrors",
+    "title": "Feed Me",
+    "country": "EN",
+    "language": "EN",
+    "year": 1982
+  },
+  {
     "id": "little-texas-my-love",
     "artist": "Little Texas",
     "title": "My Love",
@@ -29227,6 +29865,14 @@
     "country": "PL",
     "language": "PL",
     "year": 1983
+  },
+  {
+    "id": "lombard-ala-nie-wali-mu-pa-a",
+    "artist": "Lombard",
+    "title": "Ala nie wali mu pała",
+    "country": "PL",
+    "language": "PL",
+    "year": 1982
   },
   {
     "id": "londonbeat-i-ve-been-thinking-about-you",
@@ -29430,6 +30076,14 @@
     "year": 1967
   },
   {
+    "id": "louis-armstrong-hello-dolly",
+    "artist": "Louis Armstrong",
+    "title": "Hello, Dolly!",
+    "country": "EN",
+    "language": "EN",
+    "year": 1964
+  },
+  {
     "id": "love-system-hej-wesele",
     "artist": "Love System",
     "title": "Hej wesele",
@@ -29520,12 +30174,15 @@
     "id": "luis-fonsi-daddy-yankee-feat-justin-bieber-despacito",
     "artist": "Luis Fonsi & Daddy Yankee feat. Justin Bieber",
     "title": "Despacito",
+    "country": "Spain",
+    "language": "Spain",
     "year": 2017
   },
   {
     "id": "luis-fonsi-feat-daddy-yankee-despacito",
     "artist": "Luis Fonsi feat. Daddy Yankee",
     "title": "Despacito",
+    "country": "Spain",
     "language": "Spain",
     "year": 2017
   },
@@ -29682,6 +30339,14 @@
     "year": 2019
   },
   {
+    "id": "luxtorpeda-juz-tu-nie-ukuja",
+    "artist": "Luxtorpeda",
+    "title": "Już tu nie ukują",
+    "country": "PL",
+    "language": "PL",
+    "year": 1989
+  },
+  {
     "id": "lykke-li-i-follow-rivers",
     "artist": "Lykke Li",
     "title": "I Follow Rivers",
@@ -29782,7 +30447,8 @@
     "artist": "Łukasz Zagrobelny",
     "title": "Mówisz i masz",
     "country": "PL",
-    "language": "PL"
+    "language": "PL",
+    "year": 2011
   },
   {
     "id": "ukasz-zagrobelny-nieprawda",
@@ -30654,6 +31320,14 @@
     "year": 2015
   },
   {
+    "id": "major-lazer-feat-dj-snake-m-lean-on",
+    "artist": "Major Lazer feat. DJ Snake & MØ",
+    "title": "Lean On",
+    "country": "EN",
+    "language": "EN",
+    "year": 2015
+  },
+  {
     "id": "major-lazer-feat-justin-bieber-m-cold-water",
     "artist": "Major Lazer feat. Justin Bieber & MØ",
     "title": "Cold Water",
@@ -30677,9 +31351,19 @@
     "year": 2019
   },
   {
+    "id": "malik-montana-feat-diho-naaajak",
+    "artist": "Malik Montana feat. Diho",
+    "title": "Naaajak",
+    "country": "PL",
+    "language": "PL",
+    "year": 2017
+  },
+  {
     "id": "maluma-felices-los-4",
     "artist": "Maluma",
     "title": "Felices los 4",
+    "country": "Spain",
+    "language": "Spain",
     "year": 2017
   },
   {
@@ -30996,35 +31680,40 @@
     "artist": "Marek Stachurski",
     "title": "Chcesz czy nie",
     "country": "PL",
-    "language": "PL"
+    "language": "PL",
+    "year": 2003
   },
   {
     "id": "marek-stachurski-cholerny-czas",
     "artist": "Marek Stachurski",
     "title": "Cholerny czas",
     "country": "PL",
-    "language": "PL"
+    "language": "PL",
+    "year": 1999
   },
   {
     "id": "marek-stachurski-czeka-em-na-taka-jak-ty",
     "artist": "Marek Stachurski",
-    "title": "Czekałem na taką jak Ty",
+    "title": "Czekałem na taką jak ty",
     "country": "PL",
-    "language": "PL"
+    "language": "PL",
+    "year": 1999
   },
   {
     "id": "marek-stachurski-czuje-i-wiem",
     "artist": "Marek Stachurski",
     "title": "Czuję i wiem",
     "country": "PL",
-    "language": "PL"
+    "language": "PL",
+    "year": 1998
   },
   {
     "id": "marek-stachurski-gdy-zap-aczesz",
     "artist": "Marek Stachurski",
     "title": "Gdy zapłaczesz",
     "country": "PL",
-    "language": "PL"
+    "language": "PL",
+    "year": 1998
   },
   {
     "id": "marek-stachurski-jak-w-niebie",
@@ -31186,6 +31875,14 @@
     "year": 1994
   },
   {
+    "id": "mariah-carey-boyz-ii-men-one-sweet-day",
+    "artist": "Mariah Carey & Boyz II Men",
+    "title": "One Sweet Day",
+    "country": "EN",
+    "language": "EN",
+    "year": 1995
+  },
+  {
     "id": "mariah-carey-whitney-houston-when-you-believe",
     "artist": "Mariah Carey & Whitney Houston",
     "title": "When You Believe",
@@ -31301,6 +31998,14 @@
     "country": "EN",
     "language": "EN",
     "year": 2015
+  },
+  {
+    "id": "marilyn-manson-heart-shaped-glasses-when-the-heart-guides-the-hand",
+    "artist": "Marilyn Manson",
+    "title": "Heart-Shaped Glasses (When the Heart Guides the Hand)",
+    "country": "EN",
+    "language": "EN",
+    "year": 2007
   },
   {
     "id": "marilyn-monroe-diamonds-are-a-girl-s-best-friend",
@@ -32408,6 +33113,14 @@
     "year": 2010
   },
   {
+    "id": "meskie-granie-wolne-duchy",
+    "artist": "Męskie Granie",
+    "title": "Wolne duchy",
+    "country": "PL",
+    "language": "PL",
+    "year": 2017
+  },
+  {
     "id": "meskie-granie-orkiestra-wolne-duchy",
     "artist": "Męskie Granie Orkiestra",
     "title": "Wolne duchy",
@@ -32874,6 +33587,14 @@
     "year": 1935
   },
   {
+    "id": "mieczys-aw-fogg-chryzantemy-z-ociste",
+    "artist": "Mieczysław Fogg",
+    "title": "Chryzantemy złociste",
+    "country": "PL",
+    "language": "PL",
+    "year": 1937
+  },
+  {
     "id": "mietek-szczesniak-przed-sniadaniem",
     "artist": "Mietek Szcześniak",
     "title": "Przed śniadaniem",
@@ -33152,6 +33873,22 @@
     "country": "EN",
     "language": "EN",
     "year": 2013
+  },
+  {
+    "id": "miley-cyrus-the-best-of-both-worlds",
+    "artist": "Miley Cyrus",
+    "title": "The Best of Both Worlds",
+    "country": "EN",
+    "language": "EN",
+    "year": 2006
+  },
+  {
+    "id": "miley-cyrus-i-got-nerve",
+    "artist": "Miley Cyrus",
+    "title": "I Got Nerve",
+    "country": "EN",
+    "language": "EN",
+    "year": 2006
   },
   {
     "id": "miley-cyrus-feat-dua-lipa-prisoner",
@@ -33514,6 +34251,14 @@
     "year": 2006
   },
   {
+    "id": "monika-salita-tony-k-napisz-prosze",
+    "artist": "Monika Salita & Tony K",
+    "title": "Napisz proszę",
+    "country": "PL",
+    "language": "PL",
+    "year": 2002
+  },
+  {
     "id": "monopol-lans",
     "artist": "Monopol",
     "title": "Lans",
@@ -33638,6 +34383,14 @@
     "country": "PL",
     "language": "PL",
     "year": 1995
+  },
+  {
+    "id": "morskie-opowiesci-dorosli",
+    "artist": "Morskie Opowieści",
+    "title": "Dorośli",
+    "country": "PL",
+    "language": "PL",
+    "year": 1997
   },
   {
     "id": "motley-crue-if-i-die-tomorrow",
@@ -33777,6 +34530,13 @@
     "year": 2013
   },
   {
+    "id": "mr-probz-feat-robin-schulz-waves",
+    "artist": "Mr. Probz feat. Robin Schulz",
+    "title": "Waves",
+    "language": "EN",
+    "year": 2014
+  },
+  {
     "id": "mr-zoob-moj-jest-ten-kawa-ek-pod-ogi",
     "artist": "Mr. Zoob",
     "title": "Mój jest ten kawałek podłogi",
@@ -33855,6 +34615,22 @@
     "country": "PL",
     "language": "PL",
     "year": 2015
+  },
+  {
+    "id": "mrozu-vito-bambino-za-daleko",
+    "artist": "Mrozu & Vito Bambino",
+    "title": "Za daleko",
+    "country": "PL",
+    "language": "PL",
+    "year": 2016
+  },
+  {
+    "id": "mrozu-feat-tomson-jak-nie-my-to-kto",
+    "artist": "Mrozu feat. Tomson",
+    "title": "Jak nie my to kto",
+    "country": "PL",
+    "language": "PL",
+    "year": 2018
   },
   {
     "id": "mrozu-feat-vito-bambino-za-daleko",
@@ -34024,6 +34800,14 @@
     "year": 1956
   },
   {
+    "id": "my-fair-lady-on-the-street-where-you-live",
+    "artist": "My Fair Lady",
+    "title": "On the Street Where You Live",
+    "country": "EN",
+    "language": "EN",
+    "year": 1956
+  },
+  {
     "id": "my-riot-sen",
     "artist": "My Riot",
     "title": "Sen",
@@ -34034,7 +34818,8 @@
   {
     "id": "my-tam-nu-hon-bat-ngo",
     "artist": "Mỹ Tâm",
-    "title": "Nụ Hôn Bất Ngờ"
+    "title": "Nụ Hôn Bất Ngờ",
+    "year": 2002
   },
   {
     "id": "mylene-farmer-desenchantee",
@@ -34313,6 +35098,14 @@
     "country": "PL",
     "language": "PL",
     "year": 2000
+  },
+  {
+    "id": "myslovitz-polowanie-na-wielb-ada",
+    "artist": "Myslovitz",
+    "title": "Polowanie na wielbłąda",
+    "country": "PL",
+    "language": "PL",
+    "year": 2003
   },
   {
     "id": "myslovitz-i-marek-grechuta-krakow",
@@ -34916,6 +35709,14 @@
     "country": "EN",
     "language": "EN",
     "year": 2011
+  },
+  {
+    "id": "nicki-minaj-feat-chris-brown-right-by-my-side",
+    "artist": "Nicki Minaj feat. Chris Brown",
+    "title": "Right by My Side",
+    "country": "EN",
+    "language": "EN",
+    "year": 2012
   },
   {
     "id": "nicki-minaj-feat-drake-moment-4-life",
@@ -35540,6 +36341,18 @@
   },
   {
     "id": "notre-dame-de-paris-le-temps-des-cathedrales",
+    "artist": "Notre Dame de Paris",
+    "title": "Le Temps des cathédrales",
+    "year": 1998
+  },
+  {
+    "id": "notre-dame-de-paris-lune",
+    "artist": "Notre Dame de Paris",
+    "title": "Lune",
+    "year": 1998
+  },
+  {
+    "id": "notre-dame-de-paris-le-temps-des-cathedrales",
     "artist": "Notre-Dame de Paris",
     "title": "Le Temps des Cathédrales",
     "year": 1998
@@ -35844,6 +36657,14 @@
     "year": 2014
   },
   {
+    "id": "oliver-heldens-feat-becky-hill-gecko-overdrive",
+    "artist": "Oliver Heldens feat. Becky Hill",
+    "title": "Gecko (Overdrive)",
+    "country": "EN",
+    "language": "EN",
+    "year": 2014
+  },
+  {
     "id": "olivia-newton-john-hopelessly-devoted-to-you",
     "artist": "Olivia Newton-John",
     "title": "Hopelessly Devoted to You",
@@ -36046,6 +36867,14 @@
     "title": "Fiction (Dreams in Digital)",
     "country": "EN",
     "language": "EN",
+    "year": 1998
+  },
+  {
+    "id": "original-soundtrack-belle",
+    "artist": "Original Soundtrack",
+    "title": "Belle",
+    "country": "PL",
+    "language": "PL",
     "year": 1998
   },
   {
@@ -36862,6 +37691,14 @@
     "year": 1989
   },
   {
+    "id": "paul-young-senza-una-donna",
+    "artist": "Paul Young",
+    "title": "Senza una donna",
+    "country": "EN",
+    "language": "Italy",
+    "year": 1991
+  },
+  {
     "id": "paula-abdul-straight-up",
     "artist": "Paula Abdul",
     "title": "Straight Up",
@@ -36900,6 +37737,22 @@
     "country": "PL",
     "language": "PL",
     "year": 2016
+  },
+  {
+    "id": "pawe-kukiz-miasto-budzi-sie",
+    "artist": "Paweł Kukiz",
+    "title": "Miasto budzi się",
+    "country": "PL",
+    "language": "PL",
+    "year": 1992
+  },
+  {
+    "id": "pawe-kukiz-czy-pamietasz-janko",
+    "artist": "Paweł Kukiz",
+    "title": "Czy pamiętasz Janko",
+    "country": "PL",
+    "language": "PL",
+    "year": 1994
   },
   {
     "id": "pawe-kukiz-dominika-kurdziel-czy-pamietasz-janku",
@@ -37531,6 +38384,14 @@
     "year": 2016
   },
   {
+    "id": "piekni-i-m-odzi-playboys-wysmienicie",
+    "artist": "Piękni i Młodzi & Playboys",
+    "title": "Wyśmienicie",
+    "country": "PL",
+    "language": "PL",
+    "year": 2017
+  },
+  {
     "id": "piekni-i-m-odzi-feat-playboys-wysmienicie",
     "artist": "Piękni i Młodzi feat. Playboys",
     "title": "Wyśmienicie",
@@ -37949,6 +38810,7 @@
     "id": "poets-of-the-fall-late-goodbye",
     "artist": "Poets of the Fall",
     "title": "Late Goodbye",
+    "country": "EN",
     "language": "EN",
     "year": 2004
   },
@@ -37984,6 +38846,14 @@
     "year": 1984
   },
   {
+    "id": "pointer-sisters-i-m-so-excited",
+    "artist": "Pointer Sisters",
+    "title": "I'm So Excited",
+    "country": "EN",
+    "language": "EN",
+    "year": 1982
+  },
+  {
     "id": "pokahontaz-nie-ma-czym-oddychac",
     "artist": "Pokahontaz",
     "title": "Nie ma czym oddychać",
@@ -38006,6 +38876,22 @@
     "country": "PL",
     "language": "PL",
     "year": 2011
+  },
+  {
+    "id": "pokahontaz-za-szybcy-sie-wsciekli",
+    "artist": "Pokahontaz",
+    "title": "Za szybcy się wściekli",
+    "country": "PL",
+    "language": "PL",
+    "year": 2014
+  },
+  {
+    "id": "pokemon-gotta-catch-em-all",
+    "artist": "Pokemon",
+    "title": "Gotta Catch 'Em All",
+    "country": "EN",
+    "language": "EN",
+    "year": 1998
   },
   {
     "id": "polscy-artysci-pokonamy-fale",
@@ -39344,6 +40230,14 @@
     "year": 1991
   },
   {
+    "id": "real-2-real-i-like-to-move-it",
+    "artist": "Real 2 Real",
+    "title": "I Like to Move It",
+    "country": "EN",
+    "language": "EN",
+    "year": 1994
+  },
+  {
     "id": "real-life-send-me-an-angel",
     "artist": "Real Life",
     "title": "Send Me an Angel",
@@ -39709,6 +40603,14 @@
     "country": "EN",
     "language": "EN",
     "year": 1994
+  },
+  {
+    "id": "renata-jusis-cma",
+    "artist": "Renata Jusis",
+    "title": "Ćma",
+    "country": "PL",
+    "language": "PL",
+    "year": 2014
   },
   {
     "id": "renata-przemyk-babe-zes-a-bog",
@@ -40492,6 +41394,14 @@
     "year": 2003
   },
   {
+    "id": "robbie-williams-come-fly-with-me",
+    "artist": "Robbie Williams",
+    "title": "Come Fly with Me",
+    "country": "EN",
+    "language": "EN",
+    "year": 2001
+  },
+  {
     "id": "robbie-williams-nicole-kidman-somethin-stupid",
     "artist": "Robbie Williams & Nicole Kidman",
     "title": "Somethin' Stupid",
@@ -40733,6 +41643,22 @@
     "year": 1981
   },
   {
+    "id": "rodgers-hammerstein-if-i-loved-you",
+    "artist": "Rodgers & Hammerstein",
+    "title": "If I Loved You",
+    "country": "EN",
+    "language": "EN",
+    "year": 1945
+  },
+  {
+    "id": "rodgers-hammerstein-you-ll-never-walk-alone",
+    "artist": "Rodgers & Hammerstein",
+    "title": "You'll Never Walk Alone",
+    "country": "EN",
+    "language": "EN",
+    "year": 1945
+  },
+  {
     "id": "rodgers-and-hammerstein-if-i-loved-you",
     "artist": "Rodgers and Hammerstein",
     "title": "If I Loved You",
@@ -40874,6 +41800,14 @@
     "country": "PL",
     "language": "PL",
     "year": 2005
+  },
+  {
+    "id": "romuald-lipko-uratuj-mi-zycie",
+    "artist": "Romuald Lipko",
+    "title": "Uratuj mi życie",
+    "country": "PL",
+    "language": "PL",
+    "year": 2002
   },
   {
     "id": "ronan-keating-life-is-a-rollercoaster",
@@ -41027,6 +41961,14 @@
     "year": 2014
   },
   {
+    "id": "rozalen-la-puerta-violeta",
+    "artist": "Rozalén",
+    "title": "La Puerta Violeta",
+    "country": "Spain",
+    "language": "Spain",
+    "year": 2017
+  },
+  {
     "id": "rozalla-everybody-s-free-to-feel-good",
     "artist": "Rozalla",
     "title": "Everybody's Free (To Feel Good)",
@@ -41175,6 +42117,14 @@
     "year": 2023
   },
   {
+    "id": "ryan-gosling-emma-stone-city-of-stars",
+    "artist": "Ryan Gosling & Emma Stone",
+    "title": "City of Stars",
+    "country": "EN",
+    "language": "EN",
+    "year": 2016
+  },
+  {
     "id": "ryan-paris-dolce-vita",
     "artist": "Ryan Paris",
     "title": "Dolce Vita",
@@ -41188,6 +42138,14 @@
     "title": "Popłyń do Rio (Ballada o Rio)",
     "country": "PL",
     "language": "PL"
+  },
+  {
+    "id": "ryczace-dwudziestki-pop-yn-do-rio",
+    "artist": "Ryczące Dwudziestki",
+    "title": "Popłyń do Rio",
+    "country": "PL",
+    "language": "PL",
+    "year": 1990
   },
   {
     "id": "ryszard-rynkowski-dziewczyny-lubia-braz",
@@ -41756,6 +42714,14 @@
     "year": 2020
   },
   {
+    "id": "sanah-feat-igor-herbut-mamo-tys-p-aka-a",
+    "artist": "Sanah feat. Igor Herbut",
+    "title": "Mamo, tyś płakała",
+    "country": "PL",
+    "language": "PL",
+    "year": 2022
+  },
+  {
     "id": "sandra-everlasting-love",
     "artist": "Sandra",
     "title": "Everlasting Love",
@@ -41955,6 +42921,14 @@
     "id": "scissor-sisters-filthy-gorgeous",
     "artist": "Scissor Sisters",
     "title": "Filthy Gorgeous",
+    "country": "EN",
+    "language": "EN",
+    "year": 2004
+  },
+  {
+    "id": "scissor-sisters-filthy-gorgeous",
+    "artist": "Scissor Sisters",
+    "title": "Filthy/Gorgeous",
     "country": "EN",
     "language": "EN",
     "year": 2004
@@ -42491,6 +43465,14 @@
     "year": 1992
   },
   {
+    "id": "shakin-dudi-au-szalala",
+    "artist": "Shakin Dudi",
+    "title": "Au Szalala",
+    "country": "PL",
+    "language": "PL",
+    "year": 2000
+  },
+  {
     "id": "shakin-dudi-au-sza-a-la-a",
     "artist": "Shakin' Dudi",
     "title": "Au szała lała",
@@ -42596,18 +43578,23 @@
     "id": "shakira-feat-alejandro-sanz-la-tortura",
     "artist": "Shakira feat. Alejandro Sanz",
     "title": "La Tortura",
+    "country": "Spain",
+    "language": "Spain",
     "year": 2005
   },
   {
     "id": "shakira-feat-pitbull-rabiosa",
     "artist": "Shakira feat. Pitbull",
     "title": "Rabiosa",
-    "year": 2010
+    "country": "Spain",
+    "language": "Spain",
+    "year": 2011
   },
   {
     "id": "shakira-feat-rihanna-can-t-remember-to-forget-you",
     "artist": "Shakira feat. Rihanna",
     "title": "Can't Remember to Forget You",
+    "country": "Spain",
     "language": "EN",
     "year": 2014
   },
@@ -42615,6 +43602,7 @@
     "id": "shakira-feat-wyclef-jean-hips-don-t-lie",
     "artist": "Shakira feat. Wyclef Jean",
     "title": "Hips Don't Lie",
+    "country": "Spain",
     "language": "EN",
     "year": 2006
   },
@@ -42703,6 +43691,14 @@
     "country": "EN",
     "language": "EN",
     "year": 1983
+  },
+  {
+    "id": "shannon-brown-baby-i-lied",
+    "artist": "Shannon Brown",
+    "title": "Baby I Lied",
+    "country": "EN",
+    "language": "EN",
+    "year": 1988
   },
   {
     "id": "shaun-baker-hey-hi-hello",
@@ -42923,6 +43919,22 @@
     "country": "EN",
     "language": "EN",
     "year": 1976
+  },
+  {
+    "id": "showboat-cast-can-t-help-lovin-dat-man",
+    "artist": "Showboat Cast",
+    "title": "Can't Help Lovin' Dat Man",
+    "country": "EN",
+    "language": "EN",
+    "year": 1927
+  },
+  {
+    "id": "showboat-cast-ol-man-river",
+    "artist": "Showboat Cast",
+    "title": "Ol' Man River",
+    "country": "EN",
+    "language": "EN",
+    "year": 1927
   },
   {
     "id": "sia-elastic-heart",
@@ -43399,6 +44411,14 @@
     "year": 2015
   },
   {
+    "id": "skolim-feat-cleo-dziewczyno-piekna",
+    "artist": "Skolim feat. Cleo",
+    "title": "Dziewczyno piękna",
+    "country": "PL",
+    "language": "PL",
+    "year": 2015
+  },
+  {
     "id": "skrillex-rick-ross-purple-lamborghini",
     "artist": "Skrillex & Rick Ross",
     "title": "Purple Lamborghini",
@@ -43535,6 +44555,14 @@
     "year": 2009
   },
   {
+    "id": "slipknot-circle",
+    "artist": "Slipknot",
+    "title": "Circle",
+    "country": "EN",
+    "language": "EN",
+    "year": 2001
+  },
+  {
     "id": "s-awa-przybylska-juz-nigdy",
     "artist": "Sława Przybylska",
     "title": "Już nigdy",
@@ -43598,6 +44626,14 @@
   {
     "id": "smith-thell-forgive-me-friend",
     "artist": "Smith & Thell",
+    "title": "Forgive Me Friend",
+    "country": "Sweden",
+    "language": "EN",
+    "year": 2017
+  },
+  {
+    "id": "smith-thell-feat-swedish-jam-factory-forgive-me-friend",
+    "artist": "Smith & Thell feat. Swedish Jam Factory",
     "title": "Forgive Me Friend",
     "country": "Sweden",
     "language": "EN",
@@ -43972,7 +45008,9 @@
     "id": "sokal-hoax-sweet-addiction",
     "artist": "Sokal Hoax",
     "title": "Sweet Addiction",
-    "language": "EN"
+    "country": "PL",
+    "language": "EN",
+    "year": 2015
   },
   {
     "id": "soko-pono-franek-kimono-w-aucie",
@@ -44098,6 +45136,14 @@
     "id": "soweto-dereje",
     "artist": "Soweto",
     "title": "Derejê",
+    "year": 2000
+  },
+  {
+    "id": "soweto-dere",
+    "artist": "Soweto",
+    "title": "Dere",
+    "country": "PL",
+    "language": "PL",
     "year": 2000
   },
   {
@@ -44293,6 +45339,62 @@
     "year": 1999
   },
   {
+    "id": "stachursky-jak-w-niebie",
+    "artist": "Stachursky",
+    "title": "Jak w niebie",
+    "country": "PL",
+    "language": "PL",
+    "year": 2001
+  },
+  {
+    "id": "stachursky-jedwab",
+    "artist": "Stachursky",
+    "title": "Jedwab",
+    "country": "PL",
+    "language": "PL",
+    "year": 1999
+  },
+  {
+    "id": "stachursky-jestes-moim-przeznaczeniem",
+    "artist": "Stachursky",
+    "title": "Jesteś moim przeznaczeniem",
+    "country": "PL",
+    "language": "PL",
+    "year": 1999
+  },
+  {
+    "id": "stachursky-samo-zycie",
+    "artist": "Stachursky",
+    "title": "Samo życie",
+    "country": "PL",
+    "language": "PL",
+    "year": 2000
+  },
+  {
+    "id": "stachursky-typ-niepokorny",
+    "artist": "Stachursky",
+    "title": "Typ niepokorny",
+    "country": "PL",
+    "language": "PL",
+    "year": 1999
+  },
+  {
+    "id": "stachursky-z-kazdym-twym-oddechem",
+    "artist": "Stachursky",
+    "title": "Z każdym twym oddechem",
+    "country": "PL",
+    "language": "PL",
+    "year": 1999
+  },
+  {
+    "id": "stachursky-za-kazdy-dzien-za-kazdy-szept",
+    "artist": "Stachursky",
+    "title": "Za każdy dzień za każdy szept",
+    "country": "PL",
+    "language": "PL",
+    "year": 2000
+  },
+  {
     "id": "staind-so-far-away",
     "artist": "Staind",
     "title": "So Far Away",
@@ -44367,6 +45469,14 @@
   {
     "id": "stan-getz-the-girl-from-ipanema",
     "artist": "Stan Getz",
+    "title": "The Girl from Ipanema",
+    "country": "EN",
+    "language": "EN",
+    "year": 1964
+  },
+  {
+    "id": "stan-getz-astrud-gilberto-the-girl-from-ipanema",
+    "artist": "Stan Getz & Astrud Gilberto",
     "title": "The Girl from Ipanema",
     "country": "EN",
     "language": "EN",
@@ -45042,9 +46152,10 @@
   {
     "id": "sumptuastic-niebo-bez-ciebie",
     "artist": "Sumptuastic",
-    "title": "Niebo bez ciebie",
+    "title": "Niebo bez Ciebie",
     "country": "PL",
-    "language": "PL"
+    "language": "PL",
+    "year": 2002
   },
   {
     "id": "sumptuastic-bez-ciemnosci-nie-ma-snow",
@@ -45859,6 +46970,14 @@
     "year": 1977
   },
   {
+    "id": "talking-heads-this-must-be-the-place-naive-melody",
+    "artist": "Talking Heads",
+    "title": "This Must Be the Place (Naive Melody)",
+    "country": "EN",
+    "language": "EN",
+    "year": 1983
+  },
+  {
     "id": "tame-impala-cause-i-m-a-man",
     "artist": "Tame Impala",
     "title": "'Cause I'm a Man",
@@ -46403,6 +47522,14 @@
     "year": 1986
   },
   {
+    "id": "the-bangles-hazy-shade-of-winter",
+    "artist": "The Bangles",
+    "title": "Hazy Shade of Winter",
+    "country": "EN",
+    "language": "EN",
+    "year": 1987
+  },
+  {
     "id": "the-baseballs-hot-n-cold",
     "artist": "The Baseballs",
     "title": "Hot n Cold",
@@ -46737,6 +47864,14 @@
     "country": "EN",
     "language": "EN",
     "year": 2005
+  },
+  {
+    "id": "the-black-eyed-peas-i-gotta-feeling",
+    "artist": "The Black Eyed Peas",
+    "title": "I Gotta Feeling",
+    "country": "EN",
+    "language": "EN",
+    "year": 2009
   },
   {
     "id": "the-black-keys-fever",
@@ -48272,6 +49407,7 @@
     "id": "the-rasmus-feat-anette-olzon-october-april",
     "artist": "The Rasmus feat. Anette Olzon",
     "title": "October & April",
+    "country": "Sweden",
     "language": "EN",
     "year": 2009
   },
@@ -48644,12 +49780,36 @@
     "year": 1964
   },
   {
+    "id": "the-sweet-the-ballroom-blitz",
+    "artist": "The Sweet",
+    "title": "The Ballroom Blitz",
+    "country": "EN",
+    "language": "EN",
+    "year": 1973
+  },
+  {
+    "id": "the-sweet-blockbuster",
+    "artist": "The Sweet",
+    "title": "Blockbuster",
+    "country": "EN",
+    "language": "EN",
+    "year": 1973
+  },
+  {
     "id": "the-ting-tings-shut-up-and-let-me-go",
     "artist": "The Ting Tings",
     "title": "Shut Up and Let Me Go",
     "country": "EN",
     "language": "EN",
     "year": 2008
+  },
+  {
+    "id": "the-tokens-the-lion-sleeps-tonight",
+    "artist": "The Tokens",
+    "title": "The Lion Sleeps Tonight",
+    "country": "EN",
+    "language": "EN",
+    "year": 1961
   },
   {
     "id": "the-trashmen-surfin-bird",
@@ -48695,6 +49855,7 @@
     "id": "the-veronicas-you-ruin-me",
     "artist": "The Veronicas",
     "title": "You Ruin Me",
+    "country": "EN",
     "language": "EN",
     "year": 2014
   },
@@ -49215,6 +50376,14 @@
     "year": 2010
   },
   {
+    "id": "tinchy-stryder-feat-pixie-lott-bright-lights-good-life",
+    "artist": "Tinchy Stryder feat. Pixie Lott",
+    "title": "Bright Lights (Good Life)",
+    "country": "EN",
+    "language": "EN",
+    "year": 2010
+  },
+  {
     "id": "tinie-tempah-feat-ellie-goulding-wonderman",
     "artist": "Tinie Tempah feat. Ellie Goulding",
     "title": "Wonderman",
@@ -49359,6 +50528,14 @@
     "year": 1971
   },
   {
+    "id": "tom-jones-it-s-not-unusual",
+    "artist": "Tom Jones",
+    "title": "It's Not Unusual",
+    "country": "EN",
+    "language": "EN",
+    "year": 1965
+  },
+  {
     "id": "tom-lehrer-poisoning-pigeons-in-the-park",
     "artist": "Tom Lehrer",
     "title": "Poisoning Pigeons in the Park",
@@ -49475,6 +50652,14 @@
     "title": "The Wearin' of the Green",
     "country": "EN",
     "language": "EN"
+  },
+  {
+    "id": "tony-malone-the-rapparees-wearin-of-the-green",
+    "artist": "Tony Malone & The Rapparees",
+    "title": "Wearin' of the Green",
+    "country": "EN",
+    "language": "EN",
+    "year": 1960
   },
   {
     "id": "tool-the-grudge",
@@ -49603,6 +50788,14 @@
     "country": "EN",
     "language": "EN",
     "year": 2000
+  },
+  {
+    "id": "topone-bia-y-mis",
+    "artist": "TopOne",
+    "title": "Biały miś",
+    "country": "PL",
+    "language": "PL",
+    "year": 2018
   },
   {
     "id": "tore-tang-mods",
@@ -49739,7 +50932,90 @@
     "artist": "Traditional",
     "title": "The Orange and the Green",
     "country": "EN",
+    "language": "EN",
+    "year": 1880
+  },
+  {
+    "id": "traditional-grajek",
+    "artist": "Traditional",
+    "title": "Grajek",
+    "country": "PL",
+    "language": "PL"
+  },
+  {
+    "id": "traditional-anything-you-can-do",
+    "artist": "Traditional",
+    "title": "Anything You Can Do",
+    "country": "EN",
+    "language": "EN",
+    "year": 1946
+  },
+  {
+    "id": "traditional-cztery-razy-po-dwa-razy",
+    "artist": "Traditional",
+    "title": "Cztery razy po dwa razy",
+    "country": "PL",
+    "language": "PL"
+  },
+  {
+    "id": "traditional-jarzebina-czerwona",
+    "artist": "Traditional",
+    "title": "Jarzębina czerwona",
+    "country": "PL",
+    "language": "PL"
+  },
+  {
+    "id": "traditional-bella-ciao",
+    "artist": "Traditional",
+    "title": "Bella Ciao",
+    "country": "Italy",
+    "language": "Italy",
+    "year": 1944
+  },
+  {
+    "id": "traditional-barka",
+    "artist": "Traditional",
+    "title": "Barka",
+    "country": "PL",
+    "language": "PL",
+    "year": 1974
+  },
+  {
+    "id": "traditional-happy-birthday-to-you",
+    "artist": "Traditional",
+    "title": "Happy Birthday to You",
+    "country": "EN",
+    "language": "EN",
+    "year": 1893
+  },
+  {
+    "id": "traditional-amazing-grace",
+    "artist": "Traditional",
+    "title": "Amazing Grace",
+    "country": "EN",
     "language": "EN"
+  },
+  {
+    "id": "traditional-ave-maria",
+    "artist": "Traditional",
+    "title": "Ave Maria",
+    "year": 1825
+  },
+  {
+    "id": "traditional-santa-lucia",
+    "artist": "Traditional",
+    "title": "Santa Lucia",
+    "country": "Italy",
+    "language": "Italy",
+    "year": 1849
+  },
+  {
+    "id": "traditional-funiculi-funicula",
+    "artist": "Traditional",
+    "title": "Funiculì Funiculà",
+    "country": "Italy",
+    "language": "Italy",
+    "year": 1880
   },
   {
     "id": "train-drive-by",
@@ -49956,6 +51232,14 @@
     "country": "EN",
     "language": "EN",
     "year": 2001
+  },
+  {
+    "id": "trick-pony-feat-johnny-cash-waylon-jennings-big-river",
+    "artist": "Trick Pony feat. Johnny Cash & Waylon Jennings",
+    "title": "Big River",
+    "country": "EN",
+    "language": "EN",
+    "year": 2002
   },
   {
     "id": "trisha-yearwood-i-would-ve-loved-you-anyway",
@@ -50672,6 +51956,14 @@
     "country": "EN",
     "language": "EN",
     "year": 1989
+  },
+  {
+    "id": "various-manx-poca-uj-noc",
+    "artist": "Various Manx",
+    "title": "Pocałuj noc",
+    "country": "PL",
+    "language": "PL",
+    "year": 2003
   },
   {
     "id": "varius-manx-bez",
@@ -51620,6 +52912,14 @@
     "year": 1992
   },
   {
+    "id": "whitney-houston-could-i-have-this-kiss-forever",
+    "artist": "Whitney Houston",
+    "title": "Could I Have This Kiss Forever",
+    "country": "EN",
+    "language": "EN",
+    "year": 2000
+  },
+  {
     "id": "whitney-houston-enrique-iglesias-could-i-have-this-kiss-forever",
     "artist": "Whitney Houston & Enrique Iglesias",
     "title": "Could I Have This Kiss Forever",
@@ -52041,6 +53341,14 @@
     "year": 2011
   },
   {
+    "id": "wretch-32-feat-l-marshall-traktor",
+    "artist": "Wretch 32 feat. L Marshall",
+    "title": "Traktor",
+    "country": "EN",
+    "language": "EN",
+    "year": 2011
+  },
+  {
     "id": "wwo-jeszcze-bedzie-czas",
     "artist": "WWO",
     "title": "Jeszcze będzie czas",
@@ -52199,6 +53507,14 @@
     "year": 2023
   },
   {
+    "id": "zach-braff-donald-faison-guy-love",
+    "artist": "Zach Braff & Donald Faison",
+    "title": "Guy Love",
+    "country": "EN",
+    "language": "EN",
+    "year": 2007
+  },
+  {
     "id": "zakopower-boso",
     "artist": "Zakopower",
     "title": "Boso",
@@ -52221,6 +53537,14 @@
     "country": "PL",
     "language": "PL",
     "year": 2010
+  },
+  {
+    "id": "zappacosta-overload",
+    "artist": "Zappacosta",
+    "title": "Overload",
+    "country": "EN",
+    "language": "EN",
+    "year": 1988
   },
   {
     "id": "zara-larsson-lush-life",
@@ -52350,7 +53674,8 @@
     "artist": "Zejman & Garkumpel",
     "title": "Cztery piwka",
     "country": "PL",
-    "language": "PL"
+    "language": "PL",
+    "year": 1996
   },
   {
     "id": "zero-bania-u-cygana",
