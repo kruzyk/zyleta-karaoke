@@ -45,10 +45,13 @@ interface ProblematicSong {
 
 interface PipelineReport {
   generatedAt: string;
+  isForceMode: boolean;
   totalRawFiles: number;
   totalParsed: number;
   titleOnlyFiles: string[];
   titleOnlyCount: number;
+  addedSongs: Array<{ artist: string; title: string }>;
+  addedCount: number;
   duplicatesRemoved: Array<{
     normalizedKey: string;
     files: string[];
@@ -85,10 +88,13 @@ async function main() {
 
   const report: PipelineReport = {
     generatedAt: new Date().toISOString(),
+    isForceMode: forceRefresh,
     totalRawFiles: 0,
     totalParsed: 0,
     titleOnlyFiles: [],
     titleOnlyCount: 0,
+    addedSongs: [],
+    addedCount: 0,
     duplicatesRemoved: [],
     duplicateRemovedCount: 0,
     aiStats: {
@@ -169,11 +175,17 @@ async function main() {
     console.log('   Force mode — processing all songs');
   }
 
-  // Build lookup map from existing songs
-  const existingMap = new Map<string, Song>();
+  // Build lookup: by sourceFilename (primary) for songs already enriched by AI,
+  // with artist||title key as fallback for legacy songs that predate this field.
+  const existingByFilename = new Set<string>();
+  const existingByKey = new Map<string, Song>();
   for (const song of existingSongs) {
-    const key = `${normalizeForDedup(song.artist)}||${normalizeForDedup(song.title)}`;
-    existingMap.set(key, song);
+    if (song.sourceFilename) {
+      existingByFilename.add(song.sourceFilename);
+    } else {
+      const key = `${normalizeForDedup(song.artist)}||${normalizeForDedup(song.title)}`;
+      existingByKey.set(key, song);
+    }
   }
 
   // Combine both: songs with artist + title-only songs (AI will identify artist)
@@ -181,8 +193,9 @@ async function main() {
 
   // Find songs not yet in existing data
   const newSongs = allParsed.filter((p) => {
+    if (existingByFilename.has(p.filename)) return false;
     const key = `${normalizeForDedup(p.artist)}||${normalizeForDedup(p.title)}`;
-    return !existingMap.has(key);
+    return !existingByKey.has(key);
   });
 
   const songsToEnrich = forceRefresh ? allParsed : newSongs;
@@ -202,14 +215,20 @@ async function main() {
     );
     report.aiStats = stats;
 
-    enrichedSongs = results.map((r) => ({
+    enrichedSongs = results.map((r, i) => ({
       id: generateId(r.artist, r.title),
       artist: r.artist,
       title: r.title,
+      sourceFilename: songsToEnrich[i].filename,
       ...(r.country ? { country: r.country } : {}),
       ...(r.language ? { language: r.language } : {}),
       ...(r.year ? { year: r.year } : {}),
     }));
+
+    if (!forceRefresh) {
+      report.addedSongs = enrichedSongs.map((s) => ({ artist: s.artist, title: s.title }));
+      report.addedCount = enrichedSongs.length;
+    }
 
     console.log(`   Enriched: ${stats.enrichedCount} songs`);
     if (stats.failedBatches > 0) {
@@ -470,6 +489,18 @@ async function savePipelineReport(report: PipelineReport): Promise<string> {
   md += `| Title-only (AI identified) | ${report.titleOnlyCount} |\n`;
   md += `| Duplicates removed | ${report.duplicateRemovedCount} |\n`;
   md += `| Final songs | ${report.finalCount} |\n\n`;
+
+  if (!report.isForceMode) {
+    if (report.addedCount === 0) {
+      md += '## Newly Added Songs\n\nNo new songs in this run.\n\n';
+    } else {
+      md += `## Newly Added Songs (${report.addedCount})\n\n`;
+      for (const song of report.addedSongs) {
+        md += `- **${song.artist || '_(unknown artist)_'}** — ${song.title}\n`;
+      }
+      md += '\n';
+    }
+  }
 
   md += '## AI Enrichment\n\n';
   md += '| Metric | Value |\n|--------|-------|\n';

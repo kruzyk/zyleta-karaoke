@@ -7,6 +7,7 @@ export interface Song {
   year?: number;
   country?: SongCountry;
   language?: SongCountry;
+  sourceFilename?: string;
 }
 
 export interface SongListState {
