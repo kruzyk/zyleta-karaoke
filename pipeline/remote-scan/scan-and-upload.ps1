@@ -4,7 +4,7 @@
 # This script:
 # 1. Reads config from scan-config.json (same folder as this script)
 # 2. Scans one or more karaoke folders for media files
-# 3. Uploads the file list to GitHub (data/raw-filelist.json)
+# 3. Uploads the file list to GitHub (pipeline/input/raw-filelist.json)
 # 4. GitHub Actions automatically processes it into the final song list
 # ============================================
 
@@ -210,7 +210,7 @@ try {
 # --- Check if file already exists on GitHub (need SHA for update) ---
 Write-Log "Lacze z GitHub..." "STEP"
 
-$apiUrl = "https://api.github.com/repos/$repo/contents/data/raw-filelist.json"
+$apiUrl = "https://api.github.com/repos/$repo/contents/pipeline/input/raw-filelist.json"
 $headers = @{
     "Authorization" = "Bearer $token"
     "Accept"        = "application/vnd.github.v3+json"
