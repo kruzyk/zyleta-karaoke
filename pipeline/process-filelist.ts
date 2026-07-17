@@ -190,6 +190,8 @@ async function main() {
 
   // Combine both: songs with artist + title-only songs (AI will identify artist)
   const allParsed = [...withArtist, ...noArtist];
+  const currentExistingSongs = filterExistingSongsToRawFiles(existingSongs, allParsed);
+  const removedExistingCount = existingSongs.length - currentExistingSongs.length;
 
   // Find songs not yet in existing data
   const newSongs = allParsed.filter((p) => {
@@ -202,7 +204,7 @@ async function main() {
   console.log(
     forceRefresh
       ? `   Force mode: enriching all ${songsToEnrich.length} songs`
-      : `   New songs to enrich: ${newSongs.length} (${existingSongs.length} already in songs.json)`,
+      : `   New songs to enrich: ${newSongs.length} (${currentExistingSongs.length} current, ${removedExistingCount} removed)`,
   );
 
   // ── Stage 4: ENRICH ──
@@ -246,7 +248,7 @@ async function main() {
   if (forceRefresh) {
     allSongs = enrichedSongs;
   } else {
-    allSongs = [...existingSongs, ...enrichedSongs];
+    allSongs = [...currentExistingSongs, ...enrichedSongs];
   }
 
   // Deduplicate (prefer entries with more metadata)
@@ -331,6 +333,25 @@ function normalizeForDedup(s: string): string {
     .replace(/[^a-z0-9\s]/g, '')
     .replace(/\s+/g, ' ')
     .trim();
+}
+
+export function filterExistingSongsToRawFiles(
+  existingSongs: Song[],
+  parsedRawSongs: Array<{ filename: string; artist: string; title: string }>,
+): Song[] {
+  const currentFilenames = new Set(parsedRawSongs.map((song) => song.filename));
+  const currentKeys = new Set(
+    parsedRawSongs.map(
+      (song) => `${normalizeForDedup(song.artist)}||${normalizeForDedup(song.title)}`,
+    ),
+  );
+
+  return existingSongs.filter((song) => {
+    if (song.sourceFilename) return currentFilenames.has(song.sourceFilename);
+
+    const key = `${normalizeForDedup(song.artist)}||${normalizeForDedup(song.title)}`;
+    return currentKeys.has(key);
+  });
 }
 
 function deduplicateSongsWithTracking(songs: Song[]): {
@@ -603,7 +624,9 @@ async function savePipelineReport(report: PipelineReport): Promise<string> {
   return reportPath;
 }
 
-main().catch((error) => {
-  console.error('Fatal error:', error);
-  process.exit(1);
-});
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch((error) => {
+    console.error('Fatal error:', error);
+    process.exit(1);
+  });
+}
