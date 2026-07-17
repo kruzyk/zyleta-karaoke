@@ -76,7 +76,7 @@ Scripts are located in `pipeline/remote-scan/`. Run them on the Windows machine 
 }
 ```
 
-**GitHub token** — generate at https://github.com/settings/tokens (Fine-grained token). Required permission: **Contents: Read and write** for the `zyleta-karaoke` repository.
+**GitHub token** — generate at https://github.com/settings/tokens (Fine-grained token). Required permission for regular updates: **Contents: Read and write** for the `zyleta-karaoke` repository. Full updates also need **Actions: Read and write**.
 
 ### Regular Update
 
@@ -84,7 +84,7 @@ Double-click `aktualizuj-liste.bat`. The script:
 - scans all folders from `folderPaths`
 - collects files matching the configured extensions
 - uploads the file list to GitHub as `pipeline/input/raw-filelist.json`
-- GitHub Actions automatically processes the list and updates the site
+- GitHub Actions automatically processes the list, commits `pipeline/output/songs.json`, and deploys the site
 
 Logs are saved to `scan-log.txt` in the same folder as the script.
 
@@ -121,7 +121,7 @@ Pipeline steps:
 - applies manual overrides from `data/manual-overrides.json`
 - deduplicates (same artist + title = one entry)
 - safety check: aborts if the new list is less than half the size of the previous one
-- commits `songs.json` and triggers deploy
+- commits `songs.json` to `master` and deploys the site
 
 The MusicBrainz cache is persisted between runs (via `actions/cache@v4`), so subsequent updates only process new songs.
 

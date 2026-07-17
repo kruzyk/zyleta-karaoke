@@ -20,6 +20,22 @@ describe('karaoke laptop sync', () => {
     expect(scanner).not.toContain('contents/data/raw-filelist.json');
   });
 
+  it('keeps regular laptop updates to one automatic workflow path', () => {
+    const regularUpdate = fs.readFileSync(
+      path.join(root, 'pipeline/remote-scan/aktualizuj-liste.bat'),
+      'utf-8',
+    );
+    const processWorkflow = fs.readFileSync(
+      path.join(root, '.github/workflows/update-songs.yml'),
+      'utf-8',
+    );
+    const deployWorkflow = fs.readFileSync(path.join(root, '.github/workflows/deploy.yml'), 'utf-8');
+
+    expect(regularUpdate).not.toContain('actions/workflows/update-songs.yml/dispatches');
+    expect(processWorkflow).toContain('uses: actions/deploy-pages@v4');
+    expect(deployWorkflow).toContain('pipeline/input/raw-filelist.json');
+  });
+
   it('drops songs removed from the latest laptop scan', () => {
     const songs = filterExistingSongsToRawFiles(
       [

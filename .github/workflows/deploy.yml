@@ -3,6 +3,8 @@ name: Build and Deploy
 on:
   push:
     branches: [master]
+    paths-ignore:
+      - 'pipeline/input/raw-filelist.json'
   pull_request:
     branches: [master]
 
