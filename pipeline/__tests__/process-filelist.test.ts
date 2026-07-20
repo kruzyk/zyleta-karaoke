@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
-import { filterExistingSongsToRawFiles } from '../process-filelist';
+import { applyGenericArtistContext, filterExistingSongsToRawFiles } from '../process-filelist';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const rawFilelistPath = 'pipeline/input/raw-filelist.json';
@@ -56,5 +56,34 @@ describe('karaoke laptop sync', () => {
     );
 
     expect(songs.map((song) => song.id)).toEqual(['keep']);
+  });
+
+  it('keeps source context for generic AI artists', () => {
+    const songs = applyGenericArtistContext([
+      {
+        id: 'aladdin-friend-like-me',
+        artist: 'Disney',
+        title: 'Friend Like Me',
+        sourceFilename: 'Aladdin - Friend Like Me.mp4',
+      },
+      {
+        id: 'szanty-bijatyka',
+        artist: 'Traditional',
+        title: 'Bijatyka',
+        sourceFilename: 'Szanty - Bijatyka.kfn',
+      },
+      {
+        id: 'abba-waterloo',
+        artist: 'ABBA',
+        title: 'Waterloo',
+        sourceFilename: 'ABBA - Waterloo.kfn',
+      },
+    ]);
+
+    expect(songs.map((song) => song.artist)).toEqual([
+      'Disney - Aladdin',
+      'Traditional - Szanty',
+      'ABBA',
+    ]);
   });
 });
