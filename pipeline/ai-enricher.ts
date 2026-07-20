@@ -49,6 +49,7 @@ FIELDS:
 
 1. "artist" (string): Canonical artist/band name.
    - Fix typos and normalize spelling: "ACDC" → "AC/DC", "2 plus 1" → "2+1", "Goombay dance band" → "Goombay Dance Band"
+   - For Polish artists, prefer official full names over numeric or stylized aliases: "Jeden Osiem L" stays "Jeden Osiem L", never "1-8-7"
    - Use the most widely recognized form: "Freddie Mercury" not "Farrokh Bulsara"
    - For "feat." collaborations, keep both artists: "Beyoncé feat. Jay-Z"
    - For bands/duos, keep the full name: "Simon & Garfunkel" stays as is
@@ -122,6 +123,12 @@ Output: [{"artist":"Boney M.","title":"Rasputin","year":1978,"country":"Germany"
 
 Input: [{"artist":"ich troje","title":"powiedz"}]
 Output: [{"artist":"Ich Troje","title":"Powiedz","year":2003,"country":"PL","language":"PL"}]
+
+Input: [{"artist":"Jeden Osiem L","title":"Jak zapomnieć"}]
+Output: [{"artist":"Jeden Osiem L","title":"Jak zapomnieć","year":2003,"country":"PL","language":"PL"}]
+
+Input: [{"artist":"Paktofonika","title":"Jestem Bogiem"}]
+Output: [{"artist":"Paktofonika","title":"Jestem Bogiem","year":2001,"country":"PL","language":"PL"}]
 
 Input: [{"artist":"a-ha","title":"take on me"}]
 Output: [{"artist":"a-ha","title":"Take On Me","year":1985,"country":"Norway","language":"EN"}]
