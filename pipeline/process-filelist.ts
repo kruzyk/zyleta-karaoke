@@ -250,6 +250,7 @@ async function main() {
   } else {
     allSongs = [...currentExistingSongs, ...enrichedSongs];
   }
+  allSongs = applyGenericArtistContext(allSongs);
 
   // Deduplicate (prefer entries with more metadata)
   const dedupResult = deduplicateSongsWithTracking(allSongs);
@@ -351,6 +352,24 @@ export function filterExistingSongsToRawFiles(
 
     const key = `${normalizeForDedup(song.artist)}||${normalizeForDedup(song.title)}`;
     return currentKeys.has(key);
+  });
+}
+
+const GENERIC_ARTISTS_WITH_SOURCE_CONTEXT = new Set(['Disney', 'Traditional', 'Various Artists']);
+
+export function applyGenericArtistContext(songs: Song[]): Song[] {
+  return songs.map((song) => {
+    if (!song.sourceFilename || !GENERIC_ARTISTS_WITH_SOURCE_CONTEXT.has(song.artist)) return song;
+
+    const sourceArtist = parseFilenames([song.sourceFilename])[0]?.artist.trim();
+    if (!sourceArtist || normalizeForDedup(sourceArtist) === normalizeForDedup(song.artist)) {
+      return song;
+    }
+
+    return {
+      ...song,
+      artist: `${song.artist} - ${sourceArtist}`,
+    };
   });
 }
 

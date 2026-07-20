@@ -18,7 +18,8 @@ on:
 
 permissions:
   contents: write
-  pull-requests: write
+  pages: write
+  id-token: write
 
 concurrency:
   group: 'update-songs'
@@ -153,30 +154,31 @@ jobs:
             echo "changed=true" >> $GITHUB_OUTPUT
           fi
 
-      - name: Create PR with updated songs.json
+      - name: Build site
         if: steps.changes.outputs.changed == 'true'
+        run: npm run build
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          BRANCH="chore/update-songs-$(date +%Y%m%d-%H%M%S)"
+          VITE_CONFIGCAT_SDK_KEY: ${{ secrets.CONFIGCAT_SDK_KEY }}
 
+      - name: Commit updated songs.json
+        if: steps.changes.outputs.changed == 'true'
+        run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git checkout -b "$BRANCH"
           git add pipeline/output/songs.json
           git commit -m "chore: auto-update songs.json from raw file list"
-          git push -u origin "$BRANCH"
+          git push origin HEAD:master
 
-          PR_URL=$(gh pr create \
-            --title "chore: auto-update songs.json" \
-            --body "Automated songs.json update from pipeline run #${{ github.run_number }}." \
-            --base master \
-            --head "$BRANCH")
+      - name: Upload Pages artifact
+        if: steps.changes.outputs.changed == 'true'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
 
-          echo "Created PR: $PR_URL"
-
-          gh pr merge "$PR_URL" --auto --squash --delete-branch
-          echo "Auto-merge enabled — PR will merge when all checks pass."
+      - name: Deploy to GitHub Pages
+        if: steps.changes.outputs.changed == 'true'
+        id: deployment
+        uses: actions/deploy-pages@v4
 
       - name: Find pipeline report
         if: always()
@@ -237,4 +239,3 @@ jobs:
           git push
           echo "Report pushed to private repository"
         continue-on-error: true
-

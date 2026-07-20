@@ -62,7 +62,7 @@ echo.
 powershell -ExecutionPolicy Bypass -Command ^
   "$token = (Get-Content '%~dp0scan-config.json' -Raw | ConvertFrom-Json).githubToken; " ^
   "$repo = (Get-Content '%~dp0scan-config.json' -Raw | ConvertFrom-Json).githubRepo; " ^
-  "$headers = @{ 'Authorization' = \"Bearer $token\"; 'Accept' = 'application/vnd.github.v3+json'; 'User-Agent' = 'ZyletaKaraoke/1.0' }; " ^
+  "$headers = @{ 'Authorization' = \"******"; 'Accept' = 'application/vnd.github.v3+json'; 'User-Agent' = 'ZyletaKaraoke/1.0' }; " ^
   "$body = '{\"ref\":\"master\",\"inputs\":{\"force_refresh\":\"true\"}}'; " ^
   "try { " ^
   "  [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; " ^
@@ -71,9 +71,17 @@ powershell -ExecutionPolicy Bypass -Command ^
   "  Write-Host '  Sprawdz postep na: https://github.com/$repo/actions' -ForegroundColor Gray; " ^
   "} catch { " ^
   "  Write-Host '  UWAGA: Nie udalo sie uruchomic workflow.' -ForegroundColor Yellow; " ^
-  "  Write-Host '  Workflow uruchomi sie automatycznie po pushu.' -ForegroundColor Yellow; " ^
+  "  Write-Host '  Do pelnej aktualizacji token musi miec uprawnienie Actions: Read and write.' -ForegroundColor Yellow; " ^
   "  Write-Host \"  $($_.Exception.Message)\" -ForegroundColor Red; " ^
+  "  exit 1; " ^
   "}"
+
+if %ERRORLEVEL% neq 0 (
+    echo.
+    echo  Pelna aktualizacja nie zostala uruchomiona.
+    pause
+    exit /b 1
+)
 
 echo.
 pause

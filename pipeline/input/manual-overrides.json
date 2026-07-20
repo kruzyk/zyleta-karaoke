@@ -3,5 +3,29 @@
   "_example-song-id": {
     "artist": "Correct Artist Name",
     "title": "Correct Song Title"
+  },
+  "1-8-7-jak-zapomniec": {
+    "artist": "Jeden Osiem L",
+    "title": "Jak zapomnieć"
+  },
+  "4teens-jestes-czescia-mnie": {
+    "artist": "For Teens",
+    "title": "Jesteś częścią mnie"
+  },
+  "zenek-martyniuk-moja-panienka": {
+    "artist": "Lerek Nowator",
+    "title": "Moja panienka"
+  },
+  "rudi-schuberth-mowili-na-nia-s-once": {
+    "artist": "Rozzi Rozmus",
+    "title": "Mówili na nią słońce"
+  },
+  "m-ody-skiny-schafter-dvd": {
+    "artist": "Mlodyskiny x schafter",
+    "title": "DVD"
+  },
+  "john-rzeznik-i-m-still-here": {
+    "artist": "Johnny Rzeznik",
+    "title": "I'm Still Here"
   }
 }
