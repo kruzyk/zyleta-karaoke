@@ -33,6 +33,7 @@ describe('karaoke laptop sync', () => {
 
     expect(regularUpdate).not.toContain('actions/workflows/update-songs.yml/dispatches');
     expect(processWorkflow).toContain('SONG_UPDATE_TOKEN');
+    expect(processWorkflow).toContain('persist-credentials: false');
     expect(processWorkflow).toContain('gh pr create');
     expect(processWorkflow).toContain('gh pr merge');
     expect(processWorkflow).toContain('--auto');
