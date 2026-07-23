@@ -17,9 +17,7 @@ on:
           - 'true'
 
 permissions:
-  contents: write
-  pages: write
-  id-token: write
+  contents: read
 
 concurrency:
   group: 'update-songs'
@@ -154,31 +152,42 @@ jobs:
             echo "changed=true" >> $GITHUB_OUTPUT
           fi
 
-      - name: Build site
+      - name: Create or update generated songs PR
         if: steps.changes.outputs.changed == 'true'
-        run: npm run build
         env:
-          VITE_CONFIGCAT_SDK_KEY: ${{ secrets.CONFIGCAT_SDK_KEY }}
-
-      - name: Commit updated songs.json
-        if: steps.changes.outputs.changed == 'true'
+          GH_TOKEN: ${{ secrets.SONG_UPDATE_TOKEN }}
         run: |
-          git config user.name "github-actions[bot]"
+          if [ -z "$GH_TOKEN" ]; then
+            echo "::error::Missing SONG_UPDATE_TOKEN secret"
+            exit 1
+          fi
+
+          BRANCH="automation/update-songs"
+
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git fetch origin "$BRANCH:refs/remotes/origin/$BRANCH" || true
+          git switch -C "$BRANCH"
+
+          git config user.name "zyleta-karaoke-bot"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add pipeline/output/songs.json
           git commit -m "chore: auto-update songs.json from raw file list"
-          git push origin HEAD:master
+          git push --force-with-lease origin "HEAD:$BRANCH"
 
-      - name: Upload Pages artifact
-        if: steps.changes.outputs.changed == 'true'
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./dist
+          PR_NUMBER=$(gh pr list --base master --head "$BRANCH" --state open --json number --jq '.[0].number')
 
-      - name: Deploy to GitHub Pages
-        if: steps.changes.outputs.changed == 'true'
-        id: deployment
-        uses: actions/deploy-pages@v4
+          if [ -z "$PR_NUMBER" ]; then
+            gh pr create \
+              --base master \
+              --head "$BRANCH" \
+              --title "chore: update generated song list" \
+              --body "Automated update from the latest karaoke laptop scan."
+            PR_NUMBER=$(gh pr list --base master --head "$BRANCH" --state open --json number --jq '.[0].number')
+          fi
+
+          if [ "$(gh pr view "$PR_NUMBER" --json autoMergeRequest --jq '.autoMergeRequest != null')" != "true" ]; then
+            gh pr merge "$PR_NUMBER" --auto --squash --delete-branch
+          fi
 
       - name: Find pipeline report
         if: always()

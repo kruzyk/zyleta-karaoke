@@ -84,7 +84,7 @@ Double-click `aktualizuj-liste.bat`. The script:
 - scans all folders from `folderPaths`
 - collects files matching the configured extensions
 - uploads the file list to GitHub as `pipeline/input/raw-filelist.json`
-- GitHub Actions automatically processes the list, commits `pipeline/output/songs.json`, and deploys the site
+- GitHub Actions processes the list, opens an auto-merge PR for `pipeline/output/songs.json`, and deploys the site after merge
 
 Logs are saved to `scan-log.txt` in the same folder as the script.
 
@@ -121,13 +121,15 @@ Pipeline steps:
 - applies manual overrides from `data/manual-overrides.json`
 - deduplicates (same artist + title = one entry)
 - safety check: aborts if the new list is less than half the size of the previous one
-- commits `songs.json` to `master` and deploys the site
+- opens or updates an auto-merge PR with `songs.json`
+
+Requires repository secret `SONG_UPDATE_TOKEN` with **Contents: Read and write** and **Pull requests: Read and write** for `zyleta-karaoke`. This token creates the generated-song PR so required checks can run and `master` still rejects direct pushes.
 
 The MusicBrainz cache is persisted between runs (via `actions/cache@v4`), so subsequent updates only process new songs.
 
 ### 2. Build and Deploy (`deploy.yml`)
 
-Standard CI/CD pipeline — triggered automatically on every push to `master`.
+Standard CI/CD pipeline — triggered automatically on every push to `master`, except raw laptop scans that only touch `pipeline/input/raw-filelist.json`.
 
 Pipeline: lint → test → build → deploy to GitHub Pages.
 

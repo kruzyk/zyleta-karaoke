@@ -32,8 +32,14 @@ describe('karaoke laptop sync', () => {
     const deployWorkflow = fs.readFileSync(path.join(root, '.github/workflows/deploy.yml'), 'utf-8');
 
     expect(regularUpdate).not.toContain('actions/workflows/update-songs.yml/dispatches');
-    expect(processWorkflow).toContain('uses: actions/deploy-pages@v4');
+    expect(processWorkflow).toContain('SONG_UPDATE_TOKEN');
+    expect(processWorkflow).toContain('gh pr create');
+    expect(processWorkflow).toContain('gh pr merge');
+    expect(processWorkflow).toContain('--auto');
+    expect(processWorkflow).not.toContain('git push origin HEAD:master');
+    expect(processWorkflow).not.toContain('uses: actions/deploy-pages@v4');
     expect(deployWorkflow).toContain('pipeline/input/raw-filelist.json');
+    expect(deployWorkflow).toContain('uses: actions/deploy-pages@v4');
   });
 
   it('drops songs removed from the latest laptop scan', () => {
