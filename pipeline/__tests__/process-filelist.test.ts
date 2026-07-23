@@ -36,7 +36,10 @@ describe('karaoke laptop sync', () => {
     expect(processWorkflow).toContain('persist-credentials: false');
     expect(processWorkflow).toContain('gh pr create');
     expect(processWorkflow).toContain('gh pr merge');
-    expect(processWorkflow).toContain('--auto');
+    expect(processWorkflow).toContain('gh pr checks');
+    expect(processWorkflow).toContain('mergeStateStatus');
+    expect(processWorkflow).toContain('Waiting for PR #$PR_NUMBER checks');
+    expect(processWorkflow).not.toContain('--auto');
     expect(processWorkflow).not.toContain('git push origin HEAD:master');
     expect(processWorkflow).not.toContain('uses: actions/deploy-pages@v4');
     expect(deployWorkflow).toContain('pipeline/input/raw-filelist.json');

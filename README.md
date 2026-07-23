@@ -84,7 +84,7 @@ Double-click `aktualizuj-liste.bat`. The script:
 - scans all folders from `folderPaths`
 - collects files matching the configured extensions
 - uploads the file list to GitHub as `pipeline/input/raw-filelist.json`
-- GitHub Actions processes the list, opens an auto-merge PR for `pipeline/output/songs.json`, and deploys the site after merge
+- GitHub Actions processes the list, opens a PR for `pipeline/output/songs.json`, merges it after checks pass, and deploys the site
 
 Logs are saved to `scan-log.txt` in the same folder as the script.
 
@@ -121,7 +121,7 @@ Pipeline steps:
 - applies manual overrides from `data/manual-overrides.json`
 - deduplicates (same artist + title = one entry)
 - safety check: aborts if the new list is less than half the size of the previous one
-- opens or updates an auto-merge PR with `songs.json`
+- opens or updates a PR with `songs.json`, waits for checks, then merges it
 
 Requires repository secret `SONG_UPDATE_TOKEN` with **Contents: Read and write** and **Pull requests: Read and write** for `zyleta-karaoke`. This token creates the generated-song PR so required checks can run and `master` still rejects direct pushes.
 

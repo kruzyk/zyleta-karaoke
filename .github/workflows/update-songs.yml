@@ -186,9 +186,34 @@ jobs:
             PR_NUMBER=$(gh pr list --base master --head "$BRANCH" --state open --json number --jq '.[0].number')
           fi
 
-          if [ "$(gh pr view "$PR_NUMBER" --json autoMergeRequest --jq '.autoMergeRequest != null')" != "true" ]; then
-            gh pr merge "$PR_NUMBER" --auto --squash --delete-branch
-          fi
+          for attempt in {1..60}; do
+            PR_STATE=$(gh pr view "$PR_NUMBER" --json state --jq '.state')
+            MERGE_STATE=$(gh pr view "$PR_NUMBER" --json mergeStateStatus --jq '.mergeStateStatus')
+            CHECKS_JSON=$(gh pr checks "$PR_NUMBER" --json name,bucket,state 2>/dev/null || echo '[]')
+            CHECK_COUNT=$(jq 'length' <<<"$CHECKS_JSON")
+            PENDING_CHECKS=$(jq '[.[] | select(.bucket == "pending")] | length' <<<"$CHECKS_JSON")
+            BLOCKING_CHECKS=$(jq '[.[] | select(.bucket != "pass" and .bucket != "skipping" and .bucket != "pending")] | length' <<<"$CHECKS_JSON")
+
+            if [ "$PR_STATE" = "MERGED" ]; then
+              exit 0
+            fi
+
+            if [ "$PR_STATE" != "OPEN" ]; then
+              echo "::error::Generated songs PR #$PR_NUMBER is $PR_STATE"
+              exit 1
+            fi
+
+            if [ "$CHECK_COUNT" -gt 0 ] && [ "$PENDING_CHECKS" -eq 0 ] && [ "$BLOCKING_CHECKS" -eq 0 ] && [ "$MERGE_STATE" = "CLEAN" ]; then
+              gh pr merge "$PR_NUMBER" --squash --delete-branch
+              exit 0
+            fi
+
+            echo "Waiting for PR #$PR_NUMBER checks (attempt $attempt/60): merge=$MERGE_STATE pending=$PENDING_CHECKS blocking=$BLOCKING_CHECKS"
+            sleep 30
+          done
+
+          echo "::error::Timed out waiting for generated songs PR #$PR_NUMBER to become mergeable"
+          exit 1
 
       - name: Find pipeline report
         if: always()
