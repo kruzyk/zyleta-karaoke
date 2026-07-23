@@ -1,9 +1,14 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 
 const WISHLIST_KEY = 'zyleta-wishlist';
 const FAB_KEY = 'zyleta-wishlist-fab';
 
-const FAB_SIZE = 56;
+const FAB_WIDTH = 100;
+const FAB_HEIGHT = 54;
+const FAB_GAP = 16;
+const DESKTOP_MIN_WIDTH = 900;
+const TOOLBAR_X_RATIO = 0.75;
+const TOOLBAR_Y_OFFSET = 10;
 
 interface FabPosition {
   x: number;
@@ -21,16 +26,27 @@ interface WishlistActions {
 
 function clampToViewport(x: number, y: number): FabPosition {
   return {
-    x: Math.max(0, Math.min(x, window.innerWidth - FAB_SIZE)),
-    y: Math.max(0, Math.min(y, window.innerHeight - FAB_SIZE)),
+    x: Math.max(0, Math.min(x, window.innerWidth - FAB_WIDTH)),
+    y: Math.max(0, Math.min(y, window.innerHeight - FAB_HEIGHT)),
   };
 }
 
 function getDefaultFabPosition(): FabPosition {
-  return {
-    x: window.innerWidth - FAB_SIZE - 16,
-    y: window.innerHeight - FAB_SIZE - 16,
+  const fallback = {
+    x: window.innerWidth - FAB_WIDTH - FAB_GAP,
+    y: window.innerHeight - FAB_HEIGHT - FAB_GAP,
   };
+
+  if (window.innerWidth < DESKTOP_MIN_WIDTH) return fallback;
+
+  const toolbar = document.querySelector<HTMLElement>('[role="toolbar"]');
+  if (!toolbar) return fallback;
+
+  const rect = toolbar.getBoundingClientRect();
+  return clampToViewport(
+    rect.left + rect.width * TOOLBAR_X_RATIO - FAB_WIDTH / 2,
+    rect.top - TOOLBAR_Y_OFFSET,
+  );
 }
 
 function readWishlist(): string[] {
@@ -68,6 +84,7 @@ function readFabPosition(): FabPosition {
 
 export function useWishlist(): WishlistActions {
   const [wishlistedIds, setWishlistedIds] = useState<string[]>(readWishlist);
+  const hasSavedFabPositionRef = useRef(localStorage.getItem(FAB_KEY) !== null);
   const [fabPosition, setFabPosition] = useState<FabPosition>(readFabPosition);
 
   useEffect(() => {
@@ -75,9 +92,13 @@ export function useWishlist(): WishlistActions {
   }, [wishlistedIds]);
 
   const toggleSong = useCallback((id: string) => {
-    setWishlistedIds((prev) =>
-      prev.includes(id) ? prev.filter((sid) => sid !== id) : [...prev, id],
-    );
+    setWishlistedIds((prev) => {
+      if (prev.includes(id)) return prev.filter((sid) => sid !== id);
+      if (prev.length === 0 && !hasSavedFabPositionRef.current) {
+        setFabPosition(getDefaultFabPosition());
+      }
+      return [...prev, id];
+    });
   }, []);
 
   const removeSong = useCallback((id: string) => {
@@ -91,6 +112,7 @@ export function useWishlist(): WishlistActions {
   const saveFabPosition = useCallback((x: number, y: number) => {
     const clamped = clampToViewport(x, y);
     setFabPosition(clamped);
+    hasSavedFabPositionRef.current = true;
     localStorage.setItem(FAB_KEY, JSON.stringify(clamped));
   }, []);
 
