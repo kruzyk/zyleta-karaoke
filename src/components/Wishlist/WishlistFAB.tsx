@@ -20,6 +20,10 @@ export function WishlistFAB({ count, position, onOpen, onPositionChange }: Wishl
   const startPositionRef = useRef({ x: 0, y: 0 });
   const currentPositionRef = useRef({ x: position.x, y: position.y });
 
+  useEffect(() => {
+    currentPositionRef.current = { x: position.x, y: position.y };
+  }, [position.x, position.y]);
+
   const clamp = useCallback((x: number, y: number) => {
     const maxX = window.innerWidth - FAB_W;
     const maxY = window.innerHeight - FAB_H;
