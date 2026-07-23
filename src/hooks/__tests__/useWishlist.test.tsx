@@ -82,4 +82,16 @@ describe('useWishlist', () => {
     expect(screen.getByTestId('count')).toHaveTextContent('1');
     await waitFor(() => expect(screen.getByTestId('position')).toHaveTextContent('930,134'));
   });
+
+  it('keeps the existing mobile default position', async () => {
+    Object.defineProperty(window, 'innerWidth', { configurable: true, value: 390 });
+    Object.defineProperty(window, 'innerHeight', { configurable: true, value: 844 });
+
+    render(<TestHarness />);
+
+    fireEvent.click(screen.getByText('toggle'));
+
+    expect(screen.getByTestId('count')).toHaveTextContent('1');
+    await waitFor(() => expect(screen.getByTestId('position')).toHaveTextContent('318,772'));
+  });
 });

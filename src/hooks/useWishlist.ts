@@ -3,8 +3,8 @@ import { useState, useCallback, useEffect, useRef } from 'react';
 const WISHLIST_KEY = 'zyleta-wishlist';
 const FAB_KEY = 'zyleta-wishlist-fab';
 
+const LEGACY_MOBILE_FAB_SIZE = 56;
 const FAB_WIDTH = 100;
-const FAB_HEIGHT = 54;
 const FAB_GAP = 16;
 const DESKTOP_MIN_WIDTH = 900;
 const TOOLBAR_X_RATIO = 0.75;
@@ -26,15 +26,15 @@ interface WishlistActions {
 
 function clampToViewport(x: number, y: number): FabPosition {
   return {
-    x: Math.max(0, Math.min(x, window.innerWidth - FAB_WIDTH)),
-    y: Math.max(0, Math.min(y, window.innerHeight - FAB_HEIGHT)),
+    x: Math.max(0, Math.min(x, window.innerWidth - LEGACY_MOBILE_FAB_SIZE)),
+    y: Math.max(0, Math.min(y, window.innerHeight - LEGACY_MOBILE_FAB_SIZE)),
   };
 }
 
 function getDefaultFabPosition(): FabPosition {
   const fallback = {
-    x: window.innerWidth - FAB_WIDTH - FAB_GAP,
-    y: window.innerHeight - FAB_HEIGHT - FAB_GAP,
+    x: window.innerWidth - LEGACY_MOBILE_FAB_SIZE - FAB_GAP,
+    y: window.innerHeight - LEGACY_MOBILE_FAB_SIZE - FAB_GAP,
   };
 
   if (window.innerWidth < DESKTOP_MIN_WIDTH) return fallback;
