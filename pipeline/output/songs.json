@@ -18,6 +18,15 @@
     "sourceFilename": "10CC - Rubber Bullets.CDG"
   },
   {
+    "id": "10cc-i-m-not-in-love",
+    "artist": "10cc",
+    "title": "I'm Not in Love",
+    "sourceFilename": "10CC - Im Not In Love.cdg",
+    "country": "EN",
+    "language": "EN",
+    "year": 1975
+  },
+  {
     "id": "1910-fruitgum-company-simon-says",
     "artist": "1910 Fruitgum Company",
     "title": "Simon Says",
@@ -201,10 +210,10 @@
     "id": "3-doors-down-kryptonite",
     "artist": "3 Doors Down",
     "title": "Kryptonite",
-    "sourceFilename": "3 Doors Down - Kryptonite.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2000
+    "year": 2000,
+    "sourceFilename": "3 Doors Down - Kryptonite.kfn"
   },
   {
     "id": "30-seconds-to-mars-the-kill",
@@ -424,10 +433,10 @@
     "id": "a-day-to-remember-mr-highway-s-thinking-about-the-end",
     "artist": "A Day to Remember",
     "title": "Mr. Highway's Thinking About the End",
-    "sourceFilename": "A Day to Remember - Mr. Highway's Thinking About the End.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2009
+    "year": 2009,
+    "sourceFilename": "A Day to Remember - Mr. Highway's Thinking About the End.kfn"
   },
   {
     "id": "a-fine-frenzy-almost-lover",
@@ -590,6 +599,15 @@
     "language": "EN",
     "year": 2001,
     "sourceFilename": "Aaliyah & Timberland - We Need A Resolution.cdg"
+  },
+  {
+    "id": "aaron-bayley-i-m-not-in-love",
+    "artist": "Aaron Bayley",
+    "title": "I'm Not in Love",
+    "sourceFilename": "Aaron Bayler - I'm Not In Love.cdg",
+    "country": "EN",
+    "language": "EN",
+    "year": 2010
   },
   {
     "id": "abba-angel-eyes",
@@ -1144,10 +1162,10 @@
     "id": "ac-dc-touch-too-much",
     "artist": "AC/DC",
     "title": "Touch Too Much",
-    "sourceFilename": "ACDC - Touch Too Much.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1979
+    "year": 1979,
+    "sourceFilename": "ACDC - Touch Too Much.kfn"
   },
   {
     "id": "acapulco-czy-ty-wiesz",
@@ -1162,10 +1180,10 @@
     "id": "accept-teutonic-terror",
     "artist": "Accept",
     "title": "Teutonic Terror",
-    "sourceFilename": "Accept - Teutonic Terror.kfn",
     "country": "Germany",
     "language": "EN",
-    "year": 1984
+    "year": 1984,
+    "sourceFilename": "Accept - Teutonic Terror.kfn"
   },
   {
     "id": "ace-of-base-living-in-danger",
@@ -1549,10 +1567,10 @@
     "id": "adele-set-fire-to-the-rain",
     "artist": "Adele",
     "title": "Set Fire to the Rain",
-    "sourceFilename": "Adele - Set Fire to the Rain.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2011
+    "year": 2011,
+    "sourceFilename": "Adele - Set Fire to the Rain.kfn"
   },
   {
     "id": "adema-giving-in",
@@ -2058,10 +2076,10 @@
     "id": "agnieszka-osiecka-wariatka-tanczy",
     "artist": "Agnieszka Osiecka",
     "title": "Wariatka tańczy",
-    "sourceFilename": "Agnieszka Osiecka - Wariatka tańczy.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 1965
+    "year": 1965,
+    "sourceFilename": "Agnieszka Osiecka - Wariatka tańczy.kfn"
   },
   {
     "id": "air-supply-all-out-of-love",
@@ -3110,10 +3128,10 @@
     "id": "alan-walker-sing-me-to-sleep",
     "artist": "Alan Walker",
     "title": "Sing Me to Sleep",
-    "sourceFilename": "Alan Walker - Sing Me to Sleep.kfn",
     "country": "Norway",
     "language": "EN",
-    "year": 2016
+    "year": 2016,
+    "sourceFilename": "Alan Walker - Sing Me to Sleep.kfn"
   },
   {
     "id": "alanis-morissette-all-i-really-want",
@@ -3263,10 +3281,10 @@
     "id": "albano-e-romina-felicita",
     "artist": "Albano e Romina",
     "title": "Felicita",
-    "sourceFilename": "Albano e Romina - Felicita.kfn",
     "country": "Italy",
     "language": "Italy",
-    "year": 1982
+    "year": 1982,
+    "sourceFilename": "Albano e Romina - Felicita.kfn"
   },
   {
     "id": "albert-west-ginny-come-lately",
@@ -3317,10 +3335,10 @@
     "id": "alex-sierra-little-do-you-know",
     "artist": "Alex & Sierra",
     "title": "Little Do You Know",
-    "sourceFilename": "Alex & Sierra - Little Do You Know.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2013
+    "year": 2013,
+    "sourceFilename": "Alex & Sierra - Little Do You Know.kfn"
   },
   {
     "id": "alex-baroni-la-distanza-di-un-amore",
@@ -5463,10 +5481,10 @@
     "id": "annie-lennox-here-comes-the-rain-again",
     "artist": "Annie Lennox",
     "title": "Here Comes the Rain Again",
-    "sourceFilename": "Annie Lennox - Here Comes The Rain Again.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 1984
+    "year": 1984,
+    "sourceFilename": "Annie Lennox - Here Comes The Rain Again.mp4"
   },
   {
     "id": "annihilator-sounds-good-to-me",
@@ -5595,19 +5613,19 @@
     "id": "anthrax-caught-in-a-mosh",
     "artist": "Anthrax",
     "title": "Caught in a Mosh",
-    "sourceFilename": "Anthrax - Caught in a Mosh.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1987
+    "year": 1987,
+    "sourceFilename": "Anthrax - Caught in a Mosh.kfn"
   },
   {
     "id": "anthrax-indians",
     "artist": "Anthrax",
     "title": "Indians",
-    "sourceFilename": "Anthrax - Indians.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1988
+    "year": 1988,
+    "sourceFilename": "Anthrax - Indians.kfn"
   },
   {
     "id": "antonia-fame",
@@ -5852,10 +5870,10 @@
     "id": "arctic-monkeys-r-u-mine",
     "artist": "Arctic Monkeys",
     "title": "R U Mine?",
-    "sourceFilename": "Arctic Monkeys - R U Mine.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2012
+    "year": 2012,
+    "sourceFilename": "Arctic Monkeys - R U Mine.kfn"
   },
   {
     "id": "aretha-franklin-a-rose-is-still-a-rose",
@@ -6068,10 +6086,10 @@
     "id": "arka-noego-swiety-swiety-usmiechniety",
     "artist": "Arka Noego",
     "title": "Święty święty uśmiechnięty",
-    "sourceFilename": "Arka Noego - Święty święty uśmiechnięty.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 1997
+    "year": 1997,
+    "sourceFilename": "Arka Noego - Święty święty uśmiechnięty.kfn"
   },
   {
     "id": "arkona",
@@ -6538,10 +6556,10 @@
     "id": "audioslave-like-a-stone",
     "artist": "Audioslave",
     "title": "Like a Stone",
-    "sourceFilename": "Audioslave - Like a Stone.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2002
+    "year": 2002,
+    "sourceFilename": "Audioslave - Like a Stone.kfn"
   },
   {
     "id": "augustana-boston",
@@ -6610,82 +6628,82 @@
     "id": "avenged-sevenfold-afterlife",
     "artist": "Avenged Sevenfold",
     "title": "Afterlife",
-    "sourceFilename": "Avenged Sevenfold - Afterlife.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2007
+    "year": 2007,
+    "sourceFilename": "Avenged Sevenfold - Afterlife.kfn"
   },
   {
     "id": "avenged-sevenfold-carry-on",
     "artist": "Avenged Sevenfold",
     "title": "Carry On",
-    "sourceFilename": "Avenged Sevenfold - Carry On.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2016
+    "year": 2016,
+    "sourceFilename": "Avenged Sevenfold - Carry On.kfn"
   },
   {
     "id": "avenged-sevenfold-coming-home",
     "artist": "Avenged Sevenfold",
     "title": "Coming Home",
-    "sourceFilename": "Avenged Sevenfold - Coming Home.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2016
+    "year": 2016,
+    "sourceFilename": "Avenged Sevenfold - Coming Home.kfn"
   },
   {
     "id": "avenged-sevenfold-crimson-day",
     "artist": "Avenged Sevenfold",
     "title": "Crimson Day",
-    "sourceFilename": "Avenged Sevenfold - Crimson Day.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2005
+    "year": 2005,
+    "sourceFilename": "Avenged Sevenfold - Crimson Day.kfn"
   },
   {
     "id": "avenged-sevenfold-danger-line",
     "artist": "Avenged Sevenfold",
     "title": "Danger Line",
-    "sourceFilename": "Avenged Sevenfold - Danger Line.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2005
+    "year": 2005,
+    "sourceFilename": "Avenged Sevenfold - Danger Line.kfn"
   },
   {
     "id": "avenged-sevenfold-fiction",
     "artist": "Avenged Sevenfold",
     "title": "Fiction",
-    "sourceFilename": "Avenged Sevenfold - Fiction.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2010
+    "year": 2010,
+    "sourceFilename": "Avenged Sevenfold - Fiction.kfn"
   },
   {
     "id": "avenged-sevenfold-natural-born-killer",
     "artist": "Avenged Sevenfold",
     "title": "Natural Born Killer",
-    "sourceFilename": "Avenged Sevenfold - Natural Born Killer.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2010
+    "year": 2010,
+    "sourceFilename": "Avenged Sevenfold - Natural Born Killer.kfn"
   },
   {
     "id": "avenged-sevenfold-so-far-away",
     "artist": "Avenged Sevenfold",
     "title": "So Far Away",
-    "sourceFilename": "Avenged Sevenfold - So Far Away.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2010
+    "year": 2010,
+    "sourceFilename": "Avenged Sevenfold - So Far Away.kfn"
   },
   {
     "id": "avenged-sevenfold-this-means-war",
     "artist": "Avenged Sevenfold",
     "title": "This Means War",
-    "sourceFilename": "Avenged Sevenfold - This Means War.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2016
+    "year": 2016,
+    "sourceFilename": "Avenged Sevenfold - This Means War.kfn"
   },
   {
     "id": "aventura-obsesion",
@@ -7319,10 +7337,10 @@
     "id": "bad-boys-blue-you-re-a-woman",
     "artist": "Bad Boys Blue",
     "title": "You're a Woman",
-    "sourceFilename": "Bad Boys Blue - You're a Woman.kfn",
     "country": "Germany",
     "language": "EN",
-    "year": 1983
+    "year": 1983,
+    "sourceFilename": "Bad Boys Blue - You're a Woman.kfn"
   },
   {
     "id": "bad-bunny-dtmf",
@@ -8071,10 +8089,10 @@
     "id": "barry-sadler-the-ballad-of-the-green-berets",
     "artist": "Barry Sadler",
     "title": "The Ballad of the Green Berets",
-    "sourceFilename": "Barry Sadler - The Ballad of the Green Berets.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1966
+    "year": 1966,
+    "sourceFilename": "Barry Sadler - The Ballad of the Green Berets.kfn"
   },
   {
     "id": "barry-white-kiss-and-say-goodbye",
@@ -8305,10 +8323,10 @@
     "id": "beastie-boys-fight-for-your-right-to-party",
     "artist": "Beastie Boys",
     "title": "Fight for Your Right to Party!",
-    "sourceFilename": "Beastie Boys - Fight For Your Right To Party.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 1986
+    "year": 1986,
+    "sourceFilename": "Beastie Boys - Fight For Your Right To Party.mp4"
   },
   {
     "id": "beata-kozidrak-taka-warszawa",
@@ -8654,10 +8672,10 @@
     "id": "beyonce-feat-shakira-beautiful-liar",
     "artist": "Beyoncé feat. Shakira",
     "title": "Beautiful Liar",
-    "sourceFilename": "Beyoncé & Shakira - Beautiful Liar.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2007
+    "year": 2007,
+    "sourceFilename": "Beyoncé & Shakira - Beautiful Liar.kfn"
   },
   {
     "id": "bezelesquad-bezele-kochana",
@@ -9315,10 +9333,10 @@
     "id": "black-sabbath-electric-funeral",
     "artist": "Black Sabbath",
     "title": "Electric Funeral",
-    "sourceFilename": "Black Sabbath - Electric Funeral.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1970
+    "year": 1970,
+    "sourceFilename": "Black Sabbath - Electric Funeral.kfn"
   },
   {
     "id": "black-veil-brides-in-the-end",
@@ -10715,10 +10733,10 @@
     "id": "bracia-nad-przepascia",
     "artist": "Bracia",
     "title": "Nad przepaścią",
-    "sourceFilename": "Bracia - Nad przepaścią.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 2004
+    "year": 2004,
+    "sourceFilename": "Bracia - Nad przepaścią.kfn"
   },
   {
     "id": "bracia-cugowscy-za-szk-em",
@@ -11174,10 +11192,10 @@
     "id": "bruce-dickinson-devil-on-a-hog",
     "artist": "Bruce Dickinson",
     "title": "Devil on a Hog",
-    "sourceFilename": "Bruce Dickinson - Devil on a Hog.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1997
+    "year": 1997,
+    "sourceFilename": "Bruce Dickinson - Devil on a Hog.kfn"
   },
   {
     "id": "bruce-springsteen-dancing-in-the-dark",
@@ -11812,28 +11830,28 @@
     "id": "cannibal-corpse-frantic-disembowelment",
     "artist": "Cannibal Corpse",
     "title": "Frantic Disembowelment",
-    "sourceFilename": "Cannibal Corpse - Frantic Disembowelment.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1991
+    "year": 1991,
+    "sourceFilename": "Cannibal Corpse - Frantic Disembowelment.kfn"
   },
   {
     "id": "cannibal-corpse-hammer-smashed-face",
     "artist": "Cannibal Corpse",
     "title": "Hammer Smashed Face",
-    "sourceFilename": "Cannibal Corpse - Hammer Smashed Face.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1991
+    "year": 1991,
+    "sourceFilename": "Cannibal Corpse - Hammer Smashed Face.kfn"
   },
   {
     "id": "cannibal-corpse-i-cum-blood",
     "artist": "Cannibal Corpse",
     "title": "I Cum Blood",
-    "sourceFilename": "Cannibal Corpse - I Cum Blood.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1992
+    "year": 1992,
+    "sourceFilename": "Cannibal Corpse - I Cum Blood.kfn"
   },
   {
     "id": "carl-douglas-kung-fu-fighting",
@@ -12412,10 +12430,10 @@
     "id": "cher-welcome-to-burlesque",
     "artist": "Cher",
     "title": "Welcome to Burlesque",
-    "sourceFilename": "Cher - Welcome to Burlesque.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2010
+    "year": 2010,
+    "sourceFilename": "Cher - Welcome to Burlesque.kfn"
   },
   {
     "id": "cher-lloyd-swagger-jagger",
@@ -12907,19 +12925,19 @@
     "id": "chwytak-dj-wiktor-zajeba-y-zule-mi",
     "artist": "Chwytak & DJ Wiktor",
     "title": "Zajebały żule mi",
-    "sourceFilename": "Chwytak & DJ Wiktor - Zajebały żule mi.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 2008
+    "year": 2008,
+    "sourceFilename": "Chwytak & DJ Wiktor - Zajebały żule mi.kfn"
   },
   {
     "id": "chwytak-dj-wiktor-yka-wody-daj",
     "artist": "Chwytak & DJ Wiktor",
     "title": "Łyka wódy daj",
-    "sourceFilename": "Chwytak & DJ Wiktor - Łyka wódy daj.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 2005
+    "year": 2005,
+    "sourceFilename": "Chwytak & DJ Wiktor - Łyka wódy daj.kfn"
   },
   {
     "id": "chwytak-letni-chamski-podryw-winda",
@@ -12943,8 +12961,8 @@
     "id": "cidinho-doca-rap-das-armas",
     "artist": "Cidinho & Doca",
     "title": "Rap das Armas",
-    "sourceFilename": "Cidinho & Doca - Rap das armas.kfn",
-    "year": 2000
+    "year": 2000,
+    "sourceFilename": "Cidinho & Doca - Rap das armas.kfn"
   },
   {
     "id": "cilla-black-you-re-my-world",
@@ -13721,10 +13739,10 @@
     "id": "crazy-frog-axel-f",
     "artist": "Crazy Frog",
     "title": "Axel F",
-    "sourceFilename": "Crazy Frog - Axel F.kfn",
     "country": "Sweden",
     "language": "EN",
-    "year": 2005
+    "year": 2005,
+    "sourceFilename": "Crazy Frog - Axel F.kfn"
   },
   {
     "id": "crazy-town-butterfly",
@@ -14045,37 +14063,37 @@
     "id": "cypis-gdzie-jest-bia-y-wegorz",
     "artist": "Cypis",
     "title": "Gdzie jest biały węgorz",
-    "sourceFilename": "Cypis - Gdzie jest biały węgorz.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 2003
+    "year": 2003,
+    "sourceFilename": "Cypis - Gdzie jest biały węgorz.kfn"
   },
   {
     "id": "cypis-jbc-pis",
     "artist": "Cypis",
     "title": "JBC PIS",
-    "sourceFilename": "Cypis - JBC PIS.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 2005
+    "year": 2005,
+    "sourceFilename": "Cypis - JBC PIS.kfn"
   },
   {
     "id": "cypis-miedzy-rega-ami-feat-mokra-jolanta",
     "artist": "Cypis",
     "title": "Między regałami feat. Mokra Jolanta",
-    "sourceFilename": "Cypis - Miedzy regalami (feat. Mokra Jolanta).kfn",
     "country": "PL",
     "language": "PL",
-    "year": 2004
+    "year": 2004,
+    "sourceFilename": "Cypis - Miedzy regalami (feat. Mokra Jolanta).kfn"
   },
   {
     "id": "cypis-putin",
     "artist": "Cypis",
     "title": "Putin",
-    "sourceFilename": "Cypis - Putin.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 2006
+    "year": 2006,
+    "sourceFilename": "Cypis - Putin.kfn"
   },
   {
     "id": "czadoman-ruda-tanczy-jak-szalona",
@@ -14501,8 +14519,8 @@
     "id": "dalida-alain-delon-paroles-paroles",
     "artist": "Dalida & Alain Delon",
     "title": "Paroles, paroles",
-    "sourceFilename": "Dalida & Alain Delon - Paroles, paroles.mp4",
-    "year": 1973
+    "year": 1973,
+    "sourceFilename": "Dalida & Alain Delon - Paroles, paroles.mp4"
   },
   {
     "id": "damien-rice-cannonball",
@@ -14893,10 +14911,10 @@
     "id": "david-bowie-starman",
     "artist": "David Bowie",
     "title": "Starman",
-    "sourceFilename": "David Bowie - Starman.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 1972
+    "year": 1972,
+    "sourceFilename": "David Bowie - Starman.mp4"
   },
   {
     "id": "david-bowie-mick-jagger-dancing-in-the-street",
@@ -15307,28 +15325,28 @@
     "id": "dealer-2-minuty-nienawisci",
     "artist": "Dealer",
     "title": "2 minuty nienawiści",
-    "sourceFilename": "Dealer - 2 minuty nienawiści.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 1995
+    "year": 1995,
+    "sourceFilename": "Dealer - 2 minuty nienawiści.kfn"
   },
   {
     "id": "dealer-chodzi-o-to",
     "artist": "Dealer",
     "title": "Chodzi o to",
-    "sourceFilename": "Dealer - Chodzi o to.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 1992
+    "year": 1992,
+    "sourceFilename": "Dealer - Chodzi o to.kfn"
   },
   {
     "id": "dealer-mowisz",
     "artist": "Dealer",
     "title": "Mówisz",
-    "sourceFilename": "Dealer - Mówisz.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 1992
+    "year": 1992,
+    "sourceFilename": "Dealer - Mówisz.kfn"
   },
   {
     "id": "dean-martin-that-s-amore",
@@ -15978,10 +15996,10 @@
     "id": "diana-krall-cry-me-a-river",
     "artist": "Diana Krall",
     "title": "Cry Me a River",
-    "sourceFilename": "Diana Krall - Cry Me A River.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 2002
+    "year": 2002,
+    "sourceFilename": "Diana Krall - Cry Me A River.mp4"
   },
   {
     "id": "diana-ross-chain-reaction",
@@ -16075,10 +16093,10 @@
     "id": "die-antwoord-i-fink-u-freeky",
     "artist": "Die Antwoord",
     "title": "I Fink U Freeky",
-    "sourceFilename": "Die Antwoord - I Fink U Freeky.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 2012
+    "year": 2012,
+    "sourceFilename": "Die Antwoord - I Fink U Freeky.mp4"
   },
   {
     "id": "die-flippers-lotosblume",
@@ -16506,19 +16524,19 @@
     "id": "disturbed-asylum",
     "artist": "Disturbed",
     "title": "Asylum",
-    "sourceFilename": "Disturbed - Asylum.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2010
+    "year": 2010,
+    "sourceFilename": "Disturbed - Asylum.kfn"
   },
   {
     "id": "disturbed-land-of-confusion",
     "artist": "Disturbed",
     "title": "Land of Confusion",
-    "sourceFilename": "Disturbed - Land of Confusion.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2005
+    "year": 2005,
+    "sourceFilename": "Disturbed - Land of Confusion.kfn"
   },
   {
     "id": "divine-you-think-you-re-a-man",
@@ -16873,10 +16891,10 @@
     "id": "don-williams-my-rifle-my-pony-and-me",
     "artist": "Don Williams",
     "title": "My Rifle, My Pony and Me",
-    "sourceFilename": "Don Williams - My Rifle, My Pony and Me.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1975
+    "year": 1975,
+    "sourceFilename": "Don Williams - My Rifle, My Pony and Me.kfn"
   },
   {
     "id": "donatan-cleo-brac-feat-enej",
@@ -17113,10 +17131,10 @@
     "id": "dropkick-murphys-rose-tattoo",
     "artist": "Dropkick Murphys",
     "title": "Rose Tattoo",
-    "sourceFilename": "Dropkick Murphys - Rose Tattoo.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1998
+    "year": 1998,
+    "sourceFilename": "Dropkick Murphys - Rose Tattoo.kfn"
   },
   {
     "id": "drossel-bliska-moim-myslom",
@@ -18002,10 +18020,10 @@
     "id": "eddie-grant-i-don-t-wanna-dance",
     "artist": "Eddie Grant",
     "title": "I Don't Wanna Dance",
-    "sourceFilename": "Eddie Grant - I Don't Wanna Dance.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1982
+    "year": 1982,
+    "sourceFilename": "Eddie Grant - I Don't Wanna Dance.cdg"
   },
   {
     "id": "eddie-vedder-society",
@@ -18125,10 +18143,10 @@
     "id": "edoardo-bennato-il-gatto-e-la-volpe",
     "artist": "Edoardo Bennato",
     "title": "Il gatto e la volpe",
-    "sourceFilename": "Edoardo Bennato - Il gatto e la volpe.kfn",
     "country": "Italy",
     "language": "Italy",
-    "year": 1980
+    "year": 1980,
+    "sourceFilename": "Edoardo Bennato - Il gatto e la volpe.kfn"
   },
   {
     "id": "eduard-khil-trololo",
@@ -18357,10 +18375,10 @@
     "id": "effect-nie-bedziesz-sama",
     "artist": "Effect",
     "title": "Nie będziesz sama",
-    "sourceFilename": "Effect - Nie będziesz sama.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 1993
+    "year": 1993,
+    "sourceFilename": "Effect - Nie będziesz sama.kfn"
   },
   {
     "id": "eiffel-65-blue-da-ba-dee",
@@ -19276,10 +19294,10 @@
     "id": "elvis-presley-jailhouse-rock",
     "artist": "Elvis Presley",
     "title": "Jailhouse Rock",
-    "sourceFilename": "Elvis Presley - Jailhouse Rock.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1957
+    "year": 1957,
+    "sourceFilename": "Elvis Presley - Jailhouse Rock.kfn"
   },
   {
     "id": "emeli-sande-feat-naughty-boy-daddy",
@@ -19956,10 +19974,10 @@
     "id": "estopa-como-camaron",
     "artist": "Estopa",
     "title": "Como Camarón",
-    "sourceFilename": "Estopa - Como Camarón.kfn",
     "country": "Spain",
     "language": "Spain",
-    "year": 2005
+    "year": 2005,
+    "sourceFilename": "Estopa - Como Camarón.kfn"
   },
   {
     "id": "eternal-stay",
@@ -20316,19 +20334,19 @@
     "id": "ewa-farna-la-la-laj",
     "artist": "Ewa Farna",
     "title": "La la laj",
-    "sourceFilename": "Ewa Farna - La la laj.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 2002
+    "year": 2002,
+    "sourceFilename": "Ewa Farna - La la laj.kfn"
   },
   {
     "id": "ewa-farna-razem-sam-na-sam",
     "artist": "Ewa Farna",
     "title": "Razem sam na sam",
-    "sourceFilename": "Ewa Farna - Razem sam na sam.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 2002
+    "year": 2002,
+    "sourceFilename": "Ewa Farna - Razem sam na sam.kfn"
   },
   {
     "id": "ewa-farna-kuba-moleda-nie-zmieniajmy-nic",
@@ -21051,10 +21069,10 @@
     "id": "flogging-molly-drunken-lullabies",
     "artist": "Flogging Molly",
     "title": "Drunken Lullabies",
-    "sourceFilename": "Flogging Molly - Drunken Lullabies.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2002
+    "year": 2002,
+    "sourceFilename": "Flogging Molly - Drunken Lullabies.kfn"
   },
   {
     "id": "florence-the-machine-dog-days-are-over",
@@ -23170,10 +23188,10 @@
     "id": "grazyna-obaszewska-za-szyba",
     "artist": "Grażyna Łobaszewska",
     "title": "Za szybą",
-    "sourceFilename": "Grażyna Łobaszewska - Za szybą.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 1994
+    "year": 1994,
+    "sourceFilename": "Grażyna Łobaszewska - Za szybą.kfn"
   },
   {
     "id": "great-white-rock-me",
@@ -23647,10 +23665,10 @@
     "id": "guns-n-roses-estranged",
     "artist": "Guns N' Roses",
     "title": "Estranged",
-    "sourceFilename": "Guns N' Roses - Estranged.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1991
+    "year": 1991,
+    "sourceFilename": "Guns N' Roses - Estranged.kfn"
   },
   {
     "id": "gunther-ding-dong-song",
@@ -24498,8 +24516,8 @@
     "id": "helena-vondrackowa-malovany-dzbanek",
     "artist": "Helena Vondrackowa",
     "title": "Malovaný džbánek",
-    "sourceFilename": "Helena Vondrackowa - Malovany dzbanku (wersja spokojna).kfn",
-    "year": 1982
+    "year": 1982,
+    "sourceFilename": "Helena Vondrackowa - Malovany dzbanku (wersja spokojna).kfn"
   },
   {
     "id": "helloween-dr-stein",
@@ -25856,10 +25874,10 @@
     "id": "inxs-never-tear-us-apart",
     "artist": "INXS",
     "title": "Never Tear Us Apart",
-    "sourceFilename": "INXS - Never Tear Us Apart.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 1985
+    "year": 1985,
+    "sourceFilename": "INXS - Never Tear Us Apart.mp4"
   },
   {
     "id": "iommi-feat-dave-grohl-goodbye-lament",
@@ -26142,73 +26160,73 @@
     "id": "iron-maiden-burning-ambition",
     "artist": "Iron Maiden",
     "title": "Burning Ambition",
-    "sourceFilename": "Iron Maiden - Burning Ambition.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1990
+    "year": 1990,
+    "sourceFilename": "Iron Maiden - Burning Ambition.kfn"
   },
   {
     "id": "iron-maiden-flight-of-icarus",
     "artist": "Iron Maiden",
     "title": "Flight of Icarus",
-    "sourceFilename": "Iron Maiden - Flight of Icarus.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1983
+    "year": 1983,
+    "sourceFilename": "Iron Maiden - Flight of Icarus.kfn"
   },
   {
     "id": "iron-maiden-infinite-dreams",
     "artist": "Iron Maiden",
     "title": "Infinite Dreams",
-    "sourceFilename": "Iron Maiden - Infinite Dreams.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1989
+    "year": 1989,
+    "sourceFilename": "Iron Maiden - Infinite Dreams.kfn"
   },
   {
     "id": "iron-maiden-lord-of-the-flies",
     "artist": "Iron Maiden",
     "title": "Lord of the Flies",
-    "sourceFilename": "Iron Maiden - Lord of the Flies.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1995
+    "year": 1995,
+    "sourceFilename": "Iron Maiden - Lord of the Flies.kfn"
   },
   {
     "id": "iron-maiden-moonchild",
     "artist": "Iron Maiden",
     "title": "Moonchild",
-    "sourceFilename": "Iron Maiden - Moonchild.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1988
+    "year": 1988,
+    "sourceFilename": "Iron Maiden - Moonchild.kfn"
   },
   {
     "id": "iron-maiden-mother-of-mercy",
     "artist": "Iron Maiden",
     "title": "Mother of Mercy",
-    "sourceFilename": "Iron Maiden - Mother of Mercy.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1990
+    "year": 1990,
+    "sourceFilename": "Iron Maiden - Mother of Mercy.kfn"
   },
   {
     "id": "iron-maiden-prowler",
     "artist": "Iron Maiden",
     "title": "Prowler",
-    "sourceFilename": "Iron Maiden - Prowler.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1980
+    "year": 1980,
+    "sourceFilename": "Iron Maiden - Prowler.kfn"
   },
   {
     "id": "iron-maiden-speed-of-light",
     "artist": "Iron Maiden",
     "title": "Speed of Light",
-    "sourceFilename": "Iron Maiden - Speed of Light.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2015
+    "year": 2015,
+    "sourceFilename": "Iron Maiden - Speed of Light.kfn"
   },
   {
     "id": "irving-berlin-anything-you-can-do",
@@ -26512,10 +26530,10 @@
     "id": "jakub-k-debski-piosenka-o-d-ugopisie",
     "artist": "Jakub K. Dębski",
     "title": "Piosenka o długopisie",
-    "sourceFilename": "Jakub K. Dębski - Piosenka o długopisie.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 1978
+    "year": 1978,
+    "sourceFilename": "Jakub K. Dębski - Piosenka o długopisie.kfn"
   },
   {
     "id": "jamal-peron",
@@ -26548,10 +26566,10 @@
     "id": "jamala-1944",
     "artist": "Jamala",
     "title": "1944",
-    "sourceFilename": "Jamala - 1944.kfn",
     "country": "PL",
     "language": "EN",
-    "year": 2015
+    "year": 2015,
+    "sourceFilename": "Jamala - 1944.kfn"
   },
   {
     "id": "jamelia-superstar",
@@ -28339,28 +28357,28 @@
     "id": "judas-priest-electric-eye",
     "artist": "Judas Priest",
     "title": "Electric Eye",
-    "sourceFilename": "Judas Priest - Electric Eye.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1981
+    "year": 1981,
+    "sourceFilename": "Judas Priest - Electric Eye.kfn"
   },
   {
     "id": "judas-priest-hell-bent-for-leather",
     "artist": "Judas Priest",
     "title": "Hell Bent for Leather",
-    "sourceFilename": "Judas Priest - Hell Bent for Leather.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1978
+    "year": 1978,
+    "sourceFilename": "Judas Priest - Hell Bent for Leather.kfn"
   },
   {
     "id": "judas-priest-riding-on-the-wind",
     "artist": "Judas Priest",
     "title": "Riding on the Wind",
-    "sourceFilename": "Judas Priest - Riding on the Wind.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1990
+    "year": 1990,
+    "sourceFilename": "Judas Priest - Riding on the Wind.kfn"
   },
   {
     "id": "judy-garland-over-the-rainbow",
@@ -28608,10 +28626,10 @@
     "id": "k2-buka-1-moment",
     "artist": "K2 & Buka",
     "title": "1 Moment",
-    "sourceFilename": "K2 & Buka - 1 moment.kfn",
     "country": "PL",
     "language": "EN",
-    "year": 2006
+    "year": 2006,
+    "sourceFilename": "K2 & Buka - 1 moment.kfn"
   },
   {
     "id": "kaarija-cha-cha-cha",
@@ -28667,10 +28685,10 @@
     "id": "kabaret-ani-mru-mru-rolnik-sam-w-dolinie",
     "artist": "Kabaret Ani Mru Mru",
     "title": "Rolnik sam w dolinie",
-    "sourceFilename": "Kabaret Ani Mru Mru - Rolnik sam w dolinie.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 2008
+    "year": 2008,
+    "sourceFilename": "Kabaret Ani Mru Mru - Rolnik sam w dolinie.kfn"
   },
   {
     "id": "kabaret-ani-mru-mru-na-tance-go-go-go",
@@ -29023,10 +29041,10 @@
     "id": "karolina-czarnecka-hera-koka-hasz-lsd",
     "artist": "Karolina Czarnecka",
     "title": "Hera koka hasz LSD",
-    "sourceFilename": "Karolina Czarnecka - Hera koka hasz LSD.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 2008
+    "year": 2008,
+    "sourceFilename": "Karolina Czarnecka - Hera koka hasz LSD.kfn"
   },
   {
     "id": "karolina-kozak-razem-zestarzejmy-sie",
@@ -29275,10 +29293,10 @@
     "id": "kasia-lins-igor-herbut-trucizna",
     "artist": "Kasia Lins & Igor Herbut",
     "title": "Trucizna",
-    "sourceFilename": "Kasia Lins & Igor Herbut - Trucizna.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 1993
+    "year": 1993,
+    "sourceFilename": "Kasia Lins & Igor Herbut - Trucizna.kfn"
   },
   {
     "id": "kasia-nosowska-jesli-wiesz-co-chce-powiedziec",
@@ -29455,10 +29473,10 @@
     "id": "kat-g-os-z-ciemnosci",
     "artist": "Kat",
     "title": "Głos z ciemności",
-    "sourceFilename": "Kat - Głos z ciemności.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 1987
+    "year": 1987,
+    "sourceFilename": "Kat - Głos z ciemności.kfn"
   },
   {
     "id": "kat-deluna-run-the-show",
@@ -29714,9 +29732,9 @@
     "id": "kavinsky-nightcall",
     "artist": "Kavinsky",
     "title": "Nightcall",
-    "sourceFilename": "Kavinsky - Nightcall.kfn",
     "language": "EN",
-    "year": 2010
+    "year": 2010,
+    "sourceFilename": "Kavinsky - Nightcall.kfn"
   },
   {
     "id": "kayah-fleciki",
@@ -30899,19 +30917,19 @@
     "id": "krystian-ochman-river",
     "artist": "Krystian Ochman",
     "title": "River",
-    "sourceFilename": "Krystian Ochman - River.kfn",
     "country": "PL",
     "language": "EN",
-    "year": 2016
+    "year": 2016,
+    "sourceFilename": "Krystian Ochman - River.kfn"
   },
   {
     "id": "krystian-ochman-swiat-ocienie",
     "artist": "Krystian Ochman",
     "title": "Światłocienie",
-    "sourceFilename": "Krystian Ochman - Światłocienie.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 2017
+    "year": 2017,
+    "sourceFilename": "Krystian Ochman - Światłocienie.kfn"
   },
   {
     "id": "krystyna-gizowska-w-drodze-do-fontainebleau",
@@ -31349,10 +31367,10 @@
     "id": "kult-lewe-lewe-loff",
     "artist": "Kult",
     "title": "Lewe lewe loff",
-    "sourceFilename": "Kult - Lewe lewe loff.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 1993
+    "year": 1993,
+    "sourceFilename": "Kult - Lewe lewe loff.kfn"
   },
   {
     "id": "kult-feat-violetta-villas-kochaj-mnie-a-bede-twoja",
@@ -31943,10 +31961,10 @@
     "id": "lady-gaga-tony-bennett-the-lady-is-a-tramp",
     "artist": "Lady Gaga & Tony Bennett",
     "title": "The Lady Is a Tramp",
-    "sourceFilename": "Lady Gaga & Tony Bennett-The Lady Is a Tramp.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 2014
+    "year": 2014,
+    "sourceFilename": "Lady Gaga & Tony Bennett-The Lady Is a Tramp.mp4"
   },
   {
     "id": "lady-gaga-feat-beyonce-telephone",
@@ -32213,10 +32231,10 @@
     "id": "lafee-wo-bist-du-mama",
     "artist": "LaFee",
     "title": "Wo bist du (Mama)",
-    "sourceFilename": "LaFee - Wo bist du (Mama).kfn",
     "country": "Germany",
     "language": "Germany",
-    "year": 2006
+    "year": 2006,
+    "sourceFilename": "LaFee - Wo bist du (Mama).kfn"
   },
   {
     "id": "laid-back-sunshine-reggae",
@@ -32284,10 +32302,10 @@
     "id": "lana-del-rey-gods-monsters",
     "artist": "Lana Del Rey",
     "title": "Gods & Monsters",
-    "sourceFilename": "Lana del Rey - Gods & Monsters.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2012
+    "year": 2012,
+    "sourceFilename": "Lana del Rey - Gods & Monsters.kfn"
   },
   {
     "id": "lana-del-rey-cedric-gervais-summertime-sadness",
@@ -33427,19 +33445,19 @@
     "id": "limp-bizkit-just-like-this",
     "artist": "Limp Bizkit",
     "title": "Just Like This",
-    "sourceFilename": "Limp Bizkit - Just Like This.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2005
+    "year": 2005,
+    "sourceFilename": "Limp Bizkit - Just Like This.kfn"
   },
   {
     "id": "limp-bizkit-take-a-look-around",
     "artist": "Limp Bizkit",
     "title": "Take a Look Around",
-    "sourceFilename": "Limp Bizkit - Take a Look Around.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1999
+    "year": 1999,
+    "sourceFilename": "Limp Bizkit - Take a Look Around.kfn"
   },
   {
     "id": "lindsey-stirling-feat-andrew-mcmahon-in-the-wilderness-something-wild",
@@ -33688,46 +33706,46 @@
     "id": "linkin-park-guilty-all-the-same",
     "artist": "Linkin Park",
     "title": "Guilty All the Same",
-    "sourceFilename": "Linkin Park - Guilty All the Same.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2014
+    "year": 2014,
+    "sourceFilename": "Linkin Park - Guilty All the Same.kfn"
   },
   {
     "id": "linkin-park-heavy",
     "artist": "Linkin Park",
     "title": "Heavy",
-    "sourceFilename": "Linkin Park - Heavy.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 2014
+    "year": 2014,
+    "sourceFilename": "Linkin Park - Heavy.mp4"
   },
   {
     "id": "linkin-park-in-pieces",
     "artist": "Linkin Park",
     "title": "In Pieces",
-    "sourceFilename": "Linkin Park - In Pieces.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2014
+    "year": 2014,
+    "sourceFilename": "Linkin Park - In Pieces.kfn"
   },
   {
     "id": "linkin-park-nobody-s-listening",
     "artist": "Linkin Park",
     "title": "Nobody's Listening",
-    "sourceFilename": "Linkin Park - Nobody's Listening.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2003
+    "year": 2003,
+    "sourceFilename": "Linkin Park - Nobody's Listening.kfn"
   },
   {
     "id": "linkin-park-leave-out-all-the-rest",
     "artist": "Linkin Park",
     "title": "Leave Out All the Rest",
-    "sourceFilename": "Linkin Park - Leave Out All the Rest.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2007
+    "year": 2007,
+    "sourceFilename": "Linkin Park - Leave Out All the Rest.kfn"
   },
   {
     "id": "linkin-park-jay-z-numb-encore",
@@ -33985,10 +34003,10 @@
     "id": "living-colour-cult-of-personality",
     "artist": "Living Colour",
     "title": "Cult of Personality",
-    "sourceFilename": "Living Colour - Cult of Personality.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1988
+    "year": 1988,
+    "sourceFilename": "Living Colour - Cult of Personality.kfn"
   },
   {
     "id": "liza-minnelli-mein-herr",
@@ -34457,10 +34475,10 @@
     "id": "luciano-pavarotti-nessun-dorma",
     "artist": "Luciano Pavarotti",
     "title": "Nessun Dorma",
-    "sourceFilename": "Luciano Pavarotti - Nessun Dorma.kfn",
     "country": "Italy",
     "language": "Italy",
-    "year": 1972
+    "year": 1972,
+    "sourceFilename": "Luciano Pavarotti - Nessun Dorma.kfn"
   },
   {
     "id": "lucio-dalla-disperato-erotico-stomp",
@@ -34861,10 +34879,10 @@
     "id": "ydka-grubasa-kwiat-jab-oni-wzieli-zamkneli-mi-klub",
     "artist": "Łydka Grubasa & Kwiat Jabłoni",
     "title": "Wzięli zamknęli mi klub",
-    "sourceFilename": "Łydka Grubasa & Kwiat Jabłoni - Wzięli zamknęli mi klub.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 2016
+    "year": 2016,
+    "sourceFilename": "Łydka Grubasa & Kwiat Jabłoni - Wzięli zamknęli mi klub.kfn"
   },
   {
     "id": "zy-gdybys-by",
@@ -34978,19 +34996,19 @@
     "id": "m-i-g-czy-to-prawda",
     "artist": "M.I.G",
     "title": "Czy to prawda",
-    "sourceFilename": "M.I.G - Czy to prawda.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 2011
+    "year": 2011,
+    "sourceFilename": "M.I.G - Czy to prawda.kfn"
   },
   {
     "id": "m-i-g-wymarzona",
     "artist": "M.I.G",
     "title": "Wymarzona",
-    "sourceFilename": "M.I.G - Wymarzona.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 1998
+    "year": 1998,
+    "sourceFilename": "M.I.G - Wymarzona.kfn"
   },
   {
     "id": "maanam-raz-dwa-raz-dwa",
@@ -35104,10 +35122,10 @@
     "id": "maanam-wyjatkowo-zimny-maj",
     "artist": "Maanam",
     "title": "Wyjątkowo zimny maj",
-    "sourceFilename": "Maanam - Wyjątkowo zimny maj.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 1983
+    "year": 1983,
+    "sourceFilename": "Maanam - Wyjątkowo zimny maj.kfn"
   },
   {
     "id": "machinae-supremacy-arcade",
@@ -35257,10 +35275,10 @@
     "id": "macklemore-feat-ryan-lewis-feat-wanz-thrift-shop",
     "artist": "Macklemore feat. Ryan Lewis feat. Wanz",
     "title": "Thrift Shop",
-    "sourceFilename": "Macklemore - Thrift Shop.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 2012
+    "year": 2012,
+    "sourceFilename": "Macklemore - Thrift Shop.mp4"
   },
   {
     "id": "macy-gray-i-try",
@@ -35864,6 +35882,15 @@
     "sourceFilename": "Malik Montana x Diho - Naaajak.mp4"
   },
   {
+    "id": "malovany-dzbanku-helena-vondrackova",
+    "artist": "Malovaný Džbánku",
+    "title": "Helena Vondrácková",
+    "sourceFilename": "Malovaný Džbánku - Helena Vondrackova (oryginal).cdg",
+    "country": "PL",
+    "language": "PL",
+    "year": 1995
+  },
+  {
     "id": "maluma-felices-los-4",
     "artist": "Maluma",
     "title": "Felices los 4",
@@ -36020,73 +36047,73 @@
     "id": "manowar-carry-on",
     "artist": "Manowar",
     "title": "Carry On",
-    "sourceFilename": "Manowar - Carry On.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1988
+    "year": 1988,
+    "sourceFilename": "Manowar - Carry On.kfn"
   },
   {
     "id": "manowar-hail-and-kill",
     "artist": "Manowar",
     "title": "Hail and Kill",
-    "sourceFilename": "Manowar - Hail and Kill.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1987
+    "year": 1987,
+    "sourceFilename": "Manowar - Hail and Kill.kfn"
   },
   {
     "id": "manowar-heart-of-steel",
     "artist": "Manowar",
     "title": "Heart of Steel",
-    "sourceFilename": "Manowar - Heart of Steel.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1982
+    "year": 1982,
+    "sourceFilename": "Manowar - Heart of Steel.kfn"
   },
   {
     "id": "manowar-kingdom-come",
     "artist": "Manowar",
     "title": "Kingdom Come",
-    "sourceFilename": "Manowar - Kingdom Come.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1990
+    "year": 1990,
+    "sourceFilename": "Manowar - Kingdom Come.kfn"
   },
   {
     "id": "manowar-kings-of-metal",
     "artist": "Manowar",
     "title": "Kings of Metal",
-    "sourceFilename": "Manowar - Kings of Metal.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1988
+    "year": 1988,
+    "sourceFilename": "Manowar - Kings of Metal.kfn"
   },
   {
     "id": "manowar-the-crown-and-the-ring-lament-of-the-kings",
     "artist": "Manowar",
     "title": "The Crown and the Ring (Lament of the Kings)",
-    "sourceFilename": "Manowar - The Crown and the Ring (Lament of the Kings).kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1981
+    "year": 1981,
+    "sourceFilename": "Manowar - The Crown and the Ring (Lament of the Kings).kfn"
   },
   {
     "id": "manowar-warriors-of-the-world-united",
     "artist": "Manowar",
     "title": "Warriors of the World United",
-    "sourceFilename": "Manowar - Warriors of the World United.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2002
+    "year": 2002,
+    "sourceFilename": "Manowar - Warriors of the World United.kfn"
   },
   {
     "id": "manowar-wheels-of-fire",
     "artist": "Manowar",
     "title": "Wheels of Fire",
-    "sourceFilename": "Manowar - Wheels of Fire.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1982
+    "year": 1982,
+    "sourceFilename": "Manowar - Wheels of Fire.kfn"
   },
   {
     "id": "manu-chao-bongo-bong",
@@ -36221,10 +36248,10 @@
     "id": "marek-grechuta-ocalic-od-zapomnienia",
     "artist": "Marek Grechuta",
     "title": "Ocalić od zapomnienia",
-    "sourceFilename": "Marek Grechuta - Ocalić od zapomnienia.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 1989
+    "year": 1989,
+    "sourceFilename": "Marek Grechuta - Ocalić od zapomnienia.kfn"
   },
   {
     "id": "marek-jackowski-oprocz-b-ekitnego-nieba",
@@ -36509,10 +36536,10 @@
     "id": "marilyn-manson-deep-six",
     "artist": "Marilyn Manson",
     "title": "Deep Six",
-    "sourceFilename": "Marilyn Manson - Deep Six.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1998
+    "year": 1998,
+    "sourceFilename": "Marilyn Manson - Deep Six.kfn"
   },
   {
     "id": "marilyn-monroe-diamonds-are-a-girl-s-best-friend",
@@ -36653,10 +36680,10 @@
     "id": "martika-toy-soldiers",
     "artist": "Martika",
     "title": "Toy Soldiers",
-    "sourceFilename": "Martika - Toy Soldiers.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1989
+    "year": 1989,
+    "sourceFilename": "Martika - Toy Soldiers.kfn"
   },
   {
     "id": "martin-garrix-dua-lipa-scared-to-be-lonely",
@@ -36985,10 +37012,10 @@
     "id": "maryla-rodowicz-dama-byc",
     "artist": "Maryla Rodowicz",
     "title": "Damą być",
-    "sourceFilename": "Maryla Rodowicz - Damą być.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 1974
+    "year": 1974,
+    "sourceFilename": "Maryla Rodowicz - Damą być.kfn"
   },
   {
     "id": "massive-attack-safe-from-harm",
@@ -37181,10 +37208,10 @@
     "id": "mc-hammer-u-can-t-touch-this",
     "artist": "MC Hammer",
     "title": "U Can't Touch This",
-    "sourceFilename": "MC Hammer - U Can't Touch This.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 1990
+    "year": 1990,
+    "sourceFilename": "MC Hammer - U Can't Touch This.mp4"
   },
   {
     "id": "mcfly-lies",
@@ -37316,109 +37343,109 @@
     "id": "megadeth-a-tout-le-monde",
     "artist": "Megadeth",
     "title": "A Tout le monde",
-    "sourceFilename": "Megadeth - A tout le monde.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1994
+    "year": 1994,
+    "sourceFilename": "Megadeth - A tout le monde.kfn"
   },
   {
     "id": "megadeth-devils-island",
     "artist": "Megadeth",
     "title": "Devils Island",
-    "sourceFilename": "Megadeth - Devils Island.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1990
+    "year": 1990,
+    "sourceFilename": "Megadeth - Devils Island.kfn"
   },
   {
     "id": "megadeth-five-magics",
     "artist": "Megadeth",
     "title": "Five Magics",
-    "sourceFilename": "Megadeth - Five Magics.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1990
+    "year": 1990,
+    "sourceFilename": "Megadeth - Five Magics.kfn"
   },
   {
     "id": "megadeth-hangar-18",
     "artist": "Megadeth",
     "title": "Hangar 18",
-    "sourceFilename": "Megadeth - Hangar 18.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1990
+    "year": 1990,
+    "sourceFilename": "Megadeth - Hangar 18.kfn"
   },
   {
     "id": "megadeth-lucretia",
     "artist": "Megadeth",
     "title": "Lucretia",
-    "sourceFilename": "Megadeth - Lucretia.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1986
+    "year": 1986,
+    "sourceFilename": "Megadeth - Lucretia.kfn"
   },
   {
     "id": "megadeth-poison-was-the-cure",
     "artist": "Megadeth",
     "title": "Poison Was the Cure",
-    "sourceFilename": "Megadeth - Poison Was the Cure.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1990
+    "year": 1990,
+    "sourceFilename": "Megadeth - Poison Was the Cure.kfn"
   },
   {
     "id": "megadeth-rust-in-peace-polaris",
     "artist": "Megadeth",
     "title": "Rust in Peace... Polaris",
-    "sourceFilename": "Megadeth - Rust in Peace... Polaris.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1990
+    "year": 1990,
+    "sourceFilename": "Megadeth - Rust in Peace... Polaris.kfn"
   },
   {
     "id": "megadeth-sweating-bullets",
     "artist": "Megadeth",
     "title": "Sweating Bullets",
-    "sourceFilename": "Megadeth - Sweating Bullets.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1992
+    "year": 1992,
+    "sourceFilename": "Megadeth - Sweating Bullets.kfn"
   },
   {
     "id": "megadeth-take-no-prisoners",
     "artist": "Megadeth",
     "title": "Take No Prisoners",
-    "sourceFilename": "Megadeth - Take No Prisoners.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1987
+    "year": 1987,
+    "sourceFilename": "Megadeth - Take No Prisoners.kfn"
   },
   {
     "id": "megadeth-the-conjuring",
     "artist": "Megadeth",
     "title": "The Conjuring",
-    "sourceFilename": "Megadeth - The Conjuring.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1990
+    "year": 1990,
+    "sourceFilename": "Megadeth - The Conjuring.kfn"
   },
   {
     "id": "megadeth-tornado-of-souls",
     "artist": "Megadeth",
     "title": "Tornado of Souls",
-    "sourceFilename": "Megadeth - Tornado of Souls.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1990
+    "year": 1990,
+    "sourceFilename": "Megadeth - Tornado of Souls.kfn"
   },
   {
     "id": "megadeth-wake-up-dead",
     "artist": "Megadeth",
     "title": "Wake Up Dead",
-    "sourceFilename": "Megadeth - Wake Up Dead.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1986
+    "year": 1986,
+    "sourceFilename": "Megadeth - Wake Up Dead.kfn"
   },
   {
     "id": "meghan-trainor-all-about-that-bass",
@@ -37621,17 +37648,17 @@
     "id": "meshuggah-perpetual-black-second",
     "artist": "Meshuggah",
     "title": "Perpetual Black Second",
-    "sourceFilename": "Meshuggah - Perpetual Black Second.kfn",
     "language": "EN",
-    "year": 1989
+    "year": 1989,
+    "sourceFilename": "Meshuggah - Perpetual Black Second.kfn"
   },
   {
     "id": "meshuggah-rational-gaze",
     "artist": "Meshuggah",
     "title": "Rational Gaze",
-    "sourceFilename": "Meshuggah - Rational Gaze.kfn",
     "language": "EN",
-    "year": 1998
+    "year": 1998,
+    "sourceFilename": "Meshuggah - Rational Gaze.kfn"
   },
   {
     "id": "metallica-bleeding-me",
@@ -37790,37 +37817,37 @@
     "id": "metallica-for-whom-the-bell-tolls",
     "artist": "Metallica",
     "title": "For Whom the Bell Tolls",
-    "sourceFilename": "Metallica - For Whom the Bell Tolls.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1984
+    "year": 1984,
+    "sourceFilename": "Metallica - For Whom the Bell Tolls.kfn"
   },
   {
     "id": "metallica-hit-the-lights",
     "artist": "Metallica",
     "title": "Hit the Lights",
-    "sourceFilename": "Metallica - Hit the Lights.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1983
+    "year": 1983,
+    "sourceFilename": "Metallica - Hit the Lights.kfn"
   },
   {
     "id": "metallica-my-friend-of-misery",
     "artist": "Metallica",
     "title": "My Friend of Misery",
-    "sourceFilename": "Metallica - My Friend of Misery.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1991
+    "year": 1991,
+    "sourceFilename": "Metallica - My Friend of Misery.kfn"
   },
   {
     "id": "metallica-the-memory-remains",
     "artist": "Metallica",
     "title": "The Memory Remains",
-    "sourceFilename": "Metallica - The Memory Remains.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1997
+    "year": 1997,
+    "sourceFilename": "Metallica - The Memory Remains.kfn"
   },
   {
     "id": "metro-a-ja-nie",
@@ -38033,19 +38060,19 @@
     "id": "meskie-granie-orkiestra-nareszcie",
     "artist": "Męskie Granie Orkiestra",
     "title": "Nareszcie",
-    "sourceFilename": "Męskie Granie Orkiestra - Nareszcie.mp4",
     "country": "PL",
     "language": "PL",
-    "year": 2001
+    "year": 2001,
+    "sourceFilename": "Męskie Granie Orkiestra - Nareszcie.mp4"
   },
   {
     "id": "michael-bolton-when-a-man-loves-a-woman",
     "artist": "Michael Bolton",
     "title": "When a Man Loves a Woman",
-    "sourceFilename": "Michael Bolton - When a Man Loves a Woman.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1991
+    "year": 1991,
+    "sourceFilename": "Michael Bolton - When a Man Loves a Woman.kfn"
   },
   {
     "id": "michael-buble-home",
@@ -38150,10 +38177,10 @@
     "id": "michael-buble-feeling-good",
     "artist": "Michael Bublé",
     "title": "Feeling Good",
-    "sourceFilename": "Michael Bublé - Feeling Good.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2005
+    "year": 2005,
+    "sourceFilename": "Michael Bublé - Feeling Good.kfn"
   },
   {
     "id": "michael-buble-feat-laura-pausini-you-ll-never-find-another-love-like-mine",
@@ -38402,10 +38429,10 @@
     "id": "micha-bajor-nie-chce-wiecej",
     "artist": "Michał Bajor",
     "title": "Nie chcę więcej",
-    "sourceFilename": "Michał Bajor - Nie chcę więcej.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 1994
+    "year": 1994,
+    "sourceFilename": "Michał Bajor - Nie chcę więcej.kfn"
   },
   {
     "id": "micha-gielniak-moja-droga-ja-cie-kocham",
@@ -38478,10 +38505,10 @@
     "id": "mieczys-aw-szczesniak-co-ty-na-to",
     "artist": "Mieczysław Szcześniak",
     "title": "Co ty na to",
-    "sourceFilename": "Mieczysław Szcześniak - Co ty na to.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 1960
+    "year": 1960,
+    "sourceFilename": "Mieczysław Szcześniak - Co ty na to.kfn"
   },
   {
     "id": "mietek-szczesniak-przed-sniadaniem",
@@ -38676,10 +38703,10 @@
     "id": "mike-oldfield-nuclear",
     "artist": "Mike Oldfield",
     "title": "Nuclear",
-    "sourceFilename": "Mike Oldfield - Nuclear.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1992
+    "year": 1992,
+    "sourceFilename": "Mike Oldfield - Nuclear.kfn"
   },
   {
     "id": "mike-posner-please-don-t-go",
@@ -39049,10 +39076,10 @@
     "id": "modern-talking-geronimo-s-cadillac",
     "artist": "Modern Talking",
     "title": "Geronimo's Cadillac",
-    "sourceFilename": "Modern Talking - Geronimo's Cadillac.kfn",
     "country": "Sweden",
     "language": "EN",
-    "year": 1984
+    "year": 1984,
+    "sourceFilename": "Modern Talking - Geronimo's Cadillac.kfn"
   },
   {
     "id": "modest-mouse-float-on",
@@ -39693,37 +39720,37 @@
     "id": "muse-follow-me",
     "artist": "Muse",
     "title": "Follow Me",
-    "sourceFilename": "Muse - Follow Me.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1999
+    "year": 1999,
+    "sourceFilename": "Muse - Follow Me.kfn"
   },
   {
     "id": "muse-i-belong-to-you",
     "artist": "Muse",
     "title": "I Belong to You",
-    "sourceFilename": "Muse - I Belong to You (+Mon cœur s'ouvre à ta voix).kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2009
+    "year": 2009,
+    "sourceFilename": "Muse - I Belong to You (+Mon cœur s'ouvre à ta voix).kfn"
   },
   {
     "id": "muse-micro-cuts",
     "artist": "Muse",
     "title": "Micro Cuts",
-    "sourceFilename": "Muse - Micro Cuts.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2001
+    "year": 2001,
+    "sourceFilename": "Muse - Micro Cuts.kfn"
   },
   {
     "id": "muse-supremacy",
     "artist": "Muse",
     "title": "Supremacy",
-    "sourceFilename": "Muse - Supremacy.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2012
+    "year": 2012,
+    "sourceFilename": "Muse - Supremacy.kfn"
   },
   {
     "id": "my-chemical-romance-desolation-row",
@@ -41731,19 +41758,19 @@
     "id": "oasis-slide-away",
     "artist": "Oasis",
     "title": "Slide Away",
-    "sourceFilename": "Oasis - Slide Away.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 1994
+    "year": 1994,
+    "sourceFilename": "Oasis - Slide Away.mp4"
   },
   {
     "id": "obywatel-g-c-nie-pytaj-o-polske",
     "artist": "Obywatel G.C.",
     "title": "Nie pytaj o Polskę",
-    "sourceFilename": "Obywatel G.C. - Nie pytaj o Polske.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 1989
+    "year": 1989,
+    "sourceFilename": "Obywatel G.C. - Nie pytaj o Polske.kfn"
   },
   {
     "id": "oceana-cry-cry",
@@ -41951,28 +41978,28 @@
     "id": "one-direction-i-want",
     "artist": "One Direction",
     "title": "I Want",
-    "sourceFilename": "One Direction - I Want.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 2011
+    "year": 2011,
+    "sourceFilename": "One Direction - I Want.mp4"
   },
   {
     "id": "one-direction-kiss-you",
     "artist": "One Direction",
     "title": "Kiss You",
-    "sourceFilename": "One Direction - Kiss You.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 2013
+    "year": 2013,
+    "sourceFilename": "One Direction - Kiss You.mp4"
   },
   {
     "id": "one-direction-rock-me",
     "artist": "One Direction",
     "title": "Rock Me",
-    "sourceFilename": "One Direction - Rock Me.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 2012
+    "year": 2012,
+    "sourceFilename": "One Direction - Rock Me.mp4"
   },
   {
     "id": "onerepublic-all-the-right-moves",
@@ -42581,10 +42608,10 @@
     "id": "pantera-mouth-for-war",
     "artist": "Pantera",
     "title": "Mouth for War",
-    "sourceFilename": "Pantera - Mouth for War.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1992
+    "year": 1992,
+    "sourceFilename": "Pantera - Mouth for War.kfn"
   },
   {
     "id": "paolo-gaudino-alex-gaudino-feat-kelly-rowland-what-a-feeling",
@@ -42662,10 +42689,10 @@
     "id": "papa-roach-last-resort",
     "artist": "Papa Roach",
     "title": "Last Resort",
-    "sourceFilename": "Papa Roach - Last Resort.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2000
+    "year": 2000,
+    "sourceFilename": "Papa Roach - Last Resort.kfn"
   },
   {
     "id": "papadance-bezimienni",
@@ -42797,10 +42824,10 @@
     "id": "patrycja-markowska-artur-gadowski-ocean",
     "artist": "Patrycja Markowska & Artur Gadowski",
     "title": "Ocean",
-    "sourceFilename": "Patrycja Markowska & Artur Gadowski - Ocean.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 2013
+    "year": 2013,
+    "sourceFilename": "Patrycja Markowska & Artur Gadowski - Ocean.kfn"
   },
   {
     "id": "patsy-cline-back-in-baby-s-arms",
@@ -43301,19 +43328,19 @@
     "id": "perfect-odnawiam-dusze",
     "artist": "Perfect",
     "title": "Odnawiam duszę",
-    "sourceFilename": "Perfect - Odnawiam duszę.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 2017
+    "year": 2017,
+    "sourceFilename": "Perfect - Odnawiam duszę.kfn"
   },
   {
     "id": "perfect-wszystko-ma-swoj-czas",
     "artist": "Perfect",
     "title": "Wszystko ma swój czas",
-    "sourceFilename": "Perfect - Wszystko ma swój czas.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 2015
+    "year": 2015,
+    "sourceFilename": "Perfect - Wszystko ma swój czas.kfn"
   },
   {
     "id": "periphery-light",
@@ -43418,10 +43445,10 @@
     "id": "pharrell-williams-happy",
     "artist": "Pharrell Williams",
     "title": "Happy",
-    "sourceFilename": "Pharrell Williams - Happy.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2013
+    "year": 2013,
+    "sourceFilename": "Pharrell Williams - Happy.kfn"
   },
   {
     "id": "phil-collins-against-all-odds-take-a-look-at-me-now",
@@ -43526,10 +43553,10 @@
     "id": "pidzama-porno-bal-u-senatora-93",
     "artist": "Pidzama Porno",
     "title": "Bal u senatora '93",
-    "sourceFilename": "Pidzama Porno - Bal u senatora '93.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 1993
+    "year": 1993,
+    "sourceFilename": "Pidzama Porno - Bal u senatora '93.kfn"
   },
   {
     "id": "pidzama-porno-ezoteryczny-poznan",
@@ -43562,37 +43589,37 @@
     "id": "pidzama-porno-gdy-zostajesz-u-mnie-na-noc",
     "artist": "Pidżama Porno",
     "title": "Gdy zostajesz u mnie na noc",
-    "sourceFilename": "Pidżama Porno - Gdy zostajesz u mnie na noc.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 1995
+    "year": 1995,
+    "sourceFilename": "Pidżama Porno - Gdy zostajesz u mnie na noc.kfn"
   },
   {
     "id": "pidzama-porno-katarzyna-ma-katar",
     "artist": "Pidżama Porno",
     "title": "Katarzyna ma katar",
-    "sourceFilename": "Pidżama Porno - Katarzyna ma katar.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 1995
+    "year": 1995,
+    "sourceFilename": "Pidżama Porno - Katarzyna ma katar.kfn"
   },
   {
     "id": "pidzama-porno-kotow-kat-ma-oczy-zielone",
     "artist": "Pidżama Porno",
     "title": "Kotów kat ma oczy zielone",
-    "sourceFilename": "Pidżama Porno - Kotów kat ma oczy zielone.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 1995
+    "year": 1995,
+    "sourceFilename": "Pidżama Porno - Kotów kat ma oczy zielone.kfn"
   },
   {
     "id": "pidzama-porno-nikt-tak-pieknie-nie-mowi-ze-sie-boi-mi-osci",
     "artist": "Pidżama Porno",
     "title": "Nikt tak pięknie nie mówił, że się boi miłości",
-    "sourceFilename": "Pidżama Porno - Nikt tak pięknie nie mówił, że się boi miłości.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 2006
+    "year": 2006,
+    "sourceFilename": "Pidżama Porno - Nikt tak pięknie nie mówił, że się boi miłości.kfn"
   },
   {
     "id": "pierre-bachelet-emmanuelle",
@@ -43713,19 +43740,19 @@
     "id": "piersi-07-zg-os-sie",
     "artist": "Piersi",
     "title": "07 Zgłoś się",
-    "sourceFilename": "Piersi - 07 zgłoś się.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 2004
+    "year": 2004,
+    "sourceFilename": "Piersi - 07 zgłoś się.kfn"
   },
   {
     "id": "piersi-rajdowiec",
     "artist": "Piersi",
     "title": "Rajdowiec",
-    "sourceFilename": "Piersi - Rajdowiec.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 2006
+    "year": 2006,
+    "sourceFilename": "Piersi - Rajdowiec.kfn"
   },
   {
     "id": "piekni-i-m-odzi-jedno-s-owo",
@@ -44316,10 +44343,10 @@
     "id": "playboys-nasza-noc",
     "artist": "Playboys",
     "title": "Nasza noc",
-    "sourceFilename": "Playboys - Nasza noc.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 1985
+    "year": 1985,
+    "sourceFilename": "Playboys - Nasza noc.kfn"
   },
   {
     "id": "player-baby-come-back",
@@ -44422,10 +44449,10 @@
     "id": "poison-every-rose-has-its-thorn",
     "artist": "Poison",
     "title": "Every Rose Has Its Thorn",
-    "sourceFilename": "Poison - Every Rose Has Its Thorn.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 1988
+    "year": 1988,
+    "sourceFilename": "Poison - Every Rose Has Its Thorn.mp4"
   },
   {
     "id": "pokahontaz-nie-ma-czym-oddychac",
@@ -44629,10 +44656,10 @@
     "id": "preludium-to-dzieki-wam",
     "artist": "Preludium",
     "title": "To dzięki wam",
-    "sourceFilename": "Preludium - To dzięki wam.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 1982
+    "year": 1982,
+    "sourceFilename": "Preludium - To dzięki wam.kfn"
   },
   {
     "id": "pretenders-don-t-get-me-wrong",
@@ -44825,9 +44852,9 @@
     "id": "psy-gentleman",
     "artist": "Psy",
     "title": "Gentleman",
-    "sourceFilename": "Psy - Gentleman.kfn",
     "language": "EN",
-    "year": 2012
+    "year": 2012,
+    "sourceFilename": "Psy - Gentleman.kfn"
   },
   {
     "id": "public-enemy-anthrax-bring-the-noise",
@@ -45301,37 +45328,37 @@
     "id": "queens-of-the-stone-age-3-s-7-s",
     "artist": "Queens of the Stone Age",
     "title": "3's & 7's",
-    "sourceFilename": "Queens of the Stone Age - 3's & 7's.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2003
+    "year": 2003,
+    "sourceFilename": "Queens of the Stone Age - 3's & 7's.kfn"
   },
   {
     "id": "queens-of-the-stone-age-how-to-handle-a-rope",
     "artist": "Queens of the Stone Age",
     "title": "How to Handle a Rope",
-    "sourceFilename": "Queens of the Stone Age - How to Handle a Rope.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2007
+    "year": 2007,
+    "sourceFilename": "Queens of the Stone Age - How to Handle a Rope.kfn"
   },
   {
     "id": "queens-of-the-stone-age-make-it-wit-chu",
     "artist": "Queens of the Stone Age",
     "title": "Make It wit Chu",
-    "sourceFilename": "Queens of the Stone Age - Make It wit Chu.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2003
+    "year": 2003,
+    "sourceFilename": "Queens of the Stone Age - Make It wit Chu.kfn"
   },
   {
     "id": "queens-of-the-stone-age-mexicola",
     "artist": "Queens of the Stone Age",
     "title": "Mexicola",
-    "sourceFilename": "Queens of the Stone Age - Mexicola.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1998
+    "year": 1998,
+    "sourceFilename": "Queens of the Stone Age - Mexicola.kfn"
   },
   {
     "id": "queensryche-i-am-i",
@@ -45589,28 +45616,28 @@
     "id": "radiohead-exit-music-for-a-film",
     "artist": "Radiohead",
     "title": "Exit Music (For a Film)",
-    "sourceFilename": "Radiohead - Exit Music (for a Film).kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1997
+    "year": 1997,
+    "sourceFilename": "Radiohead - Exit Music (for a Film).kfn"
   },
   {
     "id": "radiohead-lotus-flower",
     "artist": "Radiohead",
     "title": "Lotus Flower",
-    "sourceFilename": "Radiohead - Lotus Flower.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2011
+    "year": 2011,
+    "sourceFilename": "Radiohead - Lotus Flower.kfn"
   },
   {
     "id": "radiohead-pyramid-song",
     "artist": "Radiohead",
     "title": "Pyramid Song",
-    "sourceFilename": "Radiohead - Pyramid Song.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1998
+    "year": 1998,
+    "sourceFilename": "Radiohead - Pyramid Song.kfn"
   },
   {
     "id": "raf-self-control",
@@ -45706,10 +45733,10 @@
     "id": "rage-against-the-machine-killing-in-the-name",
     "artist": "Rage Against the Machine",
     "title": "Killing in the Name",
-    "sourceFilename": "Rage Against the Machine - Killing in the Name.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1992
+    "year": 1992,
+    "sourceFilename": "Rage Against the Machine - Killing in the Name.kfn"
   },
   {
     "id": "rainbow-all-night-long",
@@ -45877,19 +45904,19 @@
     "id": "rammstein-pussy",
     "artist": "Rammstein",
     "title": "Pussy",
-    "sourceFilename": "Rammstein - Pussy.kfn",
     "country": "Germany",
     "language": "Germany",
-    "year": 2009
+    "year": 2009,
+    "sourceFilename": "Rammstein - Pussy.kfn"
   },
   {
     "id": "rammstein-stirb-nicht-vor-mir",
     "artist": "Rammstein",
     "title": "Stirb nicht vor mir",
-    "sourceFilename": "Rammstein - Stirb nicht vor mir.kfn",
     "country": "Germany",
     "language": "Germany",
-    "year": 2005
+    "year": 2005,
+    "sourceFilename": "Rammstein - Stirb nicht vor mir.kfn"
   },
   {
     "id": "ramones-baby-i-love-you",
@@ -46407,28 +46434,28 @@
     "id": "red-hot-chili-peppers-look-around",
     "artist": "Red Hot Chili Peppers",
     "title": "Look Around",
-    "sourceFilename": "Red Hot Chili Peppers - Look Around.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2011
+    "year": 2011,
+    "sourceFilename": "Red Hot Chili Peppers - Look Around.kfn"
   },
   {
     "id": "red-hot-chili-peppers-parallel-universe",
     "artist": "Red Hot Chili Peppers",
     "title": "Parallel Universe",
-    "sourceFilename": "Red Hot Chili Peppers - Parallel Universe.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 1999
+    "year": 1999,
+    "sourceFilename": "Red Hot Chili Peppers - Parallel Universe.mp4"
   },
   {
     "id": "red-hot-chili-peppers-soul-to-squeeze",
     "artist": "Red Hot Chili Peppers",
     "title": "Soul to Squeeze",
-    "sourceFilename": "Red Hot Chili Peppers - Soul To Squeeze.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 1992
+    "year": 1992,
+    "sourceFilename": "Red Hot Chili Peppers - Soul To Squeeze.mp4"
   },
   {
     "id": "red-lips-czarne-i-bia-e",
@@ -46515,19 +46542,19 @@
     "id": "renata-przemyk-kochaj-mnie-jak-wariat",
     "artist": "Renata Przemyk",
     "title": "Kochaj mnie jak wariat",
-    "sourceFilename": "Renata Przemyk - Kochaj mnie jak wariat.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 1986
+    "year": 1986,
+    "sourceFilename": "Renata Przemyk - Kochaj mnie jak wariat.kfn"
   },
   {
     "id": "renata-przemyk-ten-taniec",
     "artist": "Renata Przemyk",
     "title": "Ten taniec",
-    "sourceFilename": "Renata Przemyk - Ten taniec.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 1988
+    "year": 1988,
+    "sourceFilename": "Renata Przemyk - Ten taniec.kfn"
   },
   {
     "id": "renata-przemyk-kasia-nosowska-kochana",
@@ -47505,10 +47532,10 @@
     "id": "robert-plant-big-log",
     "artist": "Robert Plant",
     "title": "Big Log",
-    "sourceFilename": "Robert Plant - Big Log.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1983
+    "year": 1983,
+    "sourceFilename": "Robert Plant - Big Log.kfn"
   },
   {
     "id": "robert-tepper-no-easy-way-out",
@@ -48993,10 +49020,10 @@
     "id": "sarsa-naucz-mnie",
     "artist": "Sarsa",
     "title": "Naucz Mnie",
-    "sourceFilename": "Sarsa - Naucz Mnie.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 2003
+    "year": 2003,
+    "sourceFilename": "Sarsa - Naucz Mnie.kfn"
   },
   {
     "id": "sasha-i-feel-lonely",
@@ -49415,19 +49442,19 @@
     "id": "selena-como-la-flor",
     "artist": "Selena",
     "title": "Como La Flor",
-    "sourceFilename": "Selena - Como La Flor.mp4",
     "country": "EN",
     "language": "Spain",
-    "year": 1992
+    "year": 1992,
+    "sourceFilename": "Selena - Como La Flor.mp4"
   },
   {
     "id": "selena-si-una-vez",
     "artist": "Selena",
     "title": "Si Una Vez",
-    "sourceFilename": "Selena - Si Una Vez.mp4",
     "country": "EN",
     "language": "Spain",
-    "year": 1993
+    "year": 1993,
+    "sourceFilename": "Selena - Si Una Vez.mp4"
   },
   {
     "id": "selena-gomez-hit-the-lights",
@@ -49477,9 +49504,9 @@
     "id": "sepultura-roots-bloody-roots",
     "artist": "Sepultura",
     "title": "Roots Bloody Roots",
-    "sourceFilename": "Sepultura - Roots Bloody Roots.kfn",
     "language": "EN",
-    "year": 1996
+    "year": 1996,
+    "sourceFilename": "Sepultura - Roots Bloody Roots.kfn"
   },
   {
     "id": "serj-tankian-baby",
@@ -50681,19 +50708,19 @@
     "id": "skid-row-18-and-life",
     "artist": "Skid Row",
     "title": "18 and Life",
-    "sourceFilename": "Skid Row - 18 and Life.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1989
+    "year": 1989,
+    "sourceFilename": "Skid Row - 18 and Life.kfn"
   },
   {
     "id": "skillet-monster",
     "artist": "Skillet",
     "title": "Monster",
-    "sourceFilename": "Skillet - Monster.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2009
+    "year": 2009,
+    "sourceFilename": "Skillet - Monster.kfn"
   },
   {
     "id": "skolim-nie-dzwon-do-mnie-ma-a",
@@ -50807,37 +50834,37 @@
     "id": "slayer-angel-of-death",
     "artist": "Slayer",
     "title": "Angel of Death",
-    "sourceFilename": "Slayer - Angel of Death.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1986
+    "year": 1986,
+    "sourceFilename": "Slayer - Angel of Death.kfn"
   },
   {
     "id": "slayer-bloodline",
     "artist": "Slayer",
     "title": "Bloodline",
-    "sourceFilename": "Slayer - Bloodline.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2006
+    "year": 2006,
+    "sourceFilename": "Slayer - Bloodline.kfn"
   },
   {
     "id": "slayer-raining-blood",
     "artist": "Slayer",
     "title": "Raining Blood",
-    "sourceFilename": "Slayer - Raining Blood.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1986
+    "year": 1986,
+    "sourceFilename": "Slayer - Raining Blood.kfn"
   },
   {
     "id": "slayer-war-ensemble",
     "artist": "Slayer",
     "title": "War Ensemble",
-    "sourceFilename": "Slayer - War Ensemble.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1990
+    "year": 1990,
+    "sourceFilename": "Slayer - War Ensemble.kfn"
   },
   {
     "id": "slipknot-the-heretic-anthem",
@@ -50987,10 +51014,10 @@
     "id": "s-awomir-ni-mom-hektara",
     "artist": "Sławomir",
     "title": "Ni mom hektara",
-    "sourceFilename": "Sławomir - Ni mom hektara.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 2014
+    "year": 2014,
+    "sourceFilename": "Sławomir - Ni mom hektara.kfn"
   },
   {
     "id": "s-on-mikser-love-forever",
@@ -51347,9 +51374,9 @@
     "id": "soda-stereo-de-musica-ligera",
     "artist": "Soda Stereo",
     "title": "De Música Ligera",
-    "sourceFilename": "Soda Stereo - De Música Ligera.mp4",
     "language": "Spain",
-    "year": 1990
+    "year": 1990,
+    "sourceFilename": "Soda Stereo - De Música Ligera.mp4"
   },
   {
     "id": "sofia-carson-love-is-the-name",
@@ -51848,10 +51875,10 @@
     "id": "stan-ridgway-camouflage",
     "artist": "Stan Ridgway",
     "title": "Camouflage",
-    "sourceFilename": "Stan Ridgway - Camouflage.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1986
+    "year": 1986,
+    "sourceFilename": "Stan Ridgway - Camouflage.kfn"
   },
   {
     "id": "stanis-aw-sojka-tolerancja",
@@ -52136,10 +52163,10 @@
     "id": "steve-miller-band-abracadabra",
     "artist": "Steve Miller Band",
     "title": "Abracadabra",
-    "sourceFilename": "Steve Miller Band - Abracadabra.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1982
+    "year": 1982,
+    "sourceFilename": "Steve Miller Band - Abracadabra.cdg"
   },
   {
     "id": "stevie-b-because-i-love-you-the-postman-song",
@@ -52379,10 +52406,10 @@
     "id": "stone-sour-through-glass",
     "artist": "Stone Sour",
     "title": "Through Glass",
-    "sourceFilename": "Stone Sour - Through Glass.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2006
+    "year": 2006,
+    "sourceFilename": "Stone Sour - Through Glass.kfn"
   },
   {
     "id": "stooshe-feat-travie-mccoy-love-me",
@@ -52986,10 +53013,10 @@
     "id": "szanty-szkuner-i-m-alone",
     "artist": "Szanty",
     "title": "Szkuner I'm Alone",
-    "sourceFilename": "Szanty - Szkuner I'm Alone.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 1926
+    "year": 1926,
+    "sourceFilename": "Szanty - Szkuner I'm Alone.kfn"
   },
   {
     "id": "sztywny-pal-azji-wieza-radosci-wieza-samotnosci",
@@ -53833,10 +53860,10 @@
     "id": "teddybears-cobrastyle",
     "artist": "Teddybears",
     "title": "Cobrastyle",
-    "sourceFilename": "Teddybears - Cobrastyle.kfn",
     "country": "Sweden",
     "language": "EN",
-    "year": 2001
+    "year": 2001,
+    "sourceFilename": "Teddybears - Cobrastyle.kfn"
   },
   {
     "id": "tede-glock",
@@ -54409,10 +54436,10 @@
     "id": "the-beatles-all-you-need-is-love",
     "artist": "The Beatles",
     "title": "All You Need Is Love",
-    "sourceFilename": "The Beatles - All You Need Is Love.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 1967
+    "year": 1967,
+    "sourceFilename": "The Beatles - All You Need Is Love.mp4"
   },
   {
     "id": "the-beautiful-south-a-little-time",
@@ -54553,10 +54580,10 @@
     "id": "the-beloved-sweet-harmony",
     "artist": "The Beloved",
     "title": "Sweet Harmony",
-    "sourceFilename": "The Beloved - Sweet Harmony.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1990
+    "year": 1990,
+    "sourceFilename": "The Beloved - Sweet Harmony.kfn"
   },
   {
     "id": "the-black-eyed-peas-don-t-stop-the-party",
@@ -55516,9 +55543,9 @@
     "id": "the-hardkiss-make-up",
     "artist": "The Hardkiss",
     "title": "Make-Up",
-    "sourceFilename": "The Hardkiss - Make-Up.kfn",
     "language": "EN",
-    "year": 2013
+    "year": 2013,
+    "sourceFilename": "The Hardkiss - Make-Up.kfn"
   },
   {
     "id": "the-highwaymen-highwayman",
@@ -55803,10 +55830,10 @@
     "id": "the-killers-just-another-girl",
     "artist": "The Killers",
     "title": "Just Another Girl",
-    "sourceFilename": "The Killers - Just Another Girl.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2004
+    "year": 2004,
+    "sourceFilename": "The Killers - Just Another Girl.kfn"
   },
   {
     "id": "the-kinks-all-day-and-all-of-the-night",
@@ -55911,10 +55938,10 @@
     "id": "the-lonely-island-feat-akon-i-just-had-sex",
     "artist": "The Lonely Island feat. Akon",
     "title": "I Just Had Sex",
-    "sourceFilename": "The Lonely Island & Akon - I Just Had Sex.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2011
+    "year": 2011,
+    "sourceFilename": "The Lonely Island & Akon - I Just Had Sex.kfn"
   },
   {
     "id": "the-lonely-island-feat-justin-timberlake-motherlover",
@@ -55947,10 +55974,10 @@
     "id": "the-lumineers-sleep-on-the-floor",
     "artist": "The Lumineers",
     "title": "Sleep on the Floor",
-    "sourceFilename": "Lumineers - Sleep on the Floor.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 2016
+    "year": 2016,
+    "sourceFilename": "Lumineers - Sleep on the Floor.mp4"
   },
   {
     "id": "the-mamas-the-papas-california-dreamin",
@@ -56325,10 +56352,10 @@
     "id": "the-pretty-reckless-just-tonight",
     "artist": "The Pretty Reckless",
     "title": "Just Tonight",
-    "sourceFilename": "The Pretty Reckless - Just Tonight.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2010
+    "year": 2010,
+    "sourceFilename": "The Pretty Reckless - Just Tonight.kfn"
   },
   {
     "id": "the-proclaimers-i-m-gonna-be-500-miles",
@@ -56414,9 +56441,9 @@
     "id": "the-rasmus-funeral-song",
     "artist": "The Rasmus",
     "title": "Funeral Song",
-    "sourceFilename": "The Rasmus - Funeral Song.kfn",
     "language": "EN",
-    "year": 2009
+    "year": 2009,
+    "sourceFilename": "The Rasmus - Funeral Song.kfn"
   },
   {
     "id": "the-rasmus-feat-anette-olzon-october-april",
@@ -56691,10 +56718,10 @@
     "id": "the-smashing-pumpkins-g-l-o-w",
     "artist": "The Smashing Pumpkins",
     "title": "G.L.O.W.",
-    "sourceFilename": "The Smashing Pumpkins - G.L.O.W.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2012
+    "year": 2012,
+    "sourceFilename": "The Smashing Pumpkins - G.L.O.W.kfn"
   },
   {
     "id": "the-smiths-this-charming-man",
@@ -57795,10 +57822,10 @@
     "id": "tommy-cash-ok",
     "artist": "Tommy Cash",
     "title": "OK",
-    "sourceFilename": "Tommy Cash - Ok.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 1987
+    "year": 1987,
+    "sourceFilename": "Tommy Cash - Ok.mp4"
   },
   {
     "id": "tommy-lee-hold-me-down",
@@ -58807,28 +58834,28 @@
     "id": "turbo-smak-ciszy",
     "artist": "Turbo",
     "title": "Smak ciszy",
-    "sourceFilename": "Turbo - Smak ciszy.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 1998
+    "year": 1998,
+    "sourceFilename": "Turbo - Smak ciszy.kfn"
   },
   {
     "id": "turbo-doros-e-dzieci",
     "artist": "Turbo",
     "title": "Dorosłe dzieci",
-    "sourceFilename": "Turbo - Dorosłe dzieci.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 1992
+    "year": 1992,
+    "sourceFilename": "Turbo - Dorosłe dzieci.kfn"
   },
   {
     "id": "twenty-one-pilots-stressed-out",
     "artist": "Twenty One Pilots",
     "title": "Stressed Out",
-    "sourceFilename": "Twenty One Pilots - Stressed Out.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2015
+    "year": 2015,
+    "sourceFilename": "Twenty One Pilots - Stressed Out.kfn"
   },
   {
     "id": "twisted-sister-i-wanna-rock",
@@ -58870,19 +58897,19 @@
     "id": "type-o-negative-black-no-1",
     "artist": "Type O Negative",
     "title": "Black No. 1",
-    "sourceFilename": "Type O Negative - Black No. 1 (Little Miss Scare-All).kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1991
+    "year": 1991,
+    "sourceFilename": "Type O Negative - Black No. 1 (Little Miss Scare-All).kfn"
   },
   {
     "id": "type-o-negative-christian-woman",
     "artist": "Type O Negative",
     "title": "Christian Woman",
-    "sourceFilename": "Type O Negative - Christian Woman.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1993
+    "year": 1993,
+    "sourceFilename": "Type O Negative - Christian Woman.kfn"
   },
   {
     "id": "tyrese-i-like-them-girls",
@@ -60329,10 +60356,10 @@
     "id": "wanted-glad-you-came",
     "artist": "Wanted",
     "title": "Glad You Came",
-    "sourceFilename": "Wanted - Glad You Came.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 2012
+    "year": 2012,
+    "sourceFilename": "Wanted - Glad You Came.cdg"
   },
   {
     "id": "war-the-cisco-kid",
@@ -60437,28 +60464,28 @@
     "id": "weezer-island-in-the-sun",
     "artist": "Weezer",
     "title": "Island in the Sun",
-    "sourceFilename": "Weezer - Island in the Sun.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2001
+    "year": 2001,
+    "sourceFilename": "Weezer - Island in the Sun.kfn"
   },
   {
     "id": "weezer-pork-and-beans",
     "artist": "Weezer",
     "title": "Pork and Beans",
-    "sourceFilename": "Weezer - Pork and Beans.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2008
+    "year": 2008,
+    "sourceFilename": "Weezer - Pork and Beans.kfn"
   },
   {
     "id": "weezer-troublemaker",
     "artist": "Weezer",
     "title": "Troublemaker",
-    "sourceFilename": "Weezer - Troublemaker.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2014
+    "year": 2014,
+    "sourceFilename": "Weezer - Troublemaker.kfn"
   },
   {
     "id": "weird-al-yankovic-amish-paradise",
@@ -60482,28 +60509,28 @@
     "id": "weird-al-yankovic-bedrock-anthem",
     "artist": "Weird Al Yankovic",
     "title": "Bedrock Anthem",
-    "sourceFilename": "Weird Al Yankovic - Bedrock Anthem.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1993
+    "year": 1993,
+    "sourceFilename": "Weird Al Yankovic - Bedrock Anthem.kfn"
   },
   {
     "id": "weird-al-yankovic-smells-like-nirvana",
     "artist": "Weird Al Yankovic",
     "title": "Smells Like Nirvana",
-    "sourceFilename": "Weird Al Yankovic - Smells Like Nirvana.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1992
+    "year": 1992,
+    "sourceFilename": "Weird Al Yankovic - Smells Like Nirvana.kfn"
   },
   {
     "id": "weird-al-yankovic-white-and-nerdy",
     "artist": "Weird Al Yankovic",
     "title": "White and Nerdy",
-    "sourceFilename": "Weird Al Yankovic - White & Nerdy.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2006
+    "year": 2006,
+    "sourceFilename": "Weird Al Yankovic - White & Nerdy.kfn"
   },
   {
     "id": "wendy-moten-come-in-out-of-the-rain",
@@ -60626,10 +60653,10 @@
     "id": "whigfield-think-of-you",
     "artist": "Whigfield",
     "title": "Think of You",
-    "sourceFilename": "Whigfield - Think of you.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1998
+    "year": 1998,
+    "sourceFilename": "Whigfield - Think of you.cdg"
   },
   {
     "id": "white-2115-california",
@@ -61196,19 +61223,19 @@
     "id": "wojtek-szumanski-ko-owrotek",
     "artist": "Wojtek Szumanśki",
     "title": "Kołowrotek",
-    "sourceFilename": "Wojtek Szumanski - Kolowrotek.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 1981
+    "year": 1981,
+    "sourceFilename": "Wojtek Szumanski - Kolowrotek.kfn"
   },
   {
     "id": "wojtek-szumanski-piosenka-o-siusiaku-a-w-asciwie-jego-braku",
     "artist": "Wojtek Szumanśki",
     "title": "Piosenka o siusiaku, a właściwie jego braku",
-    "sourceFilename": "Wojtek Szumanski - Piosenka o siusiaku, a wlasciwie jego braku.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 1987
+    "year": 1987,
+    "sourceFilename": "Wojtek Szumanski - Piosenka o siusiaku, a wlasciwie jego braku.kfn"
   },
   {
     "id": "wojtek-szumanski-ballada-o-cyckach",
@@ -61275,10 +61302,10 @@
     "id": "wu-tang-clan-da-mystery-of-chessboxin",
     "artist": "Wu-Tang Clan",
     "title": "Da Mystery of Chessboxin'",
-    "sourceFilename": "Wu-Tang Clan - Da Mystery of Chessboxin'.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1993
+    "year": 1993,
+    "sourceFilename": "Wu-Tang Clan - Da Mystery of Chessboxin'.kfn"
   },
   {
     "id": "wwo-jeszcze-bedzie-czas",
