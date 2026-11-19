@@ -1,6 +1,7 @@
 # Żyleta Karaoke — Song List
 
-A mobile-first web application for browsing and searching karaoke songs. Built with React 18, TypeScript, and Vite 6. Hosted on GitHub Pages.
+A web application for browsing and searching karaoke songs on mobile and desktop.
+It uses React 19, TypeScript, and Vite 8. GitHub Pages hosts the application.
 
 ## Table of Contents
 
@@ -32,8 +33,8 @@ Two-stage song list update process:
 
 | Layer | Technology |
 |-------|-----------|
-| Framework | React 18 + TypeScript |
-| Build tool | Vite 6 |
+| Framework | React 19 + TypeScript |
+| Build tool | Vite 8 |
 | Search | Fuse.js (fuzzy, accent-insensitive) |
 | List virtualization | @tanstack/react-virtual |
 | Internationalization | react-i18next (PL/EN) |

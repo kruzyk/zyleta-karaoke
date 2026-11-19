@@ -10,22 +10,24 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
-      '@pipeline': path.resolve(__dirname, './pipeline'),
+      '@': path.resolve(import.meta.dirname, './src'),
+      '@pipeline': path.resolve(import.meta.dirname, './pipeline'),
     },
   },
   build: {
     target: 'es2020',
     outDir: 'dist',
     sourcemap: false,
-    rollupOptions: {
+    rolldownOptions: {
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom'],
-          search: ['fuse.js'],
-          virtual: ['@tanstack/react-virtual'],
-          i18n: ['i18next', 'react-i18next'],
-          configcat: ['configcat-js'],
+        codeSplitting: {
+          groups: [
+            { name: 'vendor', test: /node_modules[\\/](react|react-dom)[\\/]/ },
+            { name: 'search', test: /node_modules[\\/]fuse\.js[\\/]/ },
+            { name: 'virtual', test: /node_modules[\\/]@tanstack[\\/]react-virtual[\\/]/ },
+            { name: 'i18n', test: /node_modules[\\/](i18next|react-i18next)[\\/]/ },
+            { name: 'configcat', test: /node_modules[\\/]configcat-js[\\/]/ },
+          ],
         },
       },
     },
