@@ -282,19 +282,19 @@
     "id": "411-dumb",
     "artist": "411",
     "title": "Dumb",
-    "sourceFilename": "The 411 - Dumb.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 2000
+    "year": 2000,
+    "sourceFilename": "The 411 - Dumb.cdg"
   },
   {
     "id": "411-on-my-knees",
     "artist": "411",
     "title": "On My Knees",
-    "sourceFilename": "The 411 - On My Knees.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 2001
+    "year": 2001,
+    "sourceFilename": "The 411 - On My Knees.cdg"
   },
   {
     "id": "4ever-to-nastepna-laska",
@@ -1594,10 +1594,10 @@
     "id": "adele-love-in-the-dark",
     "artist": "Adele",
     "title": "Love in the Dark",
-    "sourceFilename": "Adele - Love In The Dark.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 2015
+    "year": 2015,
+    "sourceFilename": "Adele - Love In The Dark.mp4"
   },
   {
     "id": "adema-giving-in",
@@ -4243,9 +4243,9 @@
     "id": "amanda-lear-enigma-give-a-bit-of-mmh-to-me",
     "artist": "Amanda Lear",
     "title": "Enigma (Give a Bit of Mmh to Me)",
-    "sourceFilename": "Amanda Lear - ENIGMA (GIVE A BIT OF MMH TO ME).mp4",
     "language": "EN",
-    "year": 1978
+    "year": 1978,
+    "sourceFilename": "Amanda Lear - ENIGMA (GIVE A BIT OF MMH TO ME).mp4"
   },
   {
     "id": "amanda-marshall-beautiful-goodbye",
@@ -5772,9 +5772,9 @@
     "id": "arash-feat-helena-arash",
     "artist": "Arash feat. Helena",
     "title": "Arash",
-    "sourceFilename": "Arash & Helena - Arash.kfn",
     "language": "EN",
-    "year": 2004
+    "year": 2004,
+    "sourceFilename": "Arash & Helena - Arash.kfn"
   },
   {
     "id": "arch-enemy-the-eagle-flies-alone",
@@ -6601,10 +6601,10 @@
     "id": "audioslave-i-am-the-highway",
     "artist": "Audioslave",
     "title": "I Am the Highway",
-    "sourceFilename": "Audioslave - I Am the Highway.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2005
+    "year": 2005,
+    "sourceFilename": "Audioslave - I Am the Highway.kfn"
   },
   {
     "id": "augustana-boston",
@@ -7244,6 +7244,24 @@
     "sourceFilename": "Baciary - Żyje się raz.kfn"
   },
   {
+    "id": "baciary-lejdi",
+    "artist": "Baciary",
+    "title": "Lejdi",
+    "sourceFilename": "Baciary - Lejdi.kfn",
+    "country": "PL",
+    "language": "PL",
+    "year": 2004
+  },
+  {
+    "id": "baciary-siedem-czerwonych-roz",
+    "artist": "Baciary",
+    "title": "Siedem czerwonych róż",
+    "sourceFilename": "Baciary - Siedem czerwonych róż.mp4",
+    "country": "PL",
+    "language": "PL",
+    "year": 2004
+  },
+  {
     "id": "backstreet-boys-drowning",
     "artist": "Backstreet Boys",
     "title": "Drowning",
@@ -7373,10 +7391,10 @@
     "id": "backstreet-boys-all-i-have-to-give",
     "artist": "Backstreet Boys",
     "title": "All I Have to Give",
-    "sourceFilename": "The Backstreet Boys - All I Have To Give.CDG",
     "country": "EN",
     "language": "EN",
-    "year": 1998
+    "year": 1998,
+    "sourceFilename": "The Backstreet Boys - All I Have To Give.CDG"
   },
   {
     "id": "bad-boys-blue-pretty-young-girl",
@@ -7472,10 +7490,10 @@
     "id": "bad-wolves-zombie",
     "artist": "Bad Wolves",
     "title": "Zombie",
-    "sourceFilename": "Bad Wolves - Zombie.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2018
+    "year": 2018,
+    "sourceFilename": "Bad Wolves - Zombie.kfn"
   },
   {
     "id": "baddiel-skinner-lightning-seeds-three-lions",
@@ -7688,10 +7706,10 @@
     "id": "bajm-szklanka-wody",
     "artist": "Bajm",
     "title": "Szklanka wody",
-    "sourceFilename": "Bajm - Szklanka wody.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 1985
+    "year": 1985,
+    "sourceFilename": "Bajm - Szklanka wody.kfn"
   },
   {
     "id": "baltimora-tarzan-boy",
@@ -10402,10 +10420,10 @@
     "id": "bon-jovi-livin-on-a-prayer",
     "artist": "Bon Jovi",
     "title": "Livin' on a Prayer",
-    "sourceFilename": "Bon Jovi - Livin On A Prayer.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 1986
+    "year": 1986,
+    "sourceFilename": "Bon Jovi - Livin On A Prayer.mp4"
   },
   {
     "id": "boney-m-bahama-mama",
@@ -10895,37 +10913,37 @@
     "id": "bracia-figo-fagot-cos-za-cos",
     "artist": "Bracia Figo Fagot",
     "title": "Coś za coś",
-    "sourceFilename": "Bracia Figo Fagot - Coś za coś.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 2010
+    "year": 2010,
+    "sourceFilename": "Bracia Figo Fagot - Coś za coś.kfn"
   },
   {
     "id": "bracia-figo-fagot-magdo-madziu-magdaleno",
     "artist": "Bracia Figo Fagot",
     "title": "Magdo, Madziu, Magdaleno",
-    "sourceFilename": "Bracia Figo Fagot - Magdo, Madziu, Magdaleno.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 2006
+    "year": 2006,
+    "sourceFilename": "Bracia Figo Fagot - Magdo, Madziu, Magdaleno.kfn"
   },
   {
     "id": "bracia-figo-fagot-trzech-kroli",
     "artist": "Bracia Figo Fagot",
     "title": "Trzech króli",
-    "sourceFilename": "Bracia Figo Fagot - Trzech króli.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 2009
+    "year": 2009,
+    "sourceFilename": "Bracia Figo Fagot - Trzech króli.kfn"
   },
   {
     "id": "bracia-figo-fagot-hot-dog",
     "artist": "Bracia Figo Fagot",
     "title": "Hot-Dog",
-    "sourceFilename": "Bracia Figo Fagot - Hot-dog.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 2004
+    "year": 2004,
+    "sourceFilename": "Bracia Figo Fagot - Hot-dog.kfn"
   },
   {
     "id": "brand-new-heavies-midnight-at-the-oasis",
@@ -11075,10 +11093,10 @@
     "id": "brian-mcknight-back-at-one",
     "artist": "Brian McKnight",
     "title": "Back at One",
-    "sourceFilename": "Brian McKnight - Back At One.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 1999
+    "year": 1999,
+    "sourceFilename": "Brian McKnight - Back At One.mp4"
   },
   {
     "id": "britney-spears-circus",
@@ -12306,10 +12324,10 @@
     "id": "chappell-roan-good-luck-babe",
     "artist": "Chappell Roan",
     "title": "Good Luck, Babe!",
-    "sourceFilename": "Chappell Roan - Good Luck, Babe!.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 2023
+    "year": 2023,
+    "sourceFilename": "Chappell Roan - Good Luck, Babe!.mp4"
   },
   {
     "id": "charlene-soraia-wherever-you-will-go",
@@ -13569,10 +13587,10 @@
     "id": "collective-teardrop",
     "artist": "Collective",
     "title": "Teardrop",
-    "sourceFilename": "The Collective - Teardrop.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1998
+    "year": 1998,
+    "sourceFilename": "The Collective - Teardrop.cdg"
   },
   {
     "id": "color-me-badd-i-wanna-sex-you-up",
@@ -15313,6 +15331,15 @@
     "sourceFilename": "Dawid Podsiadło - W dobrą stronę.kfn"
   },
   {
+    "id": "dawid-podsiad-o-kaska-sochacka-w-kilometrach",
+    "artist": "Dawid Podsiadło & Kaska Sochacka",
+    "title": "W kilometrach",
+    "sourceFilename": "Dawid Podsiadlo & Kaska Sochacka - W kilometrach.kfn",
+    "country": "PL",
+    "language": "PL",
+    "year": 2016
+  },
+  {
     "id": "de-mono-dwa-proste-s-owa",
     "artist": "De Mono",
     "title": "Dwa proste słowa",
@@ -16185,10 +16212,10 @@
     "id": "diana-ross-i-m-coming-out",
     "artist": "Diana Ross",
     "title": "I'm Coming Out",
-    "sourceFilename": "Diana Ross - I'm Coming Out.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 1980
+    "year": 1980,
+    "sourceFilename": "Diana Ross - I'm Coming Out.mp4"
   },
   {
     "id": "dido-thank-you",
@@ -16677,10 +16704,10 @@
     "id": "disturbed-down-with-the-sickness",
     "artist": "Disturbed",
     "title": "Down with the Sickness",
-    "sourceFilename": "Disturbed - Down With The Sickness.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 2000
+    "year": 2000,
+    "sourceFilename": "Disturbed - Down With The Sickness.mp4"
   },
   {
     "id": "divine-you-think-you-re-a-man",
@@ -18146,10 +18173,10 @@
     "id": "ed-sheeran-perfect",
     "artist": "Ed Sheeran",
     "title": "Perfect",
-    "sourceFilename": "Ed Sheeran - Perfect.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 2014
+    "year": 2014,
+    "sourceFilename": "Ed Sheeran - Perfect.mp4"
   },
   {
     "id": "ed-sheeran-feat-taylor-swift-everything-has-changed",
@@ -18168,6 +18195,15 @@
     "language": "EN",
     "year": 1982,
     "sourceFilename": "Eddie Grant - I Don't Wanna Dance.cdg"
+  },
+  {
+    "id": "eddie-murphy-party-all-the-time",
+    "artist": "Eddie Murphy",
+    "title": "Party All the Time",
+    "sourceFilename": "Eddie Murphy - Party All The Time.mp4",
+    "country": "EN",
+    "language": "EN",
+    "year": 1985
   },
   {
     "id": "eddie-vedder-society",
@@ -18510,10 +18546,10 @@
     "id": "edyta-przytulska-oj-wymasuj-mnie-romanie",
     "artist": "Edyta Przytulska",
     "title": "Oj wymasuj mnie Romanie",
-    "sourceFilename": "Edyta Przytulska - Oj wymasuj mnie Romanie.mp4",
     "country": "PL",
     "language": "PL",
-    "year": 1996
+    "year": 1996,
+    "sourceFilename": "Edyta Przytulska - Oj wymasuj mnie Romanie.mp4"
   },
   {
     "id": "eels-i-need-some-sleep",
@@ -20163,10 +20199,10 @@
     "id": "etta-james-at-last",
     "artist": "Etta James",
     "title": "At Last",
-    "sourceFilename": "Etta James - At Last.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 1960
+    "year": 1960,
+    "sourceFilename": "Etta James - At Last.mp4"
   },
   {
     "id": "eugeniusz-bodo-umowi-em-sie-z-nia-na-dziewiata",
@@ -20316,28 +20352,28 @@
     "id": "eurythmics-thorn-in-my-side",
     "artist": "Eurythmics",
     "title": "Thorn in My Side",
-    "sourceFilename": "Eurythmics - Thorn In My Side.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1986
+    "year": 1986,
+    "sourceFilename": "Eurythmics - Thorn In My Side.cdg"
   },
   {
     "id": "eurythmics-i-saved-the-world-today",
     "artist": "Eurythmics",
     "title": "I Saved the World Today",
-    "sourceFilename": "The Eurythmics - I Saved The World Today.CDG",
     "country": "EN",
     "language": "EN",
-    "year": 1992
+    "year": 1992,
+    "sourceFilename": "The Eurythmics - I Saved The World Today.CDG"
   },
   {
     "id": "eurythmics-sisters-are-doin-it-for-themselves",
     "artist": "Eurythmics",
     "title": "Sisters Are Doin' It for Themselves",
-    "sourceFilename": "The Eurythmics - Sisters Are Doin' It.CDG",
     "country": "EN",
     "language": "EN",
-    "year": 1985
+    "year": 1985,
+    "sourceFilename": "The Eurythmics - Sisters Are Doin' It.CDG"
   },
   {
     "id": "evanescence-tourniquet",
@@ -21017,10 +21053,10 @@
     "id": "felix-jaehn-feat-jasmine-thompson-ain-t-nobody-loves-me-better",
     "artist": "Felix Jaehn feat. Jasmine Thompson",
     "title": "Ain't Nobody (Loves Me Better)",
-    "sourceFilename": "Felix Jaehn & Jasmine Thompson - Ain't Nobody (Loves Me Better).mp4",
     "country": "Germany",
     "language": "EN",
-    "year": 2014
+    "year": 2014,
+    "sourceFilename": "Felix Jaehn & Jasmine Thompson - Ain't Nobody (Loves Me Better).mp4"
   },
   {
     "id": "fergie-a-little-party-never-killed-nobody",
@@ -21231,10 +21267,10 @@
     "id": "fleetwood-mac-silver-springs",
     "artist": "Fleetwood Mac",
     "title": "Silver Springs",
-    "sourceFilename": "Fleetwood Mac - Silver Springs.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 1997
+    "year": 1997,
+    "sourceFilename": "Fleetwood Mac - Silver Springs.mp4"
   },
   {
     "id": "flight-of-the-conchords-you-don-t-have-to-be-a-prostitute",
@@ -21900,10 +21936,10 @@
     "id": "fukaj-vito-bambino-zabiore-cie-tam",
     "artist": "Fukaj & Vito Bambino",
     "title": "Zabiorę Cię tam",
-    "sourceFilename": "Fukaj & Vito Bambino - Zabiorę Cię tam.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 2014
+    "year": 2014,
+    "sourceFilename": "Fukaj & Vito Bambino - Zabiorę Cię tam.kfn"
   },
   {
     "id": "fun-we-are-young",
@@ -23719,10 +23755,10 @@
     "id": "grzegorz-turnau-bracka",
     "artist": "Grzegorz Turnau",
     "title": "Bracka",
-    "sourceFilename": "Grzegorz Turnau - Bracka.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 1995
+    "year": 1995,
+    "sourceFilename": "Grzegorz Turnau - Bracka.kfn"
   },
   {
     "id": "grzegorz-turnau-basia-stepniak-wilk-bombonierka",
@@ -25247,10 +25283,10 @@
     "id": "hole-celebrity-skin",
     "artist": "Hole",
     "title": "Celebrity Skin",
-    "sourceFilename": "Hole - Celebrity Skin.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 1998
+    "year": 1998,
+    "sourceFilename": "Hole - Celebrity Skin.mp4"
   },
   {
     "id": "hollywood-undead-bullet",
@@ -26917,10 +26953,10 @@
     "id": "james-brown-it-s-a-man-s-man-s-man-s-world",
     "artist": "James Brown",
     "title": "It's a Man's Man's Man's World",
-    "sourceFilename": "James Brown - It's a Man's Man's Man's World.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 1966
+    "year": 1966,
+    "sourceFilename": "James Brown - It's a Man's Man's Man's World.mp4"
   },
   {
     "id": "james-morrison-you-give-me-something",
@@ -27007,19 +27043,19 @@
     "id": "jamiroquai-cloud-9",
     "artist": "Jamiroquai",
     "title": "Cloud 9",
-    "sourceFilename": "Jamiroquai - Cloud 9.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 1992
+    "year": 1992,
+    "sourceFilename": "Jamiroquai - Cloud 9.mp4"
   },
   {
     "id": "jamiroquai-little-l",
     "artist": "Jamiroquai",
     "title": "Little L",
-    "sourceFilename": "Jamiroquai - Little L.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 2001
+    "year": 2001,
+    "sourceFilename": "Jamiroquai - Little L.mp4"
   },
   {
     "id": "jan-kiepura-brunetki-blondynki",
@@ -27835,10 +27871,10 @@
     "id": "joan-jett-do-you-wanna-touch-me-oh-yeah",
     "artist": "Joan Jett",
     "title": "Do You Wanna Touch Me (Oh Yeah)",
-    "sourceFilename": "Joan Jett - Do You Wanna Touch Me (Oh Yeah).mp4",
     "country": "EN",
     "language": "EN",
-    "year": 1979
+    "year": 1979,
+    "sourceFilename": "Joan Jett - Do You Wanna Touch Me (Oh Yeah).mp4"
   },
   {
     "id": "joan-jett-the-blackhearts-i-hate-myself-for-loving-you",
@@ -28318,15 +28354,6 @@
     "sourceFilename": "Johnny Cash - Riders in the Sky.mp4"
   },
   {
-    "id": "johnny-cash-ring-of-fire",
-    "artist": "Johnny Cash",
-    "title": "Ring of Fire",
-    "country": "EN",
-    "language": "EN",
-    "year": 1963,
-    "sourceFilename": "Johnny Cash - Ring of Fire.kfn"
-  },
-  {
     "id": "johnny-cash-without-love",
     "artist": "Johnny Cash",
     "title": "Without Love",
@@ -28334,6 +28361,15 @@
     "language": "EN",
     "year": 1957,
     "sourceFilename": "Johnny Cash - Without Love.avi"
+  },
+  {
+    "id": "johnny-cash-ring-of-fire",
+    "artist": "Johnny Cash",
+    "title": "Ring of Fire",
+    "sourceFilename": "Johnny Cash - Ring Of Fire.mp4",
+    "country": "EN",
+    "language": "EN",
+    "year": 1963
   },
   {
     "id": "johnny-cash-june-carter-jackson",
@@ -29641,6 +29677,51 @@
     "sourceFilename": "Kasia Wilk - Pierwszy raz.kfn"
   },
   {
+    "id": "kaska-sochacka-femme-fatale",
+    "artist": "Kaska Sochacka",
+    "title": "Femme Fatale",
+    "sourceFilename": "Kaska Sochacka - Femme fatale.kfn",
+    "country": "PL",
+    "language": "EN",
+    "year": 2010
+  },
+  {
+    "id": "kaska-sochacka-komary",
+    "artist": "Kaska Sochacka",
+    "title": "Komary",
+    "sourceFilename": "Kaska Sochacka - Komary.kfn",
+    "country": "PL",
+    "language": "PL",
+    "year": 2010
+  },
+  {
+    "id": "kaska-sochacka-madison",
+    "artist": "Kaska Sochacka",
+    "title": "Madison",
+    "sourceFilename": "Kaska Sochacka - Madison.kfn",
+    "country": "PL",
+    "language": "EN",
+    "year": 2015
+  },
+  {
+    "id": "kaska-sochacka-niebo-by-o-rozowe",
+    "artist": "Kaska Sochacka",
+    "title": "Niebo było różowe",
+    "sourceFilename": "Kaska Sochacka - Niebo było różowe.kfn",
+    "country": "PL",
+    "language": "PL",
+    "year": 2008
+  },
+  {
+    "id": "kaska-sochacka-szum",
+    "artist": "Kaska Sochacka",
+    "title": "Szum",
+    "sourceFilename": "Kaska Sochacka - Szum.kfn",
+    "country": "PL",
+    "language": "PL",
+    "year": 2012
+  },
+  {
     "id": "kaska-sochacka-ciche-dni",
     "artist": "Kaśka Sochacka",
     "title": "Ciche dni",
@@ -29648,15 +29729,6 @@
     "language": "PL",
     "year": 2021,
     "sourceFilename": "Kaśka Sochacka - Ciche dni.mp4"
-  },
-  {
-    "id": "kaska-sochacka-niebo-by-o-rozowe",
-    "artist": "Kaśka Sochacka",
-    "title": "Niebo było różowe",
-    "country": "PL",
-    "language": "PL",
-    "year": 2022,
-    "sourceFilename": "Kaśka Sochacka - Niebo było różowe.mp4"
   },
   {
     "id": "kaska-sochacka-spaleni-s-oncem",
@@ -33130,10 +33202,10 @@
     "id": "lenny-kravitz-believe-in-me",
     "artist": "Lenny Kravitz",
     "title": "Believe in Me",
-    "sourceFilename": "Lenny Kravitz - Believe in me.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 1993
+    "year": 1993,
+    "sourceFilename": "Lenny Kravitz - Believe in me.mp4"
   },
   {
     "id": "leona-lewis-better-in-time",
@@ -34012,19 +34084,19 @@
     "id": "linkin-park-new-divide",
     "artist": "Linkin Park",
     "title": "New Divide",
-    "sourceFilename": "Linkin Park - New Divide.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 2007
+    "year": 2007,
+    "sourceFilename": "Linkin Park - New Divide.mp4"
   },
   {
     "id": "linkin-park-what-i-ve-done",
     "artist": "Linkin Park",
     "title": "What I've Done",
-    "sourceFilename": "Linkin Park - What I've done.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2004
+    "year": 2004,
+    "sourceFilename": "Linkin Park - What I've done.kfn"
   },
   {
     "id": "linkin-park-jay-z-numb-encore",
@@ -34187,6 +34259,78 @@
     "language": "EN",
     "year": 2015,
     "sourceFilename": "Little Mix & Jason Derulo - Secret love song.kfn"
+  },
+  {
+    "id": "little-river-band-cool-change",
+    "artist": "Little River Band",
+    "title": "Cool Change",
+    "sourceFilename": "The Little River Band - Cool Change.cdg",
+    "country": "EN",
+    "language": "EN",
+    "year": 1979
+  },
+  {
+    "id": "little-river-band-happy-anniversary",
+    "artist": "Little River Band",
+    "title": "Happy Anniversary",
+    "sourceFilename": "The Little River Band - Happy Anniversary.cdg",
+    "country": "EN",
+    "language": "EN",
+    "year": 1983
+  },
+  {
+    "id": "little-river-band-help-is-on-its-way",
+    "artist": "Little River Band",
+    "title": "Help Is On Its Way",
+    "sourceFilename": "The Little River Band - Help Is On Its Way.cdg",
+    "country": "EN",
+    "language": "EN",
+    "year": 1977
+  },
+  {
+    "id": "little-river-band-lady",
+    "artist": "Little River Band",
+    "title": "Lady",
+    "sourceFilename": "The Little River Band - Lady.cdg",
+    "country": "EN",
+    "language": "EN",
+    "year": 1978
+  },
+  {
+    "id": "little-river-band-lonesome-loser",
+    "artist": "Little River Band",
+    "title": "Lonesome Loser",
+    "sourceFilename": "The Little River Band - Lonesome Loser.cdg",
+    "country": "EN",
+    "language": "EN",
+    "year": 1979
+  },
+  {
+    "id": "little-river-band-reminiscing",
+    "artist": "Little River Band",
+    "title": "Reminiscing",
+    "sourceFilename": "The Little River Band - Reminiscing.cdg",
+    "country": "EN",
+    "language": "EN",
+    "year": 1978
+  },
+  {
+    "id": "little-river-band-take-it-easy-on-me",
+    "artist": "Little River Band",
+    "title": "Take It Easy On Me",
+    "sourceFilename": "The Little River Band - Take It Easy On Me.cdg",
+    "country": "EN",
+    "language": "EN",
+    "year": 1981
+  },
+  {
+    "id": "little-river-band-the-other-guy",
+    "artist": "Little River Band",
+    "title": "The Other Guy",
+    "sourceFilename": "The Little River Band - The Other Guy.cdg",
+    "country": "EN",
+    "language": "EN",
+    "year": 1976
   },
   {
     "id": "little-shop-of-horrors-dentist",
@@ -34471,10 +34615,10 @@
     "id": "long-junior-bawimy-sie",
     "artist": "Long & Junior",
     "title": "Bawimy się",
-    "sourceFilename": "Long & Junior - Bawimy się.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 2007
+    "year": 2007,
+    "sourceFilename": "Long & Junior - Bawimy się.kfn"
   },
   {
     "id": "loona-vamos-a-la-playa",
@@ -34529,10 +34673,10 @@
     "id": "lordofon-grawitacja",
     "artist": "Lordofon",
     "title": "Grawitacja",
-    "sourceFilename": "Lordofon - Grawitacja.mp4",
     "country": "PL",
     "language": "PL",
-    "year": 2014
+    "year": 2014,
+    "sourceFilename": "Lordofon - Grawitacja.mp4"
   },
   {
     "id": "loreen-euphoria",
@@ -34825,10 +34969,10 @@
     "id": "lukas-graham-7-years",
     "artist": "Lukas Graham",
     "title": "7 Years",
-    "sourceFilename": "Lukas Graham - 7 Years.mp4",
     "country": "Norway",
     "language": "EN",
-    "year": 2015
+    "year": 2015,
+    "sourceFilename": "Lukas Graham - 7 Years.mp4"
   },
   {
     "id": "luke-combs-beer-never-broke-my-heart",
@@ -37781,6 +37925,15 @@
     "sourceFilename": "Meghan Trainor - Dear Future Husband.mp4"
   },
   {
+    "id": "meghan-trainor-john-legend-like-i-m-gonna-lose-you",
+    "artist": "Meghan Trainor & John Legend",
+    "title": "Like I'm Gonna Lose You",
+    "sourceFilename": "Meghan Trainor & John Legend - Like Im Gonna Lose You.mp4",
+    "country": "EN",
+    "language": "EN",
+    "year": 2016
+  },
+  {
     "id": "meghan-trainor-feat-john-legend-like-i-m-gonna-lose-you",
     "artist": "Meghan Trainor feat. John Legend",
     "title": "Like I'm Gonna Lose You",
@@ -37878,6 +38031,15 @@
     "language": "EN",
     "year": 2001,
     "sourceFilename": "Melissa Etheridge - Lover Please.cdg"
+  },
+  {
+    "id": "men-at-work-down-under",
+    "artist": "Men at Work",
+    "title": "Down Under",
+    "sourceFilename": "Men At Work - Down Under.mp4",
+    "country": "EN",
+    "language": "EN",
+    "year": 1981
   },
   {
     "id": "menudo-if-you-re-not-here-by-my-side",
@@ -38375,37 +38537,37 @@
     "id": "meskie-granie-orkiestra-boje-sie-o-ciebie",
     "artist": "Męskie Granie Orkiestra",
     "title": "Boję się o Ciebie",
-    "sourceFilename": "Męskie Granie Orkiestra - Boję się o Ciebie.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 2014
+    "year": 2014,
+    "sourceFilename": "Męskie Granie Orkiestra - Boję się o Ciebie.kfn"
   },
   {
     "id": "meskie-granie-orkiestra-p-ona-gory-p-ona-lasy",
     "artist": "Męskie Granie Orkiestra",
     "title": "Płoną góry, płoną lasy",
-    "sourceFilename": "Męskie Granie Orkiestra - Płoną góry, płoną lasy.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 2004
+    "year": 2004,
+    "sourceFilename": "Męskie Granie Orkiestra - Płoną góry, płoną lasy.kfn"
   },
   {
     "id": "meskie-granie-orkiestra-wszyscy-muzycy-to-wojownicy",
     "artist": "Męskie Granie Orkiestra",
     "title": "Wszyscy muzycy to wojownicy",
-    "sourceFilename": "Męskie Granie Orkiestra - Wszyscy muzycy to wojownicy.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 2004
+    "year": 2004,
+    "sourceFilename": "Męskie Granie Orkiestra - Wszyscy muzycy to wojownicy.kfn"
   },
   {
     "id": "meskie-granie-orkiestra-wszystko-ok",
     "artist": "Męskie Granie Orkiestra",
     "title": "Wszystko OK",
-    "sourceFilename": "Męskie Granie Orkiestra - Wszystko OK.kfn",
     "country": "PL",
     "language": "PL",
-    "year": 2004
+    "year": 2004,
+    "sourceFilename": "Męskie Granie Orkiestra - Wszystko OK.kfn"
   },
   {
     "id": "michael-bolton-when-a-man-loves-a-woman",
@@ -38726,10 +38888,10 @@
     "id": "michael-jackson-liberian-girl",
     "artist": "Michael Jackson",
     "title": "Liberian Girl",
-    "sourceFilename": "Michael Jackson - Liberian Girl.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 1987
+    "year": 1987,
+    "sourceFilename": "Michael Jackson - Liberian Girl.mp4"
   },
   {
     "id": "michael-jackson-feat-akon-hold-my-hand",
@@ -39045,10 +39207,10 @@
     "id": "mike-the-mechanics-the-living-years",
     "artist": "Mike + The Mechanics",
     "title": "The Living Years",
-    "sourceFilename": "Mike & The Mechanics - The Living Years.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1988
+    "year": 1988,
+    "sourceFilename": "Mike & The Mechanics - The Living Years.cdg"
   },
   {
     "id": "mike-oldfield-moonlight-shadow",
@@ -39942,6 +40104,42 @@
     "sourceFilename": "Mrozu - Złoto.kfn"
   },
   {
+    "id": "mrozu-asteroida",
+    "artist": "Mrozu",
+    "title": "Asteroida",
+    "sourceFilename": "Mrozu - Asteroida.kfn",
+    "country": "PL",
+    "language": "PL",
+    "year": 2003
+  },
+  {
+    "id": "mrozu-galacticos",
+    "artist": "Mrozu",
+    "title": "Galacticos",
+    "sourceFilename": "Mrozu - Galacticos.kfn",
+    "country": "PL",
+    "language": "PL",
+    "year": 2008
+  },
+  {
+    "id": "mrozu-odpowiedni-moment",
+    "artist": "Mrozu",
+    "title": "Odpowiedni moment",
+    "sourceFilename": "Mrozu - Odpowiedni moment.kfn",
+    "country": "PL",
+    "language": "PL",
+    "year": 2005
+  },
+  {
+    "id": "mrozu-napad",
+    "artist": "Mrozu",
+    "title": "Napad",
+    "sourceFilename": "Mrozu - Napad.kfn",
+    "country": "PL",
+    "language": "PL",
+    "year": 2004
+  },
+  {
     "id": "mrozu-feat-vito-bambino-za-daleko",
     "artist": "Mrozu feat. Vito Bambino",
     "title": "Za daleko",
@@ -40116,10 +40314,10 @@
     "id": "muse-madness",
     "artist": "Muse",
     "title": "Madness",
-    "sourceFilename": "Muse - Madness.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2012
+    "year": 2012,
+    "sourceFilename": "Muse - Madness.kfn"
   },
   {
     "id": "my-chemical-romance-desolation-row",
@@ -40152,10 +40350,10 @@
     "id": "my-chemical-romance-helena",
     "artist": "My Chemical Romance",
     "title": "Helena",
-    "sourceFilename": "My Chemical Romance - Helena.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2004
+    "year": 2004,
+    "sourceFilename": "My Chemical Romance - Helena.kfn"
   },
   {
     "id": "my-fair-lady-cast-get-me-to-the-church-on-time",
@@ -40557,6 +40755,15 @@
     "language": "EN",
     "year": 1951,
     "sourceFilename": "Nat King Cole - Unforgettable.kfn"
+  },
+  {
+    "id": "natale-galletta-tu-o-chiamme-ammore",
+    "artist": "Natale Galletta",
+    "title": "Tu o Chiamme Ammore",
+    "sourceFilename": "NATALE GALLETTA - TU O CHIAMME AMMORE.mp4",
+    "country": "Italy",
+    "language": "Italy",
+    "year": 1954
   },
   {
     "id": "natalia-kukulska-bal-moich-lalek",
@@ -42383,10 +42590,10 @@
     "id": "one-direction-one-way-or-another",
     "artist": "One Direction",
     "title": "One Way or Another",
-    "sourceFilename": "One Direction - One way or another.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 2012
+    "year": 2012,
+    "sourceFilename": "One Direction - One way or another.mp4"
   },
   {
     "id": "onerepublic-all-the-right-moves",
@@ -42608,6 +42815,24 @@
     "language": "EN",
     "year": 1968,
     "sourceFilename": "Otis Redding - I've Got Dreams To Remember.avi"
+  },
+  {
+    "id": "otsochodzi-kfc",
+    "artist": "Otsochodzi",
+    "title": "KFC",
+    "sourceFilename": "Otsochodzi - KFC.kfn",
+    "country": "PL",
+    "language": "PL",
+    "year": 2010
+  },
+  {
+    "id": "otsochodzi-luty",
+    "artist": "Otsochodzi",
+    "title": "Luty",
+    "sourceFilename": "Otsochodzi - Luty.kfn",
+    "country": "PL",
+    "language": "PL",
+    "year": 2015
   },
   {
     "id": "ottawan-d-i-s-c-o",
@@ -43365,10 +43590,10 @@
     "id": "paul-young-every-time-you-go-away",
     "artist": "Paul Young",
     "title": "Every Time You Go Away",
-    "sourceFilename": "Paul Young- Everytime You Go Away.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1985
+    "year": 1985,
+    "sourceFilename": "Paul Young- Everytime You Go Away.cdg"
   },
   {
     "id": "paula-abdul-straight-up",
@@ -44843,6 +45068,15 @@
     "sourceFilename": "Poison - Every Rose Has Its Thorn.mp4"
   },
   {
+    "id": "poison-nothin-but-a-good-time",
+    "artist": "Poison",
+    "title": "Nothin' but a Good Time",
+    "sourceFilename": "Poison - Nothin but a Good Time.mp4",
+    "country": "EN",
+    "language": "EN",
+    "year": 1988
+  },
+  {
     "id": "pokahontaz-nie-ma-czym-oddychac",
     "artist": "Pokahontaz",
     "title": "Nie ma czym oddychać",
@@ -46064,6 +46298,15 @@
     "sourceFilename": "Raffaella Carrà - Pedro Pedro.kfn"
   },
   {
+    "id": "raffaello-scivola-quel-jeans",
+    "artist": "Raffaello",
+    "title": "Scivola quel jeans",
+    "sourceFilename": "Raffaello - Scivola quel jeans.mp4",
+    "country": "Italy",
+    "language": "Italy",
+    "year": 1987
+  },
+  {
     "id": "rag-n-bone-man-human",
     "artist": "Rag'n'Bone Man",
     "title": "Human",
@@ -46363,10 +46606,10 @@
     "id": "rascal-flatts-life-is-a-highway",
     "artist": "Rascal Flatts",
     "title": "Life Is a Highway",
-    "sourceFilename": "Rascal Flatts - Life Is A Highway.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 2009
+    "year": 2009,
+    "sourceFilename": "Rascal Flatts - Life Is A Highway.mp4"
   },
   {
     "id": "ratt-back-for-more",
@@ -46435,10 +46678,10 @@
     "id": "raye-where-is-my-husband",
     "artist": "RAYE",
     "title": "Where Is My Husband!",
-    "sourceFilename": "RAYE - Where is my husband!.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 2023
+    "year": 2023,
+    "sourceFilename": "RAYE - Where is my husband!.mp4"
   },
   {
     "id": "raye-feat-070-shake-escapism",
@@ -46867,10 +47110,10 @@
     "id": "red-hot-chili-peppers-dosed",
     "artist": "Red Hot Chili Peppers",
     "title": "Dosed",
-    "sourceFilename": "Red Hot Chili Peppers - Dosed.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 2002
+    "year": 2002,
+    "sourceFilename": "Red Hot Chili Peppers - Dosed.mp4"
   },
   {
     "id": "red-lips-czarne-i-bia-e",
@@ -46993,10 +47236,10 @@
     "id": "renee-rapp-tummy-hurts",
     "artist": "Renée Rapp",
     "title": "Tummy Hurts",
-    "sourceFilename": "Renée Rapp - Tummy Hurts.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 2022
+    "year": 2022,
+    "sourceFilename": "Renée Rapp - Tummy Hurts.mp4"
   },
   {
     "id": "renee-zellweger-catherine-zeta-jones-nowadays",
@@ -48042,10 +48285,10 @@
     "id": "robyn-dancing-on-my-own",
     "artist": "Robyn",
     "title": "Dancing On My Own",
-    "sourceFilename": "Robyn - Dancing On My Own.mp4",
     "country": "Sweden",
     "language": "EN",
-    "year": 1994
+    "year": 1994,
+    "sourceFilename": "Robyn - Dancing On My Own.mp4"
   },
   {
     "id": "rod-stewart-ruby-tuesday",
@@ -49113,10 +49356,10 @@
     "id": "samurai-never-fade-away",
     "artist": "Samurai",
     "title": "Never Fade Away",
-    "sourceFilename": "Samurai - Never Fade Away.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2020
+    "year": 2020,
+    "sourceFilename": "Samurai - Never Fade Away.kfn"
   },
   {
     "id": "sanah-anio-om-szepnij-to",
@@ -49920,10 +50163,10 @@
     "id": "selena-gomez-same-old-love",
     "artist": "Selena Gomez",
     "title": "Same Old Love",
-    "sourceFilename": "Selena Gomez - Same Old Love.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 2015
+    "year": 2015,
+    "sourceFilename": "Selena Gomez - Same Old Love.mp4"
   },
   {
     "id": "semisonic-secret-smile",
@@ -50909,19 +51152,19 @@
     "id": "simply-red-it-s-only-love",
     "artist": "Simply Red",
     "title": "It's Only Love",
-    "sourceFilename": "Simply Red - It's only love.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 1989
+    "year": 1989,
+    "sourceFilename": "Simply Red - It's only love.mp4"
   },
   {
     "id": "simply-red-stars",
     "artist": "Simply Red",
     "title": "Stars",
-    "sourceFilename": "Simply Red - Stars.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 1991
+    "year": 1991,
+    "sourceFilename": "Simply Red - Stars.mp4"
   },
   {
     "id": "sinead-o-connor-nothing-compares-2-u",
@@ -51501,10 +51744,10 @@
     "id": "smash-dancing-on-my-own",
     "artist": "Smash",
     "title": "Dancing On My Own",
-    "sourceFilename": "Smash - Dancing On My Own.mp4",
     "country": "PL",
     "language": "EN",
-    "year": 2013
+    "year": 2013,
+    "sourceFilename": "Smash - Dancing On My Own.mp4"
   },
   {
     "id": "smash-mouth-all-star",
@@ -52380,9 +52623,9 @@
     "id": "stardust-music-sounds-better-with-you",
     "artist": "Stardust",
     "title": "Music Sounds Better With You",
-    "sourceFilename": "Stardust - Music Sounds Better With You.mp4",
     "language": "EN",
-    "year": 1999
+    "year": 1999,
+    "sourceFilename": "Stardust - Music Sounds Better With You.mp4"
   },
   {
     "id": "stare-dobre-ma-zenstwo-bieszczadzkie-anio-y",
@@ -52712,37 +52955,37 @@
     "id": "stevie-wonder-boogie-on-reggae-woman",
     "artist": "Stevie Wonder",
     "title": "Boogie on Reggae Woman",
-    "sourceFilename": "Stevie Wonder - Boogi On Reggae Woman.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1974
+    "year": 1974,
+    "sourceFilename": "Stevie Wonder - Boogi On Reggae Woman.cdg"
   },
   {
     "id": "stevie-wonder-higher-ground",
     "artist": "Stevie Wonder",
     "title": "Higher Ground",
-    "sourceFilename": "Stevie Wonder - Higher Ground.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1973
+    "year": 1973,
+    "sourceFilename": "Stevie Wonder - Higher Ground.cdg"
   },
   {
     "id": "stevie-wonder-i-wish",
     "artist": "Stevie Wonder",
     "title": "I Wish",
-    "sourceFilename": "Stevie Wonder - I Wish.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1976
+    "year": 1976,
+    "sourceFilename": "Stevie Wonder - I Wish.cdg"
   },
   {
     "id": "stevie-wonder-isn-t-she-lovely",
     "artist": "Stevie Wonder",
     "title": "Isn't She Lovely",
-    "sourceFilename": "Stevie Wonder - Isn't She Lovely.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1974
+    "year": 1974,
+    "sourceFilename": "Stevie Wonder - Isn't She Lovely.kfn"
   },
   {
     "id": "stevie-wonder-feat-ariana-grande-faith",
@@ -52766,19 +53009,19 @@
     "id": "stiff-little-fingers-strawdogs",
     "artist": "Stiff Little Fingers",
     "title": "Strawdogs",
-    "sourceFilename": "Stiff Little Fingers - Strawdogs.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 2003
+    "year": 2003,
+    "sourceFilename": "Stiff Little Fingers - Strawdogs.cdg"
   },
   {
     "id": "stiltskin-inside",
     "artist": "Stiltskin",
     "title": "Inside",
-    "sourceFilename": "Stiltskin - Inside.CDG",
     "country": "EN",
     "language": "EN",
-    "year": 1994
+    "year": 1994,
+    "sourceFilename": "Stiltskin - Inside.CDG"
   },
   {
     "id": "sting-if-i-ever-lose-my-faith-in-you",
@@ -52955,100 +53198,100 @@
     "id": "stone-sour-bother",
     "artist": "Stone Sour",
     "title": "Bother",
-    "sourceFilename": "Stone Sour - Bother.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 2002
+    "year": 2002,
+    "sourceFilename": "Stone Sour - Bother.mp4"
   },
   {
     "id": "stone-temple-pilots-all-in-the-suit-that-you-wear",
     "artist": "Stone Temple Pilots",
     "title": "All in the Suit That You Wear",
-    "sourceFilename": "Stone Temple Pilots - All in the suit that you wear.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1992
+    "year": 1992,
+    "sourceFilename": "Stone Temple Pilots - All in the suit that you wear.cdg"
   },
   {
     "id": "stone-temple-pilots-big-bang-baby",
     "artist": "Stone Temple Pilots",
     "title": "Big Bang Baby",
-    "sourceFilename": "Stone Temple Pilots - Big Bang Baby.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1994
+    "year": 1994,
+    "sourceFilename": "Stone Temple Pilots - Big Bang Baby.cdg"
   },
   {
     "id": "stone-temple-pilots-big-empty",
     "artist": "Stone Temple Pilots",
     "title": "Big Empty",
-    "sourceFilename": "Stone Temple Pilots - Big Empty.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1994
+    "year": 1994,
+    "sourceFilename": "Stone Temple Pilots - Big Empty.cdg"
   },
   {
     "id": "stone-temple-pilots-days-of-the-week",
     "artist": "Stone Temple Pilots",
     "title": "Days of the Week",
-    "sourceFilename": "Stone Temple Pilots - Days Of The Week.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 2010
+    "year": 2010,
+    "sourceFilename": "Stone Temple Pilots - Days Of The Week.cdg"
   },
   {
     "id": "stone-temple-pilots-hollywood-bitch",
     "artist": "Stone Temple Pilots",
     "title": "Hollywood Bitch",
-    "sourceFilename": "Stone Temple Pilots - Hollywood Bitch.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1992
+    "year": 1992,
+    "sourceFilename": "Stone Temple Pilots - Hollywood Bitch.cdg"
   },
   {
     "id": "stone-temple-pilots-interstate-love-song",
     "artist": "Stone Temple Pilots",
     "title": "Interstate Love Song",
-    "sourceFilename": "Stone Temple Pilots - Interstate Love Song.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1994
+    "year": 1994,
+    "sourceFilename": "Stone Temple Pilots - Interstate Love Song.cdg"
   },
   {
     "id": "stone-temple-pilots-lady-picture-show",
     "artist": "Stone Temple Pilots",
     "title": "Lady Picture Show",
-    "sourceFilename": "Stone Temple Pilots - Lady Picture Show.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1992
+    "year": 1992,
+    "sourceFilename": "Stone Temple Pilots - Lady Picture Show.cdg"
   },
   {
     "id": "stone-temple-pilots-plush",
     "artist": "Stone Temple Pilots",
     "title": "Plush",
-    "sourceFilename": "Stone Temple Pilots - Plush.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1992
+    "year": 1992,
+    "sourceFilename": "Stone Temple Pilots - Plush.cdg"
   },
   {
     "id": "stone-temple-pilots-sour-girl",
     "artist": "Stone Temple Pilots",
     "title": "Sour Girl",
-    "sourceFilename": "Stone Temple Pilots - Sour Girl.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 2002
+    "year": 2002,
+    "sourceFilename": "Stone Temple Pilots - Sour Girl.cdg"
   },
   {
     "id": "stone-temple-pilots-trippin-on-a-hole-in-a-paper-heart",
     "artist": "Stone Temple Pilots",
     "title": "Trippin' On A Hole In A Paper Heart",
-    "sourceFilename": "Stone Temple Pilots - Trippin' On A Hole In A Paper Heart.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1994
+    "year": 1994,
+    "sourceFilename": "Stone Temple Pilots - Trippin' On A Hole In A Paper Heart.cdg"
   },
   {
     "id": "stooshe-feat-travie-mccoy-love-me",
@@ -53153,10 +53396,10 @@
     "id": "street-dry-your-eyes",
     "artist": "Street",
     "title": "Dry Your Eyes",
-    "sourceFilename": "Street - Dry Your Eyes.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1973
+    "year": 1973,
+    "sourceFilename": "Street - Dry Your Eyes.cdg"
   },
   {
     "id": "stromae-alors-on-danse",
@@ -53203,127 +53446,127 @@
     "id": "styx-babe",
     "artist": "Styx",
     "title": "Babe",
-    "sourceFilename": "Styx - Babe.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1978
+    "year": 1978,
+    "sourceFilename": "Styx - Babe.cdg"
   },
   {
     "id": "styx-come-sail-away",
     "artist": "Styx",
     "title": "Come Sail Away",
-    "sourceFilename": "Styx - Come Sail Away.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1975
+    "year": 1975,
+    "sourceFilename": "Styx - Come Sail Away.cdg"
   },
   {
     "id": "styx-crystal-ball",
     "artist": "Styx",
     "title": "Crystal Ball",
-    "sourceFilename": "Styx - Crystall Ball.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1973
+    "year": 1973,
+    "sourceFilename": "Styx - Crystall Ball.cdg"
   },
   {
     "id": "styx-don-t-let-it-end",
     "artist": "Styx",
     "title": "Don't Let It End",
-    "sourceFilename": "Styx - Don't Let It End.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1981
+    "year": 1981,
+    "sourceFilename": "Styx - Don't Let It End.cdg"
   },
   {
     "id": "styx-light-up",
     "artist": "Styx",
     "title": "Light Up",
-    "sourceFilename": "Styx - Light Up.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1974
+    "year": 1974,
+    "sourceFilename": "Styx - Light Up.cdg"
   },
   {
     "id": "styx-lorelei",
     "artist": "Styx",
     "title": "Lorelei",
-    "sourceFilename": "Styx - Lorelei.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1974
+    "year": 1974,
+    "sourceFilename": "Styx - Lorelei.cdg"
   },
   {
     "id": "styx-miss-america",
     "artist": "Styx",
     "title": "Miss America",
-    "sourceFilename": "Styx - Miss America.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1974
+    "year": 1974,
+    "sourceFilename": "Styx - Miss America.cdg"
   },
   {
     "id": "styx-mr-roboto",
     "artist": "Styx",
     "title": "Mr. Roboto",
-    "sourceFilename": "Styx - Mr Roboto.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1983
+    "year": 1983,
+    "sourceFilename": "Styx - Mr Roboto.cdg"
   },
   {
     "id": "styx-renegade",
     "artist": "Styx",
     "title": "Renegade",
-    "sourceFilename": "Styx - Renegade.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1974
+    "year": 1974,
+    "sourceFilename": "Styx - Renegade.cdg"
   },
   {
     "id": "styx-show-me-the-way",
     "artist": "Styx",
     "title": "Show Me The Way",
-    "sourceFilename": "Styx - Show Me The Way.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1990
+    "year": 1990,
+    "sourceFilename": "Styx - Show Me The Way.cdg"
   },
   {
     "id": "styx-suite-madame-blue",
     "artist": "Styx",
     "title": "Suite Madame Blue",
-    "sourceFilename": "Styx - Suite Madame Blue.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1975
+    "year": 1975,
+    "sourceFilename": "Styx - Suite Madame Blue.cdg"
   },
   {
     "id": "styx-the-best-of-times",
     "artist": "Styx",
     "title": "The Best Of Times",
-    "sourceFilename": "Styx - The Best Of Times.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1981
+    "year": 1981,
+    "sourceFilename": "Styx - The Best Of Times.cdg"
   },
   {
     "id": "styx-the-grand-illusion",
     "artist": "Styx",
     "title": "The Grand Illusion",
-    "sourceFilename": "Styx - The Grand Illusion.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1976
+    "year": 1976,
+    "sourceFilename": "Styx - The Grand Illusion.cdg"
   },
   {
     "id": "styx-too-much-time-on-my-hands",
     "artist": "Styx",
     "title": "Too Much Time On My Hands",
-    "sourceFilename": "Styx - Too Much Time On My Hands.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1981
+    "year": 1981,
+    "sourceFilename": "Styx - Too Much Time On My Hands.cdg"
   },
   {
     "id": "sublime-badfish",
@@ -53392,10 +53635,10 @@
     "id": "sugababes-round-round",
     "artist": "Sugababes",
     "title": "Round Round",
-    "sourceFilename": "Sugababes - Round Round.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 2002
+    "year": 2002,
+    "sourceFilename": "Sugababes - Round Round.cdg"
   },
   {
     "id": "sugar-ray-abracadabra",
@@ -53410,46 +53653,46 @@
     "id": "sugar-ray-answer-the-phone",
     "artist": "Sugar Ray",
     "title": "Answer The Phone",
-    "sourceFilename": "Sugar Ray - Answer The Phone.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 2001
+    "year": 2001,
+    "sourceFilename": "Sugar Ray - Answer The Phone.cdg"
   },
   {
     "id": "sugar-ray-every-morning",
     "artist": "Sugar Ray",
     "title": "Every Morning",
-    "sourceFilename": "Sugar Ray - Every morning.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1999
+    "year": 1999,
+    "sourceFilename": "Sugar Ray - Every morning.cdg"
   },
   {
     "id": "sugar-ray-fly",
     "artist": "Sugar Ray",
     "title": "Fly",
-    "sourceFilename": "Sugar Ray - Fly.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1997
+    "year": 1997,
+    "sourceFilename": "Sugar Ray - Fly.cdg"
   },
   {
     "id": "sugar-ray-mr-bartender",
     "artist": "Sugar Ray",
     "title": "Mr. Bartender",
-    "sourceFilename": "Sugar Ray - Mr Bartender.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 2001
+    "year": 2001,
+    "sourceFilename": "Sugar Ray - Mr Bartender.cdg"
   },
   {
     "id": "sugar-ray-someday",
     "artist": "Sugar Ray",
     "title": "Someday",
-    "sourceFilename": "Sugar Ray - Someday.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1999
+    "year": 1999,
+    "sourceFilename": "Sugar Ray - Someday.cdg"
   },
   {
     "id": "sum-41-another-time-around",
@@ -53536,28 +53779,28 @@
     "id": "sum-41-some-say",
     "artist": "Sum 41",
     "title": "Some Say",
-    "sourceFilename": "Sum 41 - Some Say.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 2004
+    "year": 2004,
+    "sourceFilename": "Sum 41 - Some Say.cdg"
   },
   {
     "id": "sum-41-still-waiting",
     "artist": "Sum 41",
     "title": "Still Waiting",
-    "sourceFilename": "Sum 41 - Still waiting.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 2002
+    "year": 2002,
+    "sourceFilename": "Sum 41 - Still waiting.cdg"
   },
   {
     "id": "sum-41-what-we-re-all-about",
     "artist": "Sum 41",
     "title": "What We're All About",
-    "sourceFilename": "Sum 41 - What We're All About.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 2001
+    "year": 2001,
+    "sourceFilename": "Sum 41 - What We're All About.cdg"
   },
   {
     "id": "sumptuastic-niebo-bez-ciebie",
@@ -53616,82 +53859,82 @@
     "id": "supergrass-pumping-on-your-stereo",
     "artist": "Supergrass",
     "title": "Pumping On Your Stereo",
-    "sourceFilename": "Supergrass - Pumping On Your Stereo.CDG",
     "country": "EN",
     "language": "EN",
-    "year": 1999
+    "year": 1999,
+    "sourceFilename": "Supergrass - Pumping On Your Stereo.CDG"
   },
   {
     "id": "supergrass-seen-the-light",
     "artist": "Supergrass",
     "title": "Seen The Light",
-    "sourceFilename": "Supergrass - Seen The Light.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1994
+    "year": 1994,
+    "sourceFilename": "Supergrass - Seen The Light.cdg"
   },
   {
     "id": "supergrass-alright",
     "artist": "Supergrass",
     "title": "Alright",
-    "sourceFilename": "Supergrass - Alright.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1995
+    "year": 1995,
+    "sourceFilename": "Supergrass - Alright.cdg"
   },
   {
     "id": "supertramp-bloody-well-right",
     "artist": "Supertramp",
     "title": "Bloody Well Right",
-    "sourceFilename": "Supertramp - Bloody Well Right.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1974
+    "year": 1974,
+    "sourceFilename": "Supertramp - Bloody Well Right.cdg"
   },
   {
     "id": "supertramp-give-a-little-bit",
     "artist": "Supertramp",
     "title": "Give A Little Bit",
-    "sourceFilename": "Supertramp - Give A Little Bit.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1977
+    "year": 1977,
+    "sourceFilename": "Supertramp - Give A Little Bit.cdg"
   },
   {
     "id": "supertramp-goodbye-stranger",
     "artist": "Supertramp",
     "title": "Goodbye Stranger",
-    "sourceFilename": "Supertramp - Goodbye Stranger.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1979
+    "year": 1979,
+    "sourceFilename": "Supertramp - Goodbye Stranger.cdg"
   },
   {
     "id": "supertramp-take-the-long-way-home",
     "artist": "Supertramp",
     "title": "Take The Long Way Home",
-    "sourceFilename": "Supertramp - Take The Long Way Home.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1979
+    "year": 1979,
+    "sourceFilename": "Supertramp - Take The Long Way Home.cdg"
   },
   {
     "id": "supertramp-the-logical-song",
     "artist": "Supertramp",
     "title": "The Logical Song",
-    "sourceFilename": "Supertramp - The Logical Song.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1979
+    "year": 1979,
+    "sourceFilename": "Supertramp - The Logical Song.cdg"
   },
   {
     "id": "supertramp-breakfast-in-america",
     "artist": "Supertramp",
     "title": "Breakfast in America",
-    "sourceFilename": "Supertramp - Breakfast In America.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1979
+    "year": 1979,
+    "sourceFilename": "Supertramp - Breakfast In America.cdg"
   },
   {
     "id": "survivor-eye-of-the-tiger",
@@ -53706,19 +53949,19 @@
     "id": "survivor-high-on-you",
     "artist": "Survivor",
     "title": "High On You",
-    "sourceFilename": "Survivor - High On You.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1984
+    "year": 1984,
+    "sourceFilename": "Survivor - High On You.cdg"
   },
   {
     "id": "survivor-i-can-t-hold-back",
     "artist": "Survivor",
     "title": "I Can't Hold Back",
-    "sourceFilename": "Survivor - I Can't Hold Back.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1982
+    "year": 1982,
+    "sourceFilename": "Survivor - I Can't Hold Back.cdg"
   },
   {
     "id": "susan-boyle-the-end-of-the-world",
@@ -53787,10 +54030,10 @@
     "id": "sweetbox-everything-s-gonna-be-alright",
     "artist": "Sweetbox",
     "title": "Everything's Gonna Be Alright",
-    "sourceFilename": "Sweetbox - Everythings Gonna Be Alright.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1997
+    "year": 1997,
+    "sourceFilename": "Sweetbox - Everythings Gonna Be Alright.cdg"
   },
   {
     "id": "sylver-turn-the-tide",
@@ -53976,28 +54219,28 @@
     "id": "system-of-a-down-hypnotize",
     "artist": "System of a Down",
     "title": "Hypnotize",
-    "sourceFilename": "System of a Down - Hypnotize.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 2005
+    "year": 2005,
+    "sourceFilename": "System of a Down - Hypnotize.kfn"
   },
   {
     "id": "system-of-a-down-lost-in-hollywood",
     "artist": "System of a Down",
     "title": "Lost in Hollywood",
-    "sourceFilename": "System Of A Down - Lost In Hollywood.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 2005
+    "year": 2005,
+    "sourceFilename": "System Of A Down - Lost In Hollywood.mp4"
   },
   {
     "id": "system-of-a-down-sugar",
     "artist": "System of a Down",
     "title": "Sugar",
-    "sourceFilename": "System Of A Down - Sugar.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 2015
+    "year": 2015,
+    "sourceFilename": "System Of A Down - Sugar.cdg"
   },
   {
     "id": "szanty-szkuner-i-m-alone",
@@ -54152,10 +54395,10 @@
     "id": "t-a-t-u-not-gonna-get-us",
     "artist": "T.A.T.U.",
     "title": "Not Gonna Get Us",
-    "sourceFilename": "T.A.T.U. - Not gonna get us.cdg",
     "country": "PL",
     "language": "EN",
-    "year": 2002
+    "year": 2002,
+    "sourceFilename": "T.A.T.U. - Not gonna get us.cdg"
   },
   {
     "id": "t-love-ajrisz",
@@ -54654,10 +54897,10 @@
     "id": "tammy-cochran-love-won-t-let-me",
     "artist": "Tammy Cochran",
     "title": "Love Won't Let Me",
-    "sourceFilename": "Tammy Cochran - Love Won't Let Me.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 2003
+    "year": 2003,
+    "sourceFilename": "Tammy Cochran - Love Won't Let Me.cdg"
   },
   {
     "id": "tammy-wynette-stand-by-your-man",
@@ -54802,6 +55045,15 @@
     "sourceFilename": "Taylor Swift - Shake It Off.mp4"
   },
   {
+    "id": "teardrop-solo-infatuazione",
+    "artist": "Teardrop",
+    "title": "Solo Infatuazione",
+    "sourceFilename": "Anthony - Solo Infatuazione.mp4",
+    "country": "Italy",
+    "language": "Italy",
+    "year": 2010
+  },
+  {
     "id": "tears-for-fears-shout",
     "artist": "Tears for Fears",
     "title": "Shout",
@@ -54814,64 +55066,64 @@
     "id": "tears-for-fears-break-it-down-again",
     "artist": "Tears for Fears",
     "title": "Break It Down Again",
-    "sourceFilename": "Tears For Fears - Break It Down Again.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1992
+    "year": 1992,
+    "sourceFilename": "Tears For Fears - Break It Down Again.cdg"
   },
   {
     "id": "tears-for-fears-call-me-mellow",
     "artist": "Tears for Fears",
     "title": "Call Me Mellow",
-    "sourceFilename": "Tears For Fears - Call Me Mellow.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1990
+    "year": 1990,
+    "sourceFilename": "Tears For Fears - Call Me Mellow.cdg"
   },
   {
     "id": "tears-for-fears-change",
     "artist": "Tears for Fears",
     "title": "Change",
-    "sourceFilename": "Tears For Fears - Change.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1992
+    "year": 1992,
+    "sourceFilename": "Tears For Fears - Change.cdg"
   },
   {
     "id": "tears-for-fears-everybody-wants-to-rule-the-world",
     "artist": "Tears for Fears",
     "title": "Everybody Wants to Rule the World",
-    "sourceFilename": "Tears For Fears - Everybody Wants To Rule The World.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1985
+    "year": 1985,
+    "sourceFilename": "Tears For Fears - Everybody Wants To Rule The World.cdg"
   },
   {
     "id": "tears-for-fears-goodnight-song",
     "artist": "Tears for Fears",
     "title": "Goodnight Song",
-    "sourceFilename": "Tears For Fears - Goodnight Song.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1989
+    "year": 1989,
+    "sourceFilename": "Tears For Fears - Goodnight Song.cdg"
   },
   {
     "id": "tears-for-fears-head-over-heels",
     "artist": "Tears for Fears",
     "title": "Head Over Heels",
-    "sourceFilename": "Tears For Fears - Head Over Heels.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1985
+    "year": 1985,
+    "sourceFilename": "Tears For Fears - Head Over Heels.cdg"
   },
   {
     "id": "tears-for-fears-sowing-the-seeds-of-love",
     "artist": "Tears for Fears",
     "title": "Sowing the Seeds of Love",
-    "sourceFilename": "Tears For Fears - Sowing The Seeds Of Love.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1989
+    "year": 1989,
+    "sourceFilename": "Tears For Fears - Sowing The Seeds Of Love.cdg"
   },
   {
     "id": "teatr-buffo-kuba-wyspa",
@@ -55057,28 +55309,28 @@
     "id": "terence-trent-d-arby-dance-little-sister",
     "artist": "Terence Trent D'Arby",
     "title": "Dance Little Sister",
-    "sourceFilename": "Terence Trent D'Arby - Dance Little Sister.CDG",
     "country": "EN",
     "language": "EN",
-    "year": 1987
+    "year": 1987,
+    "sourceFilename": "Terence Trent D'Arby - Dance Little Sister.CDG"
   },
   {
     "id": "terence-trent-d-arby-if-you-let-me-stay",
     "artist": "Terence Trent D'Arby",
     "title": "If You Let Me Stay",
-    "sourceFilename": "Terence Trent D'Arby - If You Let Me Stay.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1987
+    "year": 1987,
+    "sourceFilename": "Terence Trent D'Arby - If You Let Me Stay.cdg"
   },
   {
     "id": "terence-trent-d-arby-sign-your-name",
     "artist": "Terence Trent D'Arby",
     "title": "Sign Your Name",
-    "sourceFilename": "Terence Trent D'Arby - Sign Your Name.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1987
+    "year": 1987,
+    "sourceFilename": "Terence Trent D'Arby - Sign Your Name.cdg"
   },
   {
     "id": "teresa-werner-da-abym-ci-da-a",
@@ -55156,28 +55408,28 @@
     "id": "texas-i-don-t-want-a-lover",
     "artist": "Texas",
     "title": "I Don't Want a Lover",
-    "sourceFilename": "Texas - I Don't Want A Lover.CDG",
     "country": "EN",
     "language": "EN",
-    "year": 1989
+    "year": 1989,
+    "sourceFilename": "Texas - I Don't Want A Lover.CDG"
   },
   {
     "id": "texas-put-your-arms-around-me",
     "artist": "Texas",
     "title": "Put Your Arms Around Me",
-    "sourceFilename": "Texas - Put Your Arms Around Me.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1997
+    "year": 1997,
+    "sourceFilename": "Texas - Put Your Arms Around Me.cdg"
   },
   {
     "id": "texas-when-are-we-together",
     "artist": "Texas",
     "title": "When Are We Together",
-    "sourceFilename": "Texas - When Are We Together.CDG",
     "country": "EN",
     "language": "EN",
-    "year": 1999
+    "year": 1999,
+    "sourceFilename": "Texas - When Are We Together.CDG"
   },
   {
     "id": "the-airborne-toxic-event-sometime-around-midnight",
@@ -55255,10 +55507,10 @@
     "id": "the-ataris-boys-of-summer",
     "artist": "The Ataris",
     "title": "Boys of Summer",
-    "sourceFilename": "The Ataris - Boys of summer.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 2003
+    "year": 2003,
+    "sourceFilename": "The Ataris - Boys of summer.cdg"
   },
   {
     "id": "the-b-52-s-debbie",
@@ -55579,19 +55831,19 @@
     "id": "the-beatles-back-in-the-u-s-s-r",
     "artist": "The Beatles",
     "title": "Back in the U.S.S.R.",
-    "sourceFilename": "The Beatles - Back In The USSR.CDG",
     "country": "EN",
     "language": "EN",
-    "year": 1968
+    "year": 1968,
+    "sourceFilename": "The Beatles - Back In The USSR.CDG"
   },
   {
     "id": "the-beatles-helter-skelter",
     "artist": "The Beatles",
     "title": "Helter Skelter",
-    "sourceFilename": "The Beatles - Helter Skelter.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 1968
+    "year": 1968,
+    "sourceFilename": "The Beatles - Helter Skelter.mp4"
   },
   {
     "id": "the-beautiful-south-a-little-time",
@@ -55948,10 +56200,10 @@
     "id": "the-boomtown-rats-i-don-t-like-mondays",
     "artist": "The Boomtown Rats",
     "title": "I Don't Like Mondays",
-    "sourceFilename": "The Boomtown Rats - I Don't Like Mondays.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1979
+    "year": 1979,
+    "sourceFilename": "The Boomtown Rats - I Don't Like Mondays.cdg"
   },
   {
     "id": "the-brian-setzer-orchestra-jump-jive-an-wail",
@@ -55966,10 +56218,10 @@
     "id": "the-brotherhood-of-man-save-all-your-kisses-for-me",
     "artist": "The Brotherhood of Man",
     "title": "Save All Your Kisses for Me",
-    "sourceFilename": "The Brotherhood Of Man - Save All Your Kisses For Me.CDG",
     "country": "EN",
     "language": "EN",
-    "year": 1976
+    "year": 1976,
+    "sourceFilename": "The Brotherhood Of Man - Save All Your Kisses For Me.CDG"
   },
   {
     "id": "the-buggles-video-killed-the-radio-star",
@@ -55993,37 +56245,37 @@
     "id": "the-calling-could-it-be-any-harder",
     "artist": "The Calling",
     "title": "Could It Be Any Harder",
-    "sourceFilename": "The Calling - Could It Be Any Harder.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 2004
+    "year": 2004,
+    "sourceFilename": "The Calling - Could It Be Any Harder.cdg"
   },
   {
     "id": "the-calling-for-you",
     "artist": "The Calling",
     "title": "For You",
-    "sourceFilename": "The Calling - For You.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 2001
+    "year": 2001,
+    "sourceFilename": "The Calling - For You.cdg"
   },
   {
     "id": "the-calling-our-lives",
     "artist": "The Calling",
     "title": "Our Lives",
-    "sourceFilename": "The Calling - Our Lives.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 2004
+    "year": 2004,
+    "sourceFilename": "The Calling - Our Lives.cdg"
   },
   {
     "id": "the-calling-these-are-the-days",
     "artist": "The Calling",
     "title": "These Are The Days",
-    "sourceFilename": "The Calling - These Are The Days.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 2003
+    "year": 2003,
+    "sourceFilename": "The Calling - These Are The Days.cdg"
   },
   {
     "id": "the-cardigans-erase-rewind",
@@ -56200,10 +56452,10 @@
     "id": "the-cars-drive",
     "artist": "The Cars",
     "title": "Drive",
-    "sourceFilename": "The Cars - Drive.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1984
+    "year": 1984,
+    "sourceFilename": "The Cars - Drive.cdg"
   },
   {
     "id": "the-chainsmokers-paris",
@@ -56362,100 +56614,100 @@
     "id": "the-corrs-give-me-a-reason",
     "artist": "The Corrs",
     "title": "Give Me A Reason",
-    "sourceFilename": "The Corrs - Give Me A Reason.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 2001
+    "year": 2001,
+    "sourceFilename": "The Corrs - Give Me A Reason.cdg"
   },
   {
     "id": "the-corrs-i-never-loved-you-anyway",
     "artist": "The Corrs",
     "title": "I Never Loved You Anyway",
-    "sourceFilename": "The Corrs - I Never Loved You Anyway.CDG",
     "country": "EN",
     "language": "EN",
-    "year": 1999
+    "year": 1999,
+    "sourceFilename": "The Corrs - I Never Loved You Anyway.CDG"
   },
   {
     "id": "the-corrs-on-my-father-s-wings",
     "artist": "The Corrs",
     "title": "On My Father's Wings",
-    "sourceFilename": "The Corrs - On My Fathers Wings.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 2002
+    "year": 2002,
+    "sourceFilename": "The Corrs - On My Fathers Wings.cdg"
   },
   {
     "id": "the-corrs-one-night",
     "artist": "The Corrs",
     "title": "One Night",
-    "sourceFilename": "The Corrs - One night.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1998
+    "year": 1998,
+    "sourceFilename": "The Corrs - One night.cdg"
   },
   {
     "id": "the-corrs-so-young",
     "artist": "The Corrs",
     "title": "So Young",
-    "sourceFilename": "The Corrs - So Young.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1990
+    "year": 1990,
+    "sourceFilename": "The Corrs - So Young.cdg"
   },
   {
     "id": "the-corrs-summer-sunshine",
     "artist": "The Corrs",
     "title": "Summer Sunshine",
-    "sourceFilename": "The Corrs - Summer Sunshine.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 2002
+    "year": 2002,
+    "sourceFilename": "The Corrs - Summer Sunshine.cdg"
   },
   {
     "id": "the-corrs-would-you-be-happier",
     "artist": "The Corrs",
     "title": "Would You Be Happier",
-    "sourceFilename": "The Corrs - Would You Be Happier.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1999
+    "year": 1999,
+    "sourceFilename": "The Corrs - Would You Be Happier.cdg"
   },
   {
     "id": "the-corrs-breathless",
     "artist": "The Corrs",
     "title": "Breathless",
-    "sourceFilename": "The Corrs - Breathless.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 2000
+    "year": 2000,
+    "sourceFilename": "The Corrs - Breathless.cdg"
   },
   {
     "id": "the-corrs-only-when-i-sleep",
     "artist": "The Corrs",
     "title": "Only When I Sleep",
-    "sourceFilename": "The Corrs - Only When I Sleep.kfn",
     "country": "EN",
     "language": "EN",
-    "year": 1997
+    "year": 1997,
+    "sourceFilename": "The Corrs - Only When I Sleep.kfn"
   },
   {
     "id": "the-corrs-radio",
     "artist": "The Corrs",
     "title": "Radio",
-    "sourceFilename": "The Corrs - Radio.CDG",
     "country": "EN",
     "language": "EN",
-    "year": 2007
+    "year": 2007,
+    "sourceFilename": "The Corrs - Radio.CDG"
   },
   {
     "id": "the-corrs-feat-bono-when-the-stars-go-blue",
     "artist": "The Corrs feat. Bono",
     "title": "When The Stars Go Blue",
-    "sourceFilename": "The Corrs & Bono - When The Stars Go Blue.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 2000
+    "year": 2000,
+    "sourceFilename": "The Corrs & Bono - When The Stars Go Blue.cdg"
   },
   {
     "id": "the-cranberries-animal-instinct",
@@ -56641,46 +56893,46 @@
     "id": "the-cure-a-letter-to-elise",
     "artist": "The Cure",
     "title": "A Letter to Elise",
-    "sourceFilename": "The Cure - A Letter To Elise.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1992
+    "year": 1992,
+    "sourceFilename": "The Cure - A Letter To Elise.cdg"
   },
   {
     "id": "the-cure-fascination-street",
     "artist": "The Cure",
     "title": "Fascination Street",
-    "sourceFilename": "The Cure - Fascination Street.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1989
+    "year": 1989,
+    "sourceFilename": "The Cure - Fascination Street.cdg"
   },
   {
     "id": "the-dakotas-the-letter",
     "artist": "The Dakotas",
     "title": "The Letter",
-    "sourceFilename": "The Dakotas - The Letter.CDG",
     "country": "EN",
     "language": "EN",
-    "year": 1964
+    "year": 1964,
+    "sourceFilename": "The Dakotas - The Letter.CDG"
   },
   {
     "id": "the-damned-eloise",
     "artist": "The Damned",
     "title": "Eloise",
-    "sourceFilename": "The Damned - Eloise.CDG",
     "country": "EN",
     "language": "EN",
-    "year": 1986
+    "year": 1986,
+    "sourceFilename": "The Damned - Eloise.CDG"
   },
   {
     "id": "the-damned-love-song",
     "artist": "The Damned",
     "title": "Love Song",
-    "sourceFilename": "The Damned - Love Song.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1979
+    "year": 1979,
+    "sourceFilename": "The Damned - Love Song.cdg"
   },
   {
     "id": "the-darkness-i-believe-in-a-thing-called-love",
@@ -56704,28 +56956,28 @@
     "id": "the-dave-clark-five-bits-and-pieces",
     "artist": "The Dave Clark Five",
     "title": "Bits and Pieces",
-    "sourceFilename": "The Dave Clark Five - Bits And Pieces.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1963
+    "year": 1963,
+    "sourceFilename": "The Dave Clark Five - Bits And Pieces.cdg"
   },
   {
     "id": "the-detroit-emeralds-feel-the-need-in-me",
     "artist": "The Detroit Emeralds",
     "title": "Feel the Need in Me",
-    "sourceFilename": "The Detroit Emeralds - Feel The Need In Me.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1971
+    "year": 1971,
+    "sourceFilename": "The Detroit Emeralds - Feel The Need In Me.cdg"
   },
   {
     "id": "the-detroit-spinners-working-my-way-back-to-you-babe",
     "artist": "The Detroit Spinners",
     "title": "Working My Way Back to You Babe",
-    "sourceFilename": "The Detroit Spinners - Working My Way Back To You Babe.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1980
+    "year": 1980,
+    "sourceFilename": "The Detroit Spinners - Working My Way Back To You Babe.cdg"
   },
   {
     "id": "the-doors-love-her-madly",
@@ -56857,55 +57109,55 @@
     "id": "the-drifters-down-on-the-beach-at-the-sea",
     "artist": "The Drifters",
     "title": "Down on the Beach at the Sea",
-    "sourceFilename": "The Drifters - Down On The Beach.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1958
+    "year": 1958,
+    "sourceFilename": "The Drifters - Down On The Beach.cdg"
   },
   {
     "id": "the-drifters-some-kind-of-wonderful",
     "artist": "The Drifters",
     "title": "Some Kind of Wonderful",
-    "sourceFilename": "The Drifters - Some Kind Of Wonderful.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1961
+    "year": 1961,
+    "sourceFilename": "The Drifters - Some Kind Of Wonderful.cdg"
   },
   {
     "id": "the-drifters-there-goes-my-first-love",
     "artist": "The Drifters",
     "title": "There Goes My First Love",
-    "sourceFilename": "The Drifters - There Goes My First Love.CDG",
     "country": "EN",
     "language": "EN",
-    "year": 1975
+    "year": 1975,
+    "sourceFilename": "The Drifters - There Goes My First Love.CDG"
   },
   {
     "id": "the-drifters-when-my-little-girl-is-smiling",
     "artist": "The Drifters",
     "title": "When My Little Girl Is Smiling",
-    "sourceFilename": "The Drifters - When My Little Girl Is Smiling.CDG",
     "country": "EN",
     "language": "EN",
-    "year": 1962
+    "year": 1962,
+    "sourceFilename": "The Drifters - When My Little Girl Is Smiling.CDG"
   },
   {
     "id": "the-everly-brothers-cathy-s-clown",
     "artist": "The Everly Brothers",
     "title": "Cathy's Clown",
-    "sourceFilename": "The Everly Brothers - Cathy's Clown.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1960
+    "year": 1960,
+    "sourceFilename": "The Everly Brothers - Cathy's Clown.cdg"
   },
   {
     "id": "the-everly-brothers-wake-up-little-susie",
     "artist": "The Everly Brothers",
     "title": "Wake Up Little Susie",
-    "sourceFilename": "The Everly Brothers - Wake Up Little Susie.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1957
+    "year": 1957,
+    "sourceFilename": "The Everly Brothers - Wake Up Little Susie.cdg"
   },
   {
     "id": "the-five-stairsteps-o-o-h-child",
@@ -56920,46 +57172,46 @@
     "id": "the-four-tops-ain-t-no-woman",
     "artist": "The Four Tops",
     "title": "Ain't No Woman",
-    "sourceFilename": "The Four Tops - Ain't No Woman.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1971
+    "year": 1971,
+    "sourceFilename": "The Four Tops - Ain't No Woman.cdg"
   },
   {
     "id": "the-four-tops-baby-i-need-your-loving",
     "artist": "The Four Tops",
     "title": "Baby, I Need Your Loving",
-    "sourceFilename": "The Four Tops - Baby, I Need Your Loving.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1964
+    "year": 1964,
+    "sourceFilename": "The Four Tops - Baby, I Need Your Loving.cdg"
   },
   {
     "id": "the-four-tops-i-can-t-help-myself",
     "artist": "The Four Tops",
     "title": "I Can't Help Myself",
-    "sourceFilename": "The Four Tops - I Can't Help Myself.CDG",
     "country": "EN",
     "language": "EN",
-    "year": 1965
+    "year": 1965,
+    "sourceFilename": "The Four Tops - I Can't Help Myself.CDG"
   },
   {
     "id": "the-four-tops-reach-out-i-ll-be-there",
     "artist": "The Four Tops",
     "title": "Reach Out, I'll Be There",
-    "sourceFilename": "The Four Tops - Reach Out And I'll Be There.CDG",
     "country": "EN",
     "language": "EN",
-    "year": 1966
+    "year": 1966,
+    "sourceFilename": "The Four Tops - Reach Out And I'll Be There.CDG"
   },
   {
     "id": "the-four-tops-when-she-was-my-girl",
     "artist": "The Four Tops",
     "title": "When She Was My Girl",
-    "sourceFilename": "The Four Tops - When She Was My Girl.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1981
+    "year": 1981,
+    "sourceFilename": "The Four Tops - When She Was My Girl.cdg"
   },
   {
     "id": "the-gap-band-oops-upside-your-head",
@@ -57019,46 +57271,46 @@
     "id": "the-guess-who-hand-me-down-world",
     "artist": "The Guess Who",
     "title": "Hand Me Down World",
-    "sourceFilename": "The Guess Who - Hand Me Down World.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1970
+    "year": 1970,
+    "sourceFilename": "The Guess Who - Hand Me Down World.cdg"
   },
   {
     "id": "the-guess-who-shakin-all-over",
     "artist": "The Guess Who",
     "title": "Shakin' All Over",
-    "sourceFilename": "The Guess Who - Shakin' All Over.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1965
+    "year": 1965,
+    "sourceFilename": "The Guess Who - Shakin' All Over.cdg"
   },
   {
     "id": "the-guess-who-share-the-land",
     "artist": "The Guess Who",
     "title": "Share the Land",
-    "sourceFilename": "The Guess Who - Share The Land.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1970
+    "year": 1970,
+    "sourceFilename": "The Guess Who - Share The Land.cdg"
   },
   {
     "id": "the-guess-who-these-eyes",
     "artist": "The Guess Who",
     "title": "These Eyes",
-    "sourceFilename": "The Guess Who - These Eyes.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1969
+    "year": 1969,
+    "sourceFilename": "The Guess Who - These Eyes.cdg"
   },
   {
     "id": "the-guess-who-undun",
     "artist": "The Guess Who",
     "title": "Undun",
-    "sourceFilename": "The Guess Who - Undun.cdg",
     "country": "EN",
     "language": "EN",
-    "year": 1969
+    "year": 1969,
+    "sourceFilename": "The Guess Who - Undun.cdg"
   },
   {
     "id": "the-hardkiss-make-up",
@@ -57090,10 +57342,10 @@
     "id": "the-hollies-the-air-that-i-breathe",
     "artist": "The Hollies",
     "title": "The Air That I Breathe",
-    "sourceFilename": "The Hollies - The Air That I Breathe.CDG",
     "country": "EN",
     "language": "EN",
-    "year": 1974
+    "year": 1974,
+    "sourceFilename": "The Hollies - The Air That I Breathe.CDG"
   },
   {
     "id": "the-hooters-johnny-b",
@@ -57121,6 +57373,15 @@
     "language": "EN",
     "year": 1986,
     "sourceFilename": "Human League - Human.mp4"
+  },
+  {
+    "id": "the-human-league-love-action",
+    "artist": "The Human League",
+    "title": "Love Action",
+    "sourceFilename": "Human League - Love Action.cdg",
+    "country": "EN",
+    "language": "EN",
+    "year": 1981
   },
   {
     "id": "the-irish-rovers-drunken-sailor",
@@ -57175,6 +57436,24 @@
     "language": "EN",
     "year": 1969,
     "sourceFilename": "The Jackson Five - I Want You Back.cdg"
+  },
+  {
+    "id": "the-jackson-5-never-can-say-goodbye",
+    "artist": "The Jackson 5",
+    "title": "Never Can Say Goodbye",
+    "sourceFilename": "The Jackson Five - Never Can Say Goodbye.CDG",
+    "country": "EN",
+    "language": "EN",
+    "year": 1971
+  },
+  {
+    "id": "the-jackson-5-shake-your-body",
+    "artist": "The Jackson 5",
+    "title": "Shake Your Body",
+    "sourceFilename": "The Jackson Five - Shake Your Body.cdg",
+    "country": "EN",
+    "language": "EN",
+    "year": 1979
   },
   {
     "id": "the-jam-absolute-beginners",
@@ -57366,6 +57645,15 @@
     "sourceFilename": "The Killers - Just Another Girl.kfn"
   },
   {
+    "id": "the-kingsmen-louie-louie",
+    "artist": "The Kingsmen",
+    "title": "Louie, Louie",
+    "sourceFilename": "The Kingsmen - Louie, Louie.cdg",
+    "country": "EN",
+    "language": "EN",
+    "year": 1963
+  },
+  {
     "id": "the-kinks-all-day-and-all-of-the-night",
     "artist": "The Kinks",
     "title": "All Day and All of the Night",
@@ -57526,6 +57814,105 @@
     "language": "EN",
     "year": 1968,
     "sourceFilename": "The Mamas & The Papas - Dream AlLittle dream of me.kfn"
+  },
+  {
+    "id": "the-marcels-blue-moon",
+    "artist": "The Marcels",
+    "title": "Blue Moon",
+    "sourceFilename": "The Marcells - Blue Moon.CDG",
+    "country": "EN",
+    "language": "EN",
+    "year": 1961
+  },
+  {
+    "id": "the-mavericks-all-that-heaven-will-allow",
+    "artist": "The Mavericks",
+    "title": "All That Heaven Will Allow",
+    "sourceFilename": "The Mavericks - All That Heaven Will Allow.cdg",
+    "country": "EN",
+    "language": "EN",
+    "year": 1991
+  },
+  {
+    "id": "the-mavericks-all-you-ever-do-is-bring-me-down",
+    "artist": "The Mavericks",
+    "title": "All You Ever Do Is Bring Me Down",
+    "sourceFilename": "The Mavericks - All You Ever Do Is Bring Me Down.cdg",
+    "country": "EN",
+    "language": "EN",
+    "year": 1992
+  },
+  {
+    "id": "the-mavericks-dance-the-night-away",
+    "artist": "The Mavericks",
+    "title": "Dance the Night Away",
+    "sourceFilename": "The Mavericks - Dans The Night Away.cdg",
+    "country": "EN",
+    "language": "EN",
+    "year": 1994
+  },
+  {
+    "id": "the-mavericks-here-comes-my-baby",
+    "artist": "The Mavericks",
+    "title": "Here Comes My Baby",
+    "sourceFilename": "The Mavericks - Here Comes My Baby.cdg",
+    "country": "EN",
+    "language": "EN",
+    "year": 1991
+  },
+  {
+    "id": "the-mavericks-here-comes-the-rain",
+    "artist": "The Mavericks",
+    "title": "Here Comes the Rain",
+    "sourceFilename": "The Mavericks - Here comme the rain.cdg",
+    "country": "EN",
+    "language": "EN",
+    "year": 1992
+  },
+  {
+    "id": "the-mavericks-i-don-t-care-if-you-love-me",
+    "artist": "The Mavericks",
+    "title": "I Don't Care If You Love Me",
+    "sourceFilename": "The Mavericks - I Don't Care If You Love Me.cdg",
+    "country": "EN",
+    "language": "EN",
+    "year": 1996
+  },
+  {
+    "id": "the-mavericks-missing-you",
+    "artist": "The Mavericks",
+    "title": "Missing You",
+    "sourceFilename": "The Mavericks - Missing you.cdg",
+    "country": "EN",
+    "language": "EN",
+    "year": 1991
+  },
+  {
+    "id": "the-mavericks-someone-should-tell-her",
+    "artist": "The Mavericks",
+    "title": "Someone Should Tell Her",
+    "sourceFilename": "The Mavericks - Someone Should Tell Her.CDG",
+    "country": "EN",
+    "language": "EN",
+    "year": 1992
+  },
+  {
+    "id": "the-mavericks-there-goes-my-heart",
+    "artist": "The Mavericks",
+    "title": "There Goes My Heart",
+    "sourceFilename": "The Mavericks - There Goes My Heart.cdg",
+    "country": "EN",
+    "language": "EN",
+    "year": 1994
+  },
+  {
+    "id": "the-mavericks-what-a-crying-shame",
+    "artist": "The Mavericks",
+    "title": "What A Crying Shame",
+    "sourceFilename": "The Mavericks - What A Cryin Shame.cdg",
+    "country": "EN",
+    "language": "EN",
+    "year": 1996
   },
   {
     "id": "the-mighty-mighty-bosstones-the-impression-that-i-get",
@@ -57963,10 +58350,10 @@
     "id": "the-pussycat-dolls-perhaps-perhaps-perhaps",
     "artist": "The Pussycat Dolls",
     "title": "Perhaps Perhaps Perhaps",
-    "sourceFilename": "The Pussycat Dolls - Perhaps Perhaps Perhaps.mp4",
     "country": "EN",
     "language": "EN",
-    "year": 2005
+    "year": 2005,
+    "sourceFilename": "The Pussycat Dolls - Perhaps Perhaps Perhaps.mp4"
   },
   {
     "id": "the-rasmus-in-the-shadows",
@@ -58761,10 +59148,10 @@
     "id": "thin-lizzy-boys-are-back-in-town",
     "artist": "Thin Lizzy",
     "title": "Boys Are Back in Town",
-    "sourceFilename": "Thin Lizzy - Boys Are Back In Town.avi",
     "country": "EN",
     "language": "EN",
-    "year": 1976
+    "year": 1976,
+    "sourceFilename": "Thin Lizzy - Boys Are Back In Town.avi"
   },
   {
     "id": "thomas-rhett-make-me-wanna",
@@ -63047,10 +63434,10 @@
     "id": "zaplatani-nowe-dni",
     "artist": "Zaplątani",
     "title": "Nowe Dni",
-    "sourceFilename": "Zaplątani - Nowe Dni.mp4",
     "country": "PL",
     "language": "PL",
-    "year": 2000
+    "year": 2000,
+    "sourceFilename": "Zaplątani - Nowe Dni.mp4"
   },
   {
     "id": "zara-larsson-lush-life",
