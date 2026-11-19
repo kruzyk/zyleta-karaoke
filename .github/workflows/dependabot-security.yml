@@ -60,7 +60,7 @@ jobs:
       - name: Create a repository-scoped App token
         if: github.event.pull_request.user.login == 'dependabot[bot]'
         id: app
-        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2
+        uses: actions/create-github-app-token@f418cff399f7aef4c2f0ad47e25ca7a6abbdd6fc # v3.4.0
         with:
           client-id: ${{ vars.DEPENDABOT_AUTOMERGE_CLIENT_ID }}
           private-key: ${{ secrets.DEPENDABOT_AUTOMERGE_PRIVATE_KEY }}
