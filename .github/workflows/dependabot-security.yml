@@ -1,0 +1,104 @@
+name: Dependabot security updates
+
+on:
+  pull_request_target:
+    branches: [master]
+    types: [opened, synchronize, reopened, edited, ready_for_review, converted_to_draft]
+
+permissions:
+  contents: read
+  pull-requests: read
+  statuses: write
+
+concurrency:
+  group: dependabot-security-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+jobs:
+  authorize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Mark the PR revision as pending
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
+        with:
+          script: |
+            await github.rest.repos.createCommitStatus({
+              ...context.repo,
+              sha: context.payload.pull_request.head.sha,
+              context: 'dependabot-security-policy',
+              state: 'pending',
+              description: 'Check the security-update authorization.',
+              target_url: `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+            });
+
+      - name: Check App configuration
+        if: github.event.pull_request.user.login == 'dependabot[bot]'
+        env:
+          APP_CLIENT_ID: ${{ vars.DEPENDABOT_AUTOMERGE_CLIENT_ID }}
+          APP_PRIVATE_KEY: ${{ secrets.DEPENDABOT_AUTOMERGE_PRIVATE_KEY }}
+        run: |
+          if [ -z "$APP_CLIENT_ID" ] || [ -z "$APP_PRIVATE_KEY" ]; then
+            echo "::error::Configure DEPENDABOT_AUTOMERGE_CLIENT_ID and DEPENDABOT_AUTOMERGE_PRIVATE_KEY. See the README."
+            exit 1
+          fi
+
+      - name: Read verified Dependabot metadata
+        if: github.event.pull_request.user.login == 'dependabot[bot]'
+        id: metadata
+        uses: dependabot/fetch-metadata@25dd0e34f4fe68f24cc83900b1fe3fe149efef98 # v3
+
+      - name: Read the trusted policy
+        if: github.event.pull_request.user.login == 'dependabot[bot]'
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: ${{ github.sha }}
+          path: trusted
+          persist-credentials: false
+          sparse-checkout: .github/scripts
+
+      - name: Create a repository-scoped App token
+        if: github.event.pull_request.user.login == 'dependabot[bot]'
+        id: app
+        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2
+        with:
+          client-id: ${{ vars.DEPENDABOT_AUTOMERGE_CLIENT_ID }}
+          private-key: ${{ secrets.DEPENDABOT_AUTOMERGE_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: ${{ github.event.repository.name }}
+          permission-contents: write
+          permission-pull-requests: write
+          permission-vulnerability-alerts: read
+
+      - name: Authorize a security update
+        if: github.event.pull_request.user.login == 'dependabot[bot]'
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
+        env:
+          DEPENDENCIES_JSON: ${{ steps.metadata.outputs.updated-dependencies-json }}
+        with:
+          github-token: ${{ steps.app.outputs.token }}
+          script: |
+            const authorize = require('./trusted/.github/scripts/dependabot-auto-merge.cjs');
+            await authorize({
+              github,
+              context,
+              core,
+              dependencies: JSON.parse(process.env.DEPENDENCIES_JSON),
+            });
+
+      - name: Report the policy result on the PR revision
+        if: always()
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
+        env:
+          POLICY_RESULT: ${{ job.status }}
+        with:
+          script: |
+            const success = process.env.POLICY_RESULT === 'success';
+            await github.rest.repos.createCommitStatus({
+              ...context.repo,
+              sha: context.payload.pull_request.head.sha,
+              context: 'dependabot-security-policy',
+              state: success ? 'success' : 'failure',
+              description: success ? 'The policy check passed.' : 'The policy check failed. Read the workflow log.',
+              target_url: `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+            });
