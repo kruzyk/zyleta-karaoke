@@ -10,11 +10,9 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
-  group: 'pages'
+  group: pages-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -22,19 +20,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
 
       - name: Setup Node.js
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: '22'
           cache: 'npm'
+
+      - name: Test the dependency security policy
+        run: node --test .github/scripts/dependabot-auto-merge.test.cjs
 
       - name: Install dependencies
         run: npm ci
 
       - name: Audit dependencies
-        run: npm audit --audit-level=moderate --omit=dev
+        run: npm audit --audit-level=high --omit=dev
 
       - name: Lint
         run: npm run lint
@@ -45,11 +48,11 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          VITE_CONFIGCAT_SDK_KEY: ${{ secrets.CONFIGCAT_SDK_KEY }}
+          VITE_CONFIGCAT_SDK_KEY: ${{ github.event_name == 'push' && secrets.CONFIGCAT_SDK_KEY || '' }}
 
       - name: Upload artifact
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
         with:
           path: ./dist
 
@@ -57,10 +60,13 @@ jobs:
     if: github.ref == 'refs/heads/master' && github.event_name == 'push'
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4

@@ -99,7 +99,7 @@ Double-click `wymus-pelna-aktualizacje.bat`. Does the same as a regular update, 
 
 ## GitHub Actions
 
-The project uses two workflows:
+The project uses three workflows:
 
 ### 1. Process Song List (`update-songs.yml`)
 
@@ -131,9 +131,74 @@ The MusicBrainz cache is persisted between runs (via `actions/cache@v4`), so sub
 
 Standard CI/CD pipeline — triggered automatically on every push to `master`, except raw laptop scans that only touch `pipeline/input/raw-filelist.json`.
 
-Pipeline: lint → test → build → deploy to GitHub Pages.
+The `build` job runs the security-policy tests, `npm ci`, the dependency audit, lint, application tests, and the production build.
+The audit uses `npm audit --audit-level=high --omit=dev`.
+High and critical findings block CI. Low and moderate findings remain visible but do not block CI.
+This policy has no package-specific exceptions.
 
-The `CONFIGCAT_SDK_KEY` secret is injected during build as `VITE_CONFIGCAT_SDK_KEY`.
+PR builds use a read-only token and receive no repository secrets.
+Only a push to `master` supplies `CONFIGCAT_SDK_KEY` as `VITE_CONFIGCAT_SDK_KEY`.
+The deployment job alone receives Pages and identity-token write permissions.
+Separate concurrency groups prevent a PR build from canceling the production deployment.
+
+### 3. Dependabot security updates (`dependabot-security.yml`)
+
+GitHub monitors the dependency graph when new advisories arrive. A source push is not necessary.
+Dependabot alerts and security updates must remain enabled in the repository settings.
+Dependabot creates repair PRs for the npm manifest and lockfile. The configuration disables routine version-update PRs.
+The required schedule field does not enable version updates because `open-pull-requests-limit` is zero.
+This configuration has no custom scanner.
+
+The workflow enables native squash auto-merge only when all these conditions apply:
+
+- Dependabot owns the PR and every commit has a verified Dependabot signature.
+- The PR targets `master` in this repository and changes only `package.json` and `package-lock.json`.
+- The PR changes the lockfile.
+- Every update is a patch or minor update for the root npm project.
+- GitHub links the PR through `vulnerabilityAlerts.dependabotUpdate.pullRequest` to an open low, moderate, high, or critical npm alert.
+- GitHub reports a repaired version for the linked alert.
+- Strict rules require `build` and `dependabot-security-policy` from GitHub Actions, without an App bypass.
+
+An affected package, a PR label, or a PR title does not prove that a PR contains a security update.
+Major updates require a maintainer to approve and merge the PR.
+Routine version updates receive no auto-merge authorization.
+The policy removes previous auto-merge authorization before it authorizes another revision.
+The required policy status prevents an old authorization from permitting an unchecked revision.
+API errors fail the policy status. GitHub keeps unavailable repairs visible in Dependabot alerts.
+Failed build steps or other required protections prevent automatic merges.
+
+The privileged workflow reads policy code only from the default-branch revision.
+It never checks out or executes PR code.
+It reports the policy status directly on the PR head because `pull_request_target` runs against the default branch.
+It uses the expected PR head in the native auto-merge mutation to reject a changed revision.
+
+#### Activation
+
+1. Register a dedicated GitHub App.
+2. Grant **Contents: Read and write**, **Pull requests: Read and write**, and **Dependabot alerts: Read only**.
+3. Install the App only on `kruzyk/zyleta-karaoke`.
+4. Do not give the App an administration permission or a ruleset bypass.
+5. Set the Actions variable `DEPENDABOT_AUTOMERGE_CLIENT_ID` to the App client ID.
+6. Store the App private key in the Actions secret `DEPENDABOT_AUTOMERGE_PRIVATE_KEY`.
+7. Merge these automation files into `master` through the normal PR process.
+8. Add `dependabot-security-policy` to the **Dependency security checks** ruleset.
+9. Keep `build` required in that ruleset.
+10. Select **GitHub Actions** as the source for both checks (integration ID `15368`).
+11. Keep strict checks enabled.
+12. Preserve existing role bypasses, but do not add an App bypass.
+13. Reopen an existing Dependabot PR if it needs a new policy run.
+
+The App token expires after the job. The token action revokes it when the job ends.
+Unlike `GITHUB_TOKEN`, the App token permits the automatic merge to trigger the normal `master` build and Pages deployment.
+The workflow refuses auto-merge until the App configuration and both required checks are available.
+Do not require the policy status before the workflow reaches `master`.
+The existing master ruleset, including CodeQL and review protections, remains necessary.
+The additional ruleset preserves the existing role bypasses for the raw-file-list uploader.
+The policy checks that the App itself cannot bypass the required checks.
+
+References: [Dependabot security updates](https://docs.github.com/en/code-security/how-tos/secure-your-supply-chain/secure-your-dependencies/configure-security-updates),
+[Dependabot metadata](https://github.com/dependabot/fetch-metadata),
+and [token event restrictions](https://docs.github.com/en/actions/concepts/security/github_token).
 
 ## Feature Flags (ConfigCat)
 
