@@ -13,8 +13,14 @@ export default tseslint.config(
   js.configs.recommended,
   ...tseslint.configs.recommended,
 
-  // React hooks (v5 flat config)
-  reactHooks.configs['recommended-latest'],
+  // Preserve the Hooks checks. This build does not use React Compiler.
+  {
+    plugins: { 'react-hooks': reactHooks },
+    rules: {
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
+    },
+  },
 
   // React useEffect best practices (all 9 rules as warnings)
   reactEffect.configs.recommended,

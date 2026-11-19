@@ -1,6 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { spawnSync } from 'node:child_process';
+import { tmpdir } from 'node:os';
 import { describe, expect, it } from 'vitest';
 import { applyGenericArtistContext, filterExistingSongsToRawFiles } from '../process-filelist';
 
@@ -45,6 +47,66 @@ describe('karaoke laptop sync', () => {
     expect(deployWorkflow).toContain('pipeline/input/raw-filelist.json');
     expect(deployWorkflow).toContain('uses: actions/deploy-pages@');
   });
+
+  it.each([false, true])(
+    'refreshes a generated PR after master changes and reports API failures (%s)',
+    (failUpdate) => {
+      const workflow = fs.readFileSync(
+        path.join(root, '.github/workflows/update-songs.yml'),
+        'utf-8',
+      ).replaceAll('\r\n', '\n');
+      const loop = workflow.match(/          for attempt in \{1\.\.60\}; do[\s\S]*?          done/);
+      if (!loop) throw new Error('The generated PR loop was not found.');
+      const directory = fs.mkdtempSync(path.join(tmpdir(), 'song-pr-loop-'));
+      try {
+        const result = spawnSync(
+          'bash',
+          [
+            '-e',
+            '-o',
+            'pipefail',
+            '-c',
+            `
+              gh() {
+                case "$*" in
+                  'pr view 42 --json state --jq .state')
+                    if [ -f "$TEST_DIRECTORY/updated" ]; then echo MERGED; else echo OPEN; fi ;;
+                  'pr view 42 --json mergeStateStatus --jq .mergeStateStatus') echo BEHIND ;;
+                  'pr view 42 --json headRefOid --jq .headRefOid') echo checked-head ;;
+                  'pr checks 42 --json name,bucket,state')
+                    echo '[{"name":"build","bucket":"pass","state":"SUCCESS"}]' ;;
+                  'api --method PUT repos/owner/repo/pulls/42/update-branch -f expected_head_sha=checked-head')
+                    echo checked-head > "$TEST_DIRECTORY/request"
+                    if [ "$FAIL_UPDATE" = true ]; then return 1; fi
+                    touch "$TEST_DIRECTORY/updated" ;;
+                  *) echo "Unexpected command: $*" >&2; return 1 ;;
+                esac
+              }
+              sleep() { :; }
+              PR_NUMBER=42
+              GITHUB_REPOSITORY=owner/repo
+              ${loop[0]}
+              exit 2
+            `,
+          ],
+          {
+            encoding: 'utf-8',
+            env: {
+              ...process.env,
+              TEST_DIRECTORY: directory,
+              FAIL_UPDATE: String(failUpdate),
+            },
+          },
+        );
+        expect(result.status, result.stderr).toBe(failUpdate ? 1 : 0);
+        expect(fs.readFileSync(path.join(directory, 'request'), 'utf-8').trim()).toBe(
+          'checked-head',
+        );
+      } finally {
+        fs.rmSync(directory, { recursive: true, force: true });
+      }
+    },
+  );
 
   it('drops songs removed from the latest laptop scan', () => {
     const songs = filterExistingSongsToRawFiles(

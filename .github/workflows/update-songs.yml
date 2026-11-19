@@ -203,6 +203,15 @@ jobs:
               exit 1
             fi
 
+            if [ "$MERGE_STATE" = "BEHIND" ]; then
+              PR_HEAD=$(gh pr view "$PR_NUMBER" --json headRefOid --jq '.headRefOid')
+              gh api --method PUT "repos/${GITHUB_REPOSITORY}/pulls/${PR_NUMBER}/update-branch" \
+                -f expected_head_sha="$PR_HEAD"
+              echo "Updated PR #$PR_NUMBER from master. Waiting for new checks."
+              sleep 30
+              continue
+            fi
+
             if [ "$CHECK_COUNT" -gt 0 ] && [ "$PENDING_CHECKS" -eq 0 ] && [ "$BLOCKING_CHECKS" -eq 0 ] && [ "$MERGE_STATE" = "CLEAN" ]; then
               gh pr merge "$PR_NUMBER" --squash --delete-branch
               exit 0
