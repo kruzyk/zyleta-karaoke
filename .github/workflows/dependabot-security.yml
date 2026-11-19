@@ -1,4 +1,4 @@
-name: Dependabot security updates
+name: Dependabot updates
 
 on:
   pull_request_target:
@@ -28,7 +28,7 @@ jobs:
               sha: context.payload.pull_request.head.sha,
               context: 'dependabot-security-policy',
               state: 'pending',
-              description: 'Check the security-update authorization.',
+              description: 'Check the dependency-update authorization.',
               target_url: `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
             });
 
@@ -60,7 +60,7 @@ jobs:
       - name: Create a repository-scoped App token
         if: github.event.pull_request.user.login == 'dependabot[bot]'
         id: app
-        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2
+        uses: actions/create-github-app-token@f418cff399f7aef4c2f0ad47e25ca7a6abbdd6fc # v3.4.0
         with:
           client-id: ${{ vars.DEPENDABOT_AUTOMERGE_CLIENT_ID }}
           private-key: ${{ secrets.DEPENDABOT_AUTOMERGE_PRIVATE_KEY }}
@@ -68,9 +68,8 @@ jobs:
           repositories: ${{ github.event.repository.name }}
           permission-contents: write
           permission-pull-requests: write
-          permission-vulnerability-alerts: read
 
-      - name: Authorize a security update
+      - name: Authorize a dependency update
         if: github.event.pull_request.user.login == 'dependabot[bot]'
         uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
         env:

@@ -141,12 +141,13 @@ Only a push to `master` supplies `CONFIGCAT_SDK_KEY` as `VITE_CONFIGCAT_SDK_KEY`
 The deployment job alone receives Pages and identity-token write permissions.
 Separate concurrency groups prevent a PR build from canceling the production deployment.
 
-### 3. Dependabot security updates (`dependabot-security.yml`)
+### 3. Dependabot updates (`dependabot-security.yml`)
 
 GitHub monitors the dependency graph when new advisories arrive. A source push is not necessary.
 Dependabot alerts and security updates must remain enabled in the repository settings.
-Dependabot creates repair PRs for the npm manifest and lockfile. The configuration disables routine version-update PRs.
-The required schedule field does not enable version updates because `open-pull-requests-limit` is zero.
+Dependabot creates repair PRs for the npm manifest and lockfile.
+It also checks for routine npm version updates each day, with at most five open version-update PRs.
+Automatic rebasing remains enabled. Dependabot checks existing PRs during its daily update run.
 This configuration has no custom scanner.
 
 The workflow enables native squash auto-merge only when all these conditions apply:
@@ -154,14 +155,12 @@ The workflow enables native squash auto-merge only when all these conditions app
 - Dependabot owns the PR and every commit has a verified Dependabot signature.
 - The PR targets `master` in this repository and changes only `package.json` and `package-lock.json`.
 - The PR changes the lockfile.
-- Every update is a patch or minor update for the root npm project.
-- GitHub links the PR through `vulnerabilityAlerts.dependabotUpdate.pullRequest` to an open low, moderate, high, or critical npm alert.
-- GitHub reports a repaired version for the linked alert.
+- Every update is a verified patch, minor, or major update for the root npm project.
 - Strict rules require `build` and `dependabot-security-policy` from GitHub Actions, without an App bypass.
 
-An affected package, a PR label, or a PR title does not prove that a PR contains a security update.
-Major updates require a maintainer to approve and merge the PR.
-Routine version updates receive no auto-merge authorization.
+The same policy covers security repairs and routine version updates, including major updates.
+Every PR must pass the audit, lint, tests, build, and other required protections before merge.
+A label or PR title alone cannot authorize an update.
 The policy removes previous auto-merge authorization before it authorizes another revision.
 The required policy status prevents an old authorization from permitting an unchecked revision.
 API errors fail the policy status. GitHub keeps unavailable repairs visible in Dependabot alerts.
@@ -175,7 +174,7 @@ It uses the expected PR head in the native auto-merge mutation to reject a chang
 #### Activation
 
 1. Register a dedicated GitHub App.
-2. Grant **Contents: Read and write**, **Pull requests: Read and write**, and **Dependabot alerts: Read only**.
+2. Grant **Contents: Read and write** and **Pull requests: Read and write**.
 3. Install the App only on `kruzyk/zyleta-karaoke`.
 4. Do not give the App an administration permission or a ruleset bypass.
 5. Set the Actions variable `DEPENDABOT_AUTOMERGE_CLIENT_ID` to the App client ID.
