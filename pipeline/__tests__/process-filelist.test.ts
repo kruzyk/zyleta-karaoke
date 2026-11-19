@@ -41,9 +41,9 @@ describe('karaoke laptop sync', () => {
     expect(processWorkflow).toContain('Waiting for PR #$PR_NUMBER checks');
     expect(processWorkflow).not.toContain('--auto');
     expect(processWorkflow).not.toContain('git push origin HEAD:master');
-    expect(processWorkflow).not.toContain('uses: actions/deploy-pages@v4');
+    expect(processWorkflow).not.toContain('uses: actions/deploy-pages@');
     expect(deployWorkflow).toContain('pipeline/input/raw-filelist.json');
-    expect(deployWorkflow).toContain('uses: actions/deploy-pages@v4');
+    expect(deployWorkflow).toContain('uses: actions/deploy-pages@');
   });
 
   it('drops songs removed from the latest laptop scan', () => {

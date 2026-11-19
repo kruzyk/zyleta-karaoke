@@ -33,16 +33,6 @@ function fixture() {
     { filename: 'package.json', status: 'modified' },
     { filename: 'package-lock.json', status: 'modified' },
   ];
-  const alert = {
-    state: 'OPEN',
-    vulnerableManifestPath: 'package-lock.json',
-    dependabotUpdate: { pullRequest: { number: 123 } },
-    securityVulnerability: {
-      severity: 'HIGH',
-      package: { name: 'zod', ecosystem: 'NPM' },
-      firstPatchedVersion: { identifier: '4.6.6' },
-    },
-  };
   const rule = {
     type: 'required_status_checks',
     ruleset_id: 1,
@@ -55,7 +45,6 @@ function fixture() {
     },
   };
   const ruleset = { enforcement: 'active', current_user_can_bypass: 'never' };
-  const pages = [{ nodes: [alert], pageInfo: { hasNextPage: false, endCursor: null } }];
   const calls = [];
   const notices = [];
   const listCommits = Symbol('commits');
@@ -76,9 +65,7 @@ function fixture() {
     },
     graphql: async (query, variables) => {
       calls.push({ query, variables });
-      if (query.includes('vulnerabilityAlerts')) {
-        return { repository: { vulnerabilityAlerts: pages.shift() } };
-      }
+      assert.ok(!query.includes('vulnerabilityAlerts'), 'Routine updates do not require a security alert.');
       return {};
     },
   };
@@ -90,46 +77,27 @@ function fixture() {
     github, context, dependencies, core: { notice: (message) => notices.push(message) },
   });
   const enabled = () => calls.filter(({ query }) => query.includes('enablePullRequestAutoMerge'));
-  return { pr, dependencies, commits, files, alert, rule, ruleset, pages, calls, notices, github, run, enabled };
+  return { pr, dependencies, commits, files, rule, ruleset, calls, notices, github, run, enabled };
 }
 
-for (const severity of ['LOW', 'MODERATE', 'HIGH', 'CRITICAL']) {
-  for (const update of ['patch', 'minor']) {
-    test(`Authorizes a linked ${severity} security repair with a ${update} update`, async () => {
-      const state = fixture();
-      state.alert.securityVulnerability.severity = severity;
-      state.dependencies[0].updateType = `version-update:semver-${update}`;
-      await state.run();
-      assert.equal(state.enabled().length, 1);
-      assert.deepEqual(state.enabled()[0].variables, { id: 'PR_test', head: 'verified-head' });
-      assert.match(state.enabled()[0].query, /expectedHeadOid: \$head, mergeMethod: SQUASH/);
-    });
-  }
+for (const update of ['patch', 'minor', 'major']) {
+  test(`Authorizes a verified ${update} dependency update without a security alert`, async () => {
+    const state = fixture();
+    state.dependencies[0].updateType = `version-update:semver-${update}`;
+    await state.run();
+    assert.equal(state.enabled().length, 1);
+    assert.deepEqual(state.enabled()[0].variables, { id: 'PR_test', head: 'verified-head' });
+    assert.match(state.enabled()[0].query, /expectedHeadOid: \$head, mergeMethod: SQUASH/);
+  });
 }
 
-test('Does not authorize a routine PR that updates an affected package', async () => {
-  const state = fixture();
-  state.alert.dependabotUpdate = null;
-  await state.run();
-  assert.equal(state.enabled().length, 0);
-  assert.match(state.notices[0], /No .*alert links this PR/);
-});
-
-test('Does not authorize an alert linked to another PR', async () => {
-  const state = fixture();
-  state.alert.dependabotUpdate.pullRequest.number = 456;
-  await state.run();
-  assert.equal(state.enabled().length, 0);
-});
-
-test('Removes an old authorization when a grouped update contains a major update', async () => {
+test('Replaces an old authorization for a verified group that contains a major update', async () => {
   const state = fixture();
   state.pr.auto_merge = {};
   state.dependencies.push({ ...state.dependencies[0], updateType: 'version-update:semver-major' });
   await state.run();
-  assert.equal(state.enabled().length, 0);
+  assert.equal(state.enabled().length, 1);
   assert.ok(state.calls[0].query.includes('disablePullRequestAutoMerge'));
-  assert.match(state.notices[0], /major update/);
 });
 
 test('Removes an old authorization when the PR becomes a draft', async () => {
@@ -154,7 +122,9 @@ for (const [description, change] of [
   ['a missing lockfile', (state) => { state.files.pop(); state.pr.changed_files = 1; }],
   ['unknown metadata', (state) => { state.dependencies[0].updateType = ''; }],
   ['another ecosystem', (state) => { state.dependencies[0].packageEcosystem = 'pip'; }],
-  ['a missing repair', (state) => { state.alert.securityVulnerability.firstPatchedVersion = null; }],
+  ['an empty update list', (state) => { state.dependencies.length = 0; }],
+  ['another update directory', (state) => { state.dependencies[0].directory = '/other'; }],
+  ['another metadata target', (state) => { state.dependencies[0].targetBranch = 'other'; }],
   ['an inactive ruleset', (state) => { state.ruleset.enforcement = 'disabled'; }],
   ['an App bypass', (state) => { state.ruleset.current_user_can_bypass = 'always'; }],
   ['an unknown App bypass state', (state) => { delete state.ruleset.current_user_can_bypass; }],
@@ -170,17 +140,9 @@ for (const [description, change] of [
   });
 }
 
-test('Reads all alert pages before it makes the authorization decision', async () => {
+test('Reports a rules API error without authorizing a merge', async () => {
   const state = fixture();
-  state.pages.unshift({ nodes: [], pageInfo: { hasNextPage: true, endCursor: 'next-page' } });
-  await state.run();
-  assert.equal(state.calls[1].variables.after, 'next-page');
-  assert.equal(state.enabled().length, 1);
-});
-
-test('Reports an alert API error without authorizing a merge', async () => {
-  const state = fixture();
-  state.github.graphql = async () => { throw new Error('API unavailable'); };
+  state.github.request = async () => { throw new Error('API unavailable'); };
   await assert.rejects(state.run, /API unavailable/);
   assert.equal(state.enabled().length, 0);
 });

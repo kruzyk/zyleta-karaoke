@@ -1,5 +1,9 @@
 const bot = 'dependabot[bot]';
-const allowedUpdates = new Set(['version-update:semver-patch', 'version-update:semver-minor']);
+const allowedUpdates = new Set([
+  'version-update:semver-patch',
+  'version-update:semver-minor',
+  'version-update:semver-major',
+]);
 const requiredChecks = ['build', 'dependabot-security-policy'];
 const actionsAppId = 15368;
 
@@ -41,14 +45,10 @@ module.exports = async function authorize({ github, context, core, dependencies 
     dependency.directory !== '/' ||
     dependency.targetBranch !== 'master'
   )) {
-    throw new Error('Only root npm security updates can receive auto-merge authorization.');
-  }
-  if (dependencies.some((dependency) => dependency.updateType === 'version-update:semver-major')) {
-    core.notice('The PR contains a major update. A maintainer must approve and merge it.');
-    return;
+    throw new Error('Only root npm dependency updates can receive auto-merge authorization.');
   }
   if (dependencies.some((dependency) => !allowedUpdates.has(dependency.updateType))) {
-    throw new Error('Dependabot did not identify every update as patch or minor.');
+    throw new Error('Dependabot did not identify every update as patch, minor, or major.');
   }
 
   const commits = await github.paginate(github.rest.pulls.listCommits, { ...coordinates, per_page: 100 });
@@ -69,56 +69,6 @@ module.exports = async function authorize({ github, context, core, dependencies 
     )
   ) {
     throw new Error('The PR must change only the npm manifest and lockfile, including the lockfile.');
-  }
-
-  const alerts = [];
-  let after = null;
-  do {
-    const result = await github.graphql(`
-      query($owner: String!, $repo: String!, $after: String) {
-        repository(owner: $owner, name: $repo) {
-          vulnerabilityAlerts(first: 100, after: $after, states: [OPEN]) {
-            nodes {
-              state
-              vulnerableManifestPath
-              dependabotUpdate { pullRequest { number } }
-              securityVulnerability {
-                severity
-                package { name ecosystem }
-                firstPatchedVersion { identifier }
-              }
-            }
-            pageInfo { hasNextPage endCursor }
-          }
-        }
-      }`, { ...context.repo, after });
-    const connection = result.repository?.vulnerabilityAlerts;
-    if (!Array.isArray(connection?.nodes) || !connection.pageInfo) {
-      throw new Error('GitHub did not return the security alerts.');
-    }
-    alerts.push(...connection.nodes);
-    after = connection.pageInfo.hasNextPage ? connection.pageInfo.endCursor : null;
-    if (connection.pageInfo.hasNextPage && !after) {
-      throw new Error('GitHub did not return the next security-alert cursor.');
-    }
-  } while (after);
-
-  // An affected package alone does not prove that Dependabot created a security-update PR.
-  const linkedAlerts = alerts.filter((alert) =>
-    alert?.state === 'OPEN' &&
-    alert.dependabotUpdate?.pullRequest?.number === pr.number &&
-    alert.vulnerableManifestPath?.replace(/^\/+/, '') === 'package-lock.json' &&
-    alert.securityVulnerability?.package.ecosystem === 'NPM' &&
-    dependencies.some((dependency) => dependency.dependencyName === alert.securityVulnerability.package.name)
-  );
-  if (linkedAlerts.some((alert) => !alert.securityVulnerability.firstPatchedVersion?.identifier)) {
-    throw new Error('GitHub did not report a repaired version for a linked security alert.');
-  }
-  if (!linkedAlerts.some((alert) =>
-    ['LOW', 'MODERATE', 'HIGH', 'CRITICAL'].includes(alert.securityVulnerability.severity)
-  )) {
-    core.notice('No low, moderate, high, or critical alert links this PR to a security update. Auto-merge remains disabled.');
-    return;
   }
 
   const { data: rules } = await github.request('GET /repos/{owner}/{repo}/rules/branches/{branch}', {
@@ -153,5 +103,5 @@ module.exports = async function authorize({ github, context, core, dependencies 
         pullRequest { number }
       }
     }`, { id: pr.node_id, head: pr.head.sha });
-  core.notice('GitHub enabled native auto-merge for this security update. All required checks must pass before GitHub merges it.');
+  core.notice('GitHub enabled native auto-merge for this dependency update. All required checks must pass before GitHub merges it.');
 };

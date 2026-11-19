@@ -1,4 +1,4 @@
-name: Dependabot security updates
+name: Dependabot updates
 
 on:
   pull_request_target:
@@ -28,7 +28,7 @@ jobs:
               sha: context.payload.pull_request.head.sha,
               context: 'dependabot-security-policy',
               state: 'pending',
-              description: 'Check the security-update authorization.',
+              description: 'Check the dependency-update authorization.',
               target_url: `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
             });
 
@@ -68,9 +68,8 @@ jobs:
           repositories: ${{ github.event.repository.name }}
           permission-contents: write
           permission-pull-requests: write
-          permission-vulnerability-alerts: read
 
-      - name: Authorize a security update
+      - name: Authorize a dependency update
         if: github.event.pull_request.user.login == 'dependabot[bot]'
         uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
         env:
