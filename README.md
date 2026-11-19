@@ -124,6 +124,8 @@ Pipeline steps:
 - opens or updates a PR with `songs.json`, waits for checks, then merges it
 
 Requires repository secret `SONG_UPDATE_TOKEN` with **Contents: Read and write** and **Pull requests: Read and write** for `zyleta-karaoke`. This token creates the generated-song PR so required checks can run and `master` still rejects direct pushes.
+If another PR changes `master`, the workflow updates the generated-song branch and waits for fresh checks.
+The branch update uses the expected PR head. An API error stops the workflow.
 
 The MusicBrainz cache is persisted between runs (via `actions/cache@v4`), so subsequent updates only process new songs.
 
@@ -147,6 +149,9 @@ GitHub monitors the dependency graph when new advisories arrive. A source push i
 Dependabot alerts and security updates must remain enabled in the repository settings.
 Dependabot creates repair PRs for the npm manifest and lockfile.
 It also checks for routine npm version updates each day, with at most five open version-update PRs.
+React and its types update together. ESLint packages form another group.
+Vite, Vitest, and their plugins also update together.
+Each group tests related package versions in the same PR.
 Automatic rebasing remains enabled. Dependabot checks existing PRs during its daily update run.
 This configuration has no custom scanner.
 

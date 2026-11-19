@@ -49,8 +49,8 @@ export function useFeatureFlags(): FeatureFlags {
     isLoading: true,
   });
 
-  /* eslint-disable react-you-might-not-need-an-effect/no-initialize-state --
-     Async ConfigCat fetch — must live in useEffect, not a useState initializer */
+  /* eslint-disable react-you-might-not-need-an-effect/no-initialize-state, react-you-might-not-need-an-effect/no-external-store-subscription --
+     This effect loads one asynchronous snapshot. It does not subscribe to a store. */
   useEffect(() => {
     let cancelled = false;
 
@@ -126,7 +126,7 @@ export function useFeatureFlags(): FeatureFlags {
       cancelled = true;
     };
   }, []);
-  /* eslint-enable react-you-might-not-need-an-effect/no-initialize-state */
+  /* eslint-enable react-you-might-not-need-an-effect/no-initialize-state, react-you-might-not-need-an-effect/no-external-store-subscription */
 
   return flags;
 }

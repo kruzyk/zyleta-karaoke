@@ -1,4 +1,4 @@
-import '@testing-library/jest-dom';
+import '@testing-library/jest-dom/vitest';
 
 // jsdom does not implement pointer capture APIs used by drag-based components
 Element.prototype.setPointerCapture = () => {};

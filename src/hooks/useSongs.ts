@@ -10,8 +10,8 @@ export function useSongs() {
   });
   const [sortField, setSortField] = useState<SortField>('artist');
 
-  /* eslint-disable react-you-might-not-need-an-effect/no-initialize-state --
-     Async dynamic import — must live in useEffect, not a useState initializer */
+  /* eslint-disable react-you-might-not-need-an-effect/no-initialize-state, react-you-might-not-need-an-effect/no-external-store-subscription --
+     This effect loads one asynchronous snapshot. It does not subscribe to a store. */
   useEffect(() => {
     let cancelled = false;
 
@@ -43,7 +43,7 @@ export function useSongs() {
       cancelled = true;
     };
   }, []);
-  /* eslint-enable react-you-might-not-need-an-effect/no-initialize-state */
+  /* eslint-enable react-you-might-not-need-an-effect/no-initialize-state, react-you-might-not-need-an-effect/no-external-store-subscription */
 
   const sortedSongs = useMemo(() => {
     return [...state.songs].sort((a, b) => {
